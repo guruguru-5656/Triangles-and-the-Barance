@@ -9,12 +9,11 @@ import Foundation
 import SwiftUI
 
 struct Triangle:Identifiable{
-    var length:Double
     let X:Int
     let Y:Int
-    let reversed: Bool
+    let r: Bool
     var id = UUID()
-    let color:Color
+    let color:Color = .white
     //NormalTriangle構造体の方で実装することにしたため、コメントアウト
 //    var coordinates:[CGPoint]{
 //        let coordinates:[CGPoint]
@@ -40,35 +39,52 @@ struct Triangle:Identifiable{
 
 struct NormalTriangle:TriangleProtocol {
     var triangle:Triangle
+    var length:CGFloat
 }
 
-protocol TriangleProtocol:Shape{
+protocol TriangleProtocol:View{
     var triangle: Triangle{ get set }
-    func path(in rect: CGRect) -> Path
+    var coordinates:[CGPoint]{ get }
+    var length:CGFloat{ get set }
 }
 extension TriangleProtocol{
-    func path(in rect: CGRect) -> Path {
-        let length = Double(rect.width)
+    
+    var coordinates:[CGPoint]{
         let coordinates:[CGPoint]
+        let offset:CGFloat = 3
+        let offsetA = offset * sqrt(3)/2 //offset * cos(30[deg])
+        let x = CGFloat(triangle.X)
+        let y = CGFloat(triangle.Y)
+        let lengthY = length * sqrt(3)/2
         //三角形の向きによって計算式を変更
-        if triangle.reversed{
-            coordinates = [CGPoint(x: (Double(triangle.X)+Double(triangle.Y)/2) * length,
-                                   y: Double(triangle.X) * sqrt(3)/2 * length),
-                           CGPoint(x: (Double(triangle.X)+Double(triangle.Y+1)/2) * length,
-                                   y: Double(triangle.X) * sqrt(3)/2 * length),
-                           CGPoint(x: (Double(triangle.X-1)+Double(triangle.Y+1)/2) * length,
-                                   y: Double(triangle.X-1) * sqrt(3)/2 * length)]
+        if triangle.r{
+            coordinates = [CGPoint(x: (x + y/2) * length + offsetA,
+                                   y: y * lengthY + offset/2),
+                           CGPoint(x: ((x+1) + y/2 ) * length - offsetA,
+                                   y: y * lengthY + offset/2),
+                           CGPoint(x: (x + (y+1)/2) * length,
+                                   y: (y+1) * lengthY - offset),
+                           CGPoint(x: (x + y/2) * length + offsetA,
+                                   y: y * lengthY + offset/2)]
         }else{
-            coordinates = [CGPoint(x: (Double(triangle.X)+Double(triangle.Y)/2) * length,
-                                   y: Double(triangle.X) * sqrt(3)/2 * length),
-                           CGPoint(x: (Double(triangle.X+1)+Double(triangle.Y)/2) * length,
-                                   y: Double(triangle.X+1) * sqrt(3)/2 * length),
-                           CGPoint(x: (Double(triangle.X)+Double(triangle.Y+1)/2) * length,
-                                   y: Double(triangle.X) * sqrt(3)/2 * length)]
+            coordinates = [CGPoint(x: (x + y/2) * length,
+                                   y: y * lengthY + offset),
+                           CGPoint(x: (x + (y+1)/2) * length - offsetA,
+                                   y: (y+1) * lengthY - offset/2),
+                           CGPoint(x: ((x-1) + (y+1)/2) * length + offsetA,
+                                   y: (y+1) * lengthY - offset/2),
+                           CGPoint(x: (x + y/2) * length,
+                                   y: y * lengthY + offset),]
         }
+        return coordinates
+    }
+    
+    var body:some View{
         
-        return Path{ path in
+        Path{ path in
             path.addLines(coordinates)
+            path.closeSubpath()
         }
+        .fill(Color.gray)
     }
 }
