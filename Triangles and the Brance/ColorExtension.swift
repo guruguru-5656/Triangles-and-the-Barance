@@ -23,3 +23,56 @@ extension Color{
     static let lightPinkPurple = Color(red: 255/255, green: 195/255, blue: 255/255)
     static let lightPink = Color(red: 255/255, green: 195/255, blue: 226/255)
 }
+class GetColor{
+    //インスタンスを生成するとデフォルト値がMyColorにセットされる
+    //nextメソッドを実行すると、次のカラーを取得し、現在のカラーを更新する
+    private var currentColor = MyColor.lightRed
+    func next() -> Color{
+        var nextColor:MyColor
+        switch currentColor{
+        case .lightPink:
+            nextColor = MyColor.lightRed
+        default:
+            nextColor = MyColor.init(rawValue: currentColor.rawValue+1)!
+        }
+        currentColor = nextColor
+        return nextColor.color
+    }
+    private enum MyColor:Int{
+        case lightRed = 0
+        case lightOrenge,lightYellow,lightYellowGreen,lightGreen,lightGreenBlue,
+             lightWaterBlue,lightWhiteBlue,lightBluePurple,lightPurple,lightFujiPurple,
+             lightPinkPurple,lightPink
+        
+        var color:Color{
+            switch self{
+            case .lightRed:
+                return Color.lightRed
+            case .lightOrenge:
+                return Color.lightOrenge
+            case .lightYellow:
+                return Color.lightYellow
+            case .lightYellowGreen:
+                return Color.lightYellowGreen
+            case .lightGreen:
+                return Color.lightGreen
+            case .lightGreenBlue:
+                return Color.lightGreenBlue
+            case .lightWaterBlue:
+                return Color.lightWaterBlue
+            case .lightWhiteBlue:
+                return Color.lightWhiteBlue
+            case .lightBluePurple:
+                return Color.lightBluePurple
+            case .lightPurple:
+                return Color.lightPurple
+            case .lightFujiPurple:
+                return Color.lightFujiPurple
+            case .lightPinkPurple:
+                return Color.lightPinkPurple
+            case .lightPink:
+                return Color.lightPink
+            }
+        }
+    }
+}
