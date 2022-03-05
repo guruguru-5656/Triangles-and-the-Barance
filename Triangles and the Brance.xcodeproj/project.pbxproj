@@ -14,6 +14,7 @@
 		045121B227D21B1200936E2C /* StageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B127D21B1200936E2C /* StageView.swift */; };
 		045121B427D21B5E00936E2C /* TriangleTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B327D21B5E00936E2C /* TriangleTapAction.swift */; };
 		045121B627D21BE800936E2C /* TriangleStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleStruct.swift */; };
+		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		045121B127D21B1200936E2C /* StageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageView.swift; sourceTree = "<group>"; };
 		045121B327D21B5E00936E2C /* TriangleTapAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleTapAction.swift; sourceTree = "<group>"; };
 		045121B527D21BE800936E2C /* TriangleStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleStruct.swift; sourceTree = "<group>"; };
+		045121B727D31F5000936E2C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +63,7 @@
 				045121A327D2187600936E2C /* ContentView.swift */,
 				045121B127D21B1200936E2C /* StageView.swift */,
 				045121B327D21B5E00936E2C /* TriangleTapAction.swift */,
+				045121B727D31F5000936E2C /* ColorExtension.swift */,
 				045121B527D21BE800936E2C /* TriangleStruct.swift */,
 				045121A527D2187700936E2C /* Assets.xcassets */,
 				045121A727D2187700936E2C /* Preview Content */,
@@ -149,6 +152,7 @@
 				045121A427D2187600936E2C /* ContentView.swift in Sources */,
 				045121B427D21B5E00936E2C /* TriangleTapAction.swift in Sources */,
 				045121B227D21B1200936E2C /* StageView.swift in Sources */,
+				045121B827D31F5000936E2C /* ColorExtension.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,
 				045121B627D21BE800936E2C /* TriangleStruct.swift in Sources */,
 			);

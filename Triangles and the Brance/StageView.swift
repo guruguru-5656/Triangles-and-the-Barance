@@ -26,12 +26,13 @@ struct StageView: View {
     ]
     var body: some View {
         GeometryReader{ geometory in
-        ZStack{
-            ForEach(stageArrangement){ item in
-                NormalTriangle(triangle: item, length: geometory.size.width/7)
+            ZStack{
+                HexagonBackground(length: geometory.size.width/7)
+                ForEach(stageArrangement){ item in
+                    NormalTriangle(offset: 3, triangle: item, length: geometory.size.width/7)
+                }
             }
         }
-    }
     }
 }
 
@@ -41,6 +42,26 @@ struct StageView_Previews: PreviewProvider {
     }
 }
 
-struct stageArrangement{
-    
+struct HexagonBackground:View{
+    let length:CGFloat
+    private let offset:CGFloat = 3
+    private var offsetA:CGFloat{
+        offset * 1/sqrt(3)
+    }
+    var vertex:[CGPoint]{
+        [CGPoint(x: 2 * length - offsetA, y: 0 - offset),
+         CGPoint(x: 5 * length + offsetA, y: 0 - offset),
+         CGPoint(x: 6.5 * length + offset , y: 3 * sqrt(3)/2 * length),
+         CGPoint(x: 5 * length + offsetA , y: 6 * sqrt(3)/2 * length + offset),
+         CGPoint(x: 2 * length - offsetA, y: 6 * sqrt(3)/2 * length + offset),
+         CGPoint(x: 0.5 * length - offset, y: 3 * sqrt(3)/2 * length),
+         CGPoint(x: 2 * length - offsetA, y: 0 - offset)]
+    }
+    var body:some View{
+        Path{ path in
+            path.addLines(vertex)
+        }
+        .fill()
+        .foregroundColor(.lightGray)
+    }
 }

@@ -13,31 +13,11 @@ struct Triangle:Identifiable{
     let Y:Int
     let r: Bool
     var id = UUID()
-    let color:Color = .white
-    //NormalTriangle構造体の方で実装することにしたため、コメントアウト
-//    var coordinates:[CGPoint]{
-//        let coordinates:[CGPoint]
-//        if reversed{
-//            coordinates = [CGPoint(x: (Double(X)+Double(Y)/2) * length,
-//                                   y: Double(X) * sqrt(3)/2 * length),
-//                           CGPoint(x: (Double(X)+Double(Y+1)/2) * length,
-//                                   y: Double(X) * sqrt(3)/2 * length),
-//                           CGPoint(x: (Double(X-1)+Double(Y+1)/2) * length,
-//                                   y: Double(X-1) * sqrt(3)/2 * length)]
-//        }
-//        else{
-//            coordinates = [CGPoint(x: (Double(X)+Double(Y)/2) * length,
-//                                   y: Double(X) * sqrt(3)/2 * length),
-//                           CGPoint(x: (Double(X+1)+Double(Y)/2) * length,
-//                                   y: Double(X+1) * sqrt(3)/2 * length),
-//                           CGPoint(x: (Double(X)+Double(Y+1)/2) * length,
-//                                   y: Double(X) * sqrt(3)/2 * length)]
-//        }
-//        return coordinates
-//    }
+    let color:Color = .lightRed
 }
 
 struct NormalTriangle:TriangleProtocol {
+    var offset: CGFloat
     var triangle:Triangle
     var length:CGFloat
 }
@@ -46,12 +26,11 @@ protocol TriangleProtocol:View{
     var triangle: Triangle{ get set }
     var coordinates:[CGPoint]{ get }
     var length:CGFloat{ get set }
+    var offset:CGFloat{ get set }
 }
 extension TriangleProtocol{
-    
     var coordinates:[CGPoint]{
         let coordinates:[CGPoint]
-        let offset:CGFloat = 3
         let offsetA = offset * sqrt(3)/2 //offset * cos(30[deg])
         let x = CGFloat(triangle.X)
         let y = CGFloat(triangle.Y)
@@ -83,8 +62,7 @@ extension TriangleProtocol{
         
         Path{ path in
             path.addLines(coordinates)
-            path.closeSubpath()
         }
-        .fill(Color.gray)
+        .fill(triangle.color)
     }
 }
