@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct StageView: View {
+    @ObservedObject var stage = StageStatus()
     private typealias T = Triangle
     private let stageArrangement:[T]  = [
         T(X: 2, Y: 0, r: true),T(X: 3, Y: 0, r: true),T(X: 4, Y: 0, r: true),
@@ -29,7 +30,7 @@ struct StageView: View {
             ZStack{
                 HexagonBackground(length: geometory.size.width/7)
                 ForEach(stageArrangement){ item in
-                    NormalTriangle(offset: 3, triangle: item, length: geometory.size.width/7)
+                    NormalTriangle(stage:stage, triangle: item, length: geometory.size.width/7)
                 }
             }
         }

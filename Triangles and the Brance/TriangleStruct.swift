@@ -13,13 +13,24 @@ struct Triangle:Identifiable{
     let Y:Int
     let r: Bool
     var id = UUID()
-    let color:Color = .lightRed
 }
 
-struct NormalTriangle:TriangleProtocol {
-    var offset: CGFloat
+struct NormalTriangle:TriangleProtocol{
+    @ObservedObject var stage:StageStatus
+    @State var isOn = true
+    var offset: CGFloat = 3
     var triangle:Triangle
     var length:CGFloat
+    
+    var body:some View{
+        Path{ path in
+            path.addLines(coordinates)
+        }
+        .fill(isOn ? stage.currentColor.color : Color.white)
+        .onTapGesture {
+            isOn.toggle()
+        }
+    }
 }
 
 protocol TriangleProtocol:View{
@@ -56,13 +67,5 @@ extension TriangleProtocol{
                                    y: y * lengthY + offset),]
         }
         return coordinates
-    }
-    
-    var body:some View{
-        
-        Path{ path in
-            path.addLines(coordinates)
-        }
-        .fill(triangle.color)
     }
 }

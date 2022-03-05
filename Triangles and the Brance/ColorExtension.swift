@@ -23,11 +23,11 @@ extension Color{
     static let lightPinkPurple = Color(red: 255/255, green: 195/255, blue: 255/255)
     static let lightPink = Color(red: 255/255, green: 195/255, blue: 226/255)
 }
-class GetColor{
+class StageStatus:ObservableObject{
+    @Published var currentColor = MyColor.lightRed
     //インスタンスを生成するとデフォルト値がMyColorにセットされる
     //nextメソッドを実行すると、次のカラーを取得し、現在のカラーを更新する
-    private var currentColor = MyColor.lightRed
-    func next() -> Color{
+    func next(){
         var nextColor:MyColor
         switch currentColor{
         case .lightPink:
@@ -36,9 +36,9 @@ class GetColor{
             nextColor = MyColor.init(rawValue: currentColor.rawValue+1)!
         }
         currentColor = nextColor
-        return nextColor.color
     }
-    private enum MyColor:Int{
+    
+    enum MyColor:Int{
         case lightRed = 0
         case lightOrenge,lightYellow,lightYellowGreen,lightGreen,lightGreenBlue,
              lightWaterBlue,lightWhiteBlue,lightBluePurple,lightPurple,lightFujiPurple,
