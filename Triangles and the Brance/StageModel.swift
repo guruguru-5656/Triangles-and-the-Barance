@@ -51,18 +51,18 @@ final class StageModel:ObservableObject,TriCoodinatable{
        return instance
     }
     
-    func tapped(_ triangle: TriangleModel){
+    func tapped(_ coordinate: TriCoordinate){
         //タップされた座標がonかどうか確認しonだった場合はoffにする
         //offだった場合は何もせずに終了
         guard triangle.isOn else{ return }
         //ステージの中からタップされた座標のindexを取得し、stageデータの書き換えを行う
-        guard let index = getIndexOfStage(triangle.triCoordinate)
+        guard let index = getIndexOfStage(coordinate)
         else{ return }
         triangles[index].isOn = false
         print("first\(index)")
         //ステージの配列から、隣接していている座標のindexを取得
       
-        let nextIndexes = next(triangle.triCoordinate).map{getIndexOfStage($0)}
+        let nextIndexes = next(coordinate).map{getIndexOfStage($0)}
         //nilのデータを弾いて空配列の場合は終了
        
         let nextIndex = nextIndexes.filter{ $0 != nil }
