@@ -75,13 +75,11 @@ final class StageModel:ObservableObject,TriCoodinatable{
             }
             //
             if triangles[firstValue.0].isOn == true{
-                //
-                
             //隣接するマスを探索予定に追加
                 getNextIndex(firstValue.0).forEach{
                     searchingValues.append(($0, count+1))
                 }
-                //今探索している座標を
+                //今探索している座標をfalseにする
                 triangles[firstValue.0].isOn = false
                 returnValue.append((firstValue.0, count))
             }
@@ -89,6 +87,21 @@ final class StageModel:ObservableObject,TriCoodinatable{
         }
         return returnValue
     }
+    func getIndexesToBeErased(index:[Int]) -> [Int]{
+        var returnValue:[Int] = []
+        //隣接する座標でOnになっている配列を取得
+        var serchingIndex = index
+        if index.isEmpty{
+            return []
+        }else{
+            let next = getNextIndex(index[0]).filter{triangles[$0].isOn == true}
+            serchingIndex.append(contentsOf: next)
+            serchingIndex.removeFirst()
+            getIndex
+        }
+        return returnValue
+    }
+    
     ///入力されたindexからステージ内を検索し、その隣接する座標のindexを返す
     func getNextIndex(_ index:Int) -> [Int]{
         let nextcoordinate = next(triangles[index].triCoordinate)

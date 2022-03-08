@@ -29,7 +29,7 @@ struct TriangleView:View, TriCoodinatable,Animatable{
             .fill(stage.currentColor.color)
             .onTapGesture {
                 withAnimation(.easeOut(duration: 0.5)){
-//                    stage.tapped(coordinate)
+                    stage.tapped(coordinate)
                 }
             }
             .opacity(stage.triangles[indexOfStage].isOn ? 1 :0)
