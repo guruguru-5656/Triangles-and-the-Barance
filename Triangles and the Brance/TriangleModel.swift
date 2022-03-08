@@ -29,7 +29,7 @@ protocol TriCoodinatable{
 }
 
 extension TriCoodinatable{
-    //隣接するマスを取得するメソッド
+    ///隣接するマスを取得するメソッド
     func next(_ coordinate:TriCoordinate) -> [TriCoordinate]{
         switch coordinate.2{
         case true:
@@ -42,7 +42,7 @@ extension TriCoodinatable{
                     (coordinate.0 - 1, coordinate.1 + 1, true)]
         }
     }
-    //座標からModelデータを生成するメソッド
+    ///座標からModelデータを生成するメソッド
     func createTriangleModel(_ coordinate:TriCoordinate) -> TriangleModel{
         TriangleModel(triCoordinate: coordinate ,isOn: true)
     }
