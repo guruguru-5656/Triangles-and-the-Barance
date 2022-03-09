@@ -15,12 +15,12 @@ struct StageView: View {
             ZStack{
                 //背景
                 HexagonBackground(length: geometory.size.width/7)
-                ForEach(stage.triangles){ item in
+                ForEach(stage.stageTriangles){ item in
                     TriangleViewChild(offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
                         .fill(.white)
                 }
                 //操作する図形
-                ForEach(stage.triangles){ item in
+                ForEach(stage.stageTriangles){ item in
                     TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
                 }
             }

@@ -19,7 +19,7 @@ class Triangles_and_the_BranceTests: XCTestCase {
     }
 
     func testExample() throws {
-       
+     
     }
 
     func testPerformanceExample() throws {

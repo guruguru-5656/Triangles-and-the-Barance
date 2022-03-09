@@ -28,9 +28,9 @@ struct TriangleView:View, TriCoodinatable,Animatable{
         TriangleViewChild(offset: offset, coordinate: coordinate, length: length)
             .fill(stage.currentColor.color)
             .onTapGesture {
-                withAnimation(.easeOut(duration: 0.5)){
-                    stage.tapped(coordinate)
-                }
+//                withAnimation(.easeOut(duration: 0.5)){
+                    stage.delete(coordinate: coordinate)
+//                }
             }
             .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
     }
