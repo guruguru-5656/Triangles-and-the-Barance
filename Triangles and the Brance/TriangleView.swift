@@ -13,7 +13,7 @@ import SwiftUI
 struct TriangleView:View, TriCoodinatable,Animatable{
     @ObservedObject var stage:StageModel
     var offset: CGFloat{
-        stage.triangles[indexOfStage].isOn ? 3 : -10
+        stage.stageTriangles[indexOfStage].isOn ? 3 : -10
     }
     
     var coordinate:TriCoordinate
@@ -32,7 +32,7 @@ struct TriangleView:View, TriCoodinatable,Animatable{
                     stage.tapped(coordinate)
                 }
             }
-            .opacity(stage.triangles[indexOfStage].isOn ? 1 :0)
+            .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
     }
 }
 

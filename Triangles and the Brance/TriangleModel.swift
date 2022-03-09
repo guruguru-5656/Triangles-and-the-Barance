@@ -14,8 +14,7 @@ import SwiftUI
 //
 //}
 
-struct TriangleModel:Identifiable{
-    typealias TriCoordinate = (Int,Int,Bool)
+struct TriangleModel:Identifiable,TriCoodinatable{
     var triCoordinate: TriCoordinate
     var isOn:Bool
     var id = UUID()
