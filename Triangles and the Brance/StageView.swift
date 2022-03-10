@@ -12,17 +12,22 @@ struct StageView: View {
     
     var body: some View {
         GeometryReader{ geometory in
-            ZStack{
-                //背景
-                HexagonBackground(length: geometory.size.width/7)
-                ForEach(stage.stageTriangles){ item in
-                    TriangleViewChild(offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
-                        .fill(.white)
+            VStack {
+                ZStack{
+                    //背景
+                    HexagonBackground(length: geometory.size.width/7)
+                    ForEach(stage.stageTriangles){ item in
+                        TriangleViewChild(offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
+                            .fill(.white)
+                    }
+                    //操作する図形
+                    ForEach(stage.stageTriangles){ item in
+                        TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
+                    }
                 }
-                //操作する図形
-                ForEach(stage.stageTriangles){ item in
-                    TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
-                }
+                
+                
+                
             }
         }
     }

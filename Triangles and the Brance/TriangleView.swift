@@ -11,28 +11,29 @@ import SwiftUI
 
 
 struct TriangleView:View, TriCoodinatable,Animatable{
-    @ObservedObject var stage:StageModel
-    var offset: CGFloat{
-        stage.stageTriangles[indexOfStage].isOn ? 3 : -10
-    }
     
+    @ObservedObject var stage:StageModel
+    
+    var offset: CGFloat = 3
     var coordinate:TriCoordinate
     var length:CGFloat
     
     var indexOfStage: Int{
         stage.getIndexOfStage(coordinate)!
     }
-    
+
     var body:some View{
         
-        TriangleViewChild(offset: offset, coordinate: coordinate, length: length)
-            .fill(stage.currentColor.color)
+        TriangleViewChild(offset: stage.stageTriangles[indexOfStage].isOn ? 3 : -8,
+                          coordinate: coordinate, length: length)
+            .animation(.easeOut,value: stage.stageTriangles[indexOfStage].isOn ? 3 : -8)
+            .foregroundColor(stage.currentColor.color)
             .onTapGesture {
-//                withAnimation(.easeOut(duration: 0.5)){
                     stage.delete(coordinate: coordinate)
-//                }
             }
             .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
+            .animation(.easeOut(duration: 1),
+                       value: stage.stageTriangles[indexOfStage].isOn ? 1 :0)
     }
 }
 
@@ -42,11 +43,10 @@ struct TriangleViewChild:Shape,TriCoodinatable{
             path.addLines(coordinates)
         }
     }
-    var animatableData: CGFloat {
-        get { offset }
-        set { offset = newValue }
+    var animatableData:CGFloat{
+        get{ offset }
+        set{ offset = newValue }
     }
-    
     var offset: CGFloat
     var coordinate:TriCoordinate
     var length:CGFloat
