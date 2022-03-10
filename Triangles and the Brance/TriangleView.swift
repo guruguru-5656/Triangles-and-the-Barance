@@ -15,7 +15,10 @@ struct TriangleView:View, TriCoodinatable,Animatable{
     var offset: CGFloat{
         stage.stageTriangles[indexOfStage].isOn ? 3 : -10
     }
-    
+    var opacity:Double{
+        stage.stageTriangles[indexOfStage].isOn ? 1 : 0
+    }
+  
     var coordinate:TriCoordinate
     var length:CGFloat
     
@@ -24,29 +27,37 @@ struct TriangleView:View, TriCoodinatable,Animatable{
     }
     
     var body:some View{
-        
-        TriangleViewChild(offset: offset, coordinate: coordinate, length: length)
+        if stage.stageTriangles[indexOfStage].isOn{
+            TriangleViewChild(color:stage.currentColor,opacity:opacity,offset: offset, coordinate: coordinate, length: length)
             .fill(stage.currentColor.color)
             .onTapGesture {
-//                withAnimation(.easeOut(duration: 0.5)){
+               
                     stage.delete(coordinate: coordinate)
-//                }
             }
-            .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
+            .transition(
+                AnyTransition.animation(Animation.default.)
+            )
+        }
     }
 }
 
-struct TriangleViewChild:Shape,TriCoodinatable{
-    func path(in rect: CGRect) -> Path {
+struct TriangleViewChild:View,Animatable,TriCoodinatable{
+    var body: some View{
         Path{ path in
             path.addLines(coordinates)
         }
+        .fill(color.opacity(opacity))
     }
-    var animatableData: CGFloat {
-        get { offset }
-        set { offset = newValue }
+    //アニメーション用の変数
+    var animatableData:AnimatablePair<Double, CGFloat>{
+        get { AnimatablePair(offset,opacity) }
+        set {
+            offset = newValue.first
+            opacity = newValue.second
+        }
     }
-    
+    var color:Color
+    var opacity:Double = 1
     var offset: CGFloat
     var coordinate:TriCoordinate
     var length:CGFloat

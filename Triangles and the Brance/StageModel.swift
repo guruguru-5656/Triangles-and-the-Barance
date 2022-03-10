@@ -10,7 +10,7 @@ import SwiftUI
 
 final class StageModel:ObservableObject,TriCoodinatable{
     @Published var stageTriangles: [TriangleModel]
-    @Published var currentColor: MyColor
+    @Published var currentColor: Color
     //後々イニシャライザはステージ生成時にインスタンスを作成するように変更予定
     //シングルトンの実装
     //    static var shared = StageModel()
@@ -18,7 +18,7 @@ final class StageModel:ObservableObject,TriCoodinatable{
     init(){
         //初期化時にステージの構造から
         self.stageTriangles = Self.createTriangleModel(stageArrangement)
-        self.currentColor = MyColor()
+        self.currentColor = Color.lightRed
     }
     
     //ステージの構造

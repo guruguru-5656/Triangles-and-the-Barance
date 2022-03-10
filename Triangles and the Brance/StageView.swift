@@ -16,8 +16,7 @@ struct StageView: View {
                 //背景
                 HexagonBackground(length: geometory.size.width/7)
                 ForEach(stage.stageTriangles){ item in
-                    TriangleViewChild(offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
-                        .fill(.white)
+                    TriangleViewChild(color:stage.currentColor,offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
                 }
                 //操作する図形
                 ForEach(stage.stageTriangles){ item in
