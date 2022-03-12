@@ -17,17 +17,30 @@ struct StageView: View {
                     //背景
                     HexagonBackground(length: geometory.size.width/7)
                     ForEach(stage.stageTriangles){ item in
-                        TriangleViewChild(offset: 3, coordinate: item.triCoordinate, length: geometory.size.width/7)
-                            .fill(.white)
+                        TriangleView(triangle: item, scale: geometory.size.width/7, offset: 1)
+
                     }
-                    //操作する図形
-                    ForEach(stage.stageTriangles){ item in
-                        TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
-                    }
+//                    //操作する図形
+//                    ForEach(stage.stageTriangles){ item in
+//                        TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
+//
+//                    }
+                    
                 }
                 
                 
                 
+                ScrollView {
+                    HStack {
+                        Circle()
+                            .foregroundColor(stage.currentColor.color)
+                            .frame(width: geometory.size.height/12, height: geometory.size.height/12, alignment: .leading)
+                            .padding(.leading,50)
+                        
+                    }
+                    .frame(width: geometory.size.width, height: geometory.size.height/10, alignment: .leading)
+                    
+                }
             }
         }
     }

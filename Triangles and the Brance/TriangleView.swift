@@ -7,78 +7,49 @@
 
 import Foundation
 import SwiftUI
+//            .animation(.easeOut,value: stage.stageTriangles[indexOfStage].isOn ? 3 : -8)
+//            .foregroundColor(stage.currentColor.color)
+//            .onTapGesture {
+//                    stage.delete(coordinate: coordinate)
+//            }
+//            .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
+//            .animation(.easeOut(duration: 1),
+//                       value: stage.stageTriangles[indexOfStage].isOn ? 1 :0)
+//    }
 
 
-
-struct TriangleView:View, TriCoodinatable,Animatable{
-    
-    @ObservedObject var stage:StageModel
-    
-    var offset: CGFloat = 3
-    var coordinate:TriCoordinate
-    var length:CGFloat
-    
-    var indexOfStage: Int{
-        stage.getIndexOfStage(coordinate)!
-    }
-
-    var body:some View{
-        
-        TriangleViewChild(offset: stage.stageTriangles[indexOfStage].isOn ? 3 : -8,
-                          coordinate: coordinate, length: length)
-            .animation(.easeOut,value: stage.stageTriangles[indexOfStage].isOn ? 3 : -8)
-            .foregroundColor(stage.currentColor.color)
-            .onTapGesture {
-                    stage.delete(coordinate: coordinate)
-            }
-            .opacity(stage.stageTriangles[indexOfStage].isOn ? 1 :0)
-            .animation(.easeOut(duration: 1),
-                       value: stage.stageTriangles[indexOfStage].isOn ? 1 :0)
-    }
-}
-
-struct TriangleViewChild:Shape,TriCoodinatable{
-    func path(in rect: CGRect) -> Path {
-        Path{ path in
-            path.addLines(coordinates)
-        }
-    }
-    var animatableData:CGFloat{
-        get{ offset }
-        set{ offset = newValue }
-    }
+struct TriangleView:View{
+//    @ObservedObject var stage:StageModel
+    var triangle:TriangleModel
+    var scale:CGFloat
     var offset: CGFloat
-    var coordinate:TriCoordinate
-    var length:CGFloat
     
-    var coordinates:[CGPoint]{
-        let coordinates:[CGPoint]
-        let offsetA = offset * sqrt(3)/2 //offset * cos(30[deg])
-        let x = CGFloat(coordinate.0)
-        let y = CGFloat(coordinate.1)
-        let lengthY = length * sqrt(3)/2
-        
-        //三角形の向きによって計算式を変更
-        if coordinate.2{
-            coordinates = [CGPoint(x: (x + y/2) * length + offsetA,
-                                   y: y * lengthY + offset/2),
-                           CGPoint(x: ((x+1) + y/2 ) * length - offsetA,
-                                   y: y * lengthY + offset/2),
-                           CGPoint(x: (x + (y+1)/2) * length,
-                                   y: (y+1) * lengthY - offset),
-                           CGPoint(x: (x + y/2) * length + offsetA,
-                                   y: y * lengthY + offset/2)]
+    var coordinates:[TriCoordinate]{
+        let returnCoordinates:[TriCoordinate]
+        let coordinate = triangle.modelCoordinates
+        let remainder = triangle.modelCoordinates.x % 2
+        if remainder == 0{
+            returnCoordinates = [TriCoordinate(x:coordinate.x/2, y:coordinate.y),
+                          TriCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
+                          TriCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
         }else{
-            coordinates = [CGPoint(x: (x + y/2) * length,
-                                   y: y * lengthY + offset),
-                           CGPoint(x: (x + (y+1)/2) * length - offsetA,
-                                   y: (y+1) * lengthY - offset/2),
-                           CGPoint(x: ((x-1) + (y+1)/2) * length + offsetA,
-                                   y: (y+1) * lengthY - offset/2),
-                           CGPoint(x: (x + y/2) * length,
-                                   y: y * lengthY + offset),]
+            returnCoordinates = [TriCoordinate(x:(coordinate.x+1)/2, y:coordinate.y),
+                          TriCoordinate(x:(coordinate.x+1)/2 - 1, y:coordinate.y + 1),
+                          TriCoordinate(x:(coordinate.x+1)/2, y:coordinate.y + 1)]
         }
-        return coordinates
+        return returnCoordinates
     }
     
+    var body:some View{
+        DrawTriShape(in: coordinates,  scale: scale, offset:1)
+    }
 }
+
+
+struct TriangleView_Previews: PreviewProvider {
+    static var previews: some View {
+        TriangleView(triangle: TriangleModel(x: 7, y: 3, isOn: true), scale: 50, offset: 1.0)
+            .foregroundColor(.red)
+    }
+}
+

@@ -7,18 +7,9 @@
 
 import SwiftUI
 
-//class TriangleAction:ObservableObject,TriCoodinatable{
-//    var triangles: [TriangleModel] = []
-//    @Published var stage = StageModel.shared
-//
-//
-//}
 
-struct TriangleModel:Identifiable,TriCoodinatable{
-    var triCoordinate: TriCoordinate
-    var isOn:Bool
-    var id = UUID()
-}
+
+
 
 protocol TriCoodinatable{
     //Triangleの座標を扱うプロトコル
@@ -41,8 +32,19 @@ extension TriCoodinatable{
                     (coordinate.0 - 1, coordinate.1 + 1, true)]
         }
     }
-    ///座標からModelデータを生成するメソッド
-    func createTriangleModel(_ coordinate:TriCoordinate) -> TriangleModel{
-        TriangleModel(triCoordinate: coordinate ,isOn: true)
+
+}
+
+///モデルデータの座標、中心部分を使ってステージの中の位置を表す
+struct TriangleModel:Identifiable{
+    
+    init(x:Int,y:Int,isOn:Bool){
+        self.modelCoordinates = (x:x,y:y)
+        self.isOn = isOn
     }
+    var isOn:Bool
+    var modelCoordinates:(x:Int,y:Int)
+    
+    
+    var id = UUID()
 }
