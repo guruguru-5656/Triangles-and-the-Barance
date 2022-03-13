@@ -8,23 +8,24 @@
 import Foundation
 import SwiftUI
 ///描画のベースになる座標系、x、yが描画の頂点の座標を表す
-struct TriCoordinate:Hashable{
+struct TriVertexCoordinate:Hashable{
     init(x:Int,y:Int){
         vertexX = x
         vertexY = y
     }
+    
     let vertexX:Int
     let vertexY:Int
-    
-    func getNextCoordinate() ->[TriCoordinate] {
-        [TriCoordinate(x: vertexX-1 , y: vertexY ),
-         TriCoordinate(x: vertexX , y: vertexY-1 ),
-         TriCoordinate(x: vertexX+1 , y: vertexY-1 ),
-         TriCoordinate(x: vertexX+1 , y: vertexY ),
-         TriCoordinate(x: vertexX , y: vertexY+1 ),
-         TriCoordinate(x: vertexX-1 , y: vertexY-1 )]
+
+    func getNextCoordinate() ->[TriVertexCoordinate] {
+        [TriVertexCoordinate(x: vertexX-1 , y: vertexY ),
+         TriVertexCoordinate(x: vertexX , y: vertexY-1 ),
+         TriVertexCoordinate(x: vertexX+1 , y: vertexY-1 ),
+         TriVertexCoordinate(x: vertexX+1 , y: vertexY ),
+         TriVertexCoordinate(x: vertexX , y: vertexY+1 ),
+         TriVertexCoordinate(x: vertexX-1 , y: vertexY-1 )]
     }
-    
+
     func getDrowPoint() -> CGPoint{
         let X = Double(vertexX)
         let Y = Double(vertexY)
@@ -33,15 +34,15 @@ struct TriCoordinate:Hashable{
     
 }
     
-struct TriLine:Hashable{
-    let l:TriCoordinate
-    let r:TriCoordinate
-    
+struct TriLine:Hashable,Identifiable{
+    let start:TriVertexCoordinate
+    let end:TriVertexCoordinate
+    var id = UUID()
 }
 
 
 protocol TriShapeData{
-    var modelCoordinates: [TriCoordinate]{ get }
+    var modelCoordinates: [TriVertexCoordinate]{ get }
     var outlines:Set<TriLine>{ get }
 }
 
@@ -56,7 +57,7 @@ extension TriShapeData{
                     next == coordinate}).first
                 //ここから if文の中身
             {
-                lines.insert(TriLine(l: coordinate, r: nextCoordinate))
+                lines.insert(TriLine(start: coordinate, end: nextCoordinate))
             }
         }
         return lines

@@ -8,10 +8,11 @@
 import SwiftUI
 
 
-final class StageModel:ObservableObject{
-    @Published var stageTriangles: [TriangleModel] = []
+final class StageModel:ObservableObject,TriangleViewModelDelegate{
+    
+    @Published var stageTriangles: [TriangleViewModel] = []
     @Published var currentColor = MyColor()
-  
+    @Published var deleteTriangleCounter = 0
     ///外側の配列がY軸、内側の配列がX軸を表す
     private var arrangementOfTriangle: [[Int]] = [
         [Int](3...9),
@@ -21,20 +22,141 @@ final class StageModel:ObservableObject{
         [Int](-2...6),
         [Int](-2...4)
     ]
+    private let stageLineArrangement:[(start:(x:Int,y:Int),end:(x:Int,y:Int))] = [
+        ((1,1),(5,1)), ((0,2),(5,2)), ((-1,3),(5,3)), ((-1,4),(4,4)), ((-1,5),(3,5)),
+        ((0,2),(0,6)), ((1,1),(1,6)), ((2,0),(2,6)), ((3,0),(3,5)), ((4,0),(4,4)),
+        ((3,0),(-1,4)), ((4,0),(-1,5)), ((5,0),(-1,6)), ((5,1),(0,6)), ((5,2),(1,6))
+    ]
+    var stageLines:[TriLine] = []
+    
+    
     
     init(){
-        //初期化時にステージの構造から
+        //初期化時にステージの構造を生成
         setStageTriangles()
+        setStageLines()
+        deleteTriangleCounter = 0
     }
-    
-    //ステージの構造
+   
+    //ステージの構造生成
     func setStageTriangles(){
         for (triangleY, arrangement) in arrangementOfTriangle.enumerated(){
             for triangleX in arrangement{
-                stageTriangles.append(
-                    TriangleModel(x: triangleX, y: triangleY, isOn: true ))
+                var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: true )
+                triangleModel.delegate = self
+                stageTriangles.append(triangleModel)
             }
         }
+    }
+    func setStageLines(){
+         let lines = stageLineArrangement.map{
+            TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
+                    end: TriVertexCoordinate(x: $0.end.x, y: $0.end.y))
+        }
+        stageLines.append(contentsOf: lines)
+    }
+    
+    func deleteTrianglesAction(index:Int,count:Int,action:ActionOfShape) {
+        switch action{
+        case .normal:
+            let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
+            DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
+                self?.stageTriangles[index].isOn = false
+                self?.deleteTriangleCounter += 1
+            }
+        }
+    }
+    
+    
+    
+    func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape){
+   //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
+        var willSearch:Set<ModelCoordinate> = [coordinate]
+        var counter = 0
+        var didSearched:Set<ModelCoordinate> = []
+        //Offにする予定の座標が残っている間は繰り返す
+        while !willSearch.isEmpty{
+            //次に処理する予定の座標を格納（for文の中でwillSearchCoordinatesが更新できないため別の変数を用意）
+            let searchingCoordinates = willSearch
+            
+            for searching in searchingCoordinates{
+
+                //現在探索座標の処理に入ったため、探索終了に加える
+                didSearched.insert(searching)
+                willSearch.remove(searching)
+
+                print(willSearch.count)
+                print(didSearched.count)
+                
+                //隣接座標を取得し、Onだったら探索予定に加え、Offだったら探索済みに加える
+                let nextCoordinates = getNextCoordinates(coordinate: searching)
+//                nextCoordinates.subtract(didSearched)
+                for nextCoordinate in nextCoordinates{
+                    if didSearched.contains(where:{$0 == nextCoordinate}){
+                        continue
+                    }
+                    let index = getIndexOfStageTriangles(coordinate: nextCoordinate)
+                    if let index = index{
+                        if stageTriangles[index].isOn{
+                            willSearch.insert(nextCoordinate)
+                        }else{
+                            didSearched.insert(nextCoordinate)
+                        }
+                    }
+                }
+            
+                //探索予定から探索済みを取り除く
+                willSearch.subtract(didSearched)       
+                print(willSearch.count)
+                print(didSearched.count)
+                //今処理している座標のIndexを取得し、それをdeleteTriangleActionに渡す
+                    let searchingIndex = getIndexOfStageTriangles(coordinate:searching)
+           
+                if let index = searchingIndex {
+                    deleteTrianglesAction(index: index, count: counter, action: action)
+                }else{
+                    print("index\(String(describing: searchingIndex))はステージの範囲外")
+                }
+               
+            }
+            
+            //カウンターを更新する
+            counter += 1
+           print(counter)
+        }
+        
+        
+    }
+    
+    func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{
+        stageTriangles.firstIndex{ $0.modelCoordinate == coordinate }
+    }
+    
+    ///ステージ内の隣接した座標を取得する
+    func getNextCoordinates(coordinate:ModelCoordinate) -> Set<ModelCoordinate>{
+        //隣接する座標を取得する
+        var nextCoordinates:[ModelCoordinate] = []
+        let remainder = coordinate.x % 2
+        if remainder == 0{
+            nextCoordinates.append(contentsOf: [
+                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
+                ModelCoordinate(x:coordinate.x, y:coordinate.y-1),
+                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),])
+        }else{
+            nextCoordinates.append(contentsOf: [
+                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
+                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),
+                ModelCoordinate(x:coordinate.x, y:coordinate.y+1),])
+        }
+        var nextInStage:Set<ModelCoordinate> = []
+        for nextCoordinate in nextCoordinates {
+            if stageTriangles.map({$0.modelCoordinate})
+                .contains(where: {$0 == nextCoordinate}) == true{
+                nextInStage.insert(nextCoordinate)
+            }
+        }
+//
+        return nextInStage
     }
 }
 
@@ -88,37 +210,3 @@ final class StageModel:ObservableObject{
 //        return indexesAreTurnedOff
 //    }
 //
-//    ///ステージの中にある隣接した座標のindex
-//    func nextIndexIsOn(index:Int) -> [Int]{
-//        getNextIndex(index).filter{stageTriangles[$0].isOn == true}
-//    }
-//    ///第一引数の配列から第二因数に含まれている要素を取り除く
-//    func removeFromArray(from originalArray:inout [Int],at array:[Int]){
-//        for content in array{
-//            if let filterArray = originalArray.firstIndex(of: content){
-//                originalArray.remove(at: filterArray)
-//            }
-//        }
-//    }
-    
-//    ///入力されたindexからステージ内を検索し、その隣接する座標のindexを返す
-//    func getNextIndex(_ index:Int) -> [Int]{
-//        let nextcoordinate = next(stageTriangles[index].triCoordinate)
-//        var nextIndex:[Int] = []
-//        nextcoordinate.forEach{
-//            if let index = getIndexOfStage($0){
-//                nextIndex.append(index)
-//            }
-//        }
-//        print(nextIndex)
-//        return nextIndex
-//    }
-//
-//    ///入力された座標からステージ内を検索し、そのindexを返す
-//    func getIndexOfStage(_ coordinate: TriCoordinate) -> Int?{
-//        stageTriangles.firstIndex(where:{$0.triCoordinate == coordinate})
-//    }
-    
-    
-
-

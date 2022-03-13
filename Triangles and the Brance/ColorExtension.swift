@@ -8,8 +8,10 @@
 import SwiftUI
 
 extension Color{
-    static let lightGray = Color(white: 0.95)
-    static let lightRed = Color(red: 255/255, green: 195/255, blue: 195/255)
+    static let backgroundLightGray = Color(white: 0.95)
+    static let lightGray = Color(white: 0.7)
+    static let lightRed = Color(red: 255/255, green: 165/255, blue: 165/255)
+    static let heavyRed = Color(red: 200/255, green: 130/255, blue: 130/255)
     static let lightOrenge = Color(red: 255/255, green: 226/255, blue: 195/255)
     static let lightYellow = Color(red: 255/255, green: 255/255, blue: 195/255)
     static let lightYellowGreen = Color(red: 225/255, green: 255/255, blue: 195/255)
@@ -22,6 +24,12 @@ extension Color{
     static let lightFujiPurple = Color(red: 225/255, green: 195/255, blue: 255/255)
     static let lightPinkPurple = Color(red: 255/255, green: 195/255, blue: 255/255)
     static let lightPink = Color(red: 255/255, green: 195/255, blue: 226/255)
+}
+
+struct StageViewColor_Previews: PreviewProvider {
+    static var previews: some View {
+        StageView()
+    }
 }
 
 

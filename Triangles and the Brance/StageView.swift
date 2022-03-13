@@ -16,19 +16,24 @@ struct StageView: View {
                 ZStack{
                     //背景
                     HexagonBackground(length: geometory.size.width/7)
-                    ForEach(stage.stageTriangles){ item in
-                        TriangleView(triangle: item, scale: geometory.size.width/7, offset: 1)
+                    //背景の線部分
+                    ForEach(stage.stageLines){ line in
+                        DrawTriLine(line: line, scale: geometory.size.width/7)
+                            .stroke(Color.heavyRed, lineWidth: 1)
+                    }
+                   
+                    ForEach($stage.stageTriangles){ $item in
+                        
+                        TriangleView(triangle: $item, scale: geometory.size.width/7)
+                        
+                    }
+                    ForEach($stage.stageTriangles){ $item in
+
+                        TriangleViewFrame(triangle: $item,  scale: geometory.size.width/7)
 
                     }
-//                    //操作する図形
-//                    ForEach(stage.stageTriangles){ item in
-//                        TriangleView(stage: stage, coordinate: item.triCoordinate, length: geometory.size.width/7)
-//
-//                    }
                     
                 }
-                
-                
                 
                 ScrollView {
                     HStack {
@@ -66,12 +71,16 @@ struct HexagonBackground:View{
             path.addLines(vertex)
         }
         .fill()
-        .foregroundColor(.lightGray)
+        .foregroundColor(.backgroundLightGray)
     }
 }
+
+
 
 struct StageView_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
     }
 }
+
+
