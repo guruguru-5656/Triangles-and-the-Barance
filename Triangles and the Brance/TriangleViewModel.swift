@@ -55,11 +55,7 @@ struct TriangleViewModel:Identifiable{
         return nextCoordinates
     }
     
-    
-    
-    
-    
-    
+     
     ///対応する頂点の座標系
     var vertexCoordinate:[TriVertexCoordinate]{
         let returnCoordinates:[TriVertexCoordinate]

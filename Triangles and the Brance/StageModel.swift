@@ -29,7 +29,8 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
     ]
     var stageLines:[TriLine] = []
     
-    
+    //ステージの生成時の確率をまとめたクラス
+    private var probabilityOfStageLayout = ProbabilityOfStageLayout()
     
     init(){
         //初期化時にステージの構造を生成
@@ -42,9 +43,16 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
     func setStageTriangles(){
         for (triangleY, arrangement) in arrangementOfTriangle.enumerated(){
             for triangleX in arrangement{
-                var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: true )
-                triangleModel.delegate = self
-                stageTriangles.append(triangleModel)
+                let random:Double = Double.random(in:1...100)
+                if random <= probabilityOfStageLayout.ofTriangles{
+                    var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: true )
+                    triangleModel.delegate = self
+                    stageTriangles.append(triangleModel)
+                }else{
+                    var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: false )
+                    triangleModel.delegate = self
+                    stageTriangles.append(triangleModel)
+                }
             }
         }
     }
@@ -81,8 +89,8 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
             let searching = willSearch
             for searchingNow in searching {
                 didSearched.insert(searchingNow)
+                //ステージの範囲外かチェック
                 if !stageTriangles.contains(where: { $0.modelCoordinate == searchingNow}) {
-                   
                     continue
                 }
                 
@@ -91,9 +99,10 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
                     print("ステージ内のインデックスエラー")
                     continue
                 }
+                //Onだった場合は次探索する予定の配列に加える
                 if stageTriangles[index].isOn{
                     deleteTrianglesAction(index: index, count: counter, action: action)
-                    let nextSet:Set<ModelCoordinate> = getNextCoordinates(coordinate: searchingNow)
+                    let nextSet = getNextCoordinates(coordinate: searchingNow)
                     willSearch.formUnion(nextSet)
                 }
  
