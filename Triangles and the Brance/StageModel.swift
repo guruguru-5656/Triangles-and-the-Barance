@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-final class StageModel:ObservableObject,TriangleViewModelDelegate{
+class StageModel:ObservableObject,TriangleViewModelDelegate{
     
     @Published var stageTriangles: [TriangleViewModel] = []
     @Published var currentColor = MyColor()
@@ -71,61 +71,38 @@ final class StageModel:ObservableObject,TriangleViewModelDelegate{
     
     func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape){
    //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
-        var willSearch:Set<ModelCoordinate> = [coordinate]
+        var willSearch:Set<ModelCoordinate> = []
         var counter = 0
         var didSearched:Set<ModelCoordinate> = []
-        //Offにする予定の座標が残っている間は繰り返す
+        
+        
+        willSearch.insert(coordinate)
         while !willSearch.isEmpty{
-            //次に処理する予定の座標を格納（for文の中でwillSearchCoordinatesが更新できないため別の変数を用意）
-            let searchingCoordinates = willSearch
-            
-            for searching in searchingCoordinates{
-
-                //現在探索座標の処理に入ったため、探索終了に加える
-                didSearched.insert(searching)
-                willSearch.remove(searching)
-
-                print(willSearch.count)
-                print(didSearched.count)
+            let searching = willSearch
+            for searchingNow in searching {
+                didSearched.insert(searchingNow)
+                if !stageTriangles.contains(where: { $0.modelCoordinate == searchingNow}) {
+                   
+                    continue
+                }
                 
-                //隣接座標を取得し、Onだったら探索予定に加え、Offだったら探索済みに加える
-                let nextCoordinates = getNextCoordinates(coordinate: searching)
-//                nextCoordinates.subtract(didSearched)
-                for nextCoordinate in nextCoordinates{
-                    if didSearched.contains(where:{$0 == nextCoordinate}){
-                        continue
-                    }
-                    let index = getIndexOfStageTriangles(coordinate: nextCoordinate)
-                    if let index = index{
-                        if stageTriangles[index].isOn{
-                            willSearch.insert(nextCoordinate)
-                        }else{
-                            didSearched.insert(nextCoordinate)
-                        }
-                    }
+                guard let index = getIndexOfStageTriangles(coordinate: searchingNow)
+                else{
+                    print("ステージ内のインデックスエラー")
+                    continue
                 }
-            
-                //探索予定から探索済みを取り除く
-                willSearch.subtract(didSearched)       
-                print(willSearch.count)
-                print(didSearched.count)
-                //今処理している座標のIndexを取得し、それをdeleteTriangleActionに渡す
-                    let searchingIndex = getIndexOfStageTriangles(coordinate:searching)
-           
-                if let index = searchingIndex {
+                if stageTriangles[index].isOn{
                     deleteTrianglesAction(index: index, count: counter, action: action)
-                }else{
-                    print("index\(String(describing: searchingIndex))はステージの範囲外")
+                    let nextSet:Set<ModelCoordinate> = getNextCoordinates(coordinate: searchingNow)
+                    willSearch.formUnion(nextSet)
                 }
-               
+ 
+                willSearch.subtract(didSearched)
+   
             }
             
-            //カウンターを更新する
             counter += 1
-           print(counter)
         }
-        
-        
     }
     
     func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{
@@ -140,13 +117,13 @@ final class StageModel:ObservableObject,TriangleViewModelDelegate{
         if remainder == 0{
             nextCoordinates.append(contentsOf: [
                 ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x, y:coordinate.y-1),
+                ModelCoordinate(x:coordinate.x+1, y:coordinate.y-1),
                 ModelCoordinate(x:coordinate.x+1, y:coordinate.y),])
         }else{
             nextCoordinates.append(contentsOf: [
                 ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
                 ModelCoordinate(x:coordinate.x+1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x, y:coordinate.y+1),])
+                ModelCoordinate(x:coordinate.x-1, y:coordinate.y+1),])
         }
         var nextInStage:Set<ModelCoordinate> = []
         for nextCoordinate in nextCoordinates {
@@ -159,6 +136,27 @@ final class StageModel:ObservableObject,TriangleViewModelDelegate{
         return nextInStage
     }
 }
+
+final class DeleteTriangles:StageModel{
+    var willSearch:Set<ModelCoordinate> = []
+    var counter = 0
+    var didSearched:Set<ModelCoordinate> = []
+    func makeScheduleForDelete(coordinate:ModelCoordinate){
+        willSearch.insert(coordinate)
+        while !willSearch.isEmpty{
+            let searching = willSearch
+            for searching in searching {
+                if let index = getIndexOfStageTriangles(coordinate: searching){
+                    if stageTriangles[index].isOn{
+                        
+                    }
+                    
+                }
+            }
+        }
+    }
+}
+
 
 //    ///ステージの書き換えを行う
 //    func delete(coordinate:TriCoordinate){

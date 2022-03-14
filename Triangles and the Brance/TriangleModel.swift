@@ -30,7 +30,9 @@ struct TriangleViewModel:Identifiable{
             print("Error:デリゲートが設定されていません")
             return
         }
-       delegate.deleteTriangles(coordinate: self.modelCoordinate,action:.normal)
+        DispatchQueue.global().async{
+            delegate.deleteTriangles(coordinate: self.modelCoordinate,action:.normal)
+        }
     }
     
     var action:ActionOfShape = .normal
@@ -42,13 +44,13 @@ struct TriangleViewModel:Identifiable{
         if remainder == 0{
             nextCoordinates.append(contentsOf: [
                 (modelCoordinate.x-1, modelCoordinate.y),
-                (modelCoordinate.x, modelCoordinate.y-1),
+                (modelCoordinate.x+1, modelCoordinate.y-1),
                 (modelCoordinate.x+1, modelCoordinate.y),])
         }else{
             nextCoordinates.append(contentsOf: [
                 (modelCoordinate.x-1, modelCoordinate.y),
                 (modelCoordinate.x+1, modelCoordinate.y),
-                (modelCoordinate.x, modelCoordinate.y+1),])
+                (modelCoordinate.x-1, modelCoordinate.y+1),])
         }
         return nextCoordinates
     }

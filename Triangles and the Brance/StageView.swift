@@ -41,7 +41,11 @@ struct StageView: View {
                             .foregroundColor(stage.currentColor.color)
                             .frame(width: geometory.size.height/12, height: geometory.size.height/12, alignment: .leading)
                             .padding(.leading,50)
-                        
+                        Button("リセット"){
+                            stage.stageTriangles.indices.forEach{ index in
+                                stage.stageTriangles[index].isOn = true
+                            }
+                        }
                     }
                     .frame(width: geometory.size.width, height: geometory.size.height/10, alignment: .leading)
                     
