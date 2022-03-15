@@ -10,27 +10,49 @@ import SwiftUI
 
 ///アニメーション、アクション、描画を設定をする構造体
 struct TriangleView:View{
-    @Binding var triangle:TriangleViewModel
-    
+    @EnvironmentObject var stage:StageModel
+    let coordinate:ModelCoordinate
+    var index:Int{
+        stage.stageTriangles.firstIndex{ $0.modelCoordinate == self.coordinate }!
+    }
+    ///拡大率のプロパティ
     var scale:CGFloat
+    
+    
     //Viewにアニメーションをつけるプロパティ
     var offset: CGFloat{
-        triangle.isOn ? 0.95 : 1.1
+ 
+        switch stage.stageTriangles[index].status{
+            
+        case .isOn:
+           return 0.95
+        case .isDisappearing:
+           return 0.95
+        case .isOff:
+           return 1.1
+        }
     }
     var opacity:Double{
-        triangle.isOn ? 1 :0
+
+        switch stage.stageTriangles[index].status{
+            
+        case .isOn:
+           return 1
+        case .isDisappearing:
+           return 1
+        case .isOff:
+           return 0
+        }
     }
 
     var body:some View{
-        DrawTriShape(in: triangle.vertexCoordinate ,scale: scale, offset: offset)
+        DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate ,scale: scale, offset: offset)
             .animation(.easeOut(duration: 0.5), value: offset)
             .foregroundColor(.lightRed)
             .opacity(opacity)
             .animation(.easeIn(duration: 0.5), value: opacity)
             .onTapGesture {
-                print(triangle.modelCoordinate.x)
-                print(triangle.modelCoordinate.y)
-                triangle.deleteTriangles()
+                stage.deleteTrianglesInput(index: index)
             }
     }
 }
@@ -42,11 +64,27 @@ struct TriangleViewFrame:View{
     
     //Viewにアニメーションをつけるプロパティ
     var offset: CGFloat{
-        triangle.isOn ? 0.95 : 1.5
+        switch triangle.status{
+            
+        case .isOn:
+            return 0.95
+        case .isDisappearing:
+            return 0.95
+        case .isOff:
+            return 1.6
+        }
     }
     
     var opacity:Double{
-        triangle.isOn ? 1 :0
+        switch triangle.status{
+            
+        case .isOn:
+           return 1
+        case .isDisappearing:
+          return  1
+        case .isOff:
+          return  0
+        }
     }
     
     var body:some View{
@@ -55,6 +93,7 @@ struct TriangleViewFrame:View{
             .animation(.easeOut(duration: 0.5), value: offset)
             .opacity(opacity)
             .animation(.easeOut(duration: 0.5), value: opacity)
+            
     }
     
 }

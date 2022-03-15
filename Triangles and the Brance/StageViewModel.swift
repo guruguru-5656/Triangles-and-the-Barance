@@ -8,11 +8,12 @@
 import SwiftUI
 
 
-class StageModel:ObservableObject,TriangleViewModelDelegate{
+class StageModel:ObservableObject{
     
     @Published var stageTriangles: [TriangleViewModel] = []
     @Published var currentColor = MyColor()
     @Published var deleteTriangleCounter = 0
+    @Published var stageDragItems:[DragItemModel] = []
     ///外側の配列がY軸、内側の配列がX軸を表す
     private var arrangementOfTriangle: [[Int]] = [
         [Int](3...9),
@@ -22,6 +23,7 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
         [Int](-2...6),
         [Int](-2...4)
     ]
+    ///ステージに引く線の配置
     private let stageLineArrangement:[(start:(x:Int,y:Int),end:(x:Int,y:Int))] = [
         ((1,1),(5,1)), ((0,2),(5,2)), ((-1,3),(5,3)), ((-1,4),(4,4)), ((-1,5),(3,5)),
         ((0,2),(0,6)), ((1,1),(1,6)), ((2,0),(2,6)), ((3,0),(3,5)), ((4,0),(4,4)),
@@ -32,30 +34,33 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
     //ステージの生成時の確率をまとめたクラス
     private var probabilityOfStageLayout = ProbabilityOfStageLayout()
     
-    init(){
+    //シングルトンの実装
+    static var setUp = StageModel()
+    private init(){
         //初期化時にステージの構造を生成
         setStageTriangles()
         setStageLines()
+        setDragItems()
         deleteTriangleCounter = 0
     }
-   
+    
     //ステージの構造生成
+    ///三角形のビューのセットアップ
     func setStageTriangles(){
         for (triangleY, arrangement) in arrangementOfTriangle.enumerated(){
             for triangleX in arrangement{
                 let random:Double = Double.random(in:1...100)
                 if random <= probabilityOfStageLayout.ofTriangles{
-                    var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: true )
-                    triangleModel.delegate = self
+                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOn )
                     stageTriangles.append(triangleModel)
                 }else{
-                    var triangleModel = TriangleViewModel(x: triangleX, y: triangleY, isOn: false )
-                    triangleModel.delegate = self
+                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff )
                     stageTriangles.append(triangleModel)
                 }
             }
         }
     }
+    ///線を引くビューのセットアップ
     func setStageLines(){
          let lines = stageLineArrangement.map{
             TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
@@ -63,21 +68,34 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
         }
         stageLines.append(contentsOf: lines)
     }
+    ///ドラッグするItemのビューのセットアップ
+    func setDragItems(){
+        let random:Double = Double.random(in:1...100)
+        if random <= probabilityOfStageLayout.ofDragItems{
+            let dragItemModel = DragItemModel(type: .fillOneTriangle, isRotated: false)
+            stageDragItems.append(dragItemModel)
+        }
+    }
     
-    func deleteTrianglesAction(index:Int,count:Int,action:ActionOfShape) {
+    //ステージを書き換えるアクション
+    //Triangleのアクション
+    ///実際にTriangleを消去する操作を行う
+   private func deleteTrianglesAction(index:Int,count:Int,action:ActionOfShape) {
         switch action{
         case .normal:
+            DispatchQueue.main.async {
+                self.stageTriangles[index].status = .isDisappearing
+            }
             let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
             DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-                self?.stageTriangles[index].isOn = false
+                self?.stageTriangles[index].status = .isOff
                 self?.deleteTriangleCounter += 1
             }
         }
     }
     
-    
-    
-    func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape){
+    ///Triangleの消去の順番を求めて、deleteTriangleActionを呼び出す
+   private func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape){
    //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var willSearch:Set<ModelCoordinate> = []
         var counter = 0
@@ -100,7 +118,7 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
                     continue
                 }
                 //Onだった場合は次探索する予定の配列に加える
-                if stageTriangles[index].isOn{
+                if stageTriangles[index].status == .isOn{
                     deleteTrianglesAction(index: index, count: counter, action: action)
                     let nextSet = getNextCoordinates(coordinate: searchingNow)
                     willSearch.formUnion(nextSet)
@@ -114,10 +132,21 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
         }
     }
     
+    ///Triangleのステータスを参照し、アクションを実行するか判断する
+    ///statusがisOnだった場合はdeleteTrianglesを呼び出す
+    func deleteTrianglesInput(index:Int){
+        guard stageTriangles[index].status == .isOn else{ return }
+        
+        let coordinate = stageTriangles[index].modelCoordinate
+        DispatchQueue.global().async{ [weak self] in
+            self?.deleteTriangles(coordinate: coordinate,action:.normal)
+        }
+    }
+    
+    ///Triangleの座標で検索を行い、ステージ配列のインデックスを取得する
     func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{
         stageTriangles.firstIndex{ $0.modelCoordinate == coordinate }
     }
-    
     ///ステージ内の隣接した座標を取得する
     func getNextCoordinates(coordinate:ModelCoordinate) -> Set<ModelCoordinate>{
         //隣接する座標を取得する
@@ -144,76 +173,10 @@ class StageModel:ObservableObject,TriangleViewModelDelegate{
 //
         return nextInStage
     }
-}
-
-final class DeleteTriangles:StageModel{
-    var willSearch:Set<ModelCoordinate> = []
-    var counter = 0
-    var didSearched:Set<ModelCoordinate> = []
-    func makeScheduleForDelete(coordinate:ModelCoordinate){
-        willSearch.insert(coordinate)
-        while !willSearch.isEmpty{
-            let searching = willSearch
-            for searching in searching {
-                if let index = getIndexOfStageTriangles(coordinate: searching){
-                    if stageTriangles[index].isOn{
-                        
-                    }
-                    
-                }
-            }
-        }
+    
+    //DragItemsのアクション
+    func rotateDragItems(index:Int){
+        stageDragItems[index].isRotated.toggle()
     }
+    
 }
-
-
-//    ///ステージの書き換えを行う
-//    func delete(coordinate:TriCoordinate){
-//        guard let scheduledForDelete:[(index:Int,count:Int)] = getscheduledForDelete(coordinate) else{
-//            print("範囲外エラー")
-//            return
-//        }
-//        guard !scheduledForDelete.isEmpty else{return}
-//
-//        for schedule in scheduledForDelete {
-//            let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( schedule.count * 300 )
-//            DispatchQueue.main.asyncAfter(deadline: timeCount){ [self] in
-//                stageTriangles[schedule.index].isOn = false
-//        }
-//        }
-//    }
-//    ///座標を受け取り(ステージの配列のindex、処理する順番)の配列を返す
-//    func getscheduledForDelete(_ coordinate: TriCoordinate) -> [(index:Int,count:Int)]?{
-//        //取得した座標がステージの範囲外だった場合はエラーを返す
-//        guard let index = getIndexOfStage(coordinate) else{return nil}
-//        //判定開始の座標がOn出なかった場合は空配列を返す
-//        guard stageTriangles[index].isOn == true else{return []}
-//        //検索予定の配列を定義、判定開始地点の座標を探索予定の座標にセット
-//        var indexesWillSearch:[Int] = [index]
-//        //判定済みの座標、探索中の座標、カウンターを作成
-//        var indexesAreTurnedOff:[(index:Int,count:Int)] = []
-//        var searchingIndexes:[Int] = []
-//        var counter = 0
-//
-//        while !indexesWillSearch.isEmpty{
-//            //探索予定の座標を探索中の座標にセット
-//            searchingIndexes = indexesWillSearch
-//            for searching in searchingIndexes{
-//                //隣接する座標からOnになっている座標を取得
-//                var nextIndexIsOn = getNextIndex(searching).filter{ index in
-//                    stageTriangles[index].isOn  == true }
-//                //隣接座標の中から既に判定済みの座標を取り除いた配列を作成
-//                removeFromArray(from: &nextIndexIsOn, at: indexesAreTurnedOff.map{$0.index})
-//                //配列の更新を行う
-//                indexesWillSearch.append(contentsOf: nextIndexIsOn)
-//                indexesAreTurnedOff.append((index:searching,count:counter))
-//                indexesWillSearch.remove(at: indexesWillSearch.firstIndex(of: searching)!)
-//            }
-//            counter += 1
-//        }
-//
-//        print(indexesAreTurnedOff)
-//
-//        return indexesAreTurnedOff
-//    }
-//

@@ -10,52 +10,34 @@ import SwiftUI
 ///トライアングルViewのモデルデータ
 struct TriangleViewModel:Identifiable{
     
-    init(x:Int,y:Int,isOn:Bool){
+    init(x:Int,y:Int,status:TriangleStatus){
         modelCoordinate = ModelCoordinate(x: x, y: y)
-        self.isOn = isOn
+        self.status = status
     }
 
-    
     var modelCoordinate:ModelCoordinate
-    var isOn:Bool
-    //強参照を避けるため、weak varで宣言
-    //ステージモデルの初期化時にTriangleViewModelのインスタンスの生成とdelegateの設定がされるため、
-    weak var delegate:StageModel?
-    
-    ///消去するプロセスを呼ぶ
-    ///自身の持つisOnプロパティがfalseだった場合は何もしない
-    func deleteTriangles(){
-        guard self.isOn == true else{ return }
-        guard let delegate = delegate else {
-            print("Error:デリゲートが設定されていません")
-            return
-        }
-        DispatchQueue.global().async{
-            delegate.deleteTriangles(coordinate: self.modelCoordinate,action:.normal)
-        }
-    }
-    
+    var status:TriangleStatus
+
     var action:ActionOfShape = .normal
     var id = UUID()
-    
-    var nextModelCoordinates:[(x:Int,y:Int)]{
-        var nextCoordinates:[(x:Int,y:Int)] = []
+    ///隣接するTriangleのModelCoordinateの座標を取得
+    var nextModelCoordinates:[ModelCoordinate]{
+        var nextCoordinates:[ModelCoordinate] = []
         let remainder = modelCoordinate.x % 2
         if remainder == 0{
             nextCoordinates.append(contentsOf: [
-                (modelCoordinate.x-1, modelCoordinate.y),
-                (modelCoordinate.x+1, modelCoordinate.y-1),
-                (modelCoordinate.x+1, modelCoordinate.y),])
+                ModelCoordinate(x:modelCoordinate.x-1, y:modelCoordinate.y),
+                ModelCoordinate(x:modelCoordinate.x+1, y:modelCoordinate.y-1),
+                ModelCoordinate(x:modelCoordinate.x+1, y:modelCoordinate.y),])
         }else{
             nextCoordinates.append(contentsOf: [
-                (modelCoordinate.x-1, modelCoordinate.y),
-                (modelCoordinate.x+1, modelCoordinate.y),
-                (modelCoordinate.x-1, modelCoordinate.y+1),])
+                ModelCoordinate(x:modelCoordinate.x-1, y:modelCoordinate.y),
+                ModelCoordinate(x:modelCoordinate.x+1, y:modelCoordinate.y),
+                ModelCoordinate(x:modelCoordinate.x-1, y:modelCoordinate.y+1),])
         }
         return nextCoordinates
     }
     
-     
     ///対応する頂点の座標系
     var vertexCoordinate:[TriVertexCoordinate]{
         let returnCoordinates:[TriVertexCoordinate]
@@ -90,17 +72,18 @@ struct TriangleViewModel:Identifiable{
     }
 }
 
+enum ActionOfShape{
+    case normal
+}
+
+enum TriangleStatus{
+    case isOn
+    case isDisappearing
+    case isOff
+}
 ///座標、中心部分を使ってステージの中の位置を表す
 struct ModelCoordinate:Hashable{
     var x:Int
     var y:Int
 }
 
-protocol TriangleViewModelDelegate{
-    typealias Coordinate = (x: Int,y: Int)
-    func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape)
-}
-
-enum ActionOfShape{
-    case normal
-}

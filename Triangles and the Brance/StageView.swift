@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct StageView: View {
-    @ObservedObject private var stage = StageModel()
-    
+    @EnvironmentObject var stage:StageModel
+
     var body: some View {
-        GeometryReader{ geometory in
-            VStack {
-                ZStack{
+        
+        VStack {
+            ZStack{
+                GeometryReader{ geometory in
+                    
                     //背景
                     HexagonBackground(length: geometory.size.width/7)
                     //背景の線部分
@@ -21,39 +23,38 @@ struct StageView: View {
                         DrawTriLine(line: line, scale: geometory.size.width/7)
                             .stroke(Color.heavyRed, lineWidth: 1)
                     }
-                   
-                    ForEach($stage.stageTriangles){ $item in
-                        
-                        TriangleView(triangle: $item, scale: geometory.size.width/7)
-                        
-                    }
-                    ForEach($stage.stageTriangles){ $item in
-
-                        TriangleViewFrame(triangle: $item,  scale: geometory.size.width/7)
-
-                    }
                     
+                    ForEach(stage.stageTriangles){ triangles in
+                        
+                        TriangleView(coordinate: triangles.modelCoordinate,scale: geometory.size.width/7)
+                        
+                    }
+                    ForEach($stage.stageTriangles){ $item in
+                        
+                        TriangleViewFrame(triangle: $item,  scale: geometory.size.width/7)
+                        
+                    }
                 }
                 
-                ScrollView {
-                    HStack {
-                        Circle()
-                            .foregroundColor(stage.currentColor.color)
-                            .frame(width: geometory.size.height/12, height: geometory.size.height/12, alignment: .leading)
-                            .padding(.leading,50)
-                        Button("リセット"){
-                            stage.stageTriangles.indices.forEach{ index in
-                                stage.stageTriangles[index].isOn = true
-                            }
-                        }
+            }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width*3/4)
+            .padding(.vertical)
+            
+            HStack {
+                GeometryReader{ geometory in
+                    ForEach(stage.stageDragItems){ item in
+                        DragItemView(size: geometory.size.height, id: item.id)
+                            
                     }
-                    .frame(width: geometory.size.width, height: geometory.size.height/10, alignment: .leading)
-                    
                 }
             }
+            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/14)
+            .padding(.vertical)
+            
         }
     }
 }
+
 
 struct HexagonBackground:View{
     let length:CGFloat
@@ -84,6 +85,7 @@ struct HexagonBackground:View{
 struct StageView_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
+            .environmentObject(StageModel.setUp)
     }
 }
 
