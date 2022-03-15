@@ -13,10 +13,12 @@ struct TriangleViewModel:Identifiable{
     init(x:Int,y:Int,status:TriangleStatus){
         modelCoordinate = ModelCoordinate(x: x, y: y)
         self.status = status
+        
     }
     
     ///当たり判定、Viewの読み込み時に設定され、ドラッグ&ドロップのドロップ時の判定に使用される
-    var hitBox:CGRect!
+    var hitBox:CGRect?
+    
     var modelCoordinate:ModelCoordinate
     var status:TriangleStatus
     var action:ActionOfShape = .normal
@@ -72,6 +74,7 @@ struct TriangleViewModel:Identifiable{
         return coordinates
     }
 }
+
 
 enum ActionOfShape{
     case normal

@@ -29,11 +29,6 @@ struct StageView: View {
                         TriangleView(coordinate: triangles.modelCoordinate,scale: geometory.size.width/7)
                         
                     }
-                    ForEach($stage.stageTriangles){ $item in
-                        
-                        TriangleViewFrame(triangle: $item,  scale: geometory.size.width/7)
-                        
-                    }
                 }
                 
             }
