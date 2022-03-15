@@ -10,7 +10,7 @@ import SwiftUI
 struct DragItemView: View {
     @EnvironmentObject var stage:StageModel
     @State var isDragging = false
-    @State var posision:CGPoint
+//    @State var posision:CGPoint
     let size:CGFloat
     let id:UUID
     var index:Int{
@@ -26,10 +26,10 @@ struct DragItemView: View {
     
     var drag: some Gesture {
         DragGesture()
-            .onChanged { gesture in
-                self.posision = gesture.
-                self.isDragging = true
-            }
+//            .onChanged { gesture in
+//                self.posision = gesture.
+//                self.isDragging = true
+//            }
             .onEnded { _ in self.isDragging = false }
         
     }
@@ -41,9 +41,9 @@ struct DragItemView: View {
             .frame(width: size, height: size*sqrt(3)/2, alignment: .leading)
             .rotationEffect(rotate)
             .animation(.default, value: rotate)
-            .onDrag{
-                NSItemProvider(object: stage.stageDragItems[index].type
-            }
+//            .onDrag{
+//                NSItemProvider(object: stage.stageDragItems[index].type
+//            }
 //            .position(x: posision.x, y: posision.y)
             
             .padding(.horizontal, 50)

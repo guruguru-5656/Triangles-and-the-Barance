@@ -53,7 +53,19 @@ struct TriangleView:View{
             .animation(.easeIn(duration: 0.5), value: opacity)
             .onTapGesture {
                 stage.deleteTrianglesInput(index: index)
+              
             }
+            .overlay{
+                GeometryReader{ geometry -> Color in
+                    //ドラッグ&ドロップを実現するために範囲を読み取る
+                    //geometryReaderで読み取るためにoverlayで読み取り用のレイヤーを追加
+                    //読み取った範囲をStageViewModelの変数に格納
+                    let frame = geometry.frame(in: .named(coordinate))
+                    stage.setFrameOfTriangle(coordinate: coordinate, frame: frame)
+                    return Color.clear
+                }
+            }
+        
     }
 }
 
@@ -63,7 +75,7 @@ struct TriangleViewFrame:View{
     var scale:CGFloat
     
     //Viewにアニメーションをつけるプロパティ
-    var offset: CGFloat{
+    var frameOffset: CGFloat{
         switch triangle.status{
             
         case .isOn:
@@ -75,7 +87,7 @@ struct TriangleViewFrame:View{
         }
     }
     
-    var opacity:Double{
+    var frameOpacity:Double{
         switch triangle.status{
             
         case .isOn:
@@ -88,11 +100,11 @@ struct TriangleViewFrame:View{
     }
     
     var body:some View{
-        DrawTriShape(in: triangle.vertexCoordinate, scale: scale, offset:offset)
+        DrawTriShape(in: triangle.vertexCoordinate, scale: scale, offset:frameOffset)
             .stroke(Color.heavyRed, lineWidth: 2)
-            .animation(.easeOut(duration: 0.5), value: offset)
-            .opacity(opacity)
-            .animation(.easeOut(duration: 0.5), value: opacity)
+            .animation(.easeOut(duration: 0.5), value: frameOffset)
+            .opacity(frameOpacity)
+            .animation(.easeOut(duration: 0.5), value: frameOpacity)
             
     }
     

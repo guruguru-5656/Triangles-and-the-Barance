@@ -14,10 +14,11 @@ struct TriangleViewModel:Identifiable{
         modelCoordinate = ModelCoordinate(x: x, y: y)
         self.status = status
     }
-
+    
+    ///当たり判定、Viewの読み込み時に設定され、ドラッグ&ドロップのドロップ時の判定に使用される
+    var hitBox:CGRect!
     var modelCoordinate:ModelCoordinate
     var status:TriangleStatus
-
     var action:ActionOfShape = .normal
     var id = UUID()
     ///隣接するTriangleのModelCoordinateの座標を取得

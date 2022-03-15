@@ -10,8 +10,8 @@ import SwiftUI
 
 class StageModel:ObservableObject{
     
-    @Published var stageTriangles: [TriangleViewModel] = []
     @Published var currentColor = MyColor()
+    @Published var stageTriangles: [TriangleViewModel] = []
     @Published var deleteTriangleCounter = 0
     @Published var stageDragItems:[DragItemModel] = []
     ///外側の配列がY軸、内側の配列がX軸を表す
@@ -30,6 +30,15 @@ class StageModel:ObservableObject{
         ((3,0),(-1,4)), ((4,0),(-1,5)), ((5,0),(-1,6)), ((5,1),(0,6)), ((5,2),(1,6))
     ]
     var stageLines:[TriLine] = []
+   
+    ///TriangleViewの当たり判定を設定する、
+    func setFrameOfTriangle(coordinate:ModelCoordinate,frame:CGRect){
+        let index = getIndexOfStageTriangles(coordinate: coordinate)
+        guard let index = index else {
+            return
+        }
+        stageTriangles[index].hitBox = frame
+    }
     
     //ステージの生成時の確率をまとめたクラス
     private var probabilityOfStageLayout = ProbabilityOfStageLayout()
@@ -180,3 +189,4 @@ class StageModel:ObservableObject{
     }
     
 }
+
