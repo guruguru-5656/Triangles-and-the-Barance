@@ -27,7 +27,9 @@ struct TriangleView:View{
         case .isDisappearing:
            return 0.95
         case .isOff:
-           return 1.1
+            return 0.3
+        case .isDisappear:
+            return 1.1
         }
     }
     var opacity:Double{
@@ -37,7 +39,9 @@ struct TriangleView:View{
         case .isDisappearing:
            return 1
         case .isOff:
-           return 0
+            return 0
+        case .isDisappear:
+            return 0
         }
     }
     var frameOffset: CGFloat{
@@ -47,26 +51,19 @@ struct TriangleView:View{
         case .isDisappearing:
             return 0.95
         case .isOff:
+            return 0.6
+        case .isDisappear:
             return 1.6
         }
     }
-    var frameOpacity:Double{
-        switch stage.stageTriangles[index].status{
-        case .isOn:
-           return 1
-        case .isDisappearing:
-          return  1
-        case .isOff:
-          return  0
-        }
-    }
+   
     ///フレーム部分の描画
     var frameOfTriangle:some View{
         DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate, scale: scale, offset:frameOffset)
             .stroke(Color.heavyRed, lineWidth: 2)
             .animation(.easeOut(duration: 0.5), value: frameOffset)
-            .opacity(frameOpacity)
-            .animation(.easeOut(duration: 0.5), value: frameOpacity)
+            .opacity(opacity)
+            .animation(.easeOut(duration: 0.5), value: opacity)
             
     }
     
@@ -81,16 +78,14 @@ struct TriangleView:View{
                 .opacity(opacity)
                 .animation(.easeIn(duration: 0.5), value: opacity)
                 .overlay(frameOfTriangle)
-            
+                .contentShape(DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate ,scale: scale, offset: 1))
                 .onTapGesture {
+                    if stage.selectedItem == nil{
                     stage.deleteTrianglesInput(index: index)
+                    }
                 }
         }
-//
-//        }
-//        .onPreferenceChange(TrianglePreferenceKey.self){ newHitBox in
-//            stage.stageTriangles[index].hitBox = newHitBox
-//        }
+        
     }
 }
 
@@ -102,47 +97,3 @@ struct TrianglePreferenceKey: PreferenceKey {
         value = nextValue()
     }
 }
-
-//
-/////アニメーション、アクション、描画を設定をする構造体のフレーム部分
-//struct TriangleViewFrame:View{
-//    @Binding var triangle:TriangleViewModel
-//    var scale:CGFloat
-//
-//    //フレームのViewにアニメーションをつけるプロパティ
-//    var frameOffset: CGFloat{
-//        switch triangle.status{
-//
-//        case .isOn:
-//            return 0.95
-//        case .isDisappearing:
-//            return 0.95
-//        case .isOff:
-//            return 1.6
-//        }
-//    }
-//
-//    var frameOpacity:Double{
-//        switch triangle.status{
-//
-//        case .isOn:
-//           return 1
-//        case .isDisappearing:
-//          return  1
-//        case .isOff:
-//          return  0
-//        }
-//    }
-//
-//    var body:some View{
-//        DrawTriShape(in: triangle.vertexCoordinate, scale: scale, offset:frameOffset)
-//            .stroke(Color.heavyRed, lineWidth: 2)
-//            .animation(.easeOut(duration: 0.5), value: frameOffset)
-//            .opacity(frameOpacity)
-//            .animation(.easeOut(duration: 0.5), value: frameOpacity)
-//
-//    }
-//
-//}
-//
-//

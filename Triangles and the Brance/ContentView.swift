@@ -10,8 +10,6 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var stage = StageModel.setUp
     var body: some View {
-        Text("Hello, world!")
-            .padding()
         StageView()
             .environmentObject(stage)
     }

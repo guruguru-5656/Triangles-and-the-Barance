@@ -114,6 +114,10 @@ struct DrawTriShape:Shape{
     }
 }
 
+
+
+
+
 struct DrawTriLine:Shape{
     init(line:TriLine,scale:CGFloat){
         startCoordinate = line.start

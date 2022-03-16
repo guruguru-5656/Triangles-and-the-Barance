@@ -83,6 +83,7 @@ enum ActionOfShape{
 enum TriangleStatus{
     case isOn
     case isDisappearing
+    case isDisappear
     case isOff
 }
 ///座標、中心部分を使ってステージの中の位置を表す

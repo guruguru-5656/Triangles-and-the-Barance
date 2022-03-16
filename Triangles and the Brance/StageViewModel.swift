@@ -13,7 +13,9 @@ class StageModel:ObservableObject{
     @Published var currentColor = MyColor()
     @Published var stageTriangles: [TriangleViewModel] = []
     @Published var deleteTriangleCounter = 0
-    @Published var stageDragItems:[DragItemModel] = []
+    @Published var stageActionItems:[ActionItemModel] = []
+    @Published var selectedItem:ActionItemModel?
+    
     ///外側の配列がY軸、内側の配列がX軸を表す
     private var arrangementOfTriangle: [[Int]] = [
         [Int](3...9),
@@ -49,7 +51,7 @@ class StageModel:ObservableObject{
         //初期化時にステージの構造を生成
         setStageTriangles()
         setStageLines()
-        setDragItems()
+        setStageActionItems()
         deleteTriangleCounter = 0
     }
     
@@ -77,15 +79,11 @@ class StageModel:ObservableObject{
         }
         stageLines.append(contentsOf: lines)
     }
-    ///ドラッグするItemのビューのセットアップ
-    func setDragItems(){
-        let random:Double = Double.random(in:1...100)
-        if random <= probabilityOfStageLayout.ofDragItems{
-            let dragItemModel = DragItemModel(type: .fillOneTriangle, isRotated: false)
-            stageDragItems.append(dragItemModel)
-        }
-    }
     
+    func setStageActionItems(){
+        stageActionItems.append(contentsOf: [ActionItemModel(type: .fillOneTriangle)])
+    }
+  
     //ステージを書き換えるアクション
     //Triangleのアクション
     ///実際にTriangleを消去する操作を行う
@@ -97,8 +95,12 @@ class StageModel:ObservableObject{
             }
             let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
             DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-                self?.stageTriangles[index].status = .isOff
+                self?.stageTriangles[index].status = .isDisappear
                 self?.deleteTriangleCounter += 1
+                let bufferTime = DispatchTime.now() + DispatchTimeInterval.milliseconds( 500)
+                DispatchQueue.main.asyncAfter(deadline: bufferTime){ [weak self] in
+                    self?.stageTriangles[index].status = .isOff
+                }
             }
         }
     }
@@ -144,11 +146,15 @@ class StageModel:ObservableObject{
     ///Triangleのステータスを参照し、アクションを実行するか判断する
     ///statusがisOnだった場合はdeleteTrianglesを呼び出す
     func deleteTrianglesInput(index:Int){
-        guard stageTriangles[index].status == .isOn else{ return }
-        
-        let coordinate = stageTriangles[index].modelCoordinate
-        DispatchQueue.global().async{ [weak self] in
-            self?.deleteTriangles(coordinate: coordinate,action:.normal)
+        if stageTriangles[index].status == .isOn{
+            let coordinate = stageTriangles[index].modelCoordinate
+            DispatchQueue.global().async{ [weak self] in
+                self?.deleteTriangles(coordinate: coordinate,action:.normal)
+            }
+        }
+        if stageTriangles[index].status == .isOff{
+            stageTriangles[index].status = .isOn
+            print(stageTriangles[index].status)
         }
     }
     
@@ -181,11 +187,6 @@ class StageModel:ObservableObject{
         }
 //
         return nextInStage
-    }
-    
-    //DragItemsのアクション
-    func rotateDragItems(index:Int){
-        stageDragItems[index].isRotated.toggle()
     }
     
 }

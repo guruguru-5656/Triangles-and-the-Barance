@@ -13,40 +13,50 @@ struct StageView: View {
     var body: some View {
         
         VStack {
-            ZStack{
-                GeometryReader{ geometory in
-                    
-                    //背景
-                    HexagonBackground(length: geometory.size.width/7)
-                    //背景の線部分
-                    ForEach(stage.stageLines){ line in
-                        DrawTriLine(line: line, scale: geometory.size.width/7)
-                            .stroke(Color.heavyRed, lineWidth: 1)
-                    }
-                    
-                    ForEach(stage.stageTriangles){ triangles in
-                        
-                        TriangleView(coordinate: triangles.modelCoordinate,scale: geometory.size.width/7)
-                        
-                    }
-                }
-                
-            }
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width*3/4)
-            .padding(.vertical)
+            ProgressView(value: /*@START_MENU_TOKEN@*/0.5/*@END_MENU_TOKEN@*/)
+                .tint(.heavyRed)
+                .frame(width: UIScreen.main.bounds.width, height: 30, alignment: .center)
+                .padding(.vertical, 60)
+    
+            VStack {
             
-            HStack {
-                GeometryReader{ geometory in
-                    ForEach(stage.stageDragItems){ item in
-                        DragItemView(size: geometory.size.height, id: item.id)
+                ZStack{
+                    GeometryReader{ geometory in
+                        
+                        //背景
+                        HexagonBackground(length: geometory.size.width/7)
+                        //背景の線部分
+                        ForEach(stage.stageLines){ line in
+                            DrawTriLine(line: line, scale: geometory.size.width/7)
+                                .stroke(Color.heavyRed, lineWidth: 1)
+                        }
+                        
+                        ForEach(stage.stageTriangles){ triangles in
                             
+                            TriangleView(coordinate: triangles.modelCoordinate,scale: geometory.size.width/7)
+                            
+                        }
                     }
+                    
                 }
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width*3/4)
+                .padding(.vertical, 10)
+     
+                HStack(alignment:.center){
+                    GeometryReader{ geometry in
+                        ForEach(stage.stageActionItems){ item in
+                            ActionItemView(item: item,size:geometry.size.height)
+                        }
+                    }
+                    
+                }
+                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/12,alignment: .center)
+                .padding(.top, 10)
+                
+                .background(Color.lightGray)
             }
-            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/14)
-            .padding(.vertical)
-            
         }
+        Spacer()
     }
 }
 

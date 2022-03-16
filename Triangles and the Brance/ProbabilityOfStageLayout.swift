@@ -12,7 +12,7 @@ class ProbabilityOfStageLayout{
       
         
     }
-    var ofTriangles:Double = 30
+    var ofTriangles:Double = 40
     var ofDragItems:Double = 100
 }
 
