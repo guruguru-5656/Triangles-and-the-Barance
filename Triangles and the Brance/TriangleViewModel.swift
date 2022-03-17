@@ -8,20 +8,21 @@
 import SwiftUI
 
 ///トライアングルViewのモデルデータ
-struct TriangleViewModel:Identifiable{
+ class TriangleViewModel:Identifiable,ObservableObject{
     
     init(x:Int,y:Int,status:TriangleStatus){
         modelCoordinate = ModelCoordinate(x: x, y: y)
         self.status = status
         
     }
-    
-    ///当たり判定、Viewの読み込み時に設定され、ドラッグ&ドロップのドロップ時の判定に使用される
-    var hitBox:CGRect?
-    
-    var modelCoordinate:ModelCoordinate
-    var status:TriangleStatus
-    var action:ActionType = .normal
+     @Published var modelCoordinate:ModelCoordinate
+     @Published var status:TriangleStatus
+     @Published var action:ActionType = .normal
+
+     private weak var stage:StageModel?
+     var index:Int{
+         (stage?.stageTriangles.firstIndex{ $0.id == self.id })!
+     }
     var id = UUID()
     ///隣接するTriangleのModelCoordinateの座標を取得
     var nextModelCoordinates:[ModelCoordinate]{
@@ -74,29 +75,7 @@ struct TriangleViewModel:Identifiable{
         return returnCoordinates
     }
     
-    static func getMidleOfVertexPoints(coordinate:ModelCoordinate) -> [CGPoint]{
-        let returnPoints:[CGPoint]
-        let X = Double(coordinate.x)
-        let Y = Double(coordinate.y)
-        
-        let remainder = coordinate.x % 2
-        if remainder == 0{
-            returnPoints = [
-                CGPoint(x:(1 + X + Y)/2,
-                        y:Y*sqrt(3)/2),
-                CGPoint(x: (1 + X*2 + Y*2)/4,
-                        y: (Y + 1/2) * sqrt(3)/2),
-                CGPoint(x: (3 + X*2 + Y*2)/4,
-                        y: (Y + 1/2) * sqrt(3)/2)
-            ]
-        }else{
-            returnPoints = [
-                CGPoint(x:CGFloat( 1+coordinate.x+coordinate.y )/2,y:CGFloat(coordinate.y+coordinate.y*2)*sqrt(3)/2),
-            
-            ]
-        }
-        return returnPoints
-    }
+    
 }
 
 

@@ -29,7 +29,7 @@ struct TriVertexCoordinate:Hashable{
     func getDrowPoint() -> CGPoint{
         let X = Double(vertexX)
         let Y = Double(vertexY)
-        return CGPoint(x: X + Y/2, y: Y * sqrt(3)/2 )
+        return CGPoint(x: X + Y/2-1/2, y: Y * sqrt(3)/2-1/(2*sqrt(3)) )
     }
     
     func getCenterDrawPoint(){

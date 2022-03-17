@@ -32,15 +32,6 @@ class StageModel:ObservableObject{
         ((3,0),(-1,4)), ((4,0),(-1,5)), ((5,0),(-1,6)), ((5,1),(0,6)), ((5,2),(1,6))
     ]
     var stageLines:[TriLine] = []
-   
-    ///TriangleViewの当たり判定を設定する、
-    func setFrameOfTriangle(coordinate:ModelCoordinate,frame:CGRect){
-        let index = getIndexOfStageTriangles(coordinate: coordinate)
-        guard let index = index else {
-            return
-        }
-        stageTriangles[index].hitBox = frame
-    }
     
     //ステージの生成時の確率をまとめたクラス
     private var probabilityOfStageLayout = ProbabilityOfStageLayout()

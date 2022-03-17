@@ -31,16 +31,16 @@ struct StageView: View {
                                 .stroke(Color.heavyRed, lineWidth: 1)
                         }
                         
-                        ForEach(stage.stageTriangles){ triangles in
-                            
-                            TriangleView(coordinate: triangles.modelCoordinate, scale: geometory.size.width/7)
+                        ForEach($stage.stageTriangles){ $triangles in
+                            TriangleFromCenterView(model: triangles, size: geometory.size.width/7)
+//                            TriangleView(coordinate: triangles.modelCoordinate, scale: geometory.size.width/7)
                             
                         }
-                    }
+                    }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+                        .padding(.vertical, 10)
                     
                 }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width*3/4)
-                .padding(.vertical, 10)
+                
      
                 HStack(alignment:.center){
                     GeometryReader{ geometry in
