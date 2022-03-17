@@ -67,4 +67,12 @@ extension TriShapeData{
         return lines
     }
 }
-
+//
+//struct DrawTriangleFromCenterPoint:Shape{
+//    let centerPoint:CGPoint
+//    func path(in rect: CGRect) -> Path {
+//        <#code#>
+//    }
+//    
+//    let centerPoint:CGPoint
+//}
