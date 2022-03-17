@@ -11,13 +11,16 @@ import SwiftUI
 ///scaleに親Viewのサイズから設定した拡大率を入力
 ///scaleを変更すると拡大率とともに位置がずれる（この構造体は親ビューの原点座標を基準として描画を行う）ため個別の拡大率offsetを設定
 struct DrawTriShape:Shape{
-    ///頂点の座標系からインスタンスを生成する
-    init(in coordinate:[TriVertexCoordinate],scale:CGFloat ,offset: CGFloat){
+    ///頂点の座標系からインスタンスを生成する、現状アクションタイプには未対応
+    init(at coordinate:[TriVertexCoordinate],scale:CGFloat ,offset: CGFloat,type: ActionType){
         self.coordinates = coordinate
         self.scale = scale
         self.offset = offset
+        self.type = type
         //描画用の頂点座標の設定
         self.vertexPoints = getVertexPoint(coordinates: self.coordinates)
+        //アクション追加時の描画用の頂点座標
+        self.avaragePoint = getTriforcePoint(coordinates: self.coordinates)
         //中心点の設定
         self.centerPoint = getCenterPoint(vertex: vertexPoints)
         //補正値を計算し、描画用の値をセットする
@@ -30,12 +33,17 @@ struct DrawTriShape:Shape{
     }
     
     ///中央の座標系からインスタンスを生成する
-    init(in coordinate:(x:Int,y:Int),scale:CGFloat ,offset: CGFloat){
-        self.coordinates = TriangleViewModel.getVertexCoordinate(x: coordinate.x, y: coordinate.y)
+    init(at coordinate:ModelCoordinate, scale:CGFloat, offset: CGFloat, type:ActionType){
+        
+        self.coordinates = TriangleViewModel.getVertexCoordinate(coordinate:coordinate)
+        
         self.scale = scale
         self.offset = offset
+        self.type = type
         //描画用の頂点座標の設定
         self.vertexPoints = getVertexPoint(coordinates: self.coordinates)
+        //アクション追加時の描画用の頂点座標
+        self.avaragePoint = getTriforcePoint(coordinates: self.coordinates)
         //中心点の設定
         self.centerPoint = getCenterPoint(vertex: vertexPoints)
         //補正値を計算し、描画用の値をセットする
@@ -47,11 +55,17 @@ struct DrawTriShape:Shape{
         setDrawPath()
     }
     
+    func path(in rect: CGRect) -> Path {
+        Path{ path in
+                path.addPath(transformedPath)
+        }
+    }
     
     //初期値
     let coordinates:[TriVertexCoordinate]
     let scale:CGFloat
     var offset: CGFloat
+    let type:ActionType
     //頂点のポイントと中央のポイント
     private var vertexPoints:[CGPoint] = []
     private var centerPoint:CGPoint!
@@ -71,10 +85,24 @@ struct DrawTriShape:Shape{
         }
     }
     
-    func path(in rect: CGRect) -> Path {
-        Path{ path in
-            path.addPath(transformedPath)
-        }
+    
+    //アクションが追加された時用のPath
+    var avaragePoint:[CGPoint] = []
+    func getTriforcePoint(coordinates:[TriVertexCoordinate]) -> [CGPoint]{
+        let avaragePoint = [CGPoint(x:(coordinates[0].getDrowPoint().x
+                                       + coordinates[1].getDrowPoint().x)/2 * scale,
+                                    y:(coordinates[0].getDrowPoint().y
+                                       + coordinates[1].getDrowPoint().y)/2 * scale),
+                            CGPoint(x:(coordinates[1].getDrowPoint().x
+                                       + coordinates[2].getDrowPoint().x)/2 * scale,
+                                    y:(coordinates[1].getDrowPoint().y
+                                       + coordinates[2].getDrowPoint().y)/2 * scale),
+                            CGPoint(x:(coordinates[2].getDrowPoint().x
+                                       + coordinates[0].getDrowPoint().x)/2 * scale,
+                                    y:(coordinates[2].getDrowPoint().y
+                                       + coordinates[0].getDrowPoint().y)/2 * scale),
+        ]
+        return avaragePoint
     }
     
     private func getVertexPoint(coordinates:[TriVertexCoordinate]) -> [CGPoint]{
@@ -104,13 +132,27 @@ struct DrawTriShape:Shape{
     }
     
     private mutating func setDrawPath(){
-        if let transform = collectionValue{
-            transformedPath = Path{ path in
-                path.addPath(originalPath, transform: transform)
+        switch type{
+        case .normal:
+            if let transform = collectionValue{
+                transformedPath = Path{ path in
+                    path.addPath(originalPath, transform: transform)
+                }
+            }else{
+                transformedPath = originalPath
             }
-        }else{
-            transformedPath = originalPath
+            
+            //アクション追加時用の描画
+        case .triforce:
+            if let transform = collectionValue{
+                transformedPath = Path{ path in
+                    path.addPath(originalPath, transform: transform)
+                }
+            }else{
+                transformedPath = originalPath
+            }
         }
+        
     }
 }
 
@@ -141,3 +183,5 @@ struct DrawTriLine:Shape{
         return path
     }
 }
+
+

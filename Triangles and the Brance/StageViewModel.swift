@@ -81,13 +81,13 @@ class StageModel:ObservableObject{
     }
     
     func setStageActionItems(){
-        stageActionItems.append(contentsOf: [ActionItemModel(type: .fillOneTriangle)])
+        stageActionItems.append(contentsOf: [ActionItemModel(type: .triforce)])
     }
   
     //ステージを書き換えるアクション
     //Triangleのアクション
     ///実際にTriangleを消去する操作を行う
-   private func deleteTrianglesAction(index:Int,count:Int,action:ActionOfShape) {
+   private func deleteTrianglesAction(index:Int,count:Int,action:ActionType) {
         switch action{
         case .normal:
             DispatchQueue.main.async {
@@ -95,18 +95,16 @@ class StageModel:ObservableObject{
             }
             let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
             DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-                self?.stageTriangles[index].status = .isDisappear
+                self?.stageTriangles[index].status = .isOff
                 self?.deleteTriangleCounter += 1
-                let bufferTime = DispatchTime.now() + DispatchTimeInterval.milliseconds( 500)
-                DispatchQueue.main.asyncAfter(deadline: bufferTime){ [weak self] in
-                    self?.stageTriangles[index].status = .isOff
-                }
             }
+        case .triforce:
+            return
         }
-    }
+   }
     
     ///Triangleの消去の順番を求めて、deleteTriangleActionを呼び出す
-   private func deleteTriangles(coordinate:ModelCoordinate,action:ActionOfShape){
+   private func deleteTriangles(coordinate:ModelCoordinate,action:ActionType){
    //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var willSearch:Set<ModelCoordinate> = []
         var counter = 0
@@ -122,12 +120,14 @@ class StageModel:ObservableObject{
                 if !stageTriangles.contains(where: { $0.modelCoordinate == searchingNow}) {
                     continue
                 }
-                
+                //インデックスの取得チェック
                 guard let index = getIndexOfStageTriangles(coordinate: searchingNow)
                 else{
                     print("ステージ内のインデックスエラー")
                     continue
                 }
+                
+                
                 //Onだった場合は次探索する予定の配列に加える
                 if stageTriangles[index].status == .isOn{
                     deleteTrianglesAction(index: index, count: counter, action: action)

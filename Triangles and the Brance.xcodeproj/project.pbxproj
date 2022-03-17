@@ -26,7 +26,6 @@
 		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
 		045121BA27D43EAB00936E2C /* StageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B927D43EAB00936E2C /* StageViewModel.swift */; };
 		045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */; };
-		0458236C27E1B6A2007800AC /* DrawTriforceShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236B27E1B6A2007800AC /* DrawTriforceShape.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +56,6 @@
 		045121B927D43EAB00936E2C /* StageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageViewModel.swift; sourceTree = "<group>"; };
 		045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
-		0458236B27E1B6A2007800AC /* DrawTriforceShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriforceShape.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +82,6 @@
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
 				045121B527D21BE800936E2C /* TriangleView.swift */,
 				0426B0E627DB93FF00AC348E /* DrawTriShape.swift */,
-				0458236B27E1B6A2007800AC /* DrawTriforceShape.swift */,
 				0426B0E327DABD1A00AC348E /* TriCoordinate.swift */,
 			);
 			path = DrawShape;
@@ -242,7 +239,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0458236C27E1B6A2007800AC /* DrawTriforceShape.swift in Sources */,
 				045121BA27D43EAB00936E2C /* StageViewModel.swift in Sources */,
 				045121A427D2187600936E2C /* ContentView.swift in Sources */,
 				045121B427D21B5E00936E2C /* TriangleViewModel.swift in Sources */,

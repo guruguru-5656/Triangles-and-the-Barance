@@ -33,7 +33,7 @@ struct StageView: View {
                         
                         ForEach(stage.stageTriangles){ triangles in
                             
-                            TriangleView(coordinate: triangles.modelCoordinate,scale: geometory.size.width/7)
+                            TriangleView(coordinate: triangles.modelCoordinate, scale: geometory.size.width/7)
                             
                         }
                     }

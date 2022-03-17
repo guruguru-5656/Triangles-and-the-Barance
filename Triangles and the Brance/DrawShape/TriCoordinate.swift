@@ -32,6 +32,10 @@ struct TriVertexCoordinate:Hashable{
         return CGPoint(x: X + Y/2, y: Y * sqrt(3)/2 )
     }
     
+    func getCenterDrawPoint(){
+        
+    }
+    
 }
     
 struct TriLine:Hashable,Identifiable{

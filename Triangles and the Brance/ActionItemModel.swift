@@ -14,6 +14,6 @@ struct ActionItemModel:Identifiable{
 }
 
 enum ActionType{
-    case fillOneTriangle
-    
+    case normal
+    case triforce
 }

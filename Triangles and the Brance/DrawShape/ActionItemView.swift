@@ -13,10 +13,13 @@ struct ActionItemView: View {
     let item:ActionItemModel
     let size:CGFloat
     
-    var opacity:Double{
+    var circleScale:Double{
+        isSelected ?   1 : 2
+    }
+    var circleOpacity:Double{
         isSelected ?  1 : 0
     }
-    
+   
     var index:Int{
         return stage.stageActionItems.firstIndex{ $0.id == self.item.id }!
     }
@@ -24,15 +27,20 @@ struct ActionItemView: View {
     var body: some View {
         ZStack{
             Circle()
-                .fill(Color.white)
-                .opacity(opacity)
-                .animation(Animation.linear(duration: 0.3),value:opacity)
+                .stroke(Color.lightRed, lineWidth: 1)
                 .frame(width: size, height: size, alignment: .center)
-            
+                .scaleEffect(circleScale)
+                .animation(Animation.easeOut(duration: 0.15),value:circleScale)
+                .opacity(circleOpacity)
+                .animation(Animation.easeOut(duration: 0.15),value:circleOpacity)
           
             
             DragItemNormalShape()
             .stroke(Color.lightRed, lineWidth: 2)
+            .overlay(DragItemNormalShape()
+                        .fill(Color.white)
+                        .opacity(0.7)
+            )
             .contentShape(Circle())
             .onTapGesture{
                 if stage.selectedItem == nil{
@@ -79,13 +87,5 @@ struct DragItemNormalShape:Shape{
         path.closeSubpath()
        
         return path
-    }
-}
-
-
-struct StageView_Previe: PreviewProvider {
-    static var previews: some View {
-        StageView()
-            .environmentObject(StageModel.setUp)
     }
 }

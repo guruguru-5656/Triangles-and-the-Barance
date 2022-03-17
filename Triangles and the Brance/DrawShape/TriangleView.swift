@@ -12,12 +12,13 @@ import SwiftUI
 struct TriangleView:View{
     @EnvironmentObject var stage:StageModel
     let coordinate:ModelCoordinate
+//    let action:ActionType
     var index:Int{
         stage.stageTriangles.firstIndex{ $0.modelCoordinate == self.coordinate }!
     }
     ///拡大率のプロパティ
     var scale:CGFloat
-    
+
     
     //Viewにアニメーションをつけるプロパティ
     var offset: CGFloat{
@@ -27,8 +28,6 @@ struct TriangleView:View{
         case .isDisappearing:
            return 0.95
         case .isOff:
-            return 0.3
-        case .isDisappear:
             return 1.1
         }
     }
@@ -40,8 +39,6 @@ struct TriangleView:View{
            return 1
         case .isOff:
             return 0
-        case .isDisappear:
-            return 0
         }
     }
     var frameOffset: CGFloat{
@@ -51,39 +48,63 @@ struct TriangleView:View{
         case .isDisappearing:
             return 0.95
         case .isOff:
-            return 0.6
-        case .isDisappear:
             return 1.6
+        }
+    }
+    var duration:Double{
+        switch stage.stageTriangles[index].status{
+        case .isOn:
+            return 0.2
+        case .isDisappearing:
+            return 0.5
+        case .isOff:
+            return 0.5
         }
     }
    
     ///フレーム部分の描画
     var frameOfTriangle:some View{
-        DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate, scale: scale, offset:frameOffset)
+        DrawTriShape(at: stage.stageTriangles[index].modelCoordinate, scale: scale, offset:frameOffset,type: stage.stageTriangles[index].action)
             .stroke(Color.heavyRed, lineWidth: 2)
-            .animation(.easeOut(duration: 0.5), value: frameOffset)
+            .animation(.easeOut(duration: duration), value: frameOffset)
             .opacity(opacity)
-            .animation(.easeOut(duration: 0.5), value: opacity)
-            
+            .animation(.easeOut(duration: duration), value: opacity)
     }
+    var triforceTriangleFrame:some View{
+        DrawTriShape(at: stage.stageTriangles[index].modelCoordinate ,scale: scale, offset: offset,type: stage.stageTriangles[index].action)
+             .stroke(Color.heavyRed, lineWidth: 2)
+            .animation(.easeOut(duration: duration), value: frameOffset)
+            .opacity(opacity)
+            .animation(.easeOut(duration: duration), value: opacity)
+    }
+    
     
     var body:some View{
         GeometryReader{ geometry in
-
-        
-            DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate ,scale: scale, offset: offset)
-              
-                .animation(.easeOut(duration: 0.5), value: offset)
+            ZStack{
+                if stage.stageTriangles[index].action == .triforce{
+                   triforceTriangleFrame
+                }
+            DrawTriShape(at: stage.stageTriangles[index].modelCoordinate ,scale: scale, offset: offset,type: .normal)
+                .animation(.easeOut(duration: duration), value: offset)
                 .foregroundColor(.lightRed)
                 .opacity(opacity)
-                .animation(.easeIn(duration: 0.5), value: opacity)
+                .animation(.easeIn(duration: duration), value: opacity)
                 .overlay(frameOfTriangle)
-                .contentShape(DrawTriShape(in: stage.stageTriangles[index].vertexCoordinate ,scale: scale, offset: 1))
+                .contentShape(DrawTriShape(at: stage.stageTriangles[index].modelCoordinate ,scale: scale, offset: 1,type: .normal))
                 .onTapGesture {
-                    if stage.selectedItem == nil{
-                    stage.deleteTrianglesInput(index: index)
+                    if let selectedItem = stage.selectedItem{
+                        switch selectedItem.type{
+                        case .normal:
+                            fallthrough
+                        case .triforce:
+                            stage.stageTriangles[index].action = .triforce
+                        }
+                    }else{
+                        stage.deleteTrianglesInput(index: index)
                     }
                 }
+            }
         }
         
     }

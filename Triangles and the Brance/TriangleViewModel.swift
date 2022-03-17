@@ -21,7 +21,7 @@ struct TriangleViewModel:Identifiable{
     
     var modelCoordinate:ModelCoordinate
     var status:TriangleStatus
-    var action:ActionOfShape = .normal
+    var action:ActionType = .normal
     var id = UUID()
     ///隣接するTriangleのModelCoordinateの座標を取得
     var nextModelCoordinates:[ModelCoordinate]{
@@ -57,33 +57,52 @@ struct TriangleViewModel:Identifiable{
         }
         return returnCoordinates
     }
-    ///頂点の座標を取得するメソッドバージョン
-    static func getVertexCoordinate(x:Int,y:Int) -> [TriVertexCoordinate]{
-        let coordinates:[TriVertexCoordinate]
+    ///頂点の座標を取得するメソッド
+    static func getVertexCoordinate(coordinate:ModelCoordinate) -> [TriVertexCoordinate]{
+        let returnCoordinates:[TriVertexCoordinate]
 
-        let remainder = x % 2
+        let remainder = coordinate.x % 2
         if remainder == 0{
-            coordinates = [TriVertexCoordinate(x:x/2, y:y),
-                          TriVertexCoordinate(x:x/2 + 1, y:y),
-                          TriVertexCoordinate(x:x/2, y:y + 1)]
+            returnCoordinates = [TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
+                                 TriVertexCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
+                          TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
         }else{
-            coordinates = [TriVertexCoordinate(x:(x+1)/2, y:y),
-                          TriVertexCoordinate(x:(x+1)/2 - 1, y:y + 1),
-                          TriVertexCoordinate(x:(x+1)/2, y:y + 1)]
+            returnCoordinates = [TriVertexCoordinate(x:(coordinate.x+1)/2, y:coordinate.y),
+                          TriVertexCoordinate(x:(coordinate.x+1)/2 - 1, y:coordinate.y + 1),
+                          TriVertexCoordinate(x:(coordinate.x+1)/2, y:coordinate.y + 1)]
         }
-        return coordinates
+        return returnCoordinates
+    }
+    
+    static func getMidleOfVertexPoints(coordinate:ModelCoordinate) -> [CGPoint]{
+        let returnPoints:[CGPoint]
+        let X = Double(coordinate.x)
+        let Y = Double(coordinate.y)
+        
+        let remainder = coordinate.x % 2
+        if remainder == 0{
+            returnPoints = [
+                CGPoint(x:(1 + X + Y)/2,
+                        y:Y*sqrt(3)/2),
+                CGPoint(x: (1 + X*2 + Y*2)/4,
+                        y: (Y + 1/2) * sqrt(3)/2),
+                CGPoint(x: (3 + X*2 + Y*2)/4,
+                        y: (Y + 1/2) * sqrt(3)/2)
+            ]
+        }else{
+            returnPoints = [
+                CGPoint(x:CGFloat( 1+coordinate.x+coordinate.y )/2,y:CGFloat(coordinate.y+coordinate.y*2)*sqrt(3)/2),
+            
+            ]
+        }
+        return returnPoints
     }
 }
 
 
-enum ActionOfShape{
-    case normal
-}
-
 enum TriangleStatus{
     case isOn
     case isDisappearing
-    case isDisappear
     case isOff
 }
 ///座標、中心部分を使ってステージの中の位置を表す
