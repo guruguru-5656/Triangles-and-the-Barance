@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var stage = StageModel.setUp
+    @StateObject var stage = StageModel()
     var body: some View {
         StageView()
             .environmentObject(stage)

@@ -8,7 +8,7 @@ import SwiftUI
 struct TriangleFromCenterView: View, DrawTriangle {
     init(id:UUID,size:CGFloat){
         self.id = id
-        self.size = size
+        self.width = size
     }
     @EnvironmentObject var stage:StageModel
     
@@ -20,28 +20,28 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
    
     //stageTriangleのビューからサイズを指定する
-    var size: CGFloat
+    var width: CGFloat
     
     ///三角形を描画する際にフレームの設定を.frame(width: scale ,height: height)の形で書くと回転したときに位置ずれしない
     var height:CGFloat{
-        size / sqrt(3)
+        width / sqrt(3)
     }
     ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
-    var drawPoint:CGPoint{
+    private var drawPoint:CGPoint{
         let X = CGFloat(stage.triangles[index].coordinate.x)
         let Y = CGFloat(stage.triangles[index].coordinate.y)
         
         let remainder = stage.triangles[index].coordinate.x % 2
         if remainder == 0{
-            return CGPoint(x: (X/2 + Y/2) * size, y: Y * sqrt(3)/2 * size)
+            return CGPoint(x: (X/2 + Y/2) * width, y: Y * sqrt(3)/2 * width)
         }else{
             //正三角形を180度回転したときに生じる中心地点のずれ
             let distance = sqrt(3)/2 - 1/sqrt(3)
-            return CGPoint(x: (X/2 + Y/2) * size, y: (distance + sqrt(3)/2 * Y) * size)
+            return CGPoint(x: (X/2 + Y/2) * width, y: (distance + sqrt(3)/2 * Y) * width)
         }
     }
     ///与えられた座標のX座標をもとに回転するかどうか判断する
-    var rotation:Angle{
+    private var rotation:Angle{
         let remainder = stage.triangles[index].coordinate.x % 2
         if remainder == 0{
             return Angle(degrees: 0)
@@ -52,7 +52,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
   
     //Viewにアニメーションをつけるプロパティ
     //拡大率
-    var scale: CGFloat{
+    private var scale: CGFloat{
         switch stage.triangles[index].status{
         case .isOn:
            return 0.95
@@ -63,7 +63,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
         }
     }
     //透過度
-    var opacity:Double{
+    private var opacity:Double{
         switch stage.triangles[index].status{
         case .isOn:
            return 1
@@ -74,7 +74,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
         }
     }
     //アニメーションの時間指定
-    var duration:Double{
+    private var duration:Double{
         switch stage.triangles[index].status{
         case .isOn:
             return 0.2
@@ -86,7 +86,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     
     //フレームにアニメーションをつけるプロパティ
-    var frameScale: CGFloat{
+    private var frameScale: CGFloat{
         switch stage.triangles[index].status{
         case .isOn:
             return 0.95
@@ -99,10 +99,10 @@ struct TriangleFromCenterView: View, DrawTriangle {
     
     
     ///フレーム部分の描画
-    var frameOfTriangle:some View{
+    private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
             .stroke(Color.heavyRed, lineWidth: 2)
-            .frame(width: size, height: height , alignment: .center)
+            .frame(width: width, height: height , alignment: .center)
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
             .animation(.easeOut(duration: duration), value: frameScale)
@@ -115,7 +115,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
         ZStack{
         DrawTriangleFromCenter()
                 .foregroundColor(.lightRed)
-                .frame(width: size, height: height , alignment: .center)
+                .frame(width: width, height: height , alignment: .center)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)
                 .animation(.easeOut(duration: duration), value: scale)

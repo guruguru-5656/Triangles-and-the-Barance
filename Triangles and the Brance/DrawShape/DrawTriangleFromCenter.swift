@@ -24,7 +24,14 @@ struct DrawTriangleFromCenter:Shape{
 }
 
 ///DrawTriangleFromCenterを呼び出すときに必要なパラメータを設定する
-protocol DrawTriangle{
-    var scale:CGFloat{ get }
+///位置ずれしないように高さの比率を指定
+protocol DrawTriangle:View{
+    var width:CGFloat{ get }
     var height:CGFloat{ get }
+}
+///高さの値をスケールから決定する
+extension DrawTriangle{
+    var height:CGFloat{
+        width * 1/sqrt(3)
+    }
 }

@@ -44,9 +44,7 @@ class StageModel:ObservableObject{
     //ステージの生成時の確率をまとめたクラス
     private var probabilityOfLayout = ProbabilityOfStageLayout()
     
-    //シングルトンの実装
-    static var setUp = StageModel()
-    private init(){
+    init(){
         //初期化時にステージの構造を生成
         setStageTriangles()
         setStageLines()

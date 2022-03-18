@@ -6,7 +6,8 @@
 //
 
 import SwiftUI
-///ドラッグするアイテム
+
+///アイテムのビュー
 struct ActionItemView: View {
     @EnvironmentObject var stage:StageModel
     @State var isSelected = false
@@ -33,32 +34,42 @@ struct ActionItemView: View {
                 .animation(Animation.easeOut(duration: 0.15),value:circleScale)
                 .opacity(circleOpacity)
                 .animation(Animation.easeOut(duration: 0.15),value:circleOpacity)
-          
-            
-            DragItemNormalShape()
-            .stroke(Color.lightRed, lineWidth: 2)
-            .overlay(DragItemNormalShape()
-                        .fill(Color.white)
-                        .opacity(0.7)
-            )
-            .contentShape(Circle())
-            .onTapGesture{
-                if stage.selectedItem == nil{
-                    stage.selectedItem = item
-                 
-                }else{
-                    stage.selectedItem = nil
+                .contentShape(Circle())
+                .onTapGesture{
+                    if stage.selectedItem == nil{
+                        stage.selectedItem = item
+    
+                    }else{
+                        stage.selectedItem = nil
+                    }
+                    isSelected.toggle()
                 }
-                isSelected.toggle()
-            }
-            .frame(width: size, height: size, alignment: .top)
-          
-            DragItemNormalShapeSmall()
-                 .stroke(Color.lightRed, lineWidth: 2)
-                 .frame(width: size, height: size, alignment: .top)
+
+         
         }
         .frame(width: size, height: size * sqrt(3)/2, alignment: .center)
         .padding(.leading, 30)
+    }
+}
+
+struct TriforceActionView{
+    let size:CGFloat
+    
+    var body: some View {
+        ZStack{
+    DragItemNormalShape()
+              .stroke(Color.lightRed, lineWidth: 2)
+              .overlay(DragItemNormalShape()
+                          .fill(Color.white)
+                          .opacity(0.7)
+              )
+              .frame(width: size, height: size, alignment: .top)
+  
+              DragItemNormalShapeSmall()
+                   .stroke(Color.lightRed, lineWidth: 2)
+                   .frame(width: size, height: size, alignment: .top)
+        }
+        
     }
 }
 
