@@ -44,7 +44,7 @@ struct StageView: View {
      
                 HStack(alignment:.center){
                     GeometryReader{ geometry in
-                        ForEach(stage.actionItems){ item in
+                        ForEach($stage.actionItems){ $item in
                             ActionItemView(item: item,size:geometry.size.height)
                         }
                     }

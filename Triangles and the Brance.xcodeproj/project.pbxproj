@@ -114,6 +114,7 @@
 				0458236F27E41E0A007800AC /* Views */,
 				0426B0E927DC48AE00AC348E /* DrawShape */,
 				045121B727D31F5000936E2C /* ColorExtension.swift */,
+				0458237127E45223007800AC /* ActionItem */,
 				0426B0EB27DEC0D400AC348E /* ProbabilityOfStageLayout.swift */,
 				045121A527D2187700936E2C /* Assets.xcassets */,
 				045121A727D2187700936E2C /* Preview Content */,
@@ -142,7 +143,6 @@
 			children = (
 				045121A327D2187600936E2C /* ContentView.swift */,
 				045121B127D21B1200936E2C /* StageView.swift */,
-				0426B0F327DF460000AC348E /* ActionItemView.swift */,
 				045121B527D21BE800936E2C /* TriangleView.swift */,
 			);
 			path = Views;
@@ -151,11 +151,19 @@
 		0458237027E41E25007800AC /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
 				045121B327D21B5E00936E2C /* TriangleModel.swift */,
 				045121B927D43EAB00936E2C /* StageModel.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		0458237127E45223007800AC /* ActionItem */ = {
+			isa = PBXGroup;
+			children = (
+				0426B0F327DF460000AC348E /* ActionItemView.swift */,
+				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
+			);
+			path = ActionItem;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

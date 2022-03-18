@@ -14,7 +14,7 @@ class StageModel:ObservableObject{
     @Published var triangles: [TriangleViewModel] = []
     @Published var deleteTriangleCounter = 0
     @Published var actionItems:[ActionItemModel] = []
-    @Published var selectedItem:ActionItemModel?
+    @Published var selectedActionItem:ActionItemModel?
     
     ///外側の配列がY軸、内側の配列がX軸を表す
     private var triangleArrengement: [[Int]] = [
@@ -70,7 +70,7 @@ class StageModel:ObservableObject{
     }
     ///線を引くビューのセットアップ
     func setStageLines(){
-         let lines = lineArrangement.map{
+        let lines = lineArrangement.map{
             TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
                     end: TriVertexCoordinate(x: $0.end.x, y: $0.end.y))
         }
@@ -80,11 +80,11 @@ class StageModel:ObservableObject{
     func setStageActionItems(){
         actionItems.append(contentsOf: [ActionItemModel(type: .triforce)])
     }
-  
+    
     //ステージを書き換えるアクション
     //Triangleのアクション
     ///実際にTriangleを消去する操作を行う
-   private func deleteTrianglesAction(index:Int,count:Int,action:ActionType) {
+    private func deleteTrianglesAction(index:Int,count:Int,action:ActionType) {
         switch action{
         case .normal:
             DispatchQueue.main.async {
@@ -98,11 +98,11 @@ class StageModel:ObservableObject{
         case .triforce:
             return
         }
-   }
+    }
     
     ///Triangleの消去の順番を求めて、deleteTriangleActionを呼び出す
-   private func deleteTriangles(coordinate:ModelCoordinate,action:ActionType){
-   //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
+    private func deleteTriangles(coordinate:ModelCoordinate,action:ActionType){
+        //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var willSearch:Set<ModelCoordinate> = []
         var counter = 0
         var didSearched:Set<ModelCoordinate> = []
@@ -129,9 +129,9 @@ class StageModel:ObservableObject{
                     let nextSet = getNextCoordinates(coordinate: searchingNow)
                     willSearch.formUnion(nextSet)
                 }
- 
+                
                 willSearch.subtract(didSearched)
-   
+                
             }
             
             counter += 1
@@ -140,18 +140,35 @@ class StageModel:ObservableObject{
     
     ///Triangleのステータスを参照し、アクションを実行するか判断する
     ///statusがisOnだった場合はdeleteTrianglesを呼び出す
-    func deleteTrianglesInput(index:Int){
+    func trianglesTapAction(index:Int){
+        //ステータスがisOnの場合は消去のプロセスに入る
         if triangles[index].status == .isOn{
+            
+            
+            
             let coordinate = triangles[index].coordinate
             DispatchQueue.global().async{ [weak self] in
                 self?.deleteTriangles(coordinate: coordinate,action:.normal)
             }
-        }
-        if triangles[index].status == .isOff{
-            triangles[index].status = .isOn
-            print(triangles[index].status)
+        }else{
+            //アイテムが入っていた場合はtrianglesにセットする
+            if let selectedItem = selectedActionItem{
+                triangles[index].action = selectedItem.type
+                guard let itemIndex = actionItems.firstIndex(where: { $0.id == selectedItem.id})
+                else{
+                    print("インデックスエラー")
+                    return
+                }
+                actionItems.remove(at: itemIndex)
+                self.selectedActionItem = nil
+                print("セットされた")
+            }else{
+                print("満たす")
+                self.triangles[index].status = .isOn
+            }
         }
     }
+    
     
     ///Triangleの座標で検索を行い、ステージ配列のインデックスを取得する
     func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{

@@ -70,7 +70,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isDisappearing:
            return 1
         case .isOff:
-            return 0
+            return 0.001
         }
     }
     //アニメーションの時間指定
@@ -96,7 +96,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 1.6
         }
     }
-    
     
     ///フレーム部分の描画
     private var frameOfTriangle:some View{
@@ -125,18 +124,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
                     print("tap!")
-                    if let selectedItem = stage.selectedItem{
-                        switch selectedItem.type{
-                        case .normal:
-                            break
-                        case .triforce:
-                            stage.triangles[index].action = .triforce
-                        }
-                    }else{
-                        stage.deleteTrianglesInput(index: index)
-                    }
+                        stage.trianglesTapAction(index: index)
                 }
-            
         }
     }
 }

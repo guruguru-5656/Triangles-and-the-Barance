@@ -10,17 +10,30 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     @EnvironmentObject var stage:StageModel
-    @State var isSelected = false
+
     let item:ActionItemModel
     let size:CGFloat
     
+    //アニメーション用プロパティ
     var circleScale:Double{
-        isSelected ?   1 : 2
+        guard let stageItem = stage.selectedActionItem
+        else{ return 2 }
+        if stageItem.id == self.item.id {
+            return 1
+        }else{
+            return 2
+        }
     }
     var circleOpacity:Double{
-        isSelected ?  1 : 0
+        guard let stageItem = stage.selectedActionItem
+        else{ return 0 }
+        if stageItem.id == self.item.id{
+            return 1
+        }else{
+            return 0
+        }
     }
-   
+   //ステージのインデックスを取得する
     var index:Int{
         return stage.actionItems.firstIndex{ $0.id == self.item.id }!
     }
@@ -31,28 +44,29 @@ struct ActionItemView: View {
                 .stroke(Color.lightRed, lineWidth: 1)
                 .frame(width: size, height: size, alignment: .center)
                 .scaleEffect(circleScale)
-                .animation(Animation.easeOut(duration: 0.15),value:circleScale)
+                .animation(Animation.easeOut(duration: 0.2),value:circleScale)
                 .opacity(circleOpacity)
-                .animation(Animation.easeOut(duration: 0.15),value:circleOpacity)
+                .animation(Animation.easeOut(duration: 0.2),value:circleOpacity)
                 .contentShape(Circle())
                 .onTapGesture{
-                    if stage.selectedItem == nil{
-                        stage.selectedItem = item
+                    if stage.selectedActionItem == nil{
+                        stage.selectedActionItem = item
     
                     }else{
-                        stage.selectedItem = nil
+                        stage.selectedActionItem = nil
                     }
-                    isSelected.toggle()
                 }
-
-         
+        
+                TriforceActionView(size: size)
+            
         }
         .frame(width: size, height: size * sqrt(3)/2, alignment: .center)
         .padding(.leading, 30)
     }
 }
 
-struct TriforceActionView{
+
+struct TriforceActionView:View{
     let size:CGFloat
     
     var body: some View {
