@@ -21,7 +21,7 @@ struct ActionItemView: View {
     }
    
     var index:Int{
-        return stage.stageActionItems.firstIndex{ $0.id == self.item.id }!
+        return stage.actionItems.firstIndex{ $0.id == self.item.id }!
     }
     
     var body: some View {

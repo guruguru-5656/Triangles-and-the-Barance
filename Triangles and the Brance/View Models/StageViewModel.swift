@@ -11,13 +11,13 @@ import SwiftUI
 class StageModel:ObservableObject{
     
     @Published var currentColor = MyColor()
-    @Published var stageTriangles: [TriangleViewModel] = []
+    @Published var triangles: [TriangleViewModel] = []
     @Published var deleteTriangleCounter = 0
-    @Published var stageActionItems:[ActionItemModel] = []
+    @Published var actionItems:[ActionItemModel] = []
     @Published var selectedItem:ActionItemModel?
     
     ///外側の配列がY軸、内側の配列がX軸を表す
-    private var arrangementOfTriangle: [[Int]] = [
+    private var triangleArrengement: [[Int]] = [
         [Int](3...9),
         [Int](1...9),
         [Int](-1...9),
@@ -25,16 +25,24 @@ class StageModel:ObservableObject{
         [Int](-2...6),
         [Int](-2...4)
     ]
+    
     ///ステージに引く線の配置
-    private let stageLineArrangement:[(start:(x:Int,y:Int),end:(x:Int,y:Int))] = [
-        ((1,1),(5,1)), ((0,2),(5,2)), ((-1,3),(5,3)), ((-1,4),(4,4)), ((-1,5),(3,5)),
-        ((0,2),(0,6)), ((1,1),(1,6)), ((2,0),(2,6)), ((3,0),(3,5)), ((4,0),(4,4)),
-        ((3,0),(-1,4)), ((4,0),(-1,5)), ((5,0),(-1,6)), ((5,1),(0,6)), ((5,2),(1,6))
+    private let lineArrangement:[(start:(x:Int,y:Int),end:(x:Int,y:Int))] = [
+        ((2,0),(5,0)),((1,1),(5,1)), ((0,2),(5,2)), ((-1,3),(5,3)), ((-1,4),(4,4)), ((-1,5),(3,5)),((-1,6),(2,6)),
+        ((-1,3),(-1,6)),((0,2),(0,6)), ((1,1),(1,6)), ((2,0),(2,6)), ((3,0),(3,5)), ((4,0),(4,4)),((5,0),(5,3)),
+        ((2,0),(-1,3)),((3,0),(-1,4)), ((4,0),(-1,5)), ((5,0),(-1,6)), ((5,1),(0,6)), ((5,2),(1,6)),((5,3),(2,6))
     ]
     var stageLines:[TriLine] = []
+    //ステージの背景の六角形
+    let backGroundHexagon:[TriVertexCoordinate] = [
+        TriVertexCoordinate(x: 2, y: 0), TriVertexCoordinate(x: 5, y: 0),
+        TriVertexCoordinate(x: 5, y: 3),TriVertexCoordinate(x: 2, y: 6),
+        TriVertexCoordinate(x: -1, y: 6),TriVertexCoordinate(x: -1, y: 3),
+        TriVertexCoordinate(x: 2, y: 0)
+    ]
     
     //ステージの生成時の確率をまとめたクラス
-    private var probabilityOfStageLayout = ProbabilityOfStageLayout()
+    private var probabilityOfLayout = ProbabilityOfStageLayout()
     
     //シングルトンの実装
     static var setUp = StageModel()
@@ -49,22 +57,22 @@ class StageModel:ObservableObject{
     //ステージの構造生成
     ///三角形のビューのセットアップ
     func setStageTriangles(){
-        for (triangleY, arrangement) in arrangementOfTriangle.enumerated(){
+        for (triangleY, arrangement) in triangleArrengement.enumerated(){
             for triangleX in arrangement{
                 let random:Double = Double.random(in:1...100)
-                if random <= probabilityOfStageLayout.ofTriangles{
+                if random <= probabilityOfLayout.ofTriangles{
                     let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOn )
-                    stageTriangles.append(triangleModel)
+                    triangles.append(triangleModel)
                 }else{
                     let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff )
-                    stageTriangles.append(triangleModel)
+                    triangles.append(triangleModel)
                 }
             }
         }
     }
     ///線を引くビューのセットアップ
     func setStageLines(){
-         let lines = stageLineArrangement.map{
+         let lines = lineArrangement.map{
             TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
                     end: TriVertexCoordinate(x: $0.end.x, y: $0.end.y))
         }
@@ -72,7 +80,7 @@ class StageModel:ObservableObject{
     }
     
     func setStageActionItems(){
-        stageActionItems.append(contentsOf: [ActionItemModel(type: .triforce)])
+        actionItems.append(contentsOf: [ActionItemModel(type: .triforce)])
     }
   
     //ステージを書き換えるアクション
@@ -82,11 +90,11 @@ class StageModel:ObservableObject{
         switch action{
         case .normal:
             DispatchQueue.main.async {
-                self.stageTriangles[index].status = .isDisappearing
+                self.triangles[index].status = .isDisappearing
             }
             let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
             DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-                self?.stageTriangles[index].status = .isOff
+                self?.triangles[index].status = .isOff
                 self?.deleteTriangleCounter += 1
             }
         case .triforce:
@@ -108,7 +116,7 @@ class StageModel:ObservableObject{
             for searchingNow in searching {
                 didSearched.insert(searchingNow)
                 //ステージの範囲外かチェック
-                if !stageTriangles.contains(where: { $0.modelCoordinate == searchingNow}) {
+                if !triangles.contains(where: { $0.coordinate == searchingNow}) {
                     continue
                 }
                 //インデックスの取得チェック
@@ -117,10 +125,8 @@ class StageModel:ObservableObject{
                     print("ステージ内のインデックスエラー")
                     continue
                 }
-                
-                
                 //Onだった場合は次探索する予定の配列に加える
-                if stageTriangles[index].status == .isOn{
+                if triangles[index].status == .isOn{
                     deleteTrianglesAction(index: index, count: counter, action: action)
                     let nextSet = getNextCoordinates(coordinate: searchingNow)
                     willSearch.formUnion(nextSet)
@@ -137,21 +143,21 @@ class StageModel:ObservableObject{
     ///Triangleのステータスを参照し、アクションを実行するか判断する
     ///statusがisOnだった場合はdeleteTrianglesを呼び出す
     func deleteTrianglesInput(index:Int){
-        if stageTriangles[index].status == .isOn{
-            let coordinate = stageTriangles[index].modelCoordinate
+        if triangles[index].status == .isOn{
+            let coordinate = triangles[index].coordinate
             DispatchQueue.global().async{ [weak self] in
                 self?.deleteTriangles(coordinate: coordinate,action:.normal)
             }
         }
-        if stageTriangles[index].status == .isOff{
-            stageTriangles[index].status = .isOn
-            print(stageTriangles[index].status)
+        if triangles[index].status == .isOff{
+            triangles[index].status = .isOn
+            print(triangles[index].status)
         }
     }
     
     ///Triangleの座標で検索を行い、ステージ配列のインデックスを取得する
     func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{
-        stageTriangles.firstIndex{ $0.modelCoordinate == coordinate }
+        triangles.firstIndex{ $0.coordinate == coordinate }
     }
     ///ステージ内の隣接した座標を取得する
     func getNextCoordinates(coordinate:ModelCoordinate) -> Set<ModelCoordinate>{
@@ -171,12 +177,12 @@ class StageModel:ObservableObject{
         }
         var nextInStage:Set<ModelCoordinate> = []
         for nextCoordinate in nextCoordinates {
-            if stageTriangles.map({$0.modelCoordinate})
+            if triangles.map({$0.coordinate})
                 .contains(where: {$0 == nextCoordinate}) == true{
                 nextInStage.insert(nextCoordinate)
             }
         }
-//
+        
         return nextInStage
     }
     

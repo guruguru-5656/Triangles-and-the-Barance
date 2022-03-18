@@ -20,23 +20,23 @@ struct StageView: View {
     
             VStack {
             
-                ZStack{
+                ZStack(alignment: .center){
                     GeometryReader{ geometory in
                         
                         //背景
-                        HexagonBackground(length: geometory.size.width/7)
+                        DrawShapeFromVertexCoordinate(coordinates: stage.backGroundHexagon, scale: geometory.size.width/6)
+                            .foregroundColor(.backgroundLightGray)
                         //背景の線部分
                         ForEach(stage.stageLines){ line in
-                            DrawTriLine(line: line, scale: geometory.size.width/7)
+                            DrawTriLine(line: line, scale: geometory.size.width/6)
                                 .stroke(Color.heavyRed, lineWidth: 1)
                         }
                         
-                        ForEach($stage.stageTriangles){ $triangles in
-                            TriangleFromCenterView(model: triangles, size: geometory.size.width/7)
-//                            TriangleView(coordinate: triangles.modelCoordinate, scale: geometory.size.width/7)
+                        ForEach(stage.triangles){ triangles in
+                            TriangleFromCenterView(id: triangles.id, size: geometory.size.width/6)
                             
                         }
-                    }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
+                    }.frame(width: UIScreen.main.bounds.width * 7/8, height: UIScreen.main.bounds.width*3/4)
                         .padding(.vertical, 10)
                     
                 }
@@ -44,7 +44,7 @@ struct StageView: View {
      
                 HStack(alignment:.center){
                     GeometryReader{ geometry in
-                        ForEach(stage.stageActionItems){ item in
+                        ForEach(stage.actionItems){ item in
                             ActionItemView(item: item,size:geometry.size.height)
                         }
                     }
@@ -57,31 +57,6 @@ struct StageView: View {
             }
         }
         Spacer()
-    }
-}
-
-
-struct HexagonBackground:View{
-    let length:CGFloat
-    private let offset:CGFloat = 3
-    private var offsetA:CGFloat{
-        offset * 1/sqrt(3)
-    }
-    var vertex:[CGPoint]{
-        [CGPoint(x: 2 * length - offsetA, y: 0 - offset),
-         CGPoint(x: 5 * length + offsetA, y: 0 - offset),
-         CGPoint(x: 6.5 * length + offset , y: 3 * sqrt(3)/2 * length),
-         CGPoint(x: 5 * length + offsetA , y: 6 * sqrt(3)/2 * length + offset),
-         CGPoint(x: 2 * length - offsetA, y: 6 * sqrt(3)/2 * length + offset),
-         CGPoint(x: 0.5 * length - offset, y: 3 * sqrt(3)/2 * length),
-         CGPoint(x: 2 * length - offsetA, y: 0 - offset)]
-    }
-    var body:some View{
-        Path{ path in
-            path.addLines(vertex)
-        }
-        .fill()
-        .foregroundColor(.backgroundLightGray)
     }
 }
 

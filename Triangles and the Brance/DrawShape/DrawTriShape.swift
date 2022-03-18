@@ -7,157 +7,30 @@
 
 import SwiftUI
 
-///TriCoordinate座標系から頂点を設定
-///scaleに親Viewのサイズから設定した拡大率を入力
-///scaleを変更すると拡大率とともに位置がずれる（この構造体は親ビューの原点座標を基準として描画を行う）ため個別の拡大率offsetを設定
-struct DrawTriShape:Shape{
-    ///頂点の座標系からインスタンスを生成する、現状アクションタイプには未対応
-    init(at coordinate:[TriVertexCoordinate],scale:CGFloat ,offset: CGFloat,type: ActionType){
-        self.coordinates = coordinate
-        self.scale = scale
-        self.offset = offset
-        self.type = type
-        //描画用の頂点座標の設定
-        self.vertexPoints = getVertexPoint(coordinates: self.coordinates)
-        //アクション追加時の描画用の頂点座標
-        self.avaragePoint = getTriforcePoint(coordinates: self.coordinates)
-        //中心点の設定
-        self.centerPoint = getCenterPoint(vertex: vertexPoints)
-        //補正値を計算し、描画用の値をセットする
-        self.collectionValue = makeTransform(center: centerPoint, scale: self.offset)
-        self.originalPath = Path{ path in
-            path.addLines(vertexPoints)
-            path.addLine(to: vertexPoints[0])
-        }
-        setDrawPath()
-    }
-    
-    ///中央の座標系からインスタンスを生成する
-    init(at coordinate:ModelCoordinate, scale:CGFloat, offset: CGFloat, type:ActionType){
-        
-        self.coordinates = TriangleViewModel.getVertexCoordinate(coordinate:coordinate)
-        
-        self.scale = scale
-        self.offset = offset
-        self.type = type
-        //描画用の頂点座標の設定
-        self.vertexPoints = getVertexPoint(coordinates: self.coordinates)
-        //アクション追加時の描画用の頂点座標
-        self.avaragePoint = getTriforcePoint(coordinates: self.coordinates)
-        //中心点の設定
-        self.centerPoint = getCenterPoint(vertex: vertexPoints)
-        //補正値を計算し、描画用の値をセットする
-        self.collectionValue = makeTransform(center: centerPoint, scale: self.offset)
-        self.originalPath = Path{ path in
-            path.addLines(vertexPoints)
-            path.addLine(to: vertexPoints[0])
-        }
-        setDrawPath()
+///TriVertexCoordinate座標系から頂点を設定、描画を行う
+struct DrawShapeFromVertexCoordinate:Shape{
+    //初期値
+    let coordinates:[TriVertexCoordinate]
+    let scale:CGFloat
+    var drawPoint:[CGPoint]{
+        coordinates.map{ coordinate in
+            CGPoint(x: coordinate.drawPoint.x * scale,
+                    y: coordinate.drawPoint.y * scale)}
     }
     
     func path(in rect: CGRect) -> Path {
         Path{ path in
-                path.addPath(transformedPath)
-        }
-    }
-    
-    //初期値
-    let coordinates:[TriVertexCoordinate]
-    let scale:CGFloat
-    var offset: CGFloat
-    let type:ActionType
-    //頂点のポイントと中央のポイント
-    private var vertexPoints:[CGPoint] = []
-    private var centerPoint:CGPoint!
-    //補正をかけないPathと補正後のPath
-    private var originalPath:Path!
-    private var transformedPath:Path!
-    //拡大用の補正値
-    private var collectionValue:CGAffineTransform?
-    
-    //値の変更を感知し、アニメーション効果を作る
-    var animatableData:CGFloat{
-        get{ offset }
-        set{
-            offset = newValue
-            collectionValue = makeTransform(center: centerPoint, scale: offset)
-            setDrawPath()
-        }
-    }
-    
-    
-    //アクションが追加された時用のPath
-    var avaragePoint:[CGPoint] = []
-    func getTriforcePoint(coordinates:[TriVertexCoordinate]) -> [CGPoint]{
-        let avaragePoint = [CGPoint(x:(coordinates[0].getDrowPoint().x
-                                       + coordinates[1].getDrowPoint().x)/2 * scale,
-                                    y:(coordinates[0].getDrowPoint().y
-                                       + coordinates[1].getDrowPoint().y)/2 * scale),
-                            CGPoint(x:(coordinates[1].getDrowPoint().x
-                                       + coordinates[2].getDrowPoint().x)/2 * scale,
-                                    y:(coordinates[1].getDrowPoint().y
-                                       + coordinates[2].getDrowPoint().y)/2 * scale),
-                            CGPoint(x:(coordinates[2].getDrowPoint().x
-                                       + coordinates[0].getDrowPoint().x)/2 * scale,
-                                    y:(coordinates[2].getDrowPoint().y
-                                       + coordinates[0].getDrowPoint().y)/2 * scale),
-        ]
-        return avaragePoint
-    }
-    
-    private func getVertexPoint(coordinates:[TriVertexCoordinate]) -> [CGPoint]{
-        let vertex = coordinates.map{
-            CGPoint(x:$0.getDrowPoint().x * scale ,y:$0.getDrowPoint().y * scale)
-        }
-        return vertex
-    }
-    ///中心点を設定する
-    private func getCenterPoint(vertex:[CGPoint]) -> CGPoint{
-        let coordinateX = vertex.map{$0.x}
-        let coordinateY = vertex.map{$0.y}
-        let avarageX = coordinateX.reduce(0){ $0 + $1 } / CGFloat(coordinateX.count)
-        let avarageY = coordinateY.reduce(0){ $0 + $1 } / CGFloat(coordinateY.count)
-        return CGPoint(x:avarageX,y:avarageY)
-    }
-    
-    ///アフィン変換の補正値の生成
-    ///一度中心点を原点に移動して倍率を変更した後に戻す
-    private func makeTransform(center:CGPoint,scale:CGFloat) -> CGAffineTransform?{
-        //倍率が0の場合は処理を行う必要がないため、nilを返す
-        guard offset != 1 else{ return nil }
-        var transform = CGAffineTransform(translationX: -center.x, y: -center.y)
-        transform = transform.concatenating(CGAffineTransform(scaleX: scale, y: scale))
-        transform = transform.concatenating(CGAffineTransform(translationX: center.x, y: center.y))
-        return transform
-    }
-    
-    private mutating func setDrawPath(){
-        switch type{
-        case .normal:
-            if let transform = collectionValue{
-                transformedPath = Path{ path in
-                    path.addPath(originalPath, transform: transform)
-                }
-            }else{
-                transformedPath = originalPath
+            path.move(to: drawPoint[0])
+            let linePoint = drawPoint[1...drawPoint.count-1]
+            linePoint.forEach{
+                path.addLine(to: $0)
             }
-            
-            //アクション追加時用の描画
-        case .triforce:
-            if let transform = collectionValue{
-                transformedPath = Path{ path in
-                    path.addPath(originalPath, transform: transform)
-                }
-            }else{
-                transformedPath = originalPath
-            }
+            path.closeSubpath()
         }
-        
     }
+    
+
 }
-
-
-
 
 
 struct DrawTriLine:Shape{
@@ -178,8 +51,8 @@ struct DrawTriLine:Shape{
     
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        path.move(to: CGPoint(x: startCoordinate.getDrowPoint().x * scale, y: startCoordinate.getDrowPoint().y * scale))
-        path.addLine(to: CGPoint(x: endCoordinate.getDrowPoint().x * scale, y: endCoordinate.getDrowPoint().y * scale))
+        path.move(to: CGPoint(x: startCoordinate.drawPoint.x * scale, y: startCoordinate.drawPoint.y * scale))
+        path.addLine(to: CGPoint(x: endCoordinate.drawPoint.x * scale, y: endCoordinate.drawPoint.y * scale))
         return path
     }
 }

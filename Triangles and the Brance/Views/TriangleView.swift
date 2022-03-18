@@ -1,37 +1,37 @@
-//
-//  DrawTriangleFromCenter.swift
-//  Triangles and the Brance
-//
-//  Created by 森本拓未 on 2022/03/17.
-//
 
+
+import Foundation
 import SwiftUI
 
 ///メイン画面の三角形の描画
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
 struct TriangleFromCenterView: View, DrawTriangle {
-    init(model:TriangleViewModel,size:CGFloat){
-        self.triangleModel = model
+    init(id:UUID,size:CGFloat){
+        self.id = id
         self.size = size
     }
-    
     @EnvironmentObject var stage:StageModel
-    @ObservedObject var triangleModel:TriangleViewModel
-    var coordinate:ModelCoordinate{
-        triangleModel.modelCoordinate
+    
+    //親ビューからIDを割り当て、それをステージのモデルから検索することによってインデックス番号を取得する
+    //直接Indexを指定しないのは将来的に場所を移動することがあるかもしれないため
+    var id:UUID
+    var index:Int{
+        stage.triangles.firstIndex{ $0.id == self.id }!
     }
-    var size: CGFloat
    
+    //stageTriangleのビューからサイズを指定する
+    var size: CGFloat
+    
     ///三角形を描画する際にフレームの設定を.frame(width: scale ,height: height)の形で書くと回転したときに位置ずれしない
     var height:CGFloat{
         size / sqrt(3)
     }
     ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
     var drawPoint:CGPoint{
-        let X = CGFloat(coordinate.x)
-        let Y = CGFloat(coordinate.y)
+        let X = CGFloat(stage.triangles[index].coordinate.x)
+        let Y = CGFloat(stage.triangles[index].coordinate.y)
         
-        let remainder = coordinate.x % 2
+        let remainder = stage.triangles[index].coordinate.x % 2
         if remainder == 0{
             return CGPoint(x: (X/2 + Y/2) * size, y: Y * sqrt(3)/2 * size)
         }else{
@@ -42,7 +42,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     ///与えられた座標のX座標をもとに回転するかどうか判断する
     var rotation:Angle{
-        let remainder = coordinate.x % 2
+        let remainder = stage.triangles[index].coordinate.x % 2
         if remainder == 0{
             return Angle(degrees: 0)
         }else{
@@ -53,7 +53,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     var scale: CGFloat{
-        switch triangleModel.status{
+        switch stage.triangles[index].status{
         case .isOn:
            return 0.95
         case .isDisappearing:
@@ -64,7 +64,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //透過度
     var opacity:Double{
-        switch triangleModel.status{
+        switch stage.triangles[index].status{
         case .isOn:
            return 1
         case .isDisappearing:
@@ -75,7 +75,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //アニメーションの時間指定
     var duration:Double{
-        switch triangleModel.status{
+        switch stage.triangles[index].status{
         case .isOn:
             return 0.2
         case .isDisappearing:
@@ -87,7 +87,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     
     //フレームにアニメーションをつけるプロパティ
     var frameScale: CGFloat{
-        switch triangleModel.status{
+        switch stage.triangles[index].status{
         case .isOn:
             return 0.95
         case .isDisappearing:
@@ -104,11 +104,10 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .stroke(Color.heavyRed, lineWidth: 2)
             .frame(width: size, height: height , alignment: .center)
             .rotationEffect(rotation)
-            .position(drawPoint)
-
             .scaleEffect(frameScale)
             .animation(.easeOut(duration: duration), value: frameScale)
-            
+            .position(drawPoint)
+            .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
     
@@ -118,61 +117,28 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .foregroundColor(.lightRed)
                 .frame(width: size, height: height , alignment: .center)
                 .rotationEffect(rotation)
-                .position(drawPoint)
                 .scaleEffect(scale)
+                .animation(.easeOut(duration: duration), value: scale)
+                .position(drawPoint)
                 .overlay(frameOfTriangle)
                 .opacity(opacity)
+                .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
                     print("tap!")
-                    //                if let selectedItem = stage.selectedItem{
-                    //                    switch selectedItem.type{
-                    //                    case .normal:
-                    //                        fallthrough
-                    //                    case .triforce:
-                    //                        stage.stageTriangles[index].action = .triforce
-                    //                    }
-                    //                }else{
-                    //                    stage.deleteTrianglesInput(index: index)
-                    //                }
+                    if let selectedItem = stage.selectedItem{
+                        switch selectedItem.type{
+                        case .normal:
+                            break
+                        case .triforce:
+                            stage.triangles[index].action = .triforce
+                        }
+                    }else{
+                        stage.deleteTrianglesInput(index: index)
+                    }
                 }
-//              DrawTriangleFromCenter()
-//                .stroke(Color.heavyRed, lineWidth: 2)
-//                .frame(width: size, height: height , alignment: .center)
-//                .rotationEffect(rotation)
-//                .position(drawPoint)
-//                .scaleEffect(frameScale)
-//                .animation(.easeOut(duration: duration), value: frameScale)
-//                .opacity(opacity)
-//                .animation(.easeOut(duration: duration), value: opacity)
+            
         }
     }
 }
 
 
-///正三角形を描画するShape
-///回転エフェクトを正常に機能させるために、呼出時はwidth:heightが1:1/sqrt(3)の比率になるように呼びだす
-struct DrawTriangleFromCenter:Shape{
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxX * sqrt(3)/2))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-        path.closeSubpath()
-        return path
-    }
-    
-}
-
-///DrawTriangleFromCenterを呼び出すときに必要なパラメータを設定する
-protocol DrawTriangle{
-    var scale:CGFloat{ get }
-    var height:CGFloat{ get }
-//    func getDrawPoint(from coordinate:ModelCoordinate,scale:CGFloat) -> CGPoint
-}
-
-///デフォルト実装
-extension DrawTriangle{
-    
-   
-}
