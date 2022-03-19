@@ -54,6 +54,9 @@ class ChangeTriangleStatusAction{
                         actionCoordinate.compactMap{
                             indexOfTrianglesInStage(coordinate: $0)
                         }.forEach{
+                            //このクラス内での配列のステータスを変更する
+                            //この変更は構造体のコピーのため、Viewに反映されない
+                            triangles[index].status = .isDisappearing
                             //ステージに通知する
                             completion(.turnOn,$0,counter)
                         }
