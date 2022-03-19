@@ -56,61 +56,24 @@ struct ActionItemView: View {
                         stage.selectedActionItem = nil
                     }
                 }
+            //アイテムの種類ごとに表示を出し分ける
+            if let actionItem = item.action{
+                switch actionItem{
+                case .triforce:
+                    TriforceActionView(size: size)
+                }
+            }
         
-                TriforceActionView(size: size)
-            
         }
         .frame(width: size, height: size * sqrt(3)/2, alignment: .center)
         .padding(.leading, 30)
     }
 }
 
-
-struct TriforceActionView:View{
-    let size:CGFloat
-    
-    var body: some View {
-        ZStack{
-    DragItemNormalShape()
-              .stroke(Color.lightRed, lineWidth: 2)
-              .overlay(DragItemNormalShape()
-                          .fill(Color.white)
-                          .opacity(0.7)
-              )
-              .frame(width: size, height: size, alignment: .top)
-  
-              DragItemNormalShapeSmall()
-                   .stroke(Color.lightRed, lineWidth: 2)
-                   .frame(width: size, height: size, alignment: .top)
-        }
-        
-    }
+///ActionItemであることを示すプロトコル
+protocol DrawItemActionView:View{
+    var size: CGFloat{ get }
 }
 
-struct DragItemNormalShapeSmall: Shape{
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to:CGPoint(x:rect.width * (4-sqrt(3))/8,y:rect.height * 3/8))
-        path.addLine(to: CGPoint(x:rect.width * (4+sqrt(3))/8,y:rect.height * 3/8))
-        path.addLine(to: CGPoint(x:rect.width / 2,y:rect.height * 3/4))
-        path.addLine(to: CGPoint(x:rect.width * (4-sqrt(3))/8,y:rect.height * 3/8))
-        path.closeSubpath()
-        return path
-    }
-}
-
-
-struct DragItemNormalShape:Shape{
-
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.width/2, y: 0))
-        path.addLine(to:CGPoint(x: rect.width * (2-sqrt(3))/4 , y: rect.height * 3/4))
-        path.addLine(to: CGPoint(x: rect.width * (2+sqrt(3))/4, y: rect.height * 3/4))
-        path.addLine(to: CGPoint(x: rect.width/2, y: 0))
-        path.closeSubpath()
-       
-        return path
-    }
-}
+///通常使わない、表示されないのDrawItemActionView準拠の構造体
+///switch文で

@@ -31,7 +31,7 @@ struct StageView: View {
                             DrawTriLine(line: line, scale: geometory.size.width/6)
                                 .stroke(Color.heavyRed, lineWidth: 1)
                         }
-                        
+                        //メインの三角形の表示
                         ForEach(stage.triangles){ triangles in
                             TriangleFromCenterView(id: triangles.id, size: geometory.size.width/6)
                             
@@ -40,11 +40,10 @@ struct StageView: View {
                         .padding(.vertical, 10)
                     
                 }
-                
      
                 HStack(alignment:.center){
                     GeometryReader{ geometry in
-                        ForEach($stage.actionItems){ $item in
+                        ForEach(stage.actionItems){ item in
                             ActionItemView(item: item,size:geometry.size.height)
                         }
                     }

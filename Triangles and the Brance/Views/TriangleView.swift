@@ -13,7 +13,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
     @EnvironmentObject var stage:StageModel
     
     //親ビューからIDを割り当て、それをステージのモデルから検索することによってインデックス番号を取得する
-    //直接Indexを指定しないのは将来的に場所を移動することがあるかもしれないため
     var id:UUID
     var index:Int{
         stage.triangles.firstIndex{ $0.id == self.id }!
@@ -49,7 +48,16 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return Angle(degrees: 180)
         }
     }
-  
+    
+//    ///本体の向きとは逆向きに回転させる
+//    private var triforceRotation:Angle{
+//        let remainder = stage.triangles[index].coordinate.x % 2
+//        if remainder == 0{
+//            return Angle(degrees: 180)
+//        }else{
+//            return Angle(degrees: 0)
+//        }
+//    }
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     private var scale: CGFloat{
@@ -59,6 +67,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isDisappearing:
            return 0.95
         case .isOff:
+            return 1.1
+        case .onAppear:
             return 1.1
         }
     }
@@ -71,6 +81,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
            return 1
         case .isOff:
             return 0.001
+        case .onAppear:
+            return 0.001
         }
     }
     //アニメーションの時間指定
@@ -81,6 +93,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isDisappearing:
             return 0.5
         case .isOff:
+            return 0.5
+        case .onAppear:
             return 0.5
         }
     }
@@ -94,10 +108,11 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 0.95
         case .isOff:
             return 1.6
+        case .onAppear:
+            return 1.6
         }
     }
-    
-    ///フレーム部分の描画
+    //フレーム部分の描画
     private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
             .stroke(Color.heavyRed, lineWidth: 2)
@@ -110,11 +125,16 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .animation(.easeOut(duration: duration), value: opacity)
     }
     
+    //actionItemのアニメーションプロパティ
+    @State var actionItemOpacity = 1
+    
+    //本体の描画
     var body: some View {
         ZStack{
+    
         DrawTriangleFromCenter()
                 .foregroundColor(.lightRed)
-                .frame(width: width, height: height , alignment: .center)
+                .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)
                 .animation(.easeOut(duration: duration), value: scale)
@@ -123,9 +143,15 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
-                    print("tap!")
-                        stage.trianglesTapAction(index: index)
+                    stage.trianglesTapAction(index: index)
                 }
+            //actionItemの描画
+            if let actionItem = stage.triangles[index].action{
+                switch actionItem{
+                case .triforce:
+                    ActionItem_TriforceView(width: width, height: height, rotation: rotation + Angle(degrees: 180), drawPoint: drawPoint)
+                }
+            }
         }
     }
 }

@@ -12,7 +12,6 @@ class StageModel:ObservableObject{
     
     @Published var currentColor = MyColor()
     @Published var triangles: [TriangleViewModel] = []
-    @Published var deleteTriangleCounter = 0
     @Published var actionItems:[ActionItemModel] = []
     @Published var selectedActionItem:ActionItemModel?
     
@@ -44,6 +43,9 @@ class StageModel:ObservableObject{
     //ステージの生成時の確率をまとめたクラス
     private var probabilityOfLayout = ProbabilityOfStageLayout()
     
+    //Triangleを消した数のカウント、クリアチェックに利用
+    var deleteTriangleCounter:Int = 0
+    
     init(){
         //初期化時にステージの構造を生成
         setStageTriangles()
@@ -57,12 +59,13 @@ class StageModel:ObservableObject{
     func setStageTriangles(){
         for (triangleY, arrangement) in triangleArrengement.enumerated(){
             for triangleX in arrangement{
+                
                 let random:Double = Double.random(in:1...100)
                 if random <= probabilityOfLayout.ofTriangles{
-                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOn )
+                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOn, action: nil )
                     triangles.append(triangleModel)
                 }else{
-                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff )
+                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff, action: nil )
                     triangles.append(triangleModel)
                 }
             }
@@ -77,129 +80,87 @@ class StageModel:ObservableObject{
         stageLines.append(contentsOf: lines)
     }
     
+    ///ステージにItemの描画をセットする
     func setStageActionItems(){
-        actionItems.append(contentsOf: [ActionItemModel(type: .triforce)])
-    }
-    
-    //ステージを書き換えるアクション
-    //Triangleのアクション
-    ///実際にTriangleを消去する操作を行う
-    private func deleteTrianglesAction(index:Int,count:Int,action:ActionType) {
-        switch action{
-        case .normal:
-            DispatchQueue.main.async {
-                self.triangles[index].status = .isDisappearing
-            }
-            let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
-            DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-                self?.triangles[index].status = .isOff
-                self?.deleteTriangleCounter += 1
-            }
-        case .triforce:
-            return
-        }
-    }
-    
-    ///Triangleの消去の順番を求めて、deleteTriangleActionを呼び出す
-    private func deleteTriangles(coordinate:ModelCoordinate,action:ActionType){
-        //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
-        var willSearch:Set<ModelCoordinate> = []
-        var counter = 0
-        var didSearched:Set<ModelCoordinate> = []
-        
-        
-        willSearch.insert(coordinate)
-        while !willSearch.isEmpty{
-            let searching = willSearch
-            for searchingNow in searching {
-                didSearched.insert(searchingNow)
-                //ステージの範囲外かチェック
-                if !triangles.contains(where: { $0.coordinate == searchingNow}) {
-                    continue
-                }
-                //インデックスの取得チェック
-                guard let index = getIndexOfStageTriangles(coordinate: searchingNow)
-                else{
-                    print("ステージ内のインデックスエラー")
-                    continue
-                }
-                //Onだった場合は次探索する予定の配列に加える
-                if triangles[index].status == .isOn{
-                    deleteTrianglesAction(index: index, count: counter, action: action)
-                    let nextSet = getNextCoordinates(coordinate: searchingNow)
-                    willSearch.formUnion(nextSet)
-                }
-                
-                willSearch.subtract(didSearched)
-                
-            }
-            
-            counter += 1
-        }
+        //TODO: 前のステージで持っていたアイテムを引き継ぐ
+        actionItems.append(contentsOf: [ActionItemModel(action: .triforce)])
     }
     
     ///Triangleのステータスを参照し、アクションを実行するか判断する
     ///statusがisOnだった場合はdeleteTrianglesを呼び出す
-    func trianglesTapAction(index:Int){
+    func trianglesTapAction(index:Int) {
+        
         //ステータスがisOnの場合は消去のプロセスに入る
         if triangles[index].status == .isOn{
-            
-            
-            
             let coordinate = triangles[index].coordinate
-            DispatchQueue.global().async{ [weak self] in
-                self?.deleteTriangles(coordinate: coordinate,action:.normal)
+            do{
+                //ステージ内にある情報を渡して、アクションを呼びだし、スコアの情報を受け取る
+                let action = ChangeTriangleStatusAction(item: selectedActionItem, stageItems: actionItems, triangles: triangles)
+                print(coordinate)
+                try action.deleteTriangles(coordinate: coordinate,action:triangles[index].action){ (onOrOff:OnOrOff,index:Int,counter) -> Void in
+                    switch onOrOff {
+                    case .turnOn:
+                        self.turnOnTriangles(index: index, count: counter)
+                    case .turnOff:
+                        self.turnOffTriangles(index: index, count: counter)
+                    }
+                    
+                }
+//                { [weak self] score in
+//                    if score.count >= 8{
+//                        self?.actionItems.append(ActionItemModel(action: .triforce))
+//                    }
+//                    //TODO: スコアの計算を行う
+//                    self?.deleteTriangleCounter += score.count
+//                }
+            }catch{
+                print("ERROR:\(error)")
             }
+            
         }else{
             //アイテムが入っていた場合はtrianglesにセットする
             if let selectedItem = selectedActionItem{
-                triangles[index].action = selectedItem.type
+                triangles[index].action = selectedItem.action
                 guard let itemIndex = actionItems.firstIndex(where: { $0.id == selectedItem.id})
                 else{
                     print("インデックスエラー")
                     return
                 }
+                //アイテムの更新
                 actionItems.remove(at: itemIndex)
-                self.selectedActionItem = nil
-                print("セットされた")
-            }else{
-                print("満たす")
-                self.triangles[index].status = .isOn
+                selectedActionItem = nil
             }
+            triangles[index].status = .isOn
         }
     }
-    
-    
-    ///Triangleの座標で検索を行い、ステージ配列のインデックスを取得する
-    func getIndexOfStageTriangles(coordinate:ModelCoordinate) -> Int?{
-        triangles.firstIndex{ $0.coordinate == coordinate }
-    }
-    ///ステージ内の隣接した座標を取得する
-    func getNextCoordinates(coordinate:ModelCoordinate) -> Set<ModelCoordinate>{
-        //隣接する座標を取得する
-        var nextCoordinates:[ModelCoordinate] = []
-        let remainder = coordinate.x % 2
-        if remainder == 0{
-            nextCoordinates.append(contentsOf: [
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y-1),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),])
-        }else{
-            nextCoordinates.append(contentsOf: [
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y+1),])
-        }
-        var nextInStage:Set<ModelCoordinate> = []
-        for nextCoordinate in nextCoordinates {
-            if triangles.map({$0.coordinate})
-                .contains(where: {$0 == nextCoordinate}) == true{
-                nextInStage.insert(nextCoordinate)
-            }
-        }
+    ///指定されたインデックス番号のTriangleのステータスをOffにしてビューに反映させる
+    ///順番に描画が更新されるように時間をずらしながら実行
+    func turnOffTriangles(index:Int,count:Int){
+
+            self.triangles[index].status = .isDisappearing
         
-        return nextInStage
+            
+        let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
+        DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
+            self?.triangles[index].status = .isOff
+            self?.triangles[index].action = nil
+        }
+            
+        
     }
-    
+    ///指定されたインデックス番号のTriangleのステータスをOnにしてビューに反映させる
+    ///順番に描画が更新されるように時間をずらしながら実行
+    func turnOnTriangles(index:Int,count:Int){
+        self.triangles[index].status = .onAppear
+        
+        let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
+        DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
+            self?.triangles[index].status = .isOn
+        }
+    }
 }
 
+enum StageError:Error{
+    case isNotExist
+    case triangleIndexError
+}

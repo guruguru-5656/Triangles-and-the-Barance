@@ -7,17 +7,17 @@
 
 import SwiftUI
 
-///トライアングルViewのモデルデータ
- class TriangleViewModel:Identifiable,ObservableObject{
+///Triangleのモデルデータ
+ struct TriangleViewModel:Identifiable{
     
-    init(x:Int,y:Int,status:TriangleStatus){
+     init(x:Int,y:Int, status:TriangleStatus, action:ActionType?){
         coordinate = ModelCoordinate(x: x, y: y)
         self.status = status
-        
+         self.action = action
     }
      var coordinate:ModelCoordinate
      var status:TriangleStatus
-     var action:ActionType = .normal
+     var action:ActionType?
      
      private weak var stage:StageModel?
      var index:Int{
@@ -78,8 +78,9 @@ import SwiftUI
     
 }
 
-
+///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
 enum TriangleStatus{
+    case onAppear
     case isOn
     case isDisappearing
     case isOff

@@ -8,12 +8,11 @@
 import Foundation
 
 struct ActionItemModel:Identifiable{
-    let type: ActionType
+    let action: ActionType
     let id:UUID = UUID()
     
 }
 
 enum ActionType{
-    case normal
     case triforce
 }
