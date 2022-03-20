@@ -44,7 +44,7 @@ class StageModel:ObservableObject{
     private var probabilityOfLayout = ProbabilityOfStageLayout()
     
     //Triangleを消した数のカウント、クリアチェックに利用
-    var deleteTriangleCounter:Int = 0
+    private var deleteTriangleCounter:Int = 0
     
     init(){
         //初期化時にステージの構造を生成
@@ -54,9 +54,10 @@ class StageModel:ObservableObject{
         deleteTriangleCounter = 0
     }
     
+   
     //ステージの構造生成
     ///三角形のビューのセットアップ
-    func setStageTriangles(){
+    private func setStageTriangles(){
         for (triangleY, arrangement) in triangleArrengement.enumerated(){
             for triangleX in arrangement{
                 
@@ -72,7 +73,7 @@ class StageModel:ObservableObject{
         }
     }
     ///線を引くビューのセットアップ
-    func setStageLines(){
+    private func setStageLines(){
         let lines = lineArrangement.map{
             TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
                     end: TriVertexCoordinate(x: $0.end.x, y: $0.end.y))
@@ -81,7 +82,7 @@ class StageModel:ObservableObject{
     }
     
     ///ステージにItemの描画をセットする
-    func setStageActionItems(){
+    private func setStageActionItems(){
         //TODO: 前のステージで持っていたアイテムを引き継ぐ
         actionItems.append(contentsOf: [ActionItemModel(action: .triforce)])
     }
@@ -92,12 +93,16 @@ class StageModel:ObservableObject{
         
         //ステータスがisOnの場合は消去のプロセスに入る
         if triangles[index].status == .isOn{
+            
             let coordinate = triangles[index].coordinate
             do{
-                //ステージ内にある情報を渡して、アクションを呼びだし、スコアの情報を受け取る
-                let action = ChangeTriangleStatusAction(item: selectedActionItem, stageItems: actionItems, triangles: triangles)
-                print(coordinate)
-                try action.deleteTriangles(coordinate: coordinate,action:triangles[index].action){ (onOrOff:OnOrOff,index:Int,counter) -> Void in
+                //ステージ内のコピーを渡して、アクションを呼びだし、スコアの情報を受け取る
+                let copy = copy()
+                let action = ChangeTriangleStatusAction(item: copy.selectedActionItem, actionItems: copy.actionItems, triangles: copy.triangles)
+ 
+                try action.deleteTriangles(coordinate: coordinate,action:triangles[index].action){ (onOrOff:OnOrOff,index:Int,counter:Int
+                ) -> Void in
+                    
                     switch onOrOff {
                     case .turnOn:
                         self.turnOnTriangles(index: index, count: counter)
@@ -106,8 +111,8 @@ class StageModel:ObservableObject{
                     }
                     
                 }
-//                { [weak self] score in
-//                    if score.count >= 8{
+                //                { [weak self] score in
+                //                    if score.count >= 8{
 //                        self?.actionItems.append(ActionItemModel(action: .triforce))
 //                    }
 //                    //TODO: スコアの計算を行う
@@ -130,6 +135,7 @@ class StageModel:ObservableObject{
                 actionItems.remove(at: itemIndex)
                 selectedActionItem = nil
             }
+        
             triangles[index].status = .isOn
         }
     }
@@ -138,8 +144,7 @@ class StageModel:ObservableObject{
     func turnOffTriangles(index:Int,count:Int){
 
             self.triangles[index].status = .isDisappearing
-        
-            
+  
         let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
         DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
             self?.triangles[index].status = .isOff
@@ -151,12 +156,26 @@ class StageModel:ObservableObject{
     ///指定されたインデックス番号のTriangleのステータスをOnにしてビューに反映させる
     ///順番に描画が更新されるように時間をずらしながら実行
     func turnOnTriangles(index:Int,count:Int){
-        self.triangles[index].status = .onAppear
+//        self.triangles[index].status = .onAppear
         
         let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
         DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
             self?.triangles[index].status = .isOn
+            print("呼ばれた")
         }
+    }
+    
+    ///インスタンスのコピー作成用
+    private init(triangles:[TriangleViewModel],actionItems:[ActionItemModel],selectedActionItem:ActionItemModel?){
+        self.triangles = triangles
+        self.actionItems = actionItems
+        self.selectedActionItem = selectedActionItem
+    }
+    ///インスタンスのコピーを作成する
+    private func copy() -> StageModel{
+        let copy = StageModel(triangles: self.triangles, actionItems: self.actionItems, selectedActionItem: self.selectedActionItem)
+       
+        return copy
     }
 }
 

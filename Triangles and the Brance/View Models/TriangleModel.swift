@@ -81,6 +81,7 @@ import SwiftUI
 ///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
 enum TriangleStatus{
     case onAppear
+    case onAction
     case isOn
     case isDisappearing
     case isOff

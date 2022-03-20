@@ -70,6 +70,9 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 1.1
         case .onAppear:
             return 1.1
+        case .onAction:
+            return 1.1
+
         }
     }
     //透過度
@@ -82,6 +85,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isOff:
             return 0.001
         case .onAppear:
+            return 0.001
+        case .onAction:
             return 0.001
         }
     }
@@ -96,6 +101,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 0.5
         case .onAppear:
             return 0.5
+        case .onAction:
+            return 0.5
         }
     }
     
@@ -109,6 +116,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isOff:
             return 1.6
         case .onAppear:
+            return 1.6
+        case .onAction:
             return 1.6
         }
     }
