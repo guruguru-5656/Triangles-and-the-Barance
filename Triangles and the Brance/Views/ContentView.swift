@@ -8,10 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var stage = StageModel()
+    @StateObject var contentViewModel = ContentViewModel()
     var body: some View {
+        VStack{
+//            Button(action: {contentViewModel.resetStage()}){
+                Rectangle()
+                    .frame(width: 50, height: 50, alignment: .center)
+                    .rotationEffect(Angle(degrees: 45))
+                    .foregroundColor(.lightRed)
+                    .padding(30)
+//            }
+        }
         StageView()
-            .environmentObject(stage)
+            .environmentObject(contentViewModel.stage)
     }
 }
 

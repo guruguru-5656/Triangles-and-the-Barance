@@ -48,16 +48,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return Angle(degrees: 180)
         }
     }
-    
-//    ///本体の向きとは逆向きに回転させる
-//    private var triforceRotation:Angle{
-//        let remainder = stage.triangles[index].coordinate.x % 2
-//        if remainder == 0{
-//            return Angle(degrees: 180)
-//        }else{
-//            return Angle(degrees: 0)
-//        }
-//    }
+
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     private var scale: CGFloat{
@@ -69,8 +60,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isOff:
             return 1.1
         case .onAppear:
-            return 1.1
-        case .onAction:
             return 1.1
 
         }
@@ -86,8 +75,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 0.001
         case .onAppear:
             return 0.001
-        case .onAction:
-            return 0.001
         }
     }
     //アニメーションの時間指定
@@ -100,8 +87,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isOff:
             return 0.5
         case .onAppear:
-            return 0.5
-        case .onAction:
             return 0.5
         }
     }
@@ -116,8 +101,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
         case .isOff:
             return 1.6
         case .onAppear:
-            return 1.6
-        case .onAction:
             return 1.6
         }
     }
@@ -152,7 +135,26 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
-                    stage.trianglesTapAction(index: index)
+                    
+                    if stage.triangles[index].status == .isOn{
+                        
+                      
+                        let action = TriangleTapAction(stage: stage, index: index)
+                        stage.updateTrianglesStatusAndItem(action:action)
+                        
+                        
+                    }else{
+                        //アイテムが入っていた場合はtrianglesにセット
+                        if let selectedItemUnwraped = stage.selectedActionItem{
+                            stage.triangles[index].action = selectedItemUnwraped.action
+                            
+                            stage.actionItems.removeFirst()
+                            stage.selectedActionItem = nil
+                        }
+                        
+                        stage.triangles[index].status = .isOn
+                    }
+        
                 }
             //actionItemの描画
             if let actionItem = stage.triangles[index].action{

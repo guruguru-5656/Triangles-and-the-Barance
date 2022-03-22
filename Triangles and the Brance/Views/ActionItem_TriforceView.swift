@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ActionItem_TriforceView: View {
     @EnvironmentObject var stage:StageModel
-    @State var opacity:Double = 0
-    @State var scale:Double = 0.3
+    @State var opacity:Double = 1
+    @State var scale:Double = 0.5
     let width:CGFloat
     let height:CGFloat
     let rotation:Angle
@@ -24,12 +24,12 @@ struct ActionItem_TriforceView: View {
             .scaleEffect(scale)
             .position(drawPoint)
             .opacity(opacity)
-            .onAppear{
-                withAnimation(Animation.easeOut(duration: 0.3)){
-                    opacity = 1
-                    scale = 0.475
-                }
-            }
+//            .onAppear{
+//                withAnimation(Animation.easeOut(duration: 0.3)){
+//                    opacity = 1
+//                    scale = 0.475
+//                }
+//            }
             .onDisappear{
                 withAnimation(Animation.timingCurve(0.9, 0, 0.95, 0.9, duration: 0.6)){
                     opacity = 0

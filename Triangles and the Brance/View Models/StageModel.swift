@@ -54,6 +54,11 @@ class StageModel:ObservableObject{
         deleteTriangleCounter = 0
     }
     
+    deinit{
+        triangles = []
+        actionItems = []
+        selectedActionItem = nil
+    }
    
     //ステージの構造生成
     ///三角形のビューのセットアップ
@@ -85,97 +90,57 @@ class StageModel:ObservableObject{
     private func setStageActionItems(){
         //TODO: 前のステージで持っていたアイテムを引き継ぐ
         actionItems.append(contentsOf: [ActionItemModel(action: .triforce)])
+        actionItems.append(contentsOf: [ActionItemModel(action: .triforce)])
     }
     
-    ///Triangleのステータスを参照し、アクションを実行するか判断する
-    ///statusがisOnだった場合はdeleteTrianglesを呼び出す
-    func trianglesTapAction(index:Int) {
-        
-        //ステータスがisOnの場合は消去のプロセスに入る
-        if triangles[index].status == .isOn{
-            
-            let coordinate = triangles[index].coordinate
-            do{
-                //ステージ内のコピーを渡して、アクションを呼びだし、スコアの情報を受け取る
-                let copy = copy()
-                let action = ChangeTriangleStatusAction(item: copy.selectedActionItem, actionItems: copy.actionItems, triangles: copy.triangles)
- 
-                try action.deleteTriangles(coordinate: coordinate,action:triangles[index].action){ (onOrOff:OnOrOff,index:Int,counter:Int
-                ) -> Void in
-                    
-                    switch onOrOff {
-                    case .turnOn:
-                        self.turnOnTriangles(index: index, count: counter)
-                    case .turnOff:
-                        self.turnOffTriangles(index: index, count: counter)
-                    }
-                    
-                }
-                //                { [weak self] score in
-                //                    if score.count >= 8{
-//                        self?.actionItems.append(ActionItemModel(action: .triforce))
-//                    }
-//                    //TODO: スコアの計算を行う
-//                    self?.deleteTriangleCounter += score.count
-//                }
-            }catch{
-                print("ERROR:\(error)")
-            }
-            
-        }else{
-            //アイテムが入っていた場合はtrianglesにセットする
-            if let selectedItem = selectedActionItem{
-                triangles[index].action = selectedItem.action
-                guard let itemIndex = actionItems.firstIndex(where: { $0.id == selectedItem.id})
-                else{
-                    print("インデックスエラー")
-                    return
-                }
-                //アイテムの更新
-                actionItems.remove(at: itemIndex)
-                selectedActionItem = nil
-            }
-        
-            triangles[index].status = .isOn
-        }
-    }
-    ///指定されたインデックス番号のTriangleのステータスをOffにしてビューに反映させる
+   
+   
+    ///タップアクションを受けて、ビューを更新する
     ///順番に描画が更新されるように時間をずらしながら実行
-    func turnOffTriangles(index:Int,count:Int){
-
-            self.triangles[index].status = .isDisappearing
-  
-        let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
-        DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-            self?.triangles[index].status = .isOff
-            self?.triangles[index].action = nil
+    func updateTrianglesStatusAndItem(action: TriangleTapAction) {
+      
+        //アクションを行う場所に対して操作できないようにステータスを変更する
+        for plan in action.plans {
+            switch plan.changeStatus{
+            case .toTurnOn:
+                self.triangles[plan.index].status = .onAppear
+            case .toTurnOff:
+                self.triangles[plan.index].status = .isDisappearing
+            case .toTurnOffWithAction:
+                self.triangles[plan.index].status = .isDisappearing
+            }
         }
+        
+        let dispachGroup = DispatchGroup()
+        
+        for plan in action.plans {
             
-        
-    }
-    ///指定されたインデックス番号のTriangleのステータスをOnにしてビューに反映させる
-    ///順番に描画が更新されるように時間をずらしながら実行
-    func turnOnTriangles(index:Int,count:Int){
-//        self.triangles[index].status = .onAppear
-        
-        let timeCount = DispatchTime.now() + DispatchTimeInterval.milliseconds( count * 300)
-        DispatchQueue.main.asyncAfter(deadline: timeCount){ [weak self] in
-            self?.triangles[index].status = .isOn
-            print("呼ばれた")
+            let countTime = 0.3 * Double(plan.count)
+            
+            dispachGroup.enter()
+            DispatchQueue.main.asyncAfter(deadline: .now() + countTime){
+                switch plan.changeStatus{
+                case .toTurnOn:
+                    self.triangles[plan.index].status = .isOn
+                case .toTurnOff:
+                    self.triangles[plan.index].status = .isOff
+                case .toTurnOffWithAction:
+                    self.triangles[plan.index].status = .isOff
+                    self.triangles[plan.index].action = nil
+                }
+                dispachGroup.leave()
+            }
         }
-    }
-    
-    ///インスタンスのコピー作成用
-    private init(triangles:[TriangleViewModel],actionItems:[ActionItemModel],selectedActionItem:ActionItemModel?){
-        self.triangles = triangles
-        self.actionItems = actionItems
-        self.selectedActionItem = selectedActionItem
-    }
-    ///インスタンスのコピーを作成する
-    private func copy() -> StageModel{
-        let copy = StageModel(triangles: self.triangles, actionItems: self.actionItems, selectedActionItem: self.selectedActionItem)
-       
-        return copy
+        
+        //全て終わったらアイテムを追加する
+        //TODO: スコアの計算とステージのクリア判定
+        dispachGroup.notify(queue: .main){
+            
+            if let additionalItem = action.additionalItem{
+                self.actionItems.append(additionalItem)
+              
+            }
+        }
     }
 }
 

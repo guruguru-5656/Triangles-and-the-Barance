@@ -19,11 +19,11 @@ struct TriforceActionView:DrawItemActionView{
                           .fill(Color.white)
                           .opacity(0.7)
               )
-              .frame(width: size, height: size, alignment: .top)
+              .frame(width: size, height: size)
   
               DragItemNormalShapeSmall()
                    .stroke(Color.lightRed, lineWidth: 2)
-                   .frame(width: size, height: size, alignment: .top)
+                   .frame(width: size, height: size)
         }
         
     }

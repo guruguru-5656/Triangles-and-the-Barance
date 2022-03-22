@@ -24,23 +24,8 @@ import SwiftUI
          (stage?.triangles.firstIndex{ $0.id == self.id })!
      }
      var id = UUID()
-     ///隣接するTriangleのModelCoordinateの座標を取得
-     var nextModelCoordinates:[ModelCoordinate]{
-        var nextCoordinates:[ModelCoordinate] = []
-        let remainder = coordinate.x % 2
-        if remainder == 0{
-            nextCoordinates.append(contentsOf: [
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y-1),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),])
-        }else{
-            nextCoordinates.append(contentsOf: [
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x+1, y:coordinate.y),
-                ModelCoordinate(x:coordinate.x-1, y:coordinate.y+1),])
-        }
-        return nextCoordinates
-    }
+     
+    
     
     ///対応する頂点の座標系
     var vertexCoordinate:[TriVertexCoordinate]{
@@ -81,7 +66,6 @@ import SwiftUI
 ///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
 enum TriangleStatus{
     case onAppear
-    case onAction
     case isOn
     case isDisappearing
     case isOff
@@ -90,5 +74,23 @@ enum TriangleStatus{
 struct ModelCoordinate:Hashable{
     var x:Int
     var y:Int
+    
+    ///隣接する座標のSet
+    var nextCoordinates: Set<ModelCoordinate>{
+       let nextCoordinates: Set<ModelCoordinate>
+       let remainder = self.x % 2
+        if remainder == 0{
+            nextCoordinates = ([
+               ModelCoordinate(x:self.x-1, y:self.y),
+               ModelCoordinate(x:self.x+1, y:self.y-1),
+               ModelCoordinate(x:self.x+1, y:self.y),])
+        }else{
+            nextCoordinates = ([
+               ModelCoordinate(x:self.x-1, y:self.y),
+               ModelCoordinate(x:self.x+1, y:self.y),
+               ModelCoordinate(x:self.x-1, y:self.y+1),])
+        }
+        return nextCoordinates
+    }
 }
 

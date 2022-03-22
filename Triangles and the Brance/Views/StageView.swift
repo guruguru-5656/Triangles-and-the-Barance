@@ -13,13 +13,10 @@ struct StageView: View {
     var body: some View {
         
         VStack {
-            ProgressView(value: /*@START_MENU_TOKEN@*/0.5/*@END_MENU_TOKEN@*/)
-                .tint(.heavyRed)
-                .frame(width: UIScreen.main.bounds.width, height: 30, alignment: .center)
-                .padding(.vertical, 60)
-    
-            VStack {
+ 
             
+            VStack {
+                
                 ZStack(alignment: .center){
                     GeometryReader{ geometory in
                         
@@ -40,22 +37,26 @@ struct StageView: View {
                         .padding(.vertical, 10)
                     
                 }
-     
-                HStack(alignment:.center){
+                
+                Section {
                     GeometryReader{ geometry in
-                        ForEach(stage.actionItems){ item in
-                            ActionItemView(item: item,size:geometry.size.height)
+                    HStack{
+                            ForEach(stage.actionItems,id: \.self){ item in
+                                ActionItemView(item: item,size:geometry.size.height)
+                            }
                         }
                     }
-                    
                 }
+                
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/12,alignment: .center)
                 .padding(.top, 10)
                 
                 .background(Color.lightGray)
             }
+            BaranceView(angle: Double.pi/12)
+                .padding(.top, 30)
         }
-        Spacer()
+        
     }
 }
 
