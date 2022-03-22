@@ -38,17 +38,17 @@ struct TriangleTapAction{
             
             self.plans = try deleteTriangles(coordinate: coordinate, action: triangles[index].action)
             
+            //一定数以上消していた場合は新しくItemを追加する
             let deleteCount = plans.filter{
                 $0.changeStatus == .toTurnOff || $0.changeStatus == .toTurnOffWithAction
             }.count
-            
-            //一定数以上消していた場合は新しくItemを追加する
             for action in actionsForGenerateTriangle{
                 if deleteCount >= action.cost!{
                     self.additionalItem = ActionItemModel(action: action)
                     break
                 }
             }
+            
         }catch{
             print("ERROR:\(error)")
         }
@@ -81,6 +81,7 @@ struct TriangleTapAction{
                 
                 let nextCoordinates = searchingNow.nextCoordinates
                 
+                
                 if triangles[index].status == .isOn{
                     //アクションが入っている場合は、アクションに指定されたマスをOnにして、探索済みから取り除く
                     if let action = triangles[index].action{
@@ -92,6 +93,8 @@ struct TriangleTapAction{
                         //アクションをおこなう座標のステータスを更新し、planに加える
                         coordinatesInStage(coordinates: actionCoordinate).map{
                             indexOfTrianglesInStage(coordinate: $0)!
+                        }.filter{
+                            triangles[$0].status != .isOn
                         }.forEach{
                             triangles[$0].status = .isOn
                             plan.append(PlanOfChangeStatus(index: $0, count: counter, changeStatus: .toTurnOn))
@@ -101,7 +104,7 @@ struct TriangleTapAction{
                         
                         triangles[index].action = nil
                         willSearch.formUnion(nextCoordinates)
-                        
+                        counter += 1
                     }else{
                         
                     plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOff))
