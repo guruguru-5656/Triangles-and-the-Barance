@@ -61,7 +61,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 1.1
         case .onAppear:
             return 1.1
-
         }
     }
     //透過度
@@ -117,9 +116,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .animation(.easeOut(duration: duration), value: opacity)
     }
     
-    //actionItemのアニメーションプロパティ
-    @State var actionItemOpacity = 1
-    
+   
     //本体の描画
     var body: some View {
         ZStack{
@@ -135,26 +132,23 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
-                    
-                    if stage.triangles[index].status == .isOn{
-                        
-                      
-                        let action = TriangleTapAction(stage: stage, index: index)
-                        stage.updateTrianglesStatusAndItem(action:action)
-                        
-                        
-                    }else{
-                        //アイテムが入っていた場合はtrianglesにセット
-                        if let selectedItemUnwraped = stage.selectedActionItem{
-                            stage.triangles[index].action = selectedItemUnwraped.action
+                    withAnimation{
+                        if stage.triangles[index].status == .isOn{
+                            let action = TriangleTapAction(stage: stage, index: index)
+                            stage.updateTrianglesStatusAndItem(action:action)
                             
-                            stage.actionItems.removeFirst()
-                            stage.selectedActionItem = nil
+                        }else{
+                            //アイテムが入っていた場合はtrianglesにセット
+                            if let selectedItemUnwraped = stage.selectedActionItem{
+                                stage.triangles[index].action = selectedItemUnwraped.action
+                                
+                                stage.actionItems.removeFirst()
+                                stage.selectedActionItem = nil
+                            }
+                            
+                            stage.triangles[index].status = .isOn
                         }
-                        
-                        stage.triangles[index].status = .isOn
                     }
-        
                 }
             //actionItemの描画
             if let actionItem = stage.triangles[index].action{

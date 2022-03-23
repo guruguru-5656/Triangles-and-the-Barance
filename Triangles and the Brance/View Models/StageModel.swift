@@ -53,12 +53,7 @@ class StageModel:ObservableObject{
         setStageActionItems()
         deleteTriangleCounter = 0
     }
-    
-    deinit{
-        triangles = []
-        actionItems = []
-        selectedActionItem = nil
-    }
+  
    
     //ステージの構造生成
     ///三角形のビューのセットアップ
@@ -103,6 +98,7 @@ class StageModel:ObservableObject{
         for plan in action.plans {
             switch plan.changeStatus{
             case .toTurnOn:
+                print(plan.count)
                 self.triangles[plan.index].status = .onAppear
             case .toTurnOff:
                 self.triangles[plan.index].status = .isDisappearing
@@ -121,6 +117,7 @@ class StageModel:ObservableObject{
             DispatchQueue.main.asyncAfter(deadline: .now() + countTime){
                 switch plan.changeStatus{
                 case .toTurnOn:
+                    print(plan.count)
                     self.triangles[plan.index].status = .isOn
                 case .toTurnOff:
                     self.triangles[plan.index].status = .isOff
@@ -142,6 +139,8 @@ class StageModel:ObservableObject{
             }
         }
     }
+
+ 
 }
 
 enum StageError:Error{

@@ -80,9 +80,8 @@ struct TriangleTapAction{
                 else{ throw StageError.triangleIndexError }
                 
                 let nextCoordinates = searchingNow.nextCoordinates
-                
-                
-                if triangles[index].status == .isOn{
+       
+                if triangles[index].status == .isOn || triangles[index].status == .onAppear{
                     //アクションが入っている場合は、アクションに指定されたマスをOnにして、探索済みから取り除く
                     if let action = triangles[index].action{
                         
@@ -94,23 +93,23 @@ struct TriangleTapAction{
                         coordinatesInStage(coordinates: actionCoordinate).map{
                             indexOfTrianglesInStage(coordinate: $0)!
                         }.filter{
-                            triangles[$0].status != .isOn
+                            triangles[$0].status != .isOn && triangles[$0].status != .onAppear
                         }.forEach{
-                            triangles[$0].status = .isOn
-                            plan.append(PlanOfChangeStatus(index: $0, count: counter, changeStatus: .toTurnOn))
+                            triangles[$0].status = .onAppear
                         }
                         
                         plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOffWithAction))
                         
                         triangles[index].action = nil
                         willSearch.formUnion(nextCoordinates)
-                        counter += 1
+    
                     }else{
                         
                     plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOff))
                     willSearch.formUnion(nextCoordinates)
                     }
                 }
+                
             }
             //処理が一巡終わった際に次の探索予定とカウンターを更新
             willSearch.subtract(didSearched)

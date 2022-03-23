@@ -13,7 +13,6 @@ struct StageView: View {
     var body: some View {
         
         VStack {
- 
             
             VStack {
                 

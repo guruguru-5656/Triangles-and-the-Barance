@@ -24,19 +24,13 @@ struct ActionItem_TriforceView: View {
             .scaleEffect(scale)
             .position(drawPoint)
             .opacity(opacity)
-//            .onAppear{
-//                withAnimation(Animation.easeOut(duration: 0.3)){
-//                    opacity = 1
-//                    scale = 0.475
-//                }
-//            }
+            .onAppear{
+                    opacity = 1
+                    scale = 0.475
+            }
             .onDisappear{
-                withAnimation(Animation.timingCurve(0.9, 0, 0.95, 0.9, duration: 0.6)){
                     opacity = 0
-                }
-                withAnimation(Animation.easeOut(duration: 0.6)){
                     scale = 1.9
-                }
             }
     }
 }
