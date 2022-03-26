@@ -19,7 +19,7 @@ import SwiftUI
      var status:TriangleStatus
      var action:ActionType?
      
-     private weak var stage:StageModel?
+     private weak var stage:GameModel?
      var index:Int{
          (stage?.triangles.firstIndex{ $0.id == self.id })!
      }

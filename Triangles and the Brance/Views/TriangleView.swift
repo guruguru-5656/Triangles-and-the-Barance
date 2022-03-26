@@ -10,14 +10,12 @@ struct TriangleFromCenterView: View, DrawTriangle {
         self.id = id
         self.width = size
     }
-    @EnvironmentObject var stage:StageModel
-    
+    @EnvironmentObject var stage:GameModel
     //親ビューからIDを割り当て、それをステージのモデルから検索することによってインデックス番号を取得する
     var id:UUID
     var index:Int{
         stage.triangles.firstIndex{ $0.id == self.id }!
     }
-   
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
     
@@ -48,7 +46,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return Angle(degrees: 180)
         }
     }
-
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     private var scale: CGFloat{
@@ -89,7 +86,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
             return 0.5
         }
     }
-    
     //フレームにアニメーションをつけるプロパティ
     private var frameScale: CGFloat{
         switch stage.triangles[index].status{
@@ -115,12 +111,9 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
-    
-   
     //本体の描画
     var body: some View {
         ZStack{
-    
         DrawTriangleFromCenter()
                 .foregroundColor(.lightRed)
                 .frame(width: width, height: height , alignment: .top)
@@ -134,18 +127,14 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .onTapGesture {
                     withAnimation{
                         if stage.triangles[index].status == .isOn{
-                            let action = TriangleTapAction(stage: stage, index: index)
-                            stage.updateTrianglesStatusAndItem(action:action)
-                            
+                            stage.triangleTapAction(index: index)
                         }else{
                             //アイテムが入っていた場合はtrianglesにセット
                             if let selectedItemUnwraped = stage.selectedActionItem{
                                 stage.triangles[index].action = selectedItemUnwraped.action
-                                
                                 stage.actionItems.removeFirst()
                                 stage.selectedActionItem = nil
                             }
-                            
                             stage.triangles[index].status = .isOn
                         }
                     }

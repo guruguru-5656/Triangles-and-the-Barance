@@ -9,11 +9,9 @@ import SwiftUI
 
 ///アイテムのビュー
 struct ActionItemView: View {
-    @EnvironmentObject var stage:StageModel
-
+    @EnvironmentObject var stage:GameModel
     let item:ActionItemModel
     let size:CGFloat
-    
     //アニメーション用プロパティ
     var circleScale:Double{
         guard let stageItem = stage.selectedActionItem

@@ -9,11 +9,11 @@ import Foundation
 
 class ContentViewModel:ObservableObject{
     init(){
-        stage = StageModel()
+        stage = GameModel()
     }
-    @Published var stage:StageModel
+    @Published var stage:GameModel
     
     func resetStage(){
-        stage = StageModel()
+        stage = GameModel()
     }
 }

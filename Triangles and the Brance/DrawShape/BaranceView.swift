@@ -8,14 +8,19 @@
 import SwiftUI
 
 struct BaranceView: View {
-    let baseScale = UIScreen.main.bounds.width/12
-    @State var opacity = 0.5
-    @State var angle:Double
+    let baseScale = UIScreen.main.bounds.width/15
+    @EnvironmentObject var game:GameModel
+    var opacity:Double{
+        game.clearPercent
+    }
+    var angle:Double{
+        (0.5 - Double(game.clearPercent)) * Double.pi/12
+    }
     
     var distance:Double{
         baseScale * 4 * sin(angle)
     }
-    
+
     
     var body: some View {
         ZStack{
@@ -24,16 +29,19 @@ struct BaranceView: View {
                 .foregroundColor(.gray)
                 .frame(width: baseScale/8, height: baseScale * 1.9)
                 .position(x: baseScale * 0.25, y: baseScale * 1 - distance)
+                .animation(.default, value: distance)
             Rectangle()
                 .foregroundColor(.gray)
                 .frame(width: baseScale/8, height: baseScale * 1.9)
                 .position(x: baseScale*7.75, y: baseScale * 1 + distance)
+                .animation(.default, value: distance)
             
             
             RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(.lightGray)
                 .frame(width: baseScale * 8, height: baseScale/4)
                 .rotationEffect(Angle(radians: angle))
+                .animation(.default, value: angle)
                 .position(x: baseScale * 4, y: baseScale/8)
                 
             Rectangle()
@@ -42,7 +50,7 @@ struct BaranceView: View {
                 .position(x: baseScale*4, y: baseScale * 1.5)
             
             //中央の三角形
-            DragItemNormalShape()
+            TriangleNormalShape()
                 .frame(width: baseScale * 2, height: baseScale * sqrt(3))
                 .foregroundColor(Color.lightRed)
                 .position(x:baseScale * 4, y: baseScale * 2.7)
@@ -60,35 +68,39 @@ struct BaranceView: View {
                 .foregroundColor(.gray)
                 .frame(width:baseScale * 1.2, height:baseScale * 1.2 )
                 .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
+                .animation(.default, value: distance)
             
             //左側の三角形の本体
-            DragItemNormalShape()
+            TriangleNormalShape()
                 .foregroundColor(.white)
                 .rotationEffect(Angle(degrees: 180))
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                .animation(.default, value: distance)
                 .overlay{
-                    DragItemNormalShape()
+                    TriangleNormalShape()
                         .foregroundColor(.heavyRed)
                         .rotationEffect(Angle(degrees: 180))
                         .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
-                        .opacity(0.5)
+                        .animation(.default, value: distance)
+                        .opacity(opacity)
+                        .animation(.default, value: opacity)
                 }
-            
             //三角形のフレーム部分
-            DragItemNormalShape()
+            TriangleNormalShape()
                 .stroke(Color.heavyRed)
                 .rotationEffect(Angle(degrees: 180))
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
-                
+                .animation(.default, value: distance)
         }.frame(width: baseScale * 8, height: baseScale * 4)
     }
 }
 
 struct BaranceView_Previews: PreviewProvider {
     static var previews: some View {
-        BaranceView(angle:Double.pi/15)
+        BaranceView()
+            .environmentObject(GameModel())
     }
 }

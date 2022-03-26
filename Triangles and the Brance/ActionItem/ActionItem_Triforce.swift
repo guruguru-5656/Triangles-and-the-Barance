@@ -13,15 +13,15 @@ struct TriforceActionView:DrawItemActionView{
     
     var body: some View {
         ZStack{
-    DragItemNormalShape()
+    TriangleNormalShape()
               .stroke(Color.lightRed, lineWidth: 2)
-              .overlay(DragItemNormalShape()
+              .overlay(TriangleNormalShape()
                           .fill(Color.white)
                           .opacity(0.7)
               )
               .frame(width: size, height: size)
   
-              DragItemNormalShapeSmall()
+              TriangleNormalShapeSmall()
                    .stroke(Color.lightRed, lineWidth: 2)
                    .frame(width: size, height: size)
         }
@@ -29,7 +29,7 @@ struct TriforceActionView:DrawItemActionView{
     }
 }
 
-struct DragItemNormalShapeSmall: Shape{
+struct TriangleNormalShapeSmall: Shape{
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
@@ -43,7 +43,7 @@ struct DragItemNormalShapeSmall: Shape{
 }
 
 
-struct DragItemNormalShape:Shape{
+struct TriangleNormalShape:Shape{
 
     func path(in rect: CGRect) -> Path {
         var path = Path()

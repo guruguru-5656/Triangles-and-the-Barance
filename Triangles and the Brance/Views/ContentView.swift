@@ -10,15 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var contentViewModel = ContentViewModel()
     var body: some View {
-        VStack{
-//            Button(action: {contentViewModel.resetStage()}){
-                Rectangle()
-                    .frame(width: 50, height: 50, alignment: .center)
-                    .rotationEffect(Angle(degrees: 45))
-                    .foregroundColor(.lightRed)
-                    .padding(30)
-//            }
-        }
+        
         StageView()
             .environmentObject(contentViewModel.stage)
     }

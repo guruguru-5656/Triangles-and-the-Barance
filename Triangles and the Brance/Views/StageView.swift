@@ -8,35 +8,46 @@
 import SwiftUI
 
 struct StageView: View {
-    @EnvironmentObject var stage:StageModel
-
+    @EnvironmentObject var stage:GameModel
+   let backGround = StageBackground()
     var body: some View {
-        
         VStack {
-            
             VStack {
-                
-                ZStack(alignment: .center){
+                HStack{
+                    VStack{
+                        Text("level")
+                            .font(.title)
+                            .foregroundColor(Color(white: 0.3))
+                        Rectangle()
+                            .frame(width: 50, height: 50, alignment: .center)
+                            .rotationEffect(Angle(degrees: 45))
+                            .foregroundColor(.lightRed)
+                            .overlay{
+                                Text(String(stage.stageLevel))
+                                    .font(.largeTitle)
+                                    .foregroundColor(.white)
+                                    .bold()
+                            }
+                    }
+                    .padding(30)
+                }
+                ZStack(alignment: .center) {
                     GeometryReader{ geometory in
-                        
                         //背景
-                        DrawShapeFromVertexCoordinate(coordinates: stage.backGroundHexagon, scale: geometory.size.width/6)
+                        DrawShapeFromVertexCoordinate(coordinates: StageBackground.hexagon, scale: geometory.size.width/6)
                             .foregroundColor(.backgroundLightGray)
                         //背景の線部分
-                        ForEach(stage.stageLines){ line in
+                        ForEach(backGround.stageLines){ line in
                             DrawTriLine(line: line, scale: geometory.size.width/6)
                                 .stroke(Color.heavyRed, lineWidth: 1)
                         }
                         //メインの三角形の表示
                         ForEach(stage.triangles){ triangles in
                             TriangleFromCenterView(id: triangles.id, size: geometory.size.width/6)
-                            
                         }
                     }.frame(width: UIScreen.main.bounds.width * 7/8, height: UIScreen.main.bounds.width*3/4)
                         .padding(.vertical, 10)
-                    
                 }
-                
                 Section {
                     GeometryReader{ geometry in
                     HStack{
@@ -46,16 +57,25 @@ struct StageView: View {
                         }
                     }
                 }
-                
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height/12,alignment: .center)
                 .padding(.top, 10)
                 
                 .background(Color.lightGray)
             }
-            BaranceView(angle: Double.pi/12)
-                .padding(.top, 30)
+            HStack{
+                VStack{
+                TriangleNormalShape()
+                        .fill(Color.lightRed)
+                        .frame(width: 80, height: 80)
+                    Text("×\(String(stage.life))")
+                        .font(.title)
+                        .foregroundColor(Color(white: 0.3))
+                        .position(x: 55, y: -15)
+                }
+                BaranceView()
+                    .padding(30)
+            }
         }
-        
     }
 }
 
@@ -64,7 +84,7 @@ struct StageView: View {
 struct StageView_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
-            .environmentObject(StageModel())
+            .environmentObject(GameModel())
     }
 }
 

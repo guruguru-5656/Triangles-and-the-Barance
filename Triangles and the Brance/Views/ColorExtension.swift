@@ -30,7 +30,7 @@ extension Color{
 struct StageViewColor_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
-            .environmentObject(StageModel())
+            .environmentObject(GameModel())
     }
 }
 

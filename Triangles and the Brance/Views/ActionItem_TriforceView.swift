@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActionItem_TriforceView: View {
-    @EnvironmentObject var stage:StageModel
+    @EnvironmentObject var stage:GameModel
     @State var opacity:Double = 1
     @State var scale:Double = 0.5
     let width:CGFloat
