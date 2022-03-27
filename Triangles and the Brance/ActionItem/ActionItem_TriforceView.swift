@@ -9,20 +9,20 @@ import SwiftUI
 
 
 struct TriforceActionView:DrawItemActionView{
+    @EnvironmentObject var game:GameModel
     let size:CGFloat
     
     var body: some View {
         ZStack{
     TriangleNormalShape()
-              .stroke(Color.lightRed, lineWidth: 2)
+                .stroke(game.currentColor.heavy, lineWidth: 3)
               .overlay(TriangleNormalShape()
                           .fill(Color.white)
-                          .opacity(0.7)
               )
               .frame(width: size, height: size)
   
               TriangleNormalShapeSmall()
-                   .stroke(Color.lightRed, lineWidth: 2)
+                   .stroke(game.currentColor.light, lineWidth: 2)
                    .frame(width: size, height: size)
         }
         

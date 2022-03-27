@@ -7,24 +7,37 @@
 
 import SwiftUI
 
-extension Color{
+extension Color {
     static let allmostClear = Color( white: 1, opacity: 0.01)
     static let backgroundLightGray = Color(white: 0.95)
     static let lightGray = Color(white: 0.9)
+    
     static let lightRed = Color(red: 255/255, green: 165/255, blue: 165/255)
+    static let lightOrenge = Color(red: 255/255, green: 211/255, blue: 165/255)
+    static let lightYellow = Color(red: 240/255, green: 240/255, blue: 155/255)
+    static let lightYellowGreen = Color(red: 197/255, green: 240/255, blue: 155/255)
+    static let lightGreen = Color(red: 156/255, green: 240/255, blue: 155/255)
+    static let lightGreenBlue = Color(red: 155/255, green: 240/255, blue: 198/255)
+    static let lightWaterBlue = Color(red: 156/255, green: 240/255, blue: 240/255)
+    static let lightWhiteBlue = Color(red: 165/255, green: 211/255, blue: 255/255)
+    static let lightBluePurple = Color(red: 165/255, green: 165/255, blue: 255/255)
+    static let lightPurple = Color(red: 210/255, green: 165/255, blue: 255/255)
+    static let lightFujiPurple = Color(red: 255/255, green: 165/255, blue: 255/255)
+    static let lightPinkPurple = Color(red: 255/255, green: 165/255, blue: 211/255)
+    
+        
     static let heavyRed = Color(red: 200/255, green: 130/255, blue: 130/255)
-    static let lightOrenge = Color(red: 255/255, green: 226/255, blue: 195/255)
-    static let lightYellow = Color(red: 255/255, green: 255/255, blue: 195/255)
-    static let lightYellowGreen = Color(red: 225/255, green: 255/255, blue: 195/255)
-    static let lightGreen = Color(red: 195/255, green: 255/255, blue: 195/255)
-    static let lightGreenBlue = Color(red: 195/255, green: 255/255, blue: 226/255)
-    static let lightWaterBlue = Color(red: 195/255, green: 255/255, blue: 255/255)
-    static let lightWhiteBlue = Color(red: 195/255, green: 226/255, blue: 255/255)
-    static let lightBluePurple = Color(red: 195/255, green: 195/255, blue: 255/255)
-    static let lightPurple = Color(red: 226/255, green: 195/255, blue: 255/255)
-    static let lightFujiPurple = Color(red: 225/255, green: 195/255, blue: 255/255)
-    static let lightPinkPurple = Color(red: 255/255, green: 195/255, blue: 255/255)
-    static let lightPink = Color(red: 255/255, green: 195/255, blue: 226/255)
+    static let heavyOrenge = Color(red: 200/255, green: 165/255, blue: 130/255)
+    static let heavyYellow = Color(red: 200/255, green: 200/255, blue: 129/255)
+    static let heavyYellowGreen = Color(red: 165/255, green: 200/255, blue: 130/255)
+    static let heavyGreen = Color(red: 130/255, green: 200/255, blue: 130/255)
+    static let heavyGreenBlue = Color(red: 130/255, green: 200/255, blue: 165/255)
+    static let heavyWaterBlue = Color(red: 130/255, green: 200/255, blue: 200/255)
+    static let heavyWhiteBlue = Color(red: 130/255, green: 165/255, blue: 200/255)
+    static let heavyBluePurple = Color(red: 130/255, green: 130/255, blue: 200/255)
+    static let heavyPurple = Color(red: 165/255, green: 130/255, blue: 200/255)
+    static let heavyFujiPurple = Color(red: 200/255, green: 130/255, blue: 200/255)
+    static let heavyPinkPurple = Color(red: 200/255, green: 130/255, blue: 165/255)
 }
 
 struct StageViewColor_Previews: PreviewProvider {
@@ -34,55 +47,78 @@ struct StageViewColor_Previews: PreviewProvider {
     }
 }
 
-
 ///カラーをループする構造にした列挙体。イニシャライザで初期値が設定され、nextColorメソッドを呼ぶたびに次のcaseが表示される
-enum MyColor:Int{
-    case lightRed = 0
-    case lightOrenge,lightYellow,lightYellowGreen,lightGreen,lightGreenBlue,
-         lightWaterBlue,lightWhiteBlue,lightBluePurple,lightPurple,lightFujiPurple,
-         lightPinkPurple,lightPink
+enum MyColor: Int {
+    case red = 0
+    case orenge,yellow,yellowGreen,green,greenBlue,
+         waterBlue,whiteBlue,bluePurple,purple,fujiPurple,
+         pinkPurple
     init(){
-        self = .lightPink
+        self = .red
     }
     ///次のカラーに移る
     mutating func nextColor(){
         switch self{
-        case .lightPink:
-            return self = MyColor.lightRed
+        case .pinkPurple:
+            return self = MyColor.red
         default:
             return self = MyColor.init(rawValue: self.rawValue+1)!
         }
     }
-    var color:Color{
+    var light: Color {
         switch self{
-        case .lightRed:
-            return Color.lightRed
-        case .lightOrenge:
-            return Color.lightOrenge
-        case .lightYellow:
-            return Color.lightYellow
-        case .lightYellowGreen:
-            return Color.lightYellowGreen
-        case .lightGreen:
-            return Color.lightGreen
-        case .lightGreenBlue:
-            return Color.lightGreenBlue
-        case .lightWaterBlue:
-            return Color.lightWaterBlue
-        case .lightWhiteBlue:
-            return Color.lightWhiteBlue
-        case .lightBluePurple:
-            return Color.lightBluePurple
-        case .lightPurple:
-            return Color.lightPurple
-        case .lightFujiPurple:
-            return Color.lightFujiPurple
-        case .lightPinkPurple:
-            return Color.lightPinkPurple
-        case .lightPink:
-            return Color.lightPink
+        case .red:
+            return .lightRed
+        case .orenge:
+            return .lightOrenge
+        case .yellow:
+            return .lightYellow
+        case .yellowGreen:
+            return .lightYellowGreen
+        case .green:
+            return .lightGreen
+        case .greenBlue:
+            return .lightGreenBlue
+        case .waterBlue:
+            return .lightWaterBlue
+        case .whiteBlue:
+            return .lightWhiteBlue
+        case .bluePurple:
+            return .lightBluePurple
+        case .purple:
+            return .lightPurple
+        case .fujiPurple:
+            return .lightFujiPurple
+        case .pinkPurple:
+            return .lightPinkPurple
         }
     }
-    
-    
+    var heavy: Color {
+        switch self {
+        case .red:
+            return .heavyRed
+        case .orenge:
+            return .heavyOrenge
+        case .yellow:
+            return .heavyYellow
+        case .yellowGreen:
+            return .heavyYellowGreen
+        case .green:
+            return .heavyGreen
+        case .greenBlue:
+            return .heavyGreenBlue
+        case .waterBlue:
+            return .heavyWaterBlue
+        case .whiteBlue:
+            return .heavyWhiteBlue
+        case .bluePurple:
+            return .heavyBluePurple
+        case .purple:
+            return .heavyPurple
+        case .fujiPurple:
+            return .heavyFujiPurple
+        case .pinkPurple:
+            return .heavyPinkPurple
+        }
+    }
 }

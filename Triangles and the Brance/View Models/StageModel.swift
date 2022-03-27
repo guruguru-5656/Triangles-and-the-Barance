@@ -16,7 +16,6 @@ class GameModel:ObservableObject{
     @Published var stageLevel = 1
     @Published var life:Int
     @Published var clearPercent:Double
-    
     var deleteCount = 0{
         didSet{
             clearPercent = Double(deleteCount) / Double(stageDifficulty.targetNumberOfDeleteTriangle)
@@ -26,12 +25,12 @@ class GameModel:ObservableObject{
             }
         }
     }
-    
     func stageClear(){
         stageLevel += 1
         deleteCount = 0
         stageDifficulty = StageLevelManeger(level: stageLevel)
         setTrianglesStatus()
+        currentColor.nextColor()
     }
     ///外側の配列がY軸、内側の配列がX軸を表す
     private var triangleArrengement: [[Int]] = [
@@ -42,10 +41,8 @@ class GameModel:ObservableObject{
         [Int](-2...6),
         [Int](-2...4)
     ]
-    
     //ステージの難易度に関するプロパティをまとめたクラス
     private var stageDifficulty = StageLevelManeger(level: 1)
-
     init(){
         //初期化時にステージの構造を生成
         deleteCount = 0
@@ -65,7 +62,6 @@ class GameModel:ObservableObject{
             }
         }
     }
-    
     private func setTrianglesStatus(){
         for index in triangles.indices {
             let random:Double = Double.random(in:1...100)

@@ -15,10 +15,9 @@ struct ActionItem_TriforceView: View {
     let height:CGFloat
     let rotation:Angle
     let drawPoint:CGPoint
-    
     var body: some View {
         DrawTriangleFromCenter()
-            .stroke(Color.heavyRed, lineWidth: 3)
+            .stroke(stage.currentColor.heavy, lineWidth: 3)
             .frame(width: width, height: height, alignment: .top)
             .rotationEffect(rotation)
             .scaleEffect(scale)

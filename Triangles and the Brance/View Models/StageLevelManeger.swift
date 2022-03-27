@@ -10,9 +10,9 @@ import Foundation
 class StageLevelManeger{
     init(level: Int){
         self.probabilityOfTriangleIsOn = StageLevelManeger.baseProbabilityOfTriangleIsOn
-        - Double(level) * 2
+        
         self.probabilityOfTriangleHaveAction = StageLevelManeger.baseProbabilityOfTriangleHaveAction +
-        Double(level) * 2
+        Double(level)
         self.targetNumberOfDeleteTriangle = 20 + level
     }
     var probabilityOfTriangleIsOn:Double

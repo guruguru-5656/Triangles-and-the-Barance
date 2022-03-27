@@ -102,7 +102,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //フレーム部分の描画
     private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
-            .stroke(Color.heavyRed, lineWidth: 2)
+            .stroke(stage.currentColor.heavy, lineWidth: 2)
             .frame(width: width, height: height , alignment: .center)
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
@@ -115,7 +115,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     var body: some View {
         ZStack{
         DrawTriangleFromCenter()
-                .foregroundColor(.lightRed)
+                .foregroundColor(stage.currentColor.light)
                 .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)
@@ -134,8 +134,11 @@ struct TriangleFromCenterView: View, DrawTriangle {
                                 stage.triangles[index].action = selectedItemUnwraped.action
                                 stage.actionItems.removeFirst()
                                 stage.selectedActionItem = nil
+                                stage.triangles[index].status = .isOn
+                            }else if stage.life != 0{
+                                stage.life -= 1
+                                stage.triangles[index].status = .isOn
                             }
-                            stage.triangles[index].status = .isOn
                         }
                     }
                 }

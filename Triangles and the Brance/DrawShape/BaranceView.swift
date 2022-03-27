@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct BaranceView: View {
-    let baseScale = UIScreen.main.bounds.width/15
+    let baseScale = UIScreen.main.bounds.width/14
     @EnvironmentObject var game:GameModel
     var opacity:Double{
         game.clearPercent
@@ -52,7 +52,7 @@ struct BaranceView: View {
             //中央の三角形
             TriangleNormalShape()
                 .frame(width: baseScale * 2, height: baseScale * sqrt(3))
-                .foregroundColor(Color.lightRed)
+                .foregroundColor(game.currentColor.light)
                 .position(x:baseScale * 4, y: baseScale * 2.7)
             Circle()
                 .foregroundColor(.gray)
@@ -69,7 +69,7 @@ struct BaranceView: View {
                 .frame(width:baseScale * 1.2, height:baseScale * 1.2 )
                 .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
                 .animation(.default, value: distance)
-            
+            Group{
             //左側の三角形の本体
             TriangleNormalShape()
                 .foregroundColor(.white)
@@ -79,7 +79,7 @@ struct BaranceView: View {
                 .animation(.default, value: distance)
                 .overlay{
                     TriangleNormalShape()
-                        .foregroundColor(.heavyRed)
+                        .foregroundColor(game.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
                         .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
@@ -89,12 +89,13 @@ struct BaranceView: View {
                 }
             //三角形のフレーム部分
             TriangleNormalShape()
-                .stroke(Color.heavyRed)
+                .stroke(game.currentColor.heavy)
                 .rotationEffect(Angle(degrees: 180))
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                 .animation(.default, value: distance)
         }.frame(width: baseScale * 8, height: baseScale * 4)
+        }
     }
 }
 

@@ -64,7 +64,7 @@ class TriangleTapAction {
                     $0.count == counter
                 }
                 if counter != 0{
-                    Thread.sleep(forTimeInterval: 0.3)
+                    Thread.sleep(forTimeInterval: 0.4)
                 }
                 for plan in filterdPlan  {
                     DispatchQueue.main.async{
@@ -82,11 +82,11 @@ class TriangleTapAction {
                 }
                 counter += 1
             }
-            Thread.sleep(forTimeInterval: 0.3)
+            Thread.sleep(forTimeInterval: 0.4)
             DispatchQueue.main.async {
                 trianglesDeleteFeedback(plans: plans)
             }
-            Thread.sleep(forTimeInterval: 0.5)
+            Thread.sleep(forTimeInterval: 0.6)
             DispatchQueue.main.async{
                 complesion()
             }

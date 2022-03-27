@@ -9,12 +9,12 @@ import SwiftUI
 
 ///アイテムのビュー
 struct ActionItemView: View {
-    @EnvironmentObject var stage:GameModel
+    @EnvironmentObject var game:GameModel
     let item:ActionItemModel
     let size:CGFloat
     //アニメーション用プロパティ
     var circleScale:Double{
-        guard let stageItem = stage.selectedActionItem
+        guard let stageItem = game.selectedActionItem
         else{ return 2 }
         if stageItem.id == self.item.id {
             return 1
@@ -23,7 +23,7 @@ struct ActionItemView: View {
         }
     }
     var circleOpacity:Double{
-        guard let stageItem = stage.selectedActionItem
+        guard let stageItem = game.selectedActionItem
         else{ return 0 }
         if stageItem.id == self.item.id{
             return 1
@@ -33,13 +33,13 @@ struct ActionItemView: View {
     }
    //ステージのインデックスを取得する
     var index:Int{
-        return stage.actionItems.firstIndex{ $0.id == self.item.id }!
+        return game.actionItems.firstIndex{ $0.id == self.item.id }!
     }
     
     var body: some View {
         ZStack{
             Circle()
-                .stroke(Color.lightRed, lineWidth: 1)
+                .stroke(game.currentColor.heavy, lineWidth: 1)
                 .frame(width: size, height: size, alignment: .center)
                 .scaleEffect(circleScale)
                 .animation(Animation.easeOut(duration: 0.2),value:circleScale)
@@ -47,11 +47,11 @@ struct ActionItemView: View {
                 .animation(Animation.easeOut(duration: 0.2),value:circleOpacity)
                 .contentShape(Circle())
                 .onTapGesture{
-                    if stage.selectedActionItem == nil{
-                        stage.selectedActionItem = item
+                    if game.selectedActionItem == nil{
+                        game.selectedActionItem = item
     
                     }else{
-                        stage.selectedActionItem = nil
+                        game.selectedActionItem = nil
                     }
                 }
             //アイテムの種類ごとに表示を出し分ける

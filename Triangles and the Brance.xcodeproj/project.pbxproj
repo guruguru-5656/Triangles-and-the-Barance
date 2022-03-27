@@ -26,9 +26,9 @@
 		045121BA27D43EAB00936E2C /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B927D43EAB00936E2C /* StageModel.swift */; };
 		045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */; };
 		0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */; };
-		0458239327E4C62B007800AC /* ActionItem_Triforce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_Triforce.swift */; };
+		0458239327E4C62B007800AC /* ActionItem_TriforceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */; };
 		0458239527E54758007800AC /* TriangleTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleTapAction.swift */; };
-		0458239727E59A9D007800AC /* ActionItem_TriforceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */; };
+		0458239727E59A9D007800AC /* ActionItem_TriforceInTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */; };
 		0458239927E7095D007800AC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239827E7095D007800AC /* ContentViewModel.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
 		046FB85027EF0C8800854EFE /* StageBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StageBackground.swift */; };
@@ -63,9 +63,9 @@
 		045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
 		0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangleFromCenter.swift; sourceTree = "<group>"; };
-		0458239227E4C62B007800AC /* ActionItem_Triforce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_Triforce.swift; sourceTree = "<group>"; };
+		0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceView.swift; sourceTree = "<group>"; };
 		0458239427E54758007800AC /* TriangleTapAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleTapAction.swift; sourceTree = "<group>"; };
-		0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceView.swift; sourceTree = "<group>"; };
+		0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceInTriangle.swift; sourceTree = "<group>"; };
 		0458239827E7095D007800AC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
 		046FB84F27EF0C8800854EFE /* StageBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageBackground.swift; sourceTree = "<group>"; };
@@ -156,7 +156,6 @@
 				045121B127D21B1200936E2C /* StageView.swift */,
 				046FB84F27EF0C8800854EFE /* StageBackground.swift */,
 				045121B527D21BE800936E2C /* TriangleView.swift */,
-				0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -177,8 +176,9 @@
 			isa = PBXGroup;
 			children = (
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
-				0458239227E4C62B007800AC /* ActionItem_Triforce.swift */,
 				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
+				0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */,
+				0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */,
 			);
 			path = ActionItem;
 			sourceTree = "<group>";
@@ -283,7 +283,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0458239327E4C62B007800AC /* ActionItem_Triforce.swift in Sources */,
+				0458239327E4C62B007800AC /* ActionItem_TriforceView.swift in Sources */,
 				045121BA27D43EAB00936E2C /* StageModel.swift in Sources */,
 				045121A427D2187600936E2C /* ContentView.swift in Sources */,
 				0458239B27E72A3A007800AC /* BaranceView.swift in Sources */,
@@ -299,7 +299,7 @@
 				0426B0E427DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */,
 				0458239527E54758007800AC /* TriangleTapAction.swift in Sources */,
 				0426B0EC27DEC0D400AC348E /* StageLevelManeger.swift in Sources */,
-				0458239727E59A9D007800AC /* ActionItem_TriforceView.swift in Sources */,
+				0458239727E59A9D007800AC /* ActionItem_TriforceInTriangle.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,
 				045121B627D21BE800936E2C /* TriangleView.swift in Sources */,
 			);
