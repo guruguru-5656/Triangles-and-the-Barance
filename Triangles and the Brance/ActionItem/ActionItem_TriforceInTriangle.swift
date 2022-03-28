@@ -9,27 +9,17 @@ import SwiftUI
 
 struct ActionItem_TriforceView: View {
     @EnvironmentObject var stage:GameModel
-    @State var opacity:Double = 1
-    @State var scale:Double = 0.5
     let width:CGFloat
-    let height:CGFloat
-    let rotation:Angle
-    let drawPoint:CGPoint
+    let height:CGFloat 
     var body: some View {
         DrawTriangleFromCenter()
-            .stroke(stage.currentColor.heavy, lineWidth: 3)
+            .stroke(stage.currentColor.heavy, lineWidth: 2)
+            .scaleEffect(0.8)
             .frame(width: width, height: height, alignment: .top)
-            .rotationEffect(rotation)
-            .scaleEffect(scale)
-            .position(drawPoint)
-            .opacity(opacity)
-            .onAppear{
-                    opacity = 1
-                    scale = 0.475
-            }
-            .onDisappear{
-                    opacity = 0
-                    scale = 1.9
-            }
+        DrawTriangleFromCenter()
+            .stroke(stage.currentColor.heavy, lineWidth: 2)
+            .scaleEffect(0.8)
+            .rotationEffect(Angle(degrees: 180))
+            .frame(width: width, height: height, alignment: .top)
     }
 }

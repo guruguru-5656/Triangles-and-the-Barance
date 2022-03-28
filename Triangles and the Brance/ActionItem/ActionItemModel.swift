@@ -10,24 +10,26 @@ import Foundation
 struct ActionItemModel:Identifiable,Hashable{
     let action: ActionType
     let id:UUID = UUID()
-    
+    var status: viewStatus
 }
 
 enum ActionType:CaseIterable{
+    case normal
     case triforce
-    
     ///生成にかかるコスト
     var cost: Int?{
         switch self{
         case .triforce:
             return 8
+        case .normal:
+            return nil
         }
     }
-    
     ///アクションごとにステージ内の書き換えを行う場所を返す
     func actionCoordinate(from coordinate:ModelCoordinate) ->Set<ModelCoordinate>{
-        
         switch self{
+        case .normal:
+            return []
         case .triforce:
             let coordinates: Set<ModelCoordinate>
             let remainder = coordinate.x % 2

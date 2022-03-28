@@ -37,13 +37,13 @@ class TriangleTapAction {
     private func appendStageItems(count: Int) {
         for action in actionsForGenerateTriangle{
             if count >= action.cost!{
-                stage.actionItems.append(ActionItemModel(action: action))
+                stage.actionItems.append(ActionItemModel(action: action, status: .onAppear))
                 break
             }
         }
     }
     ///消した数の半分の数を再度Onにする
-    private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]){
+    private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]) {
         let numberToAdd = plans.filter{
             $0.changeStatus == .toTurnOffWithAction || $0.changeStatus == .toTurnOff
         }.count / 2
@@ -60,13 +60,26 @@ class TriangleTapAction {
         //カウントごとに処理を分けて、ディレイをかけながら順番に実行する
         DispatchQueue.global().async{ [self] in
             while !plans.filter({ $0.count == counter }).isEmpty {
-                let filterdPlan = plans.filter {
+                let separatedPlan = plans.filter {
                     $0.count == counter
                 }
                 if counter != 0{
                     Thread.sleep(forTimeInterval: 0.4)
                 }
-                for plan in filterdPlan  {
+                //今処理をおこなっているカウントにアクションが入っていた場合はアニメーションを実行
+                let planWithAction = separatedPlan.filter{
+                    $0.changeStatus == .toTurnOffWithAction
+                }
+                if !planWithAction.isEmpty {
+                    planWithAction.forEach { plan in
+                        DispatchQueue.main.async {
+                            self.stage.triangles[plan.index].actionItem?.status = .isOff
+                        }
+                        Thread.sleep(forTimeInterval: 0.35)
+                    }
+                }
+                //ステータスの更新を行う
+                for plan in separatedPlan {
                     DispatchQueue.main.async{
                         switch plan.changeStatus{
                         case .toTurnOn:
@@ -76,7 +89,7 @@ class TriangleTapAction {
                             self.stage.triangles[plan.index].status = .isOff
                         case .toTurnOffWithAction:
                             self.stage.triangles[plan.index].status = .isOff
-                            self.stage.triangles[plan.index].action = nil
+                            self.stage.triangles[plan.index].actionItem = nil
                         }
                     }
                 }
@@ -97,10 +110,10 @@ class TriangleTapAction {
         var plan:[PlanOfChangeStatus] = []
         //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var counter = 0
-        var didSearched:Set<ModelCoordinate> = []
-        var willSearch:Set<ModelCoordinate> = []
+        var didSearched: Set<ModelCoordinate> = []
+        var willSearch: Set<ModelCoordinate> = []
         willSearch.insert(coordinate)
-        while !willSearch.isEmpty{
+        while !willSearch.isEmpty {
             let searching = willSearch
             for searchingNow in searching {
                 //先にdidsearchedに入れる理由はステージの範囲外だった場合に処理が完了しなくなるため
@@ -114,26 +127,27 @@ class TriangleTapAction {
                 else{ throw StageError.triangleIndexError }
                 let nextCoordinates = searchingNow.nextCoordinates
                 if stage.triangles[index].status == .isOn || stage.triangles[index].status == .onAppear {
-                    //アクションが入っている場合は、アクションに指定されたマスをOnにして、探索済みから取り除く
-                    if let action = stage.triangles[index].action {
-                        let actionCoordinate = action.actionCoordinate(from: searchingNow)
-                        didSearched.subtract(actionCoordinate)
-                        //アクションをおこなう座標のステータスを更新し、planに加える
-                        coordinatesInStage(coordinates: actionCoordinate).map {
-                            indexOfTrianglesInStage(coordinate: $0)!
-                        }.filter{
-                            stage.triangles[$0].status != .isOn && stage.triangles[$0].status != .onAppear
-                        }.forEach{
-                            plan.append(PlanOfChangeStatus(index: $0, count: counter, changeStatus: .toTurnOn))
-                            stage.triangles[$0].status = .onAppear
+                    //アクションが入っていてかつisDisappearing出ない場合は、アクションに指定されたマスをOnにして、探索済みから取り除く
+                    if let actionItem = stage.triangles[index].actionItem {
+                        if actionItem.status != .isDisappearing{
+                            let actionCoordinate = actionItem.action.actionCoordinate(from: searchingNow)
+                            didSearched.subtract(actionCoordinate)
+                            //アクションをおこなう座標のステータスを更新し、planに加える
+                            coordinatesInStage(coordinates: actionCoordinate).map {
+                                indexOfTrianglesInStage(coordinate: $0)!
+                            }.filter{
+                                stage.triangles[$0].status != .isOn && stage.triangles[$0].status != .onAppear
+                            }.forEach{
+                                plan.append(PlanOfChangeStatus(index: $0, count: counter, changeStatus: .toTurnOn))
+                                stage.triangles[$0].status = .onAppear
+                            }
+                            plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOffWithAction))
+                            stage.triangles[index].actionItem?.status = .isDisappearing
+                            willSearch.formUnion(nextCoordinates)
                         }
-                        plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOffWithAction))
-                        stage.triangles[index].action = nil
-                        willSearch.formUnion(nextCoordinates)
-    
                     }else{
-                    plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOff))
-                    willSearch.formUnion(nextCoordinates)
+                        plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOff))
+                        willSearch.formUnion(nextCoordinates)
                     }
                 }
             }
@@ -160,7 +174,6 @@ class TriangleTapAction {
         let index:Int
         let count:Int
         let changeStatus:UpdateStatus
-        
         enum UpdateStatus{
             case toTurnOn
             case toTurnOff

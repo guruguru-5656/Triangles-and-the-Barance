@@ -77,7 +77,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     private var duration:Double{
         switch stage.triangles[index].status{
         case .isOn:
-            return 0.2
+            return 0.3
         case .isDisappearing:
             return 0.5
         case .isOff:
@@ -111,6 +111,22 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
+    //アクションアイテムの描画
+    var actionItemScale: Double{
+        guard let action = stage.triangles[index].actionItem else{
+            return 0.1
+        }
+        switch action.status {
+        case .onAppear:
+            return 0.1
+        case .isOn:
+            return 0.45
+        case .isDisappearing:
+            return 0.45
+        case .isOff:
+            return 1.2
+        }
+    }
     //本体の描画
     var body: some View {
         ZStack{
@@ -126,27 +142,27 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
                     withAnimation{
-                        if stage.triangles[index].status == .isOn{
-                            stage.triangleTapAction(index: index)
-                        }else{
-                            //アイテムが入っていた場合はtrianglesにセット
-                            if let selectedItemUnwraped = stage.selectedActionItem{
-                                stage.triangles[index].action = selectedItemUnwraped.action
-                                stage.actionItems.removeFirst()
-                                stage.selectedActionItem = nil
-                                stage.triangles[index].status = .isOn
-                            }else if stage.life != 0{
-                                stage.life -= 1
-                                stage.triangles[index].status = .isOn
-                            }
-                        }
+                        stage.triangleTapAction(index: index)
                     }
                 }
             //actionItemの描画
-            if let actionItem = stage.triangles[index].action{
-                switch actionItem{
+            if let actionItem = stage.triangles[index].actionItem{
+                switch actionItem.action{
                 case .triforce:
-                    ActionItem_TriforceView(width: width, height: height, rotation: rotation + Angle(degrees: 180), drawPoint: drawPoint)
+                    //draw
+                    ActionItem_TriforceView(stage: _stage, width: width, height: height)
+                        .rotationEffect(rotation + Angle(degrees: 180))
+                        .scaleEffect(actionItemScale)
+                        .animation(.timingCurve(0.3, 0.9, 0.8, 0.95, duration: 0.2), value: actionItemScale)
+                        .position(drawPoint)
+                        .onAppear{
+                            withAnimation{
+                                stage.triangles[index].actionItem!.status = .isOn
+                            }
+                        }
+                        .transition(.opacity)
+                case .normal:
+                    EmptyView()
                 }
             }
         }

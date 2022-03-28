@@ -31,47 +31,41 @@ struct ActionItemView: View {
             return 0
         }
     }
-   //ステージのインデックスを取得する
-    var index:Int{
-        return game.actionItems.firstIndex{ $0.id == self.item.id }!
-    }
-    
+//   //ステージのインデックスを取得する
+//    var index:Int{
+//        return game.actionItems.firstIndex{ $0.id == self.item.id }!
+//    }
     var body: some View {
         ZStack{
             Circle()
                 .stroke(game.currentColor.heavy, lineWidth: 1)
-                .frame(width: size, height: size, alignment: .center)
+                .frame(width: size, height: size)
                 .scaleEffect(circleScale)
                 .animation(Animation.easeOut(duration: 0.2),value:circleScale)
                 .opacity(circleOpacity)
                 .animation(Animation.easeOut(duration: 0.2),value:circleOpacity)
+                .overlay{
+                    //アイテムの種類ごとに表示を出し分ける
+                    if let actionItem = item.action{
+                        switch actionItem{
+                        case .normal:
+                            NormalActionView(size: size)
+                        case .triforce:
+                            TriforceActionView(size: size)
+                        }
+                    }
+                }
                 .contentShape(Circle())
                 .onTapGesture{
                     if game.selectedActionItem == nil{
                         game.selectedActionItem = item
-    
+                        print("\(circleOpacity)")
                     }else{
                         game.selectedActionItem = nil
+                        print("\(circleOpacity)")
                     }
                 }
-            //アイテムの種類ごとに表示を出し分ける
-            if let actionItem = item.action{
-                switch actionItem{
-                case .triforce:
-                    TriforceActionView(size: size)
-                }
-            }
-        
         }
-        .frame(width: size, height: size * sqrt(3)/2, alignment: .center)
-        .padding(.leading, 30)
     }
 }
 
-///ActionItemであることを示すプロトコル
-protocol DrawItemActionView:View{
-    var size: CGFloat{ get }
-}
-
-///通常使わない、表示されないのDrawItemActionView準拠の構造体
-///switch文で

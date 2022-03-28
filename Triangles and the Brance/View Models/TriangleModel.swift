@@ -7,32 +7,25 @@
 
 import SwiftUI
 
+
 ///Triangleのモデルデータ
- struct TriangleViewModel:Identifiable{
-    
-     init(x:Int,y:Int, status:TriangleStatus, action:ActionType?){
+struct TriangleViewModel:Identifiable{
+    init(x: Int,y: Int, status: viewStatus, action: ActionItemModel?) {
         coordinate = ModelCoordinate(x: x, y: y)
         self.status = status
-         self.action = action
+        self.actionItem = action
     }
-     var coordinate:ModelCoordinate
-     var status:TriangleStatus
-     var action:ActionType?
-     
-     private weak var stage:GameModel?
-     var index:Int{
-         (stage?.triangles.firstIndex{ $0.id == self.id })!
-     }
+    var coordinate: ModelCoordinate
+    var status: viewStatus
+    var actionItem: ActionItemModel?
+    private weak var stage: GameModel?
      var id = UUID()
-     
-    
-    
     ///対応する頂点の座標系
-    var vertexCoordinate:[TriVertexCoordinate]{
-        let returnCoordinates:[TriVertexCoordinate]
+    var vertexCoordinate: [TriVertexCoordinate] {
+        let returnCoordinates: [TriVertexCoordinate]
 
         let remainder = coordinate.x % 2
-        if remainder == 0{
+        if remainder == 0 {
             returnCoordinates = [TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
                           TriVertexCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
                           TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
@@ -46,9 +39,8 @@ import SwiftUI
     ///頂点の座標を取得するメソッド
     static func getVertexCoordinate(coordinate:ModelCoordinate) -> [TriVertexCoordinate]{
         let returnCoordinates:[TriVertexCoordinate]
-
         let remainder = coordinate.x % 2
-        if remainder == 0{
+        if remainder == 0 {
             returnCoordinates = [TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
                                  TriVertexCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
                           TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
@@ -59,12 +51,10 @@ import SwiftUI
         }
         return returnCoordinates
     }
-    
-    
 }
 
 ///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
-enum TriangleStatus{
+enum viewStatus {
     case onAppear
     case isOn
     case isDisappearing
@@ -72,14 +62,13 @@ enum TriangleStatus{
 }
 ///座標、中心部分を使ってステージの中の位置を表す
 struct ModelCoordinate:Hashable{
-    var x:Int
-    var y:Int
-    
+    var x: Int
+    var y: Int
     ///隣接する座標のSet
-    var nextCoordinates: Set<ModelCoordinate>{
+    var nextCoordinates: Set<ModelCoordinate> {
        let nextCoordinates: Set<ModelCoordinate>
        let remainder = self.x % 2
-        if remainder == 0{
+        if remainder == 0 {
             nextCoordinates = ([
                ModelCoordinate(x:self.x-1, y:self.y),
                ModelCoordinate(x:self.x+1, y:self.y-1),

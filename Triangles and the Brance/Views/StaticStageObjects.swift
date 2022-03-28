@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StageBackground {
+struct StaticStageObjects {
     init(){
         setStageLines()
     }
@@ -33,6 +33,7 @@ struct StageBackground {
         TriVertexCoordinate(x: -1, y: 6),TriVertexCoordinate(x: -1, y: 3),
         TriVertexCoordinate(x: 2, y: 0)
     ]
-    
+    //ビューの再生成時にidが変わらないようにあらかじめ生成
+    static let normalActionItem = ActionItemModel(action: .normal, status: .onAppear)
     
 }

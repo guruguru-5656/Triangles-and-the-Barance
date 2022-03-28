@@ -8,29 +8,43 @@
 import SwiftUI
 
 
-struct TriforceActionView:DrawItemActionView{
+struct NormalActionView: View{
     @EnvironmentObject var game:GameModel
     let size:CGFloat
-    
     var body: some View {
-        ZStack{
-    TriangleNormalShape()
-                .stroke(game.currentColor.heavy, lineWidth: 3)
-              .overlay(TriangleNormalShape()
-                          .fill(Color.white)
-              )
-              .frame(width: size, height: size)
-  
-              TriangleNormalShapeSmall()
-                   .stroke(game.currentColor.light, lineWidth: 2)
-                   .frame(width: size, height: size)
-        }
-        
+        TriangleNormalShape()
+            .fill(game.currentColor.light)
+            .frame(width: size, height: size)
+            .opacity(game.parameters.normalActionCount == 0 ? 0.5 : 1)
+            .animation(.default, value: game.parameters.normalActionCount)
     }
 }
 
-struct TriangleNormalShapeSmall: Shape{
+struct TriforceActionView: View{
+    @EnvironmentObject var game:GameModel
+    let size:CGFloat
+    var body: some View {
+        ZStack{
+            TriangleNormalShape()
+                .stroke(game.currentColor.heavy, lineWidth: 3)
+                .overlay(TriangleNormalShape()
+                            .fill(game.currentColor.light)
+                )
+                .frame(width: size, height: size)
+            TriangleNormalShapeSmall()
+                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .scaleEffect(0.8)
+                .frame(width: size, height: size)
+            TriangleNormalShapeSmall()
+                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .scaleEffect(0.8)
+                .rotationEffect(Angle(degrees: 180))
+                .frame(width: size, height: size)
+        }
+    }
+}
 
+struct TriangleNormalShapeSmall: Shape{    
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.move(to:CGPoint(x:rect.width * (4-sqrt(3))/8,y:rect.height * 3/8))
@@ -42,9 +56,7 @@ struct TriangleNormalShapeSmall: Shape{
     }
 }
 
-
 struct TriangleNormalShape:Shape{
-
     func path(in rect: CGRect) -> Path {
         var path = Path()
         path.move(to: CGPoint(x: rect.width/2, y: 0))
@@ -52,7 +64,6 @@ struct TriangleNormalShape:Shape{
         path.addLine(to: CGPoint(x: rect.width * (2+sqrt(3))/4, y: rect.height * 3/4))
         path.addLine(to: CGPoint(x: rect.width/2, y: 0))
         path.closeSubpath()
-       
         return path
     }
 }

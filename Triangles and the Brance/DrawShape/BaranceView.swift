@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct BaranceView: View {
-    let baseScale = UIScreen.main.bounds.width/14
+    let baseScale = UIScreen.main.bounds.width/12
     @EnvironmentObject var game:GameModel
     var opacity:Double{
         game.clearPercent
     }
     var angle:Double{
-        (0.5 - Double(game.clearPercent)) * Double.pi/12
+        (0.5 - Double(game.clearPercent)) * Double.pi/8
     }
     
     var distance:Double{
@@ -35,20 +35,16 @@ struct BaranceView: View {
                 .frame(width: baseScale/8, height: baseScale * 1.9)
                 .position(x: baseScale*7.75, y: baseScale * 1 + distance)
                 .animation(.default, value: distance)
-            
-            
             RoundedRectangle(cornerRadius: 5)
                 .foregroundColor(.lightGray)
                 .frame(width: baseScale * 8, height: baseScale/4)
                 .rotationEffect(Angle(radians: angle))
                 .animation(.default, value: angle)
                 .position(x: baseScale * 4, y: baseScale/8)
-                
             Rectangle()
                 .foregroundColor(.lightGray)
                 .frame(width: baseScale/4, height: baseScale * 3)
                 .position(x: baseScale*4, y: baseScale * 1.5)
-            
             //中央の三角形
             TriangleNormalShape()
                 .frame(width: baseScale * 2, height: baseScale * sqrt(3))
@@ -58,18 +54,24 @@ struct BaranceView: View {
                 .foregroundColor(.gray)
                 .frame(width:baseScale/1.5, height:baseScale/1.5)
                 .position(x: baseScale * 4, y: baseScale / 6)
-            Circle()
-                .foregroundColor(.white)
-                .frame(width:baseScale/3, height:baseScale/3)
-                .position(x: baseScale * 4, y: baseScale / 6)
-         
+                .overlay{
+                    Circle()
+                        .foregroundColor(.white)
+                        .frame(width:baseScale/3, height:baseScale/3)
+                        .position(x: baseScale * 4, y: baseScale / 6)
+                }
             //右側の円
             Circle()
                 .foregroundColor(.gray)
-                .frame(width:baseScale * 1.2, height:baseScale * 1.2 )
+                .frame(width:baseScale * 1.4, height:baseScale * 1.4 )
                 .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
                 .animation(.default, value: distance)
-            Group{
+                .overlay{
+                    Text(String(game.parameters.deleteTriangleCount.target))
+                        .font(.title)
+                        .foregroundColor(Color(white: 0.1))
+                        .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
+                }
             //左側の三角形の本体
             TriangleNormalShape()
                 .foregroundColor(.white)
@@ -84,6 +86,12 @@ struct BaranceView: View {
                         .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                         .animation(.default, value: distance)
+                        .overlay{
+                            Text(String(game.parameters.deleteTriangleCount.now))
+                                .font(.title)
+                                .foregroundColor(Color(white: 0.1))
+                                .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                        }
                         .opacity(opacity)
                         .animation(.default, value: opacity)
                 }
@@ -95,7 +103,7 @@ struct BaranceView: View {
                 .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                 .animation(.default, value: distance)
         }.frame(width: baseScale * 8, height: baseScale * 4)
-        }
+            .position(x: baseScale * 6, y: baseScale * 3 )
     }
 }
 
