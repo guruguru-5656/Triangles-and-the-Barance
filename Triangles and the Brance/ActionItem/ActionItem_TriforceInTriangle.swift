@@ -18,7 +18,7 @@ struct ActionItem_TriforceView: View {
             .frame(width: width, height: height, alignment: .top)
         DrawTriangleFromCenter()
             .stroke(stage.currentColor.heavy, lineWidth: 2)
-            .scaleEffect(0.8)
+            .scaleEffect(0.4)
             .rotationEffect(Angle(degrees: 180))
             .frame(width: width, height: height, alignment: .top)
     }

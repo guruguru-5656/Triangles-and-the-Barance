@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct ActionItemModel:Identifiable,Hashable{
+struct ActionItemViewModel:Identifiable,Hashable{
     let action: ActionType
     let id:UUID = UUID()
-    var status: viewStatus
+    var status: ViewStatus
 }
 
 enum ActionType:CaseIterable{
     case normal
     case triforce
     ///生成にかかるコスト
-    var cost: Int?{
+    var defaultCost: Int?{
         switch self{
         case .triforce:
             return 8

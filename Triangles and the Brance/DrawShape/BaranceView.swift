@@ -11,17 +11,14 @@ struct BaranceView: View {
     let baseScale = UIScreen.main.bounds.width/12
     @EnvironmentObject var game:GameModel
     var opacity:Double{
-        game.clearPercent
+        game.parameter.clearPersent
     }
     var angle:Double{
-        (0.5 - Double(game.clearPercent)) * Double.pi/8
+        (0.5 - game.parameter.clearPersent) * Double.pi/8
     }
-    
     var distance:Double{
         baseScale * 4 * sin(angle)
     }
-
-    
     var body: some View {
         ZStack{
             //垂れ下がっている部分
@@ -67,10 +64,11 @@ struct BaranceView: View {
                 .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
                 .animation(.default, value: distance)
                 .overlay{
-                    Text(String(game.parameters.deleteTriangleCount.target))
+                    Text(String(game.parameter.targetDeleteCount))
                         .font(.title)
                         .foregroundColor(Color(white: 0.1))
                         .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
+                        .animation(.default, value: distance)
                 }
             //左側の三角形の本体
             TriangleNormalShape()
@@ -87,10 +85,11 @@ struct BaranceView: View {
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                         .animation(.default, value: distance)
                         .overlay{
-                            Text(String(game.parameters.deleteTriangleCount.now))
+                            Text(String(game.parameter.deleteCount))
                                 .font(.title)
                                 .foregroundColor(Color(white: 0.1))
                                 .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                                .animation(.default, value: distance)
                         }
                         .opacity(opacity)
                         .animation(.default, value: opacity)
@@ -110,6 +109,6 @@ struct BaranceView: View {
 struct BaranceView_Previews: PreviewProvider {
     static var previews: some View {
         BaranceView()
-            .environmentObject(GameModel())
+            .environmentObject(GameModel.shared)
     }
 }

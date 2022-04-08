@@ -20,9 +20,7 @@ struct DrawTriangleFromCenter:Shape{
         path.closeSubpath()
         return path
     }
-    
 }
-
 ///DrawTriangleFromCenterを呼び出すときに必要なパラメータを設定する
 ///位置ずれしないように高さの比率を指定
 protocol DrawTriangle:View{

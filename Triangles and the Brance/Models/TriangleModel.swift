@@ -10,14 +10,14 @@ import SwiftUI
 
 ///Triangleのモデルデータ
 struct TriangleViewModel:Identifiable{
-    init(x: Int,y: Int, status: viewStatus, action: ActionItemModel?) {
+    init(x: Int,y: Int, status: ViewStatus, action: ActionItemViewModel?) {
         coordinate = ModelCoordinate(x: x, y: y)
         self.status = status
         self.actionItem = action
     }
     var coordinate: ModelCoordinate
-    var status: viewStatus
-    var actionItem: ActionItemModel?
+    var status: ViewStatus
+    var actionItem: ActionItemViewModel?
     private weak var stage: GameModel?
      var id = UUID()
     ///対応する頂点の座標系
@@ -54,7 +54,7 @@ struct TriangleViewModel:Identifiable{
 }
 
 ///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
-enum viewStatus {
+enum ViewStatus {
     case onAppear
     case isOn
     case isDisappearing

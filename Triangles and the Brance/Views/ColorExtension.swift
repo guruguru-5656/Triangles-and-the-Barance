@@ -26,24 +26,24 @@ extension Color {
     static let lightPinkPurple = Color(red: 255/255, green: 165/255, blue: 211/255)
     
         
-    static let heavyRed = Color(red: 200/255, green: 130/255, blue: 130/255)
-    static let heavyOrenge = Color(red: 200/255, green: 165/255, blue: 130/255)
-    static let heavyYellow = Color(red: 200/255, green: 200/255, blue: 129/255)
-    static let heavyYellowGreen = Color(red: 165/255, green: 200/255, blue: 130/255)
-    static let heavyGreen = Color(red: 130/255, green: 200/255, blue: 130/255)
-    static let heavyGreenBlue = Color(red: 130/255, green: 200/255, blue: 165/255)
-    static let heavyWaterBlue = Color(red: 130/255, green: 200/255, blue: 200/255)
-    static let heavyWhiteBlue = Color(red: 130/255, green: 165/255, blue: 200/255)
-    static let heavyBluePurple = Color(red: 130/255, green: 130/255, blue: 200/255)
-    static let heavyPurple = Color(red: 165/255, green: 130/255, blue: 200/255)
-    static let heavyFujiPurple = Color(red: 200/255, green: 130/255, blue: 200/255)
-    static let heavyPinkPurple = Color(red: 200/255, green: 130/255, blue: 165/255)
+    static let heavyRed = Color(red: 160/255, green: 84/255, blue: 84/255)
+    static let heavyOrenge = Color(red: 160/255, green: 123/255, blue: 84/255)
+    static let heavyYellow = Color(red: 160/255, green: 160/255, blue: 84/255)
+    static let heavyYellowGreen = Color(red: 122/255, green: 160/255, blue: 84/255)
+    static let heavyGreen = Color(red: 84/255, green: 160/255, blue: 85/255)
+    static let heavyGreenBlue = Color(red: 84/255, green: 160/255, blue: 122/255)
+    static let heavyWaterBlue = Color(red: 84/255, green: 160/255, blue: 159/255)
+    static let heavyWhiteBlue = Color(red: 84/255, green: 123/255, blue: 160/255)
+    static let heavyBluePurple = Color(red: 84/255, green: 85/255, blue: 160/255)
+    static let heavyPurple = Color(red: 122/255, green: 84/255, blue: 160/255)
+    static let heavyFujiPurple = Color(red: 160/255, green: 84/255, blue: 160/255)
+    static let heavyPinkPurple = Color(red: 160/255, green: 84/255, blue: 122/255)
 }
 
 struct StageViewColor_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
-            .environmentObject(GameModel())
+            .environmentObject(GameModel.shared)
     }
 }
 

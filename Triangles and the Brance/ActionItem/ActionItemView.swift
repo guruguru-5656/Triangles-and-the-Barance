@@ -10,7 +10,7 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     @EnvironmentObject var game:GameModel
-    let item:ActionItemModel
+    let item:ActionItemViewModel
     let size:CGFloat
     //アニメーション用プロパティ
     var circleScale:Double{
@@ -31,10 +31,7 @@ struct ActionItemView: View {
             return 0
         }
     }
-//   //ステージのインデックスを取得する
-//    var index:Int{
-//        return game.actionItems.firstIndex{ $0.id == self.item.id }!
-//    }
+
     var body: some View {
         ZStack{
             Circle()
@@ -59,13 +56,15 @@ struct ActionItemView: View {
                 .onTapGesture{
                     if game.selectedActionItem == nil{
                         game.selectedActionItem = item
-                        print("\(circleOpacity)")
                     }else{
                         game.selectedActionItem = nil
-                        print("\(circleOpacity)")
                     }
                 }
         }
+        .transition(.asymmetric(insertion: .offset(x: 500, y: 0).animation(.linear(duration: 1)),
+                                removal: .opacity.animation(.easeIn(duration: 0.2))
+                                    .combined(with: .scale(scale: 1.1)
+                                                .animation(.easeIn(duration: 0.2)))))
     }
 }
 

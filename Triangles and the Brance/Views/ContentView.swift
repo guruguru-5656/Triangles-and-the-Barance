@@ -8,16 +8,27 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var contentViewModel = ContentViewModel()
+    @EnvironmentObject var gameModel: GameModel
     var body: some View {
-        
-        StageView()
-            .environmentObject(contentViewModel.stage)
+        ZStack {
+            StageView()
+            if gameModel.showGameOverView {
+            
+                Color(.init(gray: 0.4, alpha: 0.5))
+                    .ignoresSafeArea()
+                    .zIndex(1)
+                GameOverView()
+                    .cornerRadius(20)
+                    .padding(40)
+                    .zIndex(1)
+            }
+        }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(GameModel.shared)
     }
 }

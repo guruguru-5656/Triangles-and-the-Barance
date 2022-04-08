@@ -10,25 +10,25 @@ struct TriangleFromCenterView: View, DrawTriangle {
         self.id = id
         self.width = size
     }
-    @EnvironmentObject var stage:GameModel
+    @EnvironmentObject var gameModel:GameModel
     //親ビューからIDを割り当て、それをステージのモデルから検索することによってインデックス番号を取得する
     var id:UUID
     var index:Int{
-        stage.triangles.firstIndex{ $0.id == self.id }!
+        // MARK: クラッシュ対策で初期値を設定、要改善？
+        gameModel.triangles.firstIndex{ $0.id == self.id } ?? 0
     }
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
-    
-    ///三角形を描画する際にフレームの設定を.frame(width: scale ,height: height)の形で書くと回転したときに位置ずれしない
+    ///rotationEffectをかける際に位置ずれを防ぐため、frameをこの比率で設定
     var height:CGFloat{
         width / sqrt(3)
     }
     ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
     private var drawPoint:CGPoint{
-        let X = CGFloat(stage.triangles[index].coordinate.x)
-        let Y = CGFloat(stage.triangles[index].coordinate.y)
+        let X = CGFloat(gameModel.triangles[index].coordinate.x)
+        let Y = CGFloat(gameModel.triangles[index].coordinate.y)
         
-        let remainder = stage.triangles[index].coordinate.x % 2
+        let remainder = gameModel.triangles[index].coordinate.x % 2
         if remainder == 0{
             return CGPoint(x: (X/2 + Y/2) * width, y: Y * sqrt(3)/2 * width)
         }else{
@@ -39,7 +39,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     ///与えられた座標のX座標をもとに回転するかどうか判断する
     private var rotation:Angle{
-        let remainder = stage.triangles[index].coordinate.x % 2
+        let remainder = gameModel.triangles[index].coordinate.x % 2
         if remainder == 0{
             return Angle(degrees: 0)
         }else{
@@ -49,7 +49,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     private var scale: CGFloat{
-        switch stage.triangles[index].status{
+        switch gameModel.triangles[index].status{
         case .isOn:
            return 0.95
         case .isDisappearing:
@@ -62,7 +62,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //透過度
     private var opacity:Double{
-        switch stage.triangles[index].status{
+        switch gameModel.triangles[index].status{
         case .isOn:
            return 1
         case .isDisappearing:
@@ -75,7 +75,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //アニメーションの時間指定
     private var duration:Double{
-        switch stage.triangles[index].status{
+        switch gameModel.triangles[index].status{
         case .isOn:
             return 0.3
         case .isDisappearing:
@@ -88,7 +88,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //フレームにアニメーションをつけるプロパティ
     private var frameScale: CGFloat{
-        switch stage.triangles[index].status{
+        switch gameModel.triangles[index].status{
         case .isOn:
             return 0.95
         case .isDisappearing:
@@ -102,7 +102,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //フレーム部分の描画
     private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
-            .stroke(stage.currentColor.heavy, lineWidth: 2)
+            .stroke(gameModel.currentColor.heavy, lineWidth: 2)
             .frame(width: width, height: height , alignment: .center)
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
@@ -113,7 +113,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //アクションアイテムの描画
     var actionItemScale: Double{
-        guard let action = stage.triangles[index].actionItem else{
+        guard let action = gameModel.triangles[index].actionItem else{
             return 0.1
         }
         switch action.status {
@@ -131,7 +131,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     var body: some View {
         ZStack{
         DrawTriangleFromCenter()
-                .foregroundColor(stage.currentColor.light)
+                .foregroundColor(gameModel.currentColor.light)
                 .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)
@@ -141,24 +141,22 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
-                    withAnimation{
-                        stage.triangleTapAction(index: index)
-                    }
+                    gameModel.triangleTapAction(index: index)
                 }
             //actionItemの描画
-            if let actionItem = stage.triangles[index].actionItem{
+            if let actionItem = gameModel.triangles[index].actionItem{
                 switch actionItem.action{
                 case .triforce:
                     //draw
-                    ActionItem_TriforceView(stage: _stage, width: width, height: height)
+                    ActionItem_TriforceView(stage: _gameModel, width: width, height: height)
                         .rotationEffect(rotation + Angle(degrees: 180))
                         .scaleEffect(actionItemScale)
                         .animation(.timingCurve(0.3, 0.9, 0.8, 0.95, duration: 0.2), value: actionItemScale)
                         .position(drawPoint)
                         .onAppear{
-                            withAnimation{
-                                stage.triangles[index].actionItem!.status = .isOn
-                            }
+//                            withAnimation{
+                                gameModel.triangles[index].actionItem!.status = .isOn
+//                            }
                         }
                         .transition(.opacity)
                 case .normal:

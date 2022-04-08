@@ -15,8 +15,8 @@ struct NormalActionView: View{
         TriangleNormalShape()
             .fill(game.currentColor.light)
             .frame(width: size, height: size)
-            .opacity(game.parameters.normalActionCount == 0 ? 0.5 : 1)
-            .animation(.default, value: game.parameters.normalActionCount)
+            .opacity(game.parameter.normalActionCount == 0 ? 0.5 : 1)
+            .animation(.default, value: game.parameter.normalActionCount)
     }
 }
 
@@ -37,7 +37,7 @@ struct TriforceActionView: View{
                 .frame(width: size, height: size)
             TriangleNormalShapeSmall()
                 .stroke(game.currentColor.heavy, lineWidth: 2)
-                .scaleEffect(0.8)
+                .scaleEffect(0.4)
                 .rotationEffect(Angle(degrees: 180))
                 .frame(width: size, height: size)
         }
