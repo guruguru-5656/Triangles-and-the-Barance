@@ -36,7 +36,7 @@ struct TriforceActionView: View{
                 .scaleEffect(0.8)
                 .frame(width: size, height: size)
             TriangleNormalShapeSmall()
-                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .stroke(game.currentColor.heavy, lineWidth: 4)
                 .scaleEffect(0.4)
                 .rotationEffect(Angle(degrees: 180))
                 .frame(width: size, height: size)

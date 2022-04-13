@@ -30,6 +30,7 @@ class TriangleTapAction {
             updateTrianglesStatus(plans: plans){
                 self.appendStageItems(count: deleteCount)
                 self.gameModel.updateGameParameters(deleteCount: deleteCount)
+               
             }
         }catch{
             print("ERROR:\(error)")

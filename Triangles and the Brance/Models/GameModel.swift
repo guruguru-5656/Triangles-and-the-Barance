@@ -10,13 +10,17 @@ import SwiftUI
 
 class GameModel:ObservableObject{
     //TriangleおよびItemのプロパティ
-    @Published var currentColor = MyColor()
+    
     @Published var triangles: [TriangleViewModel] = []
     @Published var actionItems:[ActionItemViewModel] = []
     @Published var selectedActionItem:ActionItemViewModel?
     @Published var showGameOverView = false
-    
     @Published var parameter = GameParameters()
+    
+    @Published var currentColor = MyColor()
+    //初期値をiPhone 8の画面サイズで設定、ContentViewのonAppearの時に再読み込み
+    @Published var screenBounds = CGRect(x: 0.0, y: 0.0, width: 375.0, height: 667.0)
+    let baranceViewContloller = BaranceViewContloler()
     let score = PlayingScores()
     let upgradeModel = UpgradeViewModel()
     
@@ -34,9 +38,11 @@ class GameModel:ObservableObject{
     func resetGame() {
         //TODO: セーブデータのロード
         parameter.resetParameters(defaultParameter: defaultParameters)
+        baranceViewContloller.reset()
         setTrianglesStatus()
         setStageActionItems()
         upgradeModel.setItemsParent()
+        currentColor = MyColor()
     }
     static let shared = GameModel()
     
@@ -47,7 +53,11 @@ class GameModel:ObservableObject{
     
     ///ステータスの更新とイベント処理を行う
     func updateGameParameters(deleteCount: Int) {
-        switch parameter.updateParameters(deleteCount: deleteCount) {
+        //消去の数に応じてパラメーターの更新を行う
+        let result = parameter.updateParameters(deleteCount: deleteCount)
+        //アニメーションを実行
+        baranceViewContloller.baranceAnimation()
+        switch result {
         case .nothing:
             return
         case .stageClear:
@@ -58,10 +68,12 @@ class GameModel:ObservableObject{
     }
     
     func stageClear(){
-        parameter.level += 1
-        parameter.setParameters(defaultParameter: defaultParameters)
-        setTrianglesStatus()
-        currentColor.nextColor()
+        baranceViewContloller.clearAnimation {
+            self.parameter.level += 1
+            self.parameter.setParameters(defaultParameter: self.defaultParameters)
+            self.setTrianglesStatus()
+            self.currentColor.nextColor()
+        }
     }
     func gameOver(){
         score.setScores()
@@ -111,7 +123,7 @@ class GameModel:ObservableObject{
         }else{
             //アイテムが入っていた場合はtrianglesにセット
             if let selectedItem = selectedActionItem{
-                switch selectedItem.action{
+                switch selectedItem.action {
                 case .normal:
                     guard parameter.normalActionCount != 0 else{
                         print("カウントゼロの状態にもかかわらず、ノーマルアクションが入っている")

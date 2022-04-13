@@ -40,7 +40,7 @@ struct UpgradeView: View {
                             .padding(.vertical, 15)
                         
                         Text("Cancel")
-                            .font(.title)
+                            .font(.title2)
                     }
                 }
                 .padding(.horizontal)
@@ -56,7 +56,7 @@ struct UpgradeView: View {
                             .scaledToFit()
                             .padding(.vertical, 15)
                         Text("Upgrade")
-                            .font(.title)
+                            .font(.title2)
                     }
                 }
                 .padding(.horizontal)

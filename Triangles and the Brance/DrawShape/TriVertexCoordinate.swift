@@ -16,15 +16,6 @@ struct TriVertexCoordinate:Hashable{
         vertexX = x
         vertexY = y
     }
-  ///現状未使用
-    func getNextCoordinate() ->[TriVertexCoordinate] {
-        [TriVertexCoordinate(x: vertexX-1 , y: vertexY ),
-         TriVertexCoordinate(x: vertexX , y: vertexY-1 ),
-         TriVertexCoordinate(x: vertexX+1 , y: vertexY-1 ),
-         TriVertexCoordinate(x: vertexX+1 , y: vertexY ),
-         TriVertexCoordinate(x: vertexX , y: vertexY+1 ),
-         TriVertexCoordinate(x: vertexX-1 , y: vertexY-1 )]
-    }
 
     var drawPoint:CGPoint{
         let X = Double(vertexX)

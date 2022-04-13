@@ -18,6 +18,7 @@ struct GameParameters: PlayingData {
     //ステージ開始時に初期化するステータス
     var life:Int = 5
     var deleteCount = 0
+    var deleteCountNow = 0
     var normalActionCount: Int = 3
     var targetDeleteCount: Int = 0
     var triangleHaveActionProbability:Double = 0
@@ -36,6 +37,7 @@ struct GameParameters: PlayingData {
         maxCombo = 0
         allDeleteCount = 0
         score = 0
+        deleteCountNow = 0
         setParameters(defaultParameter: defaultParameter)
     }
     
@@ -50,6 +52,7 @@ struct GameParameters: PlayingData {
     
     ///ステータスの更新とクリア判定、ゲームオーバー判定を行う
     mutating func updateParameters(deleteCount: Int) -> GameEvent{
+        self.deleteCountNow = deleteCount
         self.deleteCount += deleteCount
         self.allDeleteCount += deleteCount
         self.score += deleteCount * deleteCount * level

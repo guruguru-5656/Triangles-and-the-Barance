@@ -9,7 +9,7 @@ import SwiftUI
 
 extension Color {
     static let allmostClear = Color( white: 1, opacity: 0.01)
-    static let backgroundLightGray = Color(white: 0.95)
+    static let backgroundLightGray = Color(white: 0.85)
     static let lightGray = Color(white: 0.9)
     
     static let lightRed = Color(red: 255/255, green: 165/255, blue: 165/255)
@@ -65,8 +65,18 @@ enum MyColor: Int {
             return self = MyColor.init(rawValue: self.rawValue+1)!
         }
     }
+    
+    var previousColor: MyColor {
+        switch self {
+        case .red:
+            return .pinkPurple
+        default:
+            return MyColor.init(rawValue: self.rawValue-1)!
+        }
+    }
+    
     var light: Color {
-        switch self{
+        switch self {
         case .red:
             return .lightRed
         case .orenge:
@@ -122,3 +132,4 @@ enum MyColor: Int {
         }
     }
 }
+

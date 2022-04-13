@@ -48,10 +48,10 @@ struct GameOverView: View {
                                     Image(systemName: "arrow.counterclockwise")
                                         .resizable()
                                         .scaledToFit()
-                                        .padding(.vertical, 10)
+                                        .padding(.vertical, 15)
                                     
                                     Text("Retry")
-                                        .font(.title)
+                                        .font(.title2)
                                 }
                             }
                             .padding(.horizontal)
@@ -66,10 +66,10 @@ struct GameOverView: View {
                                     Image(systemName: "arrowtriangle.up")
                                         .resizable()
                                         .scaledToFit()
-                                        .padding(.vertical, 10)
+                                        .padding(.vertical, 15)
                                     
                                     Text("Upgrade")
-                                        .font(.title)
+                                        .font(.title2)
                                 }
                             }
                             .padding(.horizontal)
