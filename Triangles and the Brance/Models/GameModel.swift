@@ -12,8 +12,8 @@ class GameModel:ObservableObject{
     //TriangleおよびItemのプロパティ
     
     @Published var triangles: [TriangleViewModel] = []
-    @Published var actionItems:[ActionItemViewModel] = []
-    @Published var selectedActionItem:ActionItemViewModel?
+    @Published var actionItems:[ActionItemModel] = []
+    @Published var selectedActionItem:ActionItemModel?
     @Published var showGameOverView = false
     @Published var parameter = GameParameters()
     
@@ -103,7 +103,8 @@ class GameModel:ObservableObject{
                 triangles[index].status = .isOn
                 let randomNumber:Double = Double.random(in:1...100)
                 if randomNumber <= parameter.triangleHaveActionProbability {
-                    triangles[index].actionItem = ActionItemViewModel(action: .triforce, status: .onAppear)
+                    //MARK: 変更予定
+                    triangles[index].actionItem = ActionItemModel(action: .triforce)
                 }
             }else{
                 triangles[index].status = .isOff
@@ -114,43 +115,7 @@ class GameModel:ObservableObject{
     private func setStageActionItems() {
         actionItems = []
     }
-    ///タップしたときのアクションを呼び出す
-    func triangleTapAction(index: Int) {
-        if triangles[index].status == .isOn{
-            parameter.life -= 1
-            let action = TriangleTapAction(gameModel: self)
-            action.trianglesTapAction(index: index)
-        }else{
-            //アイテムが入っていた場合はtrianglesにセット
-            if let selectedItem = selectedActionItem{
-                switch selectedItem.action {
-                case .normal:
-                    guard parameter.normalActionCount != 0 else{
-                        print("カウントゼロの状態にもかかわらず、ノーマルアクションが入っている")
-                        return
-                    }
-                    parameter.normalActionCount -= 1
-                    selectedActionItem = nil
-                    triangles[index].status = .isOn
-                case .triforce:
-                    let indexOfItem = actionItems.firstIndex {
-                        $0.id == selectedItem.id
-                    }
-                    guard let indexOfItem = indexOfItem else {
-                        print("アイテムのインデックス取得エラー")
-                        return
-                    }
-                    //removeに戻り値が発生してしまい警告が出るためアンダースコアに代入
-                    _ = withAnimation{
-                    actionItems.remove(at: indexOfItem)
-                    }
-                    triangles[index].actionItem = selectedItem
-                    selectedActionItem = nil
-                    triangles[index].status = .isOn
-                }
-            }
-        }
-    }
+    
 }
 
 enum StageError:Error{
@@ -162,8 +127,6 @@ protocol PlayingData {
     mutating func resetParameters(defaultParameter: DefaultParameters)
     mutating func setParameters(defaultParameter: DefaultParameters)
 }
-
-
 
 enum GameEvent {
     case nothing

@@ -10,33 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var gameModel: GameModel
     @State var circlePoint = CGPoint(x: 0, y: 0)
-    @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
+    
     var body: some View {
         
         ZStack {
-            GeometryReader { geometry in
-                ZStack {
-                gameModel.currentColor.previousColor.heavy
-                    .frame(width: gameModel.screenBounds.width, height: gameModel.screenBounds.height)
-                    .ignoresSafeArea()
-                    if baranceViewContloller.clearCircleIsOn {
-                        Ellipse()
-                            .fill(gameModel.currentColor.heavy)
-                            .frame(width: baranceViewContloller.clearCircleSize * 2,
-                                   height: baranceViewContloller.clearCircleSize)
-                            .position(circlePoint)
-                        Ellipse()
-                            .stroke(gameModel.currentColor.light, lineWidth: 5)
-                            .frame(width: baranceViewContloller.clearCircleSize * 2,
-                                   height: baranceViewContloller.clearCircleSize)
-                            .position(circlePoint)
-                    }
-                    LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
-                        .opacity(0.3)
-                    .ignoresSafeArea()
-                }
-            }
-            .ignoresSafeArea()
+            BaranceCircleView(circlePoint: $circlePoint)
             StageView()
             
             if gameModel.showGameOverView {

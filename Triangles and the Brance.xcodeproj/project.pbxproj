@@ -12,7 +12,7 @@
 		0426B0E727DB93FF00AC348E /* DrawTriShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawTriShape.swift */; };
 		0426B0E827DB93FF00AC348E /* DrawTriShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawTriShape.swift */; };
 		0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
-		0426B0F227DF29EF00AC348E /* ActionItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemViewModel.swift */; };
+		0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
 		044AD42227F9AA8F00D96CED /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ScoreView.swift */; };
 		044AD42427FAF7A300D96CED /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42327FAF7A300D96CED /* ScoreModel.swift */; };
@@ -35,10 +35,10 @@
 		0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */; };
 		0458239327E4C62B007800AC /* ActionItem_TriforceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */; };
 		0458239527E54758007800AC /* TriangleTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleTapAction.swift */; };
-		0458239727E59A9D007800AC /* ActionItem_TriforceInTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
 		046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */; };
-		046FB85427F19D8600854EFE /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* SwiftUIView.swift */; };
+		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
+		04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 /* Begin PBXFileReference section */
 		0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriVertexCoordinate.swift; sourceTree = "<group>"; };
 		0426B0E627DB93FF00AC348E /* DrawTriShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriShape.swift; sourceTree = "<group>"; };
-		0426B0F127DF29EF00AC348E /* ActionItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemViewModel.swift; sourceTree = "<group>"; };
+		0426B0F127DF29EF00AC348E /* ActionItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemModel.swift; sourceTree = "<group>"; };
 		0426B0F327DF460000AC348E /* ActionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemView.swift; sourceTree = "<group>"; };
 		044AD42127F9AA8F00D96CED /* ScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreView.swift; sourceTree = "<group>"; };
 		044AD42327FAF7A300D96CED /* ScoreModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreModel.swift; sourceTree = "<group>"; };
@@ -79,10 +79,10 @@
 		0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangleFromCenter.swift; sourceTree = "<group>"; };
 		0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceView.swift; sourceTree = "<group>"; };
 		0458239427E54758007800AC /* TriangleTapAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleTapAction.swift; sourceTree = "<group>"; };
-		0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceInTriangle.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
 		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
-		046FB85327F19D8600854EFE /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
+		04F0B027280AFA4900D1172C /* BaranceCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceCircleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,11 +107,10 @@
 			isa = PBXGroup;
 			children = (
 				0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */,
-				0426B0E627DB93FF00AC348E /* DrawTriShape.swift */,
-				0458239A27E72A3A007800AC /* BaranceView.swift */,
 				044AD4302804531700D96CED /* regularPolygon.swift */,
+				0426B0E627DB93FF00AC348E /* DrawTriShape.swift */,
 				0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */,
-				046FB85327F19D8600854EFE /* SwiftUIView.swift */,
+				046FB85327F19D8600854EFE /* BackgroundRectangle.swift */,
 			);
 			path = DrawShape;
 			sourceTree = "<group>";
@@ -125,6 +124,16 @@
 				044AD42727FB240400D96CED /* UpgradeModel.swift */,
 			);
 			path = ResultViews;
+			sourceTree = "<group>";
+		};
+		044AD4342806D3F600D96CED /* Triangles */ = {
+			isa = PBXGroup;
+			children = (
+				045121B527D21BE800936E2C /* TriangleView.swift */,
+				0458239427E54758007800AC /* TriangleTapAction.swift */,
+				045121B327D21B5E00936E2C /* TriangleModel.swift */,
+			);
+			path = Triangles;
 			sourceTree = "<group>";
 		};
 		0451219527D2187600936E2C = {
@@ -152,7 +161,9 @@
 				0458237027E41E25007800AC /* Models */,
 				0458236F27E41E0A007800AC /* Views */,
 				0426B0E927DC48AE00AC348E /* DrawShape */,
+				044AD4342806D3F600D96CED /* Triangles */,
 				0458237127E45223007800AC /* ActionItem */,
+				04F0B026280AFA0D00D1172C /* BaranceView */,
 				044AD42B27FEBD0E00D96CED /* ResultViews */,
 				045121A527D2187700936E2C /* Assets.xcassets */,
 				045121A727D2187700936E2C /* Preview Content */,
@@ -183,7 +194,6 @@
 				045121A327D2187600936E2C /* ContentView.swift */,
 				045121B127D21B1200936E2C /* StageView.swift */,
 				046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */,
-				045121B527D21BE800936E2C /* TriangleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -191,11 +201,9 @@
 		0458237027E41E25007800AC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				045121B327D21B5E00936E2C /* TriangleModel.swift */,
 				045121B927D43EAB00936E2C /* GameModel.swift */,
 				044AD42C27FFF4D700D96CED /* DefaultParameters.swift */,
 				044AD42E27FFF64C00D96CED /* GameParameters.swift */,
-				0458239427E54758007800AC /* TriangleTapAction.swift */,
 				044AD42927FB2E3E00D96CED /* SaveData.swift */,
 			);
 			path = Models;
@@ -205,11 +213,19 @@
 			isa = PBXGroup;
 			children = (
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
-				0426B0F127DF29EF00AC348E /* ActionItemViewModel.swift */,
-				0458239627E59A9D007800AC /* ActionItem_TriforceInTriangle.swift */,
+				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
 				0458239227E4C62B007800AC /* ActionItem_TriforceView.swift */,
 			);
 			path = ActionItem;
+			sourceTree = "<group>";
+		};
+		04F0B026280AFA0D00D1172C /* BaranceView */ = {
+			isa = PBXGroup;
+			children = (
+				0458239A27E72A3A007800AC /* BaranceView.swift */,
+				04F0B027280AFA4900D1172C /* BaranceCircleView.swift */,
+			);
+			path = BaranceView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,6 +331,7 @@
 				0458239327E4C62B007800AC /* ActionItem_TriforceView.swift in Sources */,
 				044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */,
 				044AD42A27FB2E3E00D96CED /* SaveData.swift in Sources */,
+				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
 				045121BA27D43EAB00936E2C /* GameModel.swift in Sources */,
 				045121A427D2187600936E2C /* ContentView.swift in Sources */,
 				044AD42427FAF7A300D96CED /* ScoreModel.swift in Sources */,
@@ -327,15 +344,14 @@
 				044AD42227F9AA8F00D96CED /* ScoreView.swift in Sources */,
 				044AD4312804531700D96CED /* regularPolygon.swift in Sources */,
 				045121B827D31F5000936E2C /* ColorExtension.swift in Sources */,
-				0426B0F227DF29EF00AC348E /* ActionItemViewModel.swift in Sources */,
+				0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */,
 				044AD42F27FFF64C00D96CED /* GameParameters.swift in Sources */,
 				0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */,
-				046FB85427F19D8600854EFE /* SwiftUIView.swift in Sources */,
+				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
 				0458239527E54758007800AC /* TriangleTapAction.swift in Sources */,
 				044AD42D27FFF4D700D96CED /* DefaultParameters.swift in Sources */,
 				044AD42827FB240400D96CED /* UpgradeModel.swift in Sources */,
-				0458239727E59A9D007800AC /* ActionItem_TriforceInTriangle.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,
 				045121B627D21BE800936E2C /* TriangleView.swift in Sources */,
 			);

@@ -10,22 +10,29 @@ import SwiftUI
 
 ///Triangleのモデルデータ
 struct TriangleViewModel:Identifiable{
-    init(x: Int,y: Int, status: ViewStatus, action: ActionItemViewModel?) {
+    init(x: Int,y: Int, status: ViewStatus, action: ActionItemModel?) {
         coordinate = ModelCoordinate(x: x, y: y)
         self.status = status
         self.actionItem = action
     }
     var coordinate: ModelCoordinate
     var status: ViewStatus
-    var actionItem: ActionItemViewModel?
-    private weak var stage: GameModel?
+    var actionItem: ActionItemModel?
+    
+    var reversed: Bool {
+        let remainder = coordinate.x % 2
+        if remainder == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
      var id = UUID()
     ///対応する頂点の座標系
     var vertexCoordinate: [TriVertexCoordinate] {
         let returnCoordinates: [TriVertexCoordinate]
 
-        let remainder = coordinate.x % 2
-        if remainder == 0 {
+        if reversed {
             returnCoordinates = [TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
                           TriVertexCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
                           TriVertexCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
@@ -70,16 +77,26 @@ struct ModelCoordinate:Hashable{
        let remainder = self.x % 2
         if remainder == 0 {
             nextCoordinates = ([
-               ModelCoordinate(x:self.x-1, y:self.y),
-               ModelCoordinate(x:self.x+1, y:self.y-1),
-               ModelCoordinate(x:self.x+1, y:self.y),])
+               ModelCoordinate(x: self.x-1, y: self.y),
+               ModelCoordinate(x: self.x+1, y: self.y-1),
+               ModelCoordinate(x: self.x+1, y: self.y),])
         }else{
             nextCoordinates = ([
-               ModelCoordinate(x:self.x-1, y:self.y),
-               ModelCoordinate(x:self.x+1, y:self.y),
-               ModelCoordinate(x:self.x-1, y:self.y+1),])
+               ModelCoordinate(x: self.x-1, y: self.y),
+               ModelCoordinate(x: self.x+1, y: self.y),
+               ModelCoordinate(x: self.x-1, y: self.y+1),])
         }
         return nextCoordinates
     }
+    //現在の座標から相対的な座標を指定する
+    func relativeCoordinate(relative: [(x: Int, y: Int)]) -> Set<ModelCoordinate> {
+        var relativeCoordinate: Set<ModelCoordinate> = []
+        relative.forEach { relative in
+            relativeCoordinate.insert(
+                ModelCoordinate(x: self.x - relative.x, y: self.y - relative.y))
+        }
+        return relativeCoordinate
+    }
+    
 }
 

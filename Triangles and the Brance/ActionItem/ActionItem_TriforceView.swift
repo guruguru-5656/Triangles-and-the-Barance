@@ -30,17 +30,17 @@ struct TriforceActionView: View{
                 .overlay(TriangleNormalShape()
                             .fill(game.currentColor.light)
                 )
-                .frame(width: size, height: size)
+                
             TriangleNormalShapeSmall()
                 .stroke(game.currentColor.heavy, lineWidth: 2)
                 .scaleEffect(0.8)
-                .frame(width: size, height: size)
+                
             TriangleNormalShapeSmall()
-                .stroke(game.currentColor.heavy, lineWidth: 4)
-                .scaleEffect(0.4)
+                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .scaleEffect(0.8)
                 .rotationEffect(Angle(degrees: 180))
-                .frame(width: size, height: size)
         }
+        .frame(width: size, height: size)
     }
 }
 

@@ -111,22 +111,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
-    //アクションアイテムの描画
-    var actionItemScale: Double{
-        guard let action = gameModel.triangles[index].actionItem else{
-            return 0.1
-        }
-        switch action.status {
-        case .onAppear:
-            return 0.1
-        case .isOn:
-            return 0.45
-        case .isDisappearing:
-            return 0.45
-        case .isOff:
-            return 1.2
-        }
-    }
+   
     //本体の描画
     var body: some View {
         ZStack{
@@ -141,28 +126,9 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
                 .onTapGesture {
-                    gameModel.triangleTapAction(index: index)
+                    TriangleTapAction().triangleTapAction(index: index)
                 }
-            //actionItemの描画
-            if let actionItem = gameModel.triangles[index].actionItem{
-                switch actionItem.action{
-                case .triforce:
-                    //draw
-                    ActionItem_TriforceView(stage: _gameModel, width: width, height: height)
-                        .rotationEffect(rotation + Angle(degrees: 180))
-                        .scaleEffect(actionItemScale)
-                        .animation(.timingCurve(0.3, 0.9, 0.8, 0.95, duration: 0.2), value: actionItemScale)
-                        .position(drawPoint)
-                        .onAppear{
-//                            withAnimation{
-                                gameModel.triangles[index].actionItem!.status = .isOn
-//                            }
-                        }
-                        .transition(.opacity)
-                case .normal:
-                    EmptyView()
-                }
-            }
+
         }
     }
 }

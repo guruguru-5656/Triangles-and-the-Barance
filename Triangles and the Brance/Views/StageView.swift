@@ -75,7 +75,7 @@ struct StageView: View {
             Section {
                 GeometryReader { geometry in
                     HStack {
-                        ActionItemView(item: StaticStageObjects.normalActionItem, size: geometry.size.height)
+                        ActionItemView(itemModel: backGround.normalActionItem, size: geometry.size.height)
                             .overlay{
                                 Text("\(String(gameModel.parameter.normalActionCount))")
                                     .foregroundColor(Color(white: 0.4))
@@ -86,7 +86,7 @@ struct StageView: View {
                             .padding(.trailing, geometry.size.height / 8)
                         Divider().background(Color(white : 0.1))
                         ForEach(gameModel.actionItems,id: \.self){ item in
-                            ActionItemView(item: item,size:geometry.size.height)
+                            ActionItemView(itemModel: item, size: geometry.size.height)
                                 .padding(.leading, 15)
                         }
                     }

@@ -9,41 +9,43 @@ import SwiftUI
 
 ///アイテムのビュー
 struct ActionItemView: View {
-    @EnvironmentObject var game:GameModel
-    let item:ActionItemViewModel
+    @EnvironmentObject var gameModel:GameModel
+    @State var itemModel: ActionItemModel
+    
     let size:CGFloat
     //アニメーション用プロパティ
     var circleScale:Double{
-        guard let stageItem = game.selectedActionItem
+        guard let stageItem = gameModel.selectedActionItem
         else{ return 2 }
-        if stageItem.id == self.item.id {
+        if stageItem.id == itemModel.id {
             return 1
         }else{
             return 2
         }
     }
+    
     var circleOpacity:Double{
-        guard let stageItem = game.selectedActionItem
+        guard let stageItem = gameModel.selectedActionItem
         else{ return 0 }
-        if stageItem.id == self.item.id{
+        if stageItem.id == itemModel.id{
             return 1
         }else{
             return 0
         }
     }
-
+    
     var body: some View {
         ZStack{
             Circle()
-                .stroke(game.currentColor.heavy, lineWidth: 1)
+                .stroke(gameModel.currentColor.heavy, lineWidth: 1)
                 .frame(width: size, height: size)
                 .scaleEffect(circleScale)
-                .animation(Animation.easeOut(duration: 0.2),value:circleScale)
+                .animation(.easeOut(duration: 0.2), value: circleScale)
                 .opacity(circleOpacity)
-                .animation(Animation.easeOut(duration: 0.2),value:circleOpacity)
+                .animation(.easeOut(duration: 0.2), value: circleOpacity)
                 .overlay{
                     //アイテムの種類ごとに表示を出し分ける
-                    if let actionItem = item.action{
+                    if let actionItem = itemModel.action{
                         switch actionItem{
                         case .normal:
                             NormalActionView(size: size)
@@ -53,18 +55,18 @@ struct ActionItemView: View {
                     }
                 }
                 .contentShape(Circle())
-                .onTapGesture{
-                    if game.selectedActionItem == nil{
-                        game.selectedActionItem = item
+                .onTapGesture {
+                    if gameModel.selectedActionItem == nil{
+                        gameModel.selectedActionItem = itemModel
                     }else{
-                        game.selectedActionItem = nil
+                        gameModel.selectedActionItem = nil
                     }
                 }
+                .transition(
+                    .asymmetric(insertion: .opacity.combined(with: .move(edge: .trailing)),
+                                removal: .opacity)
+                )
         }
-        .transition(.asymmetric(insertion: .offset(x: 500, y: 0).animation(.linear(duration: 1)),
-                                removal: .opacity.animation(.easeIn(duration: 0.2))
-                                    .combined(with: .scale(scale: 1.1)
-                                                .animation(.easeIn(duration: 0.2)))))
     }
 }
 

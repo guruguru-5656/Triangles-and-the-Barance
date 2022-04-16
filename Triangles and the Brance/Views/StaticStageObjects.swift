@@ -34,6 +34,6 @@ struct StaticStageObjects {
         TriVertexCoordinate(x: 2, y: 0)
     ]
     //ビューの再生成時にidが変わらないようにあらかじめ生成
-    static let normalActionItem = ActionItemViewModel(action: .normal, status: .onAppear)
+    var normalActionItem = ActionItemModel(action: .normal)
     
 }

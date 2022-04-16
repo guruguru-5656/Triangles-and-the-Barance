@@ -11,21 +11,61 @@ import SwiftUI
 ///処理を行う場所を特定し、プロパティーの更新を行う
 ///利用する際にはplansとaddtionalItemを読み取る
 class TriangleTapAction {
-    init(gameModel:GameModel) {
-        self.gameModel = gameModel
-    }
-    private let gameModel: GameModel
+    private let gameModel = GameModel.shared
     ///アクションの一覧、コストが高い順に格納されている
     private var actionsForGenerateTriangle:[ActionType] = ActionType.allCases.filter{ $0.defaultCost != nil }.sorted{ $0.defaultCost! > $1.defaultCost! }
+    
+    ///タップしたときのアクションを呼び出す
+    func triangleTapAction(index: Int) {
+        if gameModel.triangles[index].status == .isOn{
+            gameModel.parameter.life -= 1
+            trianglesChainAction(index: index)
+        }else{
+            //アイテムが入っていた場合はtrianglesにセット
+            if let selectedItem = gameModel.selectedActionItem{
+                switch selectedItem.action {
+                case .normal:
+                    guard gameModel.parameter.normalActionCount != 0 else{
+                        print("カウントゼロの状態にもかかわらず、ノーマルアクションが入っている")
+                        return
+                    }
+                    gameModel.parameter.normalActionCount -= 1
+                    gameModel.selectedActionItem = nil
+                    gameModel.triangles[index].status = .isOn
+                default:
+                  
+                    let indexOfItem = gameModel.actionItems.firstIndex {
+                        $0.id == selectedItem.id
+                    }
+                    guard let indexOfItem = indexOfItem else {
+                        print("アイテムのインデックス取得エラー")
+                        return
+                    }
+                    //removeに戻り値が発生してしまい警告が出るためアンダースコアに代入
+                    _ = withAnimation{
+                        gameModel.actionItems.remove(at: indexOfItem)
+                    }
+                    let coordinate = gameModel.triangles[index].coordinate
+                    let relativeCoordinate = coordinate.relativeCoordinate(relative: selectedItem.actionCoordinate(reversed: gameModel.triangles[index].reversed))
+                    
+                    coordinatesInStage(coordinates: relativeCoordinate).forEach {
+                        gameModel.triangles[indexOfTrianglesInStage(coordinate: $0)!].status = .isOn
+                    }
+                    gameModel.selectedActionItem = nil
+                }
+            }
+        }
+    }
+    
+    
+    
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
-    func trianglesTapAction(index: Int) {
+    private func trianglesChainAction(index: Int) {
         let coordinate = gameModel.triangles[index].coordinate
         do{
             //
             let plans = try planingDeleteTriangles(coordinate: coordinate)
-            let deleteCount = plans.filter{
-                $0.changeStatus == .toTurnOff || $0.changeStatus == .toTurnOffWithAction
-            }.count
+            let deleteCount = plans.count
             //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
             updateTrianglesStatus(plans: plans){
                 self.appendStageItems(count: deleteCount)
@@ -41,7 +81,7 @@ class TriangleTapAction {
         for action in actionsForGenerateTriangle{
             if count >= action.defaultCost!{
                 withAnimation{
-                    gameModel.actionItems.append(ActionItemViewModel(action: action, status: .onAppear))
+                    gameModel.actionItems.append(ActionItemModel(action: action))
                 }
                 break
             }
@@ -49,9 +89,7 @@ class TriangleTapAction {
     }
     ///消した数の半分の数を再度Onにする
     private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]) {
-        let numberToAdd = plans.filter{
-            $0.changeStatus == .toTurnOffWithAction || $0.changeStatus == .toTurnOff
-        }.count / 2
+        let numberToAdd = plans.count / 2
         let shuffledIndexIsOff = gameModel.triangles.indices.filter{
             gameModel.triangles[$0].status == .isOff
         }.shuffled()
@@ -71,30 +109,11 @@ class TriangleTapAction {
                 if counter != 0{
                     Thread.sleep(forTimeInterval: 0.4)
                 }
-                //今処理をおこなっているカウントにアクションが入っていた場合はアニメーションを実行
-                let planWithAction = separatedPlan.filter{
-                    $0.changeStatus == .toTurnOffWithAction
-                }
-                if !planWithAction.isEmpty {
-                    planWithAction.forEach { plan in
-                        DispatchQueue.main.async {
-                            self.gameModel.triangles[plan.index].actionItem?.status = .isOff
-                        }
-                        Thread.sleep(forTimeInterval: 0.35)
-                    }
-                }
+         
                 //ステータスの更新を行う
                 for plan in separatedPlan {
                     DispatchQueue.main.async{
-                        switch plan.changeStatus{
-                        case .toTurnOn:
-                            self.gameModel.triangles[plan.index].status = .isOn
-                        case .toTurnOff:
                             self.gameModel.triangles[plan.index].status = .isOff
-                        case .toTurnOffWithAction:
-                            self.gameModel.triangles[plan.index].status = .isOff
-                            self.gameModel.triangles[plan.index].actionItem = nil
-                        }
                     }
                 }
                 counter += 1
@@ -130,29 +149,11 @@ class TriangleTapAction {
                 guard let index = indexOfTrianglesInStage(coordinate: searchingNow)
                 else{ throw StageError.triangleIndexError }
                 let nextCoordinates = searchingNow.nextCoordinates
-                if gameModel.triangles[index].status == .isOn || gameModel.triangles[index].status == .onAppear {
-                    //アクションが入っていてかつisDisappearing出ない場合は、アクションに指定されたマスをOnにして、探索済みから取り除く
-                    if let actionItem = gameModel.triangles[index].actionItem {
-                        if actionItem.status != .isDisappearing{
-                            let actionCoordinate = actionItem.action.actionCoordinate(from: searchingNow)
-                            didSearched.subtract(actionCoordinate)
-                            //アクションをおこなう座標のステータスを更新し、planに加える
-                            coordinatesInStage(coordinates: actionCoordinate).map {
-                                indexOfTrianglesInStage(coordinate: $0)!
-                            }.filter{
-                                gameModel.triangles[$0].status != .isOn && gameModel.triangles[$0].status != .onAppear
-                            }.forEach{
-                                plan.append(PlanOfChangeStatus(index: $0, count: counter, changeStatus: .toTurnOn))
-                                gameModel.triangles[$0].status = .onAppear
-                            }
-                            plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOffWithAction))
-                            gameModel.triangles[index].actionItem?.status = .isDisappearing
-                            willSearch.formUnion(nextCoordinates)
-                        }
-                    }else{
-                        plan.append(PlanOfChangeStatus(index: index, count: counter, changeStatus: .toTurnOff))
+                if gameModel.triangles[index].status == .isOn {
+                    
+                        plan.append(PlanOfChangeStatus(index: index, count: counter))
                         willSearch.formUnion(nextCoordinates)
-                    }
+    
                 }
             }
             //処理が一巡終わった際に次の探索予定とカウンターを更新
@@ -177,12 +178,6 @@ class TriangleTapAction {
     struct PlanOfChangeStatus{
         let index:Int
         let count:Int
-        let changeStatus:UpdateStatus
-        enum UpdateStatus{
-            case toTurnOn
-            case toTurnOff
-            case toTurnOffWithAction
-        }
     }
 }
 
