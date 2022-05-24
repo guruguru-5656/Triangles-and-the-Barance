@@ -27,13 +27,13 @@ struct StaticStageObjects {
     ]
     var stageLines:[TriLine] = []
     //ステージの背景の六角形
-    static let hexagon:[TriVertexCoordinate] = [
+    let hexagon:[TriVertexCoordinate] = [
         TriVertexCoordinate(x: 2, y: 0), TriVertexCoordinate(x: 5, y: 0),
         TriVertexCoordinate(x: 5, y: 3),TriVertexCoordinate(x: 2, y: 6),
         TriVertexCoordinate(x: -1, y: 6),TriVertexCoordinate(x: -1, y: 3),
         TriVertexCoordinate(x: 2, y: 0)
     ]
     //ビューの再生成時にidが変わらないようにあらかじめ生成
-    var normalActionItem = ActionItemModel(action: .normal)
+    
     
 }

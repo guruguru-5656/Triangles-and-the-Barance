@@ -9,9 +9,10 @@ import SwiftUI
 
 struct StageView: View {
     @EnvironmentObject var gameModel: GameModel
-    @State var backGround = StaticStageObjects()
+    @State private var normalActionItem = ActionItem(action: .normal)
+    
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             Spacer()
             HStack {
                 Section {
@@ -20,12 +21,13 @@ struct StageView: View {
                         .foregroundColor(gameModel.parameter.life <= 1 ? Color.red : Color(white: 0.3))
                         .padding(.horizontal, 20)
                         .padding(.vertical, 5)
-                        .background(Rectangle()
-                                        .stroke()
-                                        .foregroundColor(gameModel.currentColor.heavy)
-                                        .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                        .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
-                                        .rotationEffect(Angle(degrees: 45))
+                        .background(
+                            Rectangle()
+                                .stroke()
+                                .foregroundColor(gameModel.currentColor.heavy)
+                                .background(Color.backgroundLightGray.scaleEffect(1.2))
+                                .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
+                                .rotationEffect(Angle(degrees: 45))
                         )
                         .padding(.top, 10)
                 }
@@ -54,28 +56,16 @@ struct StageView: View {
                    height: gameModel.screenBounds.height/32)
             .padding(.top, 15)
             .padding(.bottom, 40)
-            ZStack(alignment: .center) {
-                GeometryReader { geometory in
-                    //背景
-                    DrawShapeFromVertexCoordinate(coordinates: StaticStageObjects.hexagon, scale: geometory.size.width/6)
-                        .foregroundColor(.backgroundLightGray)
-                        .scaleEffect(1.05)
-                    //背景の線部分
-                    ForEach(backGround.stageLines){ line in
-                        DrawTriLine(line: line, scale: geometory.size.width/6)
-                            .stroke(gameModel.currentColor.heavy, lineWidth: 1)
-                    }
-                    //メインの三角形の表示
-                    ForEach(gameModel.triangles){ triangles in
-                        TriangleFromCenterView(id: triangles.id, size: geometory.size.width/6)
-                    }
-                }.frame(width: gameModel.screenBounds.width * 7/8, height: gameModel.screenBounds.width*3/4)
-                    .padding(.vertical, 10)
-            }
+            
+            GeometryReader { geometory in
+                TriangleView(size: geometory.size.width/6)
+            }.frame(width: gameModel.screenBounds.width * 7/8, height: gameModel.screenBounds.width*3/4)
+                .padding(.vertical, 10)
+            
             Section {
                 GeometryReader { geometry in
                     HStack {
-                        ActionItemView(itemModel: backGround.normalActionItem, size: geometry.size.height)
+                        ActionItemView(itemModel: normalActionItem, size: geometry.size.height)
                             .overlay{
                                 Text("\(String(gameModel.parameter.normalActionCount))")
                                     .foregroundColor(Color(white: 0.4))
@@ -85,7 +75,7 @@ struct StageView: View {
                             .padding(.leading, geometry.size.height / 4)
                             .padding(.trailing, geometry.size.height / 8)
                         Divider().background(Color(white : 0.1))
-                        ForEach(gameModel.actionItems,id: \.self){ item in
+                        ForEach(gameModel.itemController.actionItems,id: \.self){ item in
                             ActionItemView(itemModel: item, size: geometry.size.height)
                                 .padding(.leading, 15)
                         }

@@ -18,14 +18,11 @@ struct ContentView: View {
             StageView()
             
             if gameModel.showGameOverView {
-                
                 Color(.init(gray: 0.4, alpha: 0.5))
                     .ignoresSafeArea()
-                    .zIndex(1)
                 GameOverView()
                     .cornerRadius(20)
                     .padding(40)
-                    .zIndex(1)
             }
         }
         .onPreferenceChange(ClearCirclePoint.self) { point in

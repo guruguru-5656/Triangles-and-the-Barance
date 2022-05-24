@@ -3,32 +3,53 @@
 import Foundation
 import SwiftUI
 
+struct TriangleView: View {
+    @EnvironmentObject var gameModel: GameModel
+    @ObservedObject var contloller = GameModel.shared.triangleController
+    @State var size: CGFloat
+    @State var backGround = StaticStageObjects()
+    
+    var body: some View {
+        ZStack{
+        //背景
+        DrawShapeFromVertexCoordinate(coordinates: backGround.hexagon, scale: size)
+            .foregroundColor(.backgroundLightGray)
+            .scaleEffect(1.05)
+        //背景の線部分
+        ForEach(backGround.stageLines){ line in
+            DrawTriLine(line: line, scale: size)
+                .stroke(gameModel.currentColor.heavy, lineWidth: 1)
+        }
+        
+        //メインの三角形の表示
+        ForEach($contloller.triangles){ $triangle in
+            TriangleFromCenterView(model: $triangle, width: size)
+                .onTapGesture {
+                    contloller.triangleTapAction(coordinate: triangle.coordinate)
+                }
+        }
+        }
+    }
+}
 ///メイン画面の三角形の描画
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
 struct TriangleFromCenterView: View, DrawTriangle {
-    init(id:UUID,size:CGFloat){
-        self.id = id
-        self.width = size
-    }
+    
     @EnvironmentObject var gameModel:GameModel
-    //親ビューからIDを割り当て、それをステージのモデルから検索することによってインデックス番号を取得する
-    var id:UUID
-    var index:Int{
-        // MARK: クラッシュ対策で初期値を設定、要改善？
-        gameModel.triangles.firstIndex{ $0.id == self.id } ?? 0
-    }
+    @Binding var model: TriangleViewModel
+    
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
     ///rotationEffectをかける際に位置ずれを防ぐため、frameをこの比率で設定
-    var height:CGFloat{
+    internal var height:CGFloat{
         width / sqrt(3)
     }
     ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
     private var drawPoint:CGPoint{
-        let X = CGFloat(gameModel.triangles[index].coordinate.x)
-        let Y = CGFloat(gameModel.triangles[index].coordinate.y)
-        
-        let remainder = gameModel.triangles[index].coordinate.x % 2
+        let X = CGFloat(model.coordinate.x)
+        let Y = CGFloat(model.coordinate.y)
+
+        let remainder = model.coordinate.x % 2
         if remainder == 0{
             return CGPoint(x: (X/2 + Y/2) * width, y: Y * sqrt(3)/2 * width)
         }else{
@@ -39,7 +60,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     ///与えられた座標のX座標をもとに回転するかどうか判断する
     private var rotation:Angle{
-        let remainder = gameModel.triangles[index].coordinate.x % 2
+        let remainder = model.coordinate.x % 2
         if remainder == 0{
             return Angle(degrees: 0)
         }else{
@@ -49,7 +70,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //Viewにアニメーションをつけるプロパティ
     //拡大率
     private var scale: CGFloat{
-        switch gameModel.triangles[index].status{
+        switch model.status{
         case .isOn:
            return 0.95
         case .isDisappearing:
@@ -62,7 +83,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //透過度
     private var opacity:Double{
-        switch gameModel.triangles[index].status{
+        switch model.status{
         case .isOn:
            return 1
         case .isDisappearing:
@@ -75,7 +96,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //アニメーションの時間指定
     private var duration:Double{
-        switch gameModel.triangles[index].status{
+        switch model.status{
         case .isOn:
             return 0.3
         case .isDisappearing:
@@ -88,7 +109,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     }
     //フレームにアニメーションをつけるプロパティ
     private var frameScale: CGFloat{
-        switch gameModel.triangles[index].status{
+        switch model.status{
         case .isOn:
             return 0.95
         case .isDisappearing:
@@ -111,7 +132,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
-   
+
     //本体の描画
     var body: some View {
         ZStack{
@@ -125,10 +146,6 @@ struct TriangleFromCenterView: View, DrawTriangle {
                 .overlay(frameOfTriangle)
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
-                .onTapGesture {
-                    TriangleTapAction().triangleTapAction(index: index)
-                }
-
         }
     }
 }

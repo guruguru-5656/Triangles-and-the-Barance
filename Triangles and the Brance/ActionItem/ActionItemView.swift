@@ -10,12 +10,12 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     @EnvironmentObject var gameModel:GameModel
-    @State var itemModel: ActionItemModel
-    
+    @State var itemModel: ActionItem
+    @ObservedObject var itemController = GameModel.shared.itemController
     let size:CGFloat
     //アニメーション用プロパティ
     var circleScale:Double{
-        guard let stageItem = gameModel.selectedActionItem
+        guard let stageItem = itemController.selectedItem
         else{ return 2 }
         if stageItem.id == itemModel.id {
             return 1
@@ -25,7 +25,7 @@ struct ActionItemView: View {
     }
     
     var circleOpacity:Double{
-        guard let stageItem = gameModel.selectedActionItem
+        guard let stageItem = itemController.selectedItem
         else{ return 0 }
         if stageItem.id == itemModel.id{
             return 1
@@ -56,10 +56,13 @@ struct ActionItemView: View {
                 }
                 .contentShape(Circle())
                 .onTapGesture {
-                    if gameModel.selectedActionItem == nil{
-                        gameModel.selectedActionItem = itemModel
+                    if itemController.selectedItem == nil{
+                        if itemModel.action == .normal && gameModel.parameter.normalActionCount == 0 {
+                            return
+                        }
+                        itemController.selectedItem = itemModel
                     }else{
-                        gameModel.selectedActionItem = nil
+                        itemController.selectedItem = nil
                     }
                 }
                 .transition(

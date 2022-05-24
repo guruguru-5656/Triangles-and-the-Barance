@@ -21,7 +21,7 @@ struct GameParameters: PlayingData {
     var deleteCountNow = 0
     var normalActionCount: Int = 3
     var targetDeleteCount: Int = 0
-    var triangleHaveActionProbability:Double = 0
+   
     //クリア率。これを監視して、ステージクリアを呼び出す
     var clearPersent: Double {
         var percent = Double(deleteCount) / Double(targetDeleteCount)
@@ -29,7 +29,7 @@ struct GameParameters: PlayingData {
         return percent
     }
     //ゲームの難易度に関わる定数
-    let triangleIsOnProbability:Double = 40
+    
     
     //ゲーム開始時に呼び出す
     mutating func resetParameters(defaultParameter: DefaultParameters) {
@@ -45,7 +45,6 @@ struct GameParameters: PlayingData {
     mutating func setParameters(defaultParameter: DefaultParameters) {
         life = defaultParameter.life
         normalActionCount = defaultParameter.normalActionCount
-        triangleHaveActionProbability = Double(level)
         targetDeleteCount = level * 10 + 20
         deleteCount = 0
     }
