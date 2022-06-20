@@ -63,12 +63,14 @@ class TriangleContloller: ObservableObject {
     }
     ///タップしたときのアクション
     func triangleTapAction(coordinate: ModelCoordinate) {
+        guard GameModel.shared.parameter.life != 0 else {
+            return
+        }
         guard let index = indexOfTriangles(coordinate: coordinate) else {
             print("インデックス取得エラー")
             return
         }
         if triangles[index].status == .isOn{
-           
             trianglesChainAction(index: index)
         }else{
             //アイテムが入っていた場合の処理

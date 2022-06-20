@@ -19,7 +19,7 @@ struct GameParameters {
     var life:Int = 5
     var deleteCount = 0
     var deleteCountNow = 0
-    var normalActionCount: Int = 3
+    
     var targetDeleteCount: Int = 0
    
     //クリア率。これを監視して、ステージクリアを呼び出す
@@ -29,8 +29,8 @@ struct GameParameters {
         return percent
     }
     //ゲームの難易度に関わる定数
-    let defaultLife = 5
-    let defaultNormalActionCount:Int = 3
+    var defaultLife = 5
+    
     //ゲーム開始時に呼び出す
     mutating func resetParameters() {
         level = 1
@@ -43,10 +43,16 @@ struct GameParameters {
     
     //ステージ開始時に呼び出す
     mutating func setParameters() {
+        loadSaveData()
         life = defaultLife
-        normalActionCount = defaultNormalActionCount
-        targetDeleteCount = level * 10 + 20
+        
+        targetDeleteCount = level * 10 + 10
         deleteCount = 0
+    }
+    
+    private mutating func loadSaveData() {
+        let lifeData = SaveData.shareData.shareUpgradeData(type: .life)
+        defaultLife = lifeData.level + 2
     }
     
     ///ステータスの更新とクリア判定、ゲームオーバー判定を行う

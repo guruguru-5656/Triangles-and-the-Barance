@@ -15,80 +15,72 @@ struct StageView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Section {
-                    Text(String(gameModel.parameter.life))
-                        .font(Font(UIFont.monospacedSystemFont(ofSize: 35.0, weight: .regular)))
-                        .foregroundColor(gameModel.parameter.life <= 1 ? Color.red : Color(white: 0.3))
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 5)
-                        .background(
-                            Rectangle()
-                                .stroke()
-                                .foregroundColor(gameModel.currentColor.heavy)
-                                .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
-                                .rotationEffect(Angle(degrees: 45)))
-                }
-                Spacer()
-                HStack(alignment: .center) {
-                    Text("stage")
-                        .font(.title)
-                        .foregroundColor(Color(white: 0.3))
-                    
-                    Text(String(gameModel.parameter.level))
-                        .font(.largeTitle)
-                        .foregroundColor(gameModel.currentColor.light)
-                }
-                Spacer()
-                Button(action: {}){
-                    Image(systemName: "gearshape")
-                        .foregroundColor(Color(white: 0.3))
-                        .scaleEffect(1.5)
-                        .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
-                        .padding(.trailing, gameModel.screenBounds.width * 0.05)
-                        .padding(.leading, gameModel.screenBounds.width * 0.1)
-                }
-            }
-            .frame(alignment: .center)
-            .padding(.horizontal, geometry.size.width / 16)
-            Spacer()
-            GeometryReader { geometry in
-                TriangleView(size: geometry.size.width / 6)
-            }
-            .frame(height: geometry.size.width * 1/2 )
-            .padding(.top)
-            .padding(.horizontal, geometry.size.width / 8)
-            .padding(.bottom, geometry.size.width / 8)
-            Section {
-                GeometryReader { geometry in
-                    HStack {
-                        ActionItemView(itemModel: normalActionItem, size: geometry.size.height)
-                            .overlay{
-                                Text("\(String(gameModel.parameter.normalActionCount))")
-                                    .foregroundColor(Color(white: 0.4))
-                                    .font(.title2)
-                                    .position(x: geometry.size.height * 0.5 , y: geometry.size.height + geometry.size.height / 6)
-                            }
-                            .padding(.leading, geometry.size.height / 4)
-                            .padding(.trailing, geometry.size.height / 8)
-                        Divider().background(Color(white : 0.1))
-                        ForEach(gameModel.itemController.actionItems,id: \.self){ item in
-                            ActionItemView(itemModel: item, size: geometry.size.height)
-                                .padding(.leading, 15)
-                        }
+                HStack {
+                    Section {
+                        Text(String(gameModel.parameter.life))
+                            .font(Font(UIFont.monospacedSystemFont(ofSize: 35.0, weight: .regular)))
+                            .foregroundColor(gameModel.parameter.life <= 1 ? Color.red : Color(white: 0.3))
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 5)
+                            .background(
+                                Rectangle()
+                                    .stroke()
+                                    .foregroundColor(gameModel.currentColor.heavy)
+                                    .background(Color.backgroundLightGray.scaleEffect(1.2))
+                                    .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
+                                    .rotationEffect(Angle(degrees: 45)))
+                    }
+                    Spacer()
+                    HStack(alignment: .center) {
+                        Text("stage")
+                            .font(.title)
+                            .foregroundColor(Color(white: 0.3))
+                        
+                        Text(String(gameModel.parameter.level))
+                            .font(.largeTitle)
+                            .foregroundColor(gameModel.currentColor.light)
+                    }
+                    Spacer()
+                    Button(action: {}){
+                        Image(systemName: "gearshape")
+                            .foregroundColor(Color(white: 0.3))
+                            .scaleEffect(1.5)
+                            .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
+                            .padding(.trailing, gameModel.screenBounds.width * 0.05)
+                            .padding(.leading, gameModel.screenBounds.width * 0.1)
                     }
                 }
+                .frame(alignment: .center)
+                .padding(.horizontal, geometry.size.width / 16)
+                Spacer()
+                GeometryReader { geometry in
+                    TriangleView(size: geometry.size.width / 6)
+                }
+                .frame(height: geometry.size.width * 1/2 )
+                .padding(.top)
+                .padding(.horizontal, geometry.size.width / 8)
+                .padding(.bottom, geometry.size.width / 8)
+                ActionItemAllOverView(size: geometry.size.width)
+//                    HStack {
+//                        ActionItemView(itemModel: normalActionItem, size: geometry.size.height)
+//                            .padding(.leading, geometry.size.height / 4)
+//                            .padding(.trailing, geometry.size.height / 8)
+//                        Divider().background(Color(white : 0.1))
+//                        ForEach(gameModel.itemController.actionItems,id: \.self){ item in
+//                            ActionItemView(itemModel: item, size: geometry.size.height)
+//                                .padding(.leading, 15)
+//                        }
+//                    }
+//                }
+//                .frame(width: gameModel.screenBounds.width, height: gameModel.screenBounds.height/16)
+//                .padding(10)
+//                .background{
+//                    RectangleWithTwoTextSpace(textSpaceWidth: gameModel.screenBounds.width/4, textSpaceHeight: gameModel.screenBounds.width/24)
+//                        .foregroundColor(Color.backgroundLightGray)
+                
+                BaranceView()
+                    .padding(.top, 10)
             }
-            .frame(width: gameModel.screenBounds.width, height: gameModel.screenBounds.height/16)
-            .padding(10)
-            .background{
-                RectangleWithTwoTextSpace(textSpaceWidth: gameModel.screenBounds.width/4, textSpaceHeight: gameModel.screenBounds.width/24)
-                    .foregroundColor(Color.backgroundLightGray)
-            }
-            BaranceView()
-                .padding(.top, 10)
-        }
         }
     }
 }

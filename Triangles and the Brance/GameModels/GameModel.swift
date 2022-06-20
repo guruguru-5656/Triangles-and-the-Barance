@@ -57,6 +57,7 @@ class GameModel:ObservableObject {
             parameter.level += 1
             parameter.setParameters()
             triangleController.setParameters()
+            itemController.setParameters()
             currentColor.nextColor()
         }
     }

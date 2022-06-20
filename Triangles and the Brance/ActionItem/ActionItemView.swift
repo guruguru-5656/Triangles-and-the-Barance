@@ -9,6 +9,7 @@ import SwiftUI
 
 ///アイテムのビュー
 struct ActionItemView: View {
+    
     @EnvironmentObject var gameModel:GameModel
     @State var itemModel: ActionItem
     @ObservedObject var itemController = GameModel.shared.itemController
@@ -23,7 +24,6 @@ struct ActionItemView: View {
             return 2
         }
     }
-    
     var circleOpacity:Double{
         guard let stageItem = itemController.selectedItem
         else{ return 0 }
@@ -43,21 +43,10 @@ struct ActionItemView: View {
                 .animation(.easeOut(duration: 0.2), value: circleScale)
                 .opacity(circleOpacity)
                 .animation(.easeOut(duration: 0.2), value: circleOpacity)
-                .overlay{
-                    //アイテムの種類ごとに表示を出し分ける
-                    if let actionItem = itemModel.action{
-                        switch actionItem{
-                        case .normal:
-                            NormalActionView(size: size)
-                        case .pyramid:
-                            PyramidItemView(size: size)
-                        }
-                    }
-                }
                 .contentShape(Circle())
                 .onTapGesture {
                     if itemController.selectedItem == nil{
-                        if itemModel.action == .normal && gameModel.parameter.normalActionCount == 0 {
+                        if itemModel.action == .normal && itemController.normalActionCount == 0 {
                             return
                         }
                         itemController.selectedItem = itemModel
@@ -69,6 +58,17 @@ struct ActionItemView: View {
                     .asymmetric(insertion: .opacity.combined(with: .move(edge: .trailing)),
                                 removal: .opacity)
                 )
+            //アイテムの種類ごとに表示を出し分ける
+            if let actionItem = itemModel.action{
+                switch actionItem{
+
+                case .normal:
+                    NormalActionView(size: size)
+                      
+                case .pyramid:
+                    PyramidItemView(size: size)
+                }
+            }
         }
     }
 }

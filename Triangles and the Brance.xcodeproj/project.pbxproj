@@ -39,6 +39,7 @@
 		045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 045A2057283CB51E003704C3 /* CoreDataModel.xcdatamodeld */; };
 		046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */; };
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
+		04E0197B28606CDC001D2AAE /* ActionItemAllOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemAllOverView.swift */; };
 		04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
 		04F0B02A280B055200D1172C /* BaranceViewContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B029280B055200D1172C /* BaranceViewContloller.swift */; };
 		04F0B02C280EA28B00D1172C /* ActionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B02B280EA28B00D1172C /* ActionProgressView.swift */; };
@@ -86,6 +87,7 @@
 		045A2058283CB51E003704C3 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
+		04E0197A28606CDC001D2AAE /* ActionItemAllOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemAllOverView.swift; sourceTree = "<group>"; };
 		04F0B027280AFA4900D1172C /* BaranceCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceCircleView.swift; sourceTree = "<group>"; };
 		04F0B029280B055200D1172C /* BaranceViewContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceViewContloller.swift; sourceTree = "<group>"; };
 		04F0B02B280EA28B00D1172C /* ActionProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionProgressView.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				04F0B02B280EA28B00D1172C /* ActionProgressView.swift */,
 				0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */,
 				0400630128182B240069FB39 /* ItemController.swift */,
+				04E0197A28606CDC001D2AAE /* ActionItemAllOverView.swift */,
 			);
 			path = ActionItem;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				045121B827D31F5000936E2C /* ColorExtension.swift in Sources */,
 				04F0B02C280EA28B00D1172C /* ActionProgressView.swift in Sources */,
 				0426B0F227DF29EF00AC348E /* TriangleTapActionItem.swift in Sources */,
+				04E0197B28606CDC001D2AAE /* ActionItemAllOverView.swift in Sources */,
 				044AD42F27FFF64C00D96CED /* GameParameters.swift in Sources */,
 				0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */,

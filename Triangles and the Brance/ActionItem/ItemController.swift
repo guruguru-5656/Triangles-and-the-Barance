@@ -12,7 +12,12 @@ class ItemController: ObservableObject {
     @Published var actionItems: [ActionItem] = []
     @Published var selectedItem: ActionItem?
     @Published var progressingTapActionItem: FaceTapActionItemProgressModel?
+    @Published var normalActionItem = ActionItem(action: .normal)
+    @Published var normalActionCount: Int = 3
+    //TODO: インベントリ制限の実装
+    @Published var inventory: Int = 2
     private var itemTable: [ItemForTable] = []
+    private var defaultNormalActionCount:Int = 3
     
     func itemAction(position: Position) -> [[(Int, Int)]]{
         guard let item = selectedItem else {
@@ -27,13 +32,12 @@ class ItemController: ObservableObject {
         switch item.action {
         //normalのアクションはその他のアイテムとは別の管理になっている
         case .normal:
-            guard GameModel.shared.parameter.normalActionCount != 0 else{
+            guard normalActionCount != 0 else{
                 print("カウントゼロの状態で選択されている")
                 return []
             }
-            GameModel.shared.parameter.normalActionCount -= 1
+            normalActionCount -= 1
         default:
-          
             let indexOfItem = actionItems.firstIndex {
                 $0.id == item.id
             }
@@ -62,6 +66,11 @@ class ItemController: ObservableObject {
         }
         for table in table{
             if count >= table.cost!{
+                if actionItems.count == inventory {
+                _ = withAnimation {
+                        actionItems.removeFirst()
+                    }
+                }
                 withAnimation{
                     actionItems.append(ActionItem(action: table.type))
                 }
@@ -74,14 +83,26 @@ class ItemController: ObservableObject {
         actionItems = []
         selectedItem = nil
         progressingTapActionItem = nil
+        loadNormalActionCount()
         setItemTable()
+        setParameters()
     }
     ///ステージクリア時の挙動
     func setParameters() {
-        //現状何もする予定なし
+        normalActionCount = defaultNormalActionCount
     }
     
-    func setItemTable() {
+    private func loadNormalActionCount() {
+        let normalActionData = SaveData.shareData.shareUpgradeData(type: .normalActionCount)
+        defaultNormalActionCount = normalActionData.level + 2
+    }
+    
+    private func loadInventoryData() {
+        let inventoryData = SaveData.shareData.shareUpgradeData(type: .inventory)
+        inventory = inventoryData.level
+    }
+   
+   private func setItemTable() {
         let upgradeData = SaveData.shareData.upgradeItems
         let table = ActionType.allCases.map { actionType -> ItemForTable in
             if let data = upgradeData.first (where: {

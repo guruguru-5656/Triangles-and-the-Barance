@@ -114,6 +114,7 @@ struct UpgradeItemModel: Identifiable{
 enum UpgradeType: Int, CaseIterable {
     case life
     case inventory
+    case normalActionCount
     case pyramid
     case triforceDrop
     case withKeyTriforceUnlock
@@ -124,12 +125,15 @@ enum UpgradeType: Int, CaseIterable {
             return  1...10
         case .inventory:
             return  1...10
+        case .normalActionCount:
+            return 1...5
         case .pyramid:
             return 1...5
         case .triforceDrop:
             return 1...10
         case .withKeyTriforceUnlock:
             return 0...1
+       
         }
     }
     ///UpGrade解放に必要なステージ数
@@ -138,6 +142,8 @@ enum UpgradeType: Int, CaseIterable {
         case .life:
             return 1
         case .inventory:
+            return 1
+        case .normalActionCount:
             return 1
         case .pyramid:
             return 4
@@ -154,6 +160,8 @@ enum UpgradeType: Int, CaseIterable {
             return []
         case .inventory:
             return []
+        case .normalActionCount:
+            return []
         case .pyramid:
             return []
         case .triforceDrop:
@@ -161,6 +169,7 @@ enum UpgradeType: Int, CaseIterable {
             // TODO: Viewの実装
         case .withKeyTriforceUnlock:
             return [(.pyramid, 1)]
+        
         }
     }
     ///基本となる強化費用
@@ -170,33 +179,18 @@ enum UpgradeType: Int, CaseIterable {
             return 10
         case .inventory:
             return 10
+        case .normalActionCount:
+            return 10
         case .pyramid:
             return 10
         case .triforceDrop:
             return 10
         case .withKeyTriforceUnlock:
             return 1000
+       
         }
     }
-    var target: Target {
-        switch self {
-        case .life:
-            return .gameParameter
-        case .inventory:
-            return .itemController
-        case .pyramid:
-            return .itemController
-        case .triforceDrop:
-            return .itemController
-        case .withKeyTriforceUnlock:
-            return .triangleModel
-        }
-    }
-    enum Target {
-        case itemController
-        case gameParameter
-        case triangleModel
-    }
+    
 }
 
 

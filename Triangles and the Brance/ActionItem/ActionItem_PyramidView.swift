@@ -9,18 +9,27 @@ import SwiftUI
 
 
 struct NormalActionView: View{
+    
     @EnvironmentObject var gameModel:GameModel
-    let size:CGFloat
+    @ObservedObject var itemController = GameModel.shared.itemController
+    let size: CGFloat
     var body: some View {
         TriangleNormalShape()
             .fill(gameModel.currentColor.light)
             .frame(width: size, height: size)
-            .opacity(gameModel.parameter.normalActionCount == 0 ? 0.5 : 1)
-            .animation(.default, value: gameModel.parameter.normalActionCount)
+            .opacity(itemController.normalActionCount == 0 ? 0.5 : 1)
+            .animation(.default, value: itemController.normalActionCount)
+            .overlay {
+                Text("\(itemController.normalActionCount)")
+                    .offset(x: 0, y: size * 2/3)
+                    .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
+                    .foregroundColor(itemController.normalActionCount == 0 ? .red : .black)
+            }
     }
 }
 
 struct PyramidItemView: View{
+    
     @EnvironmentObject var gameModel:GameModel
     let size:CGFloat
     var body: some View {

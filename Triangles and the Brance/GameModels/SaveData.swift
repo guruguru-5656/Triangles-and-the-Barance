@@ -41,6 +41,16 @@ final class SaveData {
         }
     }
     
+    func shareUpgradeData(type: UpgradeType) -> UpgradeItemModel {
+        let data = upgradeItems.first {
+            $0.type == type
+        }
+        guard let data = data else {
+        fatalError("upgradeTypeに指定したデータが存在しない")
+        }
+        return data
+    }
+    
     private func saveHiScoreData() {
         let request = NSFetchRequest<HiScore>(entityName: "HiScore")
         guard let hiScoreData = try? context.fetch(request) else {
@@ -115,7 +125,7 @@ final class SaveData {
         }
     }
     
-    func loadUpgradeData() {
+    private func loadUpgradeData() {
         let request = NSFetchRequest<UpGrade>(entityName: "UpGrade")
         guard let loadData = try? context.fetch(request) else {
             fatalError("Unable to load Data")
