@@ -11,7 +11,7 @@ import SwiftUI
 //スコアを表示用に加工して出力する
 final class PlayingScores: ObservableObject {
     @Published var showUpgrade = false
-    @Published var results: [ResultModel] = Score.allCases.enumerated().map {
+    @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
         }
     @Published var money = SaveData.shareData.money
@@ -44,6 +44,7 @@ final class PlayingScores: ObservableObject {
     }
     
     func updateHiScore() {
+        //SaveData内のデータを更新
         for index in results.indices {
             let hiScoreIndex = SaveData.shareData.hiScores.firstIndex{
                 $0.type == results[index].type
@@ -57,7 +58,7 @@ final class PlayingScores: ObservableObject {
 }
 
 struct ResultModel: Identifiable, Hashable {
-    init(type: Score, index: Int) {
+    init(type: ScoreType, index: Int) {
         self.type = type
         if type == .stage {
             self.value = 1
@@ -70,7 +71,7 @@ struct ResultModel: Identifiable, Hashable {
     let index: Int
     var viewStatus: ViewStatus = .isOff
     
-    let type: Score
+    let type: ScoreType
     var value: Int = 0
     var isUpdated = false
     
@@ -88,7 +89,7 @@ struct ResultModel: Identifiable, Hashable {
     }
 }
 
-enum Score: CaseIterable {
+enum ScoreType: CaseIterable {
     case stage
     case count
     case combo

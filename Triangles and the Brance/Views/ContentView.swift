@@ -15,8 +15,8 @@ struct ContentView: View {
         
         ZStack {
             BaranceCircleView(circlePoint: $circlePoint)
+                .ignoresSafeArea()
             StageView()
-            
             if gameModel.showGameOverView {
                 Color(.init(gray: 0.4, alpha: 0.5))
                     .ignoresSafeArea()
@@ -26,11 +26,8 @@ struct ContentView: View {
             }
         }
         .onPreferenceChange(ClearCirclePoint.self) { point in
-            circlePoint = point
-        }
+            circlePoint = point }
     }
-        
-    
 }
 
 struct ContentView_Previews: PreviewProvider {

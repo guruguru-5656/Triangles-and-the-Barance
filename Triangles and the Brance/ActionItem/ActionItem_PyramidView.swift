@@ -9,34 +9,34 @@ import SwiftUI
 
 
 struct NormalActionView: View{
-    @EnvironmentObject var game:GameModel
+    @EnvironmentObject var gameModel:GameModel
     let size:CGFloat
     var body: some View {
         TriangleNormalShape()
-            .fill(game.currentColor.light)
+            .fill(gameModel.currentColor.light)
             .frame(width: size, height: size)
-            .opacity(game.parameter.normalActionCount == 0 ? 0.5 : 1)
-            .animation(.default, value: game.parameter.normalActionCount)
+            .opacity(gameModel.parameter.normalActionCount == 0 ? 0.5 : 1)
+            .animation(.default, value: gameModel.parameter.normalActionCount)
     }
 }
 
-struct TriforceActionView: View{
-    @EnvironmentObject var game:GameModel
+struct PyramidItemView: View{
+    @EnvironmentObject var gameModel:GameModel
     let size:CGFloat
     var body: some View {
         ZStack{
             TriangleNormalShape()
-                .stroke(game.currentColor.heavy, lineWidth: 3)
+                .stroke(gameModel.currentColor.heavy, lineWidth: 3)
                 .overlay(TriangleNormalShape()
-                            .fill(game.currentColor.light)
+                            .fill(gameModel.currentColor.light)
                 )
                 
             TriangleNormalShapeSmall()
-                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .stroke(gameModel.currentColor.heavy, lineWidth: 2)
                 .scaleEffect(0.8)
                 
             TriangleNormalShapeSmall()
-                .stroke(game.currentColor.heavy, lineWidth: 2)
+                .stroke(gameModel.currentColor.heavy, lineWidth: 2)
                 .scaleEffect(0.8)
                 .rotationEffect(Angle(degrees: 180))
         }

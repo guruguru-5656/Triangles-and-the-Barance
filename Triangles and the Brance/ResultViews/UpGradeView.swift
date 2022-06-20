@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UpgradeView: View {
-    @ObservedObject var upgradeModel:UpgradeViewModel  = GameModel.shared.upgradeModel
+    @ObservedObject var upgradeModel = UpgradeViewModel()
     @State var opacity:Double = 0
     var body: some View {
         VStack(spacing: 20) {
@@ -26,7 +26,7 @@ struct UpgradeView: View {
             ForEach($upgradeModel.upgradeItems) { $item in
                 UpgradeSubView(item: $item)
                     .opacity(opacity)
-                    .animation(.default.delay(Double(item.id) * 0.1), value: opacity)
+                    .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
             }
             HStack {
                 Button(action: {
@@ -73,12 +73,12 @@ struct UpgradeView: View {
 }
 
 struct UpgradeSubView: View {
-    @Binding var item: UpgradeItemViewModel
+    @Binding var item: UpgradeItemModel
     var body: some View {
         
         HStack {
-            Text(item.upgradeStatus.text)
-            Text(String(item.upgradeStatus.level))
+            Text(item.text)
+            Text(String(item.level))
             Spacer()
             Text(String(item.cost))
                 .foregroundColor(item.isNextPayable ? Color.black : Color.red)
@@ -86,7 +86,7 @@ struct UpgradeSubView: View {
                 item.upgrade()
                 print(item.isUpdatable)
                 print(item.isNextPayable)
-                print((item.upgradeStatus.level + 1) <= item.upgradeStatus.upgradeRange.upperBound )
+                print((item.level + 1) <= item.type.upgradeRange.upperBound )
             }){
                 Image(systemName: "arrowtriangle.up")
                     .resizable()

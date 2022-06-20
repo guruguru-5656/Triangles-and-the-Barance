@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="HiScore" representedClassName="HiScore" syncable="YES" codeGenerationType="class">
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="MoneyModel" representedClassName="MoneyModel" syncable="YES" codeGenerationType="class">
+        <attribute name="value" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="UpGrade" representedClassName="UpGrade" syncable="YES" codeGenerationType="class">
+        <attribute name="level" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="UpGrade" positionX="-63" positionY="-18" width="128" height="59"/>
+        <element name="HiScore" positionX="-54" positionY="9" width="128" height="59"/>
+        <element name="MoneyModel" positionX="-36" positionY="27" width="128" height="44"/>
+    </elements>
+</model>

@@ -10,8 +10,7 @@ import Foundation
 //Gameをリセットしてもクリアされないパラメーター
 struct DefaultParameters {
     
-    let life = 5
-    let normalActionCount:Int = 3
+
 //    var actionItemData: [ActionItemData] = ActionType.allCases.map{
 //        ActionItemData(type: $0)
 //    }

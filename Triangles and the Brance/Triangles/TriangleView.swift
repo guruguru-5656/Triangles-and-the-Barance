@@ -20,7 +20,6 @@ struct TriangleView: View {
             DrawTriLine(line: line, scale: size)
                 .stroke(gameModel.currentColor.heavy, lineWidth: 1)
         }
-        
         //メインの三角形の表示
         ForEach($contloller.triangles){ $triangle in
             TriangleFromCenterView(model: $triangle, width: size)

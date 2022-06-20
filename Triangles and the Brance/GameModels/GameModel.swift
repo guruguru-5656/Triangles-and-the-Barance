@@ -12,7 +12,6 @@ class GameModel:ObservableObject {
     
     @Published var showGameOverView = false
     @Published var parameter = GameParameters()
-    
     //環境値
     @Published var currentColor = MyColor()
     //初期値をiPhone 8の画面サイズで設定、ContentViewのonAppearの時に再読み込み
@@ -22,27 +21,22 @@ class GameModel:ObservableObject {
     let itemController = ItemController()
     let baranceViewContloller = BaranceViewContloler()
     let score = PlayingScores()
-    let upgradeModel = UpgradeViewModel()
-    
-    var defaultParameters = DefaultParameters()
-    ///外側の配列がY軸、内側の配列がX軸を表す
-    
-    //ゲームのリセットに利用
-    func resetGame() {
-        //TODO: セーブデータのロード
-        parameter.resetParameters(defaultParameter: defaultParameters)
-        baranceViewContloller.reset()
-        triangleController.resetParameters(defaultParameter: defaultParameters)
-        itemController.resetParameters(defaultParameter: defaultParameters)
-        upgradeModel.setItemsParent()
-        currentColor = MyColor()
-    }
+
+    //シングルトン
     static let shared = GameModel()
-    
     private init(){
         resetGame()
     }
     
+    //ゲームのリセットに利用
+    func resetGame() {
+        //TODO: セーブデータのロード
+        parameter.resetParameters()
+        baranceViewContloller.reset()
+        triangleController.resetParameters()
+        itemController.resetParameters()
+        currentColor = MyColor()
+    }
     ///ステータスの更新とイベント処理を行う
     func updateGameParameters(deleteCount: Int) {
         //消去の数に応じてパラメーターの更新を行う
@@ -58,38 +52,27 @@ class GameModel:ObservableObject {
             gameOver()
         }
     }
-    
     func stageClear(){
         baranceViewContloller.clearAnimation { [self] in
             parameter.level += 1
-            parameter.setParameters(defaultParameter: defaultParameters)
-            triangleController.setParameters(defaultParameter: defaultParameters)
+            parameter.setParameters()
+            triangleController.setParameters()
             currentColor.nextColor()
         }
     }
     func gameOver(){
         score.setScores()
         score.updateHiScore()
-        upgradeModel.setPreviousStatus()
         withAnimation {
             showGameOverView = true
         }
         score.showScores()
     }
-   
-    //ステージの構造生成
-  
-   
 }
 
 enum StageError:Error{
     case isNotExist
     case triangleIndexError
-}
-
-protocol PlayingData {
-    mutating func resetParameters(defaultParameter: DefaultParameters)
-    mutating func setParameters(defaultParameter: DefaultParameters)
 }
 
 enum GameEvent {

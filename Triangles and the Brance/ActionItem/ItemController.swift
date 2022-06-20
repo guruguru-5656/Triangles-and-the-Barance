@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-class ItemController: PlayingData, ObservableObject {
+class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItem] = []
     @Published var selectedItem: ActionItem?
     @Published var progressingTapActionItem: FaceTapActionItemProgressModel?
-    private var actionsForGenerateTriangle:[ActionType] = ActionType.allCases.filter{ $0.defaultCost != nil }.sorted{ $0.defaultCost! > $1.defaultCost! }
-    
+    private var itemTable: [ItemForTable] = []
     
     func itemAction(position: Position) -> [[(Int, Int)]]{
         guard let item = selectedItem else {
@@ -26,15 +25,13 @@ class ItemController: PlayingData, ObservableObject {
         }
      
         switch item.action {
-            //normalのアクションはその他のアイテムとは別の管理になっている
+        //normalのアクションはその他のアイテムとは別の管理になっている
         case .normal:
             guard GameModel.shared.parameter.normalActionCount != 0 else{
                 print("カウントゼロの状態で選択されている")
                 return []
             }
             GameModel.shared.parameter.normalActionCount -= 1
-            
-            
         default:
           
             let indexOfItem = actionItems.firstIndex {
@@ -44,11 +41,9 @@ class ItemController: PlayingData, ObservableObject {
                 print("アイテムのインデックス取得エラー")
                 return []
             }
-           
             _ = withAnimation {
                 actionItems.remove(at: indexOfItem)
             }
-           
         }
         selectedItem = nil
         actionAnimation()
@@ -58,29 +53,71 @@ class ItemController: PlayingData, ObservableObject {
     private func actionAnimation() {
         
     }
-    
-    ///一定数以上消していた場合は新しくItemを追加する
+    ///triangleを消した数を受けて最大コストのactionItemを追加
     func appendStageItems(count: Int) {
-        for action in actionsForGenerateTriangle{
-            if count >= action.defaultCost!{
+        let table = itemTable.filter {
+            $0.cost != nil
+        }.sorted {
+            $0.cost! > $1.cost!
+        }
+        for table in table{
+            if count >= table.cost!{
                 withAnimation{
-                    actionItems.append(ActionItem(action: action))
+                    actionItems.append(ActionItem(action: table.type))
                 }
                 break
             }
         }
     }
-    
-    //ゲームリセット時の挙動
-    func resetParameters(defaultParameter: DefaultParameters) {
+    ///ゲームリセット時の挙動
+    func resetParameters() {
         actionItems = []
         selectedItem = nil
         progressingTapActionItem = nil
+        setItemTable()
     }
-    //ステージクリア時の挙動
-    func setParameters(defaultParameter: DefaultParameters) {
+    ///ステージクリア時の挙動
+    func setParameters() {
         //現状何もする予定なし
     }
     
+    func setItemTable() {
+        let upgradeData = SaveData.shareData.upgradeItems
+        let table = ActionType.allCases.map { actionType -> ItemForTable in
+            if let data = upgradeData.first (where: {
+                $0.type == actionType.upgradeItem
+            }) {
+                return ItemForTable(type: actionType, level: data.level)
+            } else {
+                return ItemForTable(type: actionType, level: 0)
+            }
+        }
+        self.itemTable = table
+    }
+    
+    private struct ItemForTable {
+        let type: ActionType
+        let level: Int
+        var cost: Int? {
+            switch self.type {
+                
+            case .normal:
+                return nil
+            case .pyramid:
+                switch level {
+                case 1...2:
+                    return 8
+                case 3...5:
+                    return 7
+                case 6...9:
+                    return 6
+                case 10:
+                    return 5
+                default:
+                    fatalError("想定外のレベル")
+                }
+            }
+        }
+    }
     
 }

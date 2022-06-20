@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GameParameters: PlayingData {
+struct GameParameters {
    
     //ゲーム開始時に初期化するステータス
     var level:Int = 1
@@ -29,22 +29,22 @@ struct GameParameters: PlayingData {
         return percent
     }
     //ゲームの難易度に関わる定数
-    
-    
+    let defaultLife = 5
+    let defaultNormalActionCount:Int = 3
     //ゲーム開始時に呼び出す
-    mutating func resetParameters(defaultParameter: DefaultParameters) {
+    mutating func resetParameters() {
         level = 1
         maxCombo = 0
         allDeleteCount = 0
         score = 0
         deleteCountNow = 0
-        setParameters(defaultParameter: defaultParameter)
+        setParameters()
     }
     
     //ステージ開始時に呼び出す
-    mutating func setParameters(defaultParameter: DefaultParameters) {
-        life = defaultParameter.life
-        normalActionCount = defaultParameter.normalActionCount
+    mutating func setParameters() {
+        life = defaultLife
+        normalActionCount = defaultNormalActionCount
         targetDeleteCount = level * 10 + 20
         deleteCount = 0
     }
@@ -55,11 +55,11 @@ struct GameParameters: PlayingData {
         self.deleteCount += deleteCount
         self.allDeleteCount += deleteCount
         self.score += deleteCount * deleteCount * level
+        self.life -= 1
         SaveData.shareData.money += score
         if self.maxCombo < deleteCount {
             maxCombo = deleteCount
         }
-        
         if self.deleteCount >= targetDeleteCount {
             return .stageClear
         }

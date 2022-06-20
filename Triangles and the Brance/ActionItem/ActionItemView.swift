@@ -49,8 +49,8 @@ struct ActionItemView: View {
                         switch actionItem{
                         case .normal:
                             NormalActionView(size: size)
-                        case .triforce:
-                            TriforceActionView(size: size)
+                        case .pyramid:
+                            PyramidItemView(size: size)
                         }
                     }
                 }

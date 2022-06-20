@@ -15,17 +15,8 @@ struct ActionItem: Identifiable, Hashable {
 
 enum ActionType: CaseIterable {
     case normal
-    case triforce
-    ///生成にかかるコスト
-    var defaultCost: Int?{
-        switch self{
-        case .triforce:
-            return 8
-        case .normal:
-            return nil
-        }
-    }
-
+    case pyramid
+    
     ///基準の座標からOnにする座標を示す
     ///外側の配列が順番を、内側の座標がtriangleの座標を表す
     var actionCoordinate:[[(Int,Int)]] {
@@ -33,7 +24,7 @@ enum ActionType: CaseIterable {
             
         case .normal:
                 return [[(0,0)]]
-        case .triforce:
+        case .pyramid:
                 return [[(0,0)],
                         [(-1, 0), (1, -1), (1, 0)]]
         }
@@ -45,10 +36,28 @@ enum ActionType: CaseIterable {
             
         case .normal:
             return Position.face
-        case .triforce:
+        case .pyramid:
             return Position.face
         }
     }
+    
+    var defaultCost: Int? {
+        switch self {
+        case .normal:
+            return nil
+        case .pyramid:
+            return 8
+        }
+    }
+    var upgradeItem: UpgradeType? {
+        switch self {
+        case .normal:
+            return nil
+        case .pyramid:
+            return .pyramid
+        }
+    }
+    
 }
 
 enum Position {

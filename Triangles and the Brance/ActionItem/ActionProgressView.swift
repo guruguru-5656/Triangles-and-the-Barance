@@ -16,7 +16,7 @@ struct ActionProgressView: View {
             switch item.action {
             case .normal:
                 ActionProgressViewNormal(size: size, coordinate: item.coordinate)
-            case .triforce:
+            case .pyramid:
                 ActionProgressViewNormal(size: size, coordinate: item.coordinate)
             }
         }

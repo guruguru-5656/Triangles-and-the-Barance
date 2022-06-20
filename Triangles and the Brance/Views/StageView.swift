@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct StageView: View {
+    
     @EnvironmentObject var gameModel: GameModel
     @State private var normalActionItem = ActionItem(action: .normal)
     
     var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
+        GeometryReader { geometry in
+            VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Section {
                     Text(String(gameModel.parameter.life))
@@ -27,11 +28,8 @@ struct StageView: View {
                                 .foregroundColor(gameModel.currentColor.heavy)
                                 .background(Color.backgroundLightGray.scaleEffect(1.2))
                                 .frame(width: gameModel.screenBounds.width * 0.1, height: gameModel.screenBounds.width * 0.1)
-                                .rotationEffect(Angle(degrees: 45))
-                        )
-                        .padding(.top, 10)
+                                .rotationEffect(Angle(degrees: 45)))
                 }
-                .padding(.horizontal, gameModel.screenBounds.width * 0.07)
                 Spacer()
                 HStack(alignment: .center) {
                     Text("stage")
@@ -52,16 +50,16 @@ struct StageView: View {
                         .padding(.leading, gameModel.screenBounds.width * 0.1)
                 }
             }
-            .frame(width: gameModel.screenBounds.width,
-                   height: gameModel.screenBounds.height/32)
-            .padding(.top, 15)
-            .padding(.bottom, 40)
-            
-            GeometryReader { geometory in
-                TriangleView(size: geometory.size.width/6)
-            }.frame(width: gameModel.screenBounds.width * 7/8, height: gameModel.screenBounds.width*3/4)
-                .padding(.vertical, 10)
-            
+            .frame(alignment: .center)
+            .padding(.horizontal, geometry.size.width / 16)
+            Spacer()
+            GeometryReader { geometry in
+                TriangleView(size: geometry.size.width / 6)
+            }
+            .frame(height: geometry.size.width * 1/2 )
+            .padding(.top)
+            .padding(.horizontal, geometry.size.width / 8)
+            .padding(.bottom, geometry.size.width / 8)
             Section {
                 GeometryReader { geometry in
                     HStack {
@@ -90,6 +88,7 @@ struct StageView: View {
             }
             BaranceView()
                 .padding(.top, 10)
+        }
         }
     }
 }
