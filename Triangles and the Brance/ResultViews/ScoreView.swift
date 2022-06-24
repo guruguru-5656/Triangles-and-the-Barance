@@ -40,7 +40,7 @@ struct GameOverView: View {
                             Button(action: {
                                 GameModel.shared.resetGame()
                                 withAnimation {
-                                    GameModel.shared.showGameOverView = false
+                                    GameModel.shared.stageModel.showGameOverView = false
                                 }
                                 
                             }){

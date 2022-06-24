@@ -24,7 +24,6 @@ extension Color {
     static let lightPurple = Color(red: 210/255, green: 165/255, blue: 255/255)
     static let lightFujiPurple = Color(red: 255/255, green: 165/255, blue: 255/255)
     static let lightPinkPurple = Color(red: 255/255, green: 165/255, blue: 211/255)
-    
         
     static let heavyRed = Color(red: 160/255, green: 84/255, blue: 84/255)
     static let heavyOrenge = Color(red: 160/255, green: 123/255, blue: 84/255)
@@ -43,7 +42,7 @@ extension Color {
 struct StageViewColor_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
-            .environmentObject(GameModel.shared)
+            .environmentObject(GameModel.shared.viewEnvironment)
     }
 }
 

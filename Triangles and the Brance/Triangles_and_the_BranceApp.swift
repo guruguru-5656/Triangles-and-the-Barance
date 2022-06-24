@@ -13,7 +13,7 @@ struct Triangles_and_the_BranceApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(GameModel.shared)
+                .environmentObject(GameModel.shared.viewEnvironment)
                 .onAppear{
                     let scenes = UIApplication.shared.connectedScenes
                     let windowScene = scenes.compactMap{
@@ -21,7 +21,7 @@ struct Triangles_and_the_BranceApp: App {
                     }
                     if let window = windowScene.first!.windows
                         .first(where: {$0.isKeyWindow}) {
-                        GameModel.shared.screenBounds = window.bounds
+                        GameModel.shared.viewEnvironment.screenBounds = window.bounds
                     } else {
                         print("画面サイズ取得失敗")
                     }

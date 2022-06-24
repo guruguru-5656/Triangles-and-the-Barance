@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct BaranceView: View {
-    @EnvironmentObject var gameModel:GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
+    @ObservedObject var stageModel = GameModel.shared.stageModel
     @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
 
     var baseScale: CGFloat {
-        GameModel.shared.screenBounds.width/12
+        viewEnvironment.screenBounds.width/12
     }
     var opacity:Double{
-        gameModel.parameter.clearPersent
+        baranceViewContloller.clearPersent
     }
     var distance:Double{
         baseScale * 4 * sin(baranceViewContloller.angle)
@@ -48,7 +49,7 @@ struct BaranceView: View {
                 Group{
                     TriangleNormalShape()
                         .frame(width: baseScale * 2, height: baseScale * sqrt(3))
-                        .foregroundColor(gameModel.currentColor.light)
+                        .foregroundColor(viewEnvironment.currentColor.light)
                         .position(x:baseScale * 4, y: baseScale * 2.8)
                     Circle()
                         .foregroundColor(.gray)
@@ -66,7 +67,7 @@ struct BaranceView: View {
                         .frame(width:baseScale * 1.4, height:baseScale * 1.4 )
                         .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
                     
-                    Text(String(gameModel.parameter.targetDeleteCount))
+                    Text(String(stageModel.targetDeleteCount))
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
                         .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
@@ -80,12 +81,12 @@ struct BaranceView: View {
                     
                 Group {
                     TriangleNormalShape()
-                        .foregroundColor(gameModel.currentColor.heavy)
+                        .foregroundColor(viewEnvironment.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
                         .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                     
-                    Text(String(gameModel.parameter.deleteCount))
+                    Text(String(stageModel.deleteCount))
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
                         .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
@@ -102,7 +103,7 @@ struct BaranceView: View {
                         .opacity(0.5)
                 }
                 if baranceViewContloller.showDeleteCountText {
-                    Text("+\(gameModel.parameter.deleteCountNow)")
+                    Text("+\(baranceViewContloller.deleteCountNow)")
                         .font(.title2)
                         .foregroundColor(Color.backgroundLightGray)
                         .position(x: baseScale * 1.5, y: baseScale * 2 - distance)
@@ -113,7 +114,7 @@ struct BaranceView: View {
                 
                 //三角形のフレーム部分
                 TriangleNormalShape()
-                    .stroke(gameModel.currentColor.heavy)
+                    .stroke(viewEnvironment.currentColor.heavy)
                     .rotationEffect(Angle(degrees: 180))
                     .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                     .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
@@ -121,12 +122,12 @@ struct BaranceView: View {
                 //クリア演出用の円
                 if baranceViewContloller.clearCircleIsOn == false {
                     Ellipse()
-                        .fill(gameModel.currentColor.light)
+                        .fill(viewEnvironment.currentColor.light)
                         .frame(width: 30, height: 15)
                         .position(x: baseScale * 0.25, y: baseScale * 3.1)
                     
                     Ellipse()
-                        .fill(gameModel.currentColor.heavy)
+                        .fill(viewEnvironment.currentColor.heavy)
                         .frame(width: 20, height: 10)
                         .position(x: baseScale * 0.25, y: baseScale * 3.1)
                         .preference(key: ClearCirclePoint.self,

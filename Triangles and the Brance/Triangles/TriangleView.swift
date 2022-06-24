@@ -4,7 +4,7 @@ import Foundation
 import SwiftUI
 
 struct TriangleView: View {
-    @EnvironmentObject var gameModel: GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
     @ObservedObject var contloller = GameModel.shared.triangleController
     @State var size: CGFloat
     @State var backGround = StaticStageObjects()
@@ -14,11 +14,11 @@ struct TriangleView: View {
         //背景
         DrawShapeFromVertexCoordinate(coordinates: backGround.hexagon, scale: size)
             .foregroundColor(.backgroundLightGray)
-            .scaleEffect(1.05)
+            .scaleEffect(1.08)
         //背景の線部分
         ForEach(backGround.stageLines){ line in
             DrawTriLine(line: line, scale: size)
-                .stroke(gameModel.currentColor.heavy, lineWidth: 1)
+                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
         }
         //メインの三角形の表示
         ForEach($contloller.triangles){ $triangle in
@@ -34,7 +34,7 @@ struct TriangleView: View {
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
 struct TriangleFromCenterView: View, DrawTriangle {
     
-    @EnvironmentObject var gameModel:GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
     @Binding var model: TriangleViewModel
     
     //stageTriangleのビューからサイズを指定する
@@ -122,7 +122,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //フレーム部分の描画
     private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
-            .stroke(gameModel.currentColor.heavy, lineWidth: 2)
+            .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
             .frame(width: width, height: height , alignment: .center)
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
@@ -136,7 +136,7 @@ struct TriangleFromCenterView: View, DrawTriangle {
     var body: some View {
         ZStack{
         DrawTriangleFromCenter()
-                .foregroundColor(gameModel.currentColor.light)
+                .foregroundColor(viewEnvironment.currentColor.light)
                 .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)

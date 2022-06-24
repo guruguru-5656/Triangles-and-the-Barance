@@ -8,19 +8,14 @@
 import SwiftUI
 
 
-class GameModel:ObservableObject {
-    
-    @Published var showGameOverView = false
-    @Published var parameter = GameParameters()
-    //環境値
-    @Published var currentColor = MyColor()
-    //初期値をiPhone 8の画面サイズで設定、ContentViewのonAppearの時に再読み込み
-    @Published var screenBounds = CGRect(x: 0.0, y: 0.0, width: 375.0, height: 667.0)
-    
+class GameModel{
+  
+    let stageModel = StageParameters()
     let triangleController = TriangleContloller()
     let itemController = ItemController()
     let baranceViewContloller = BaranceViewContloler()
     let score = PlayingScores()
+    let viewEnvironment = ViewEnvironment()
 
     //シングルトン
     static let shared = GameModel()
@@ -31,16 +26,16 @@ class GameModel:ObservableObject {
     //ゲームのリセットに利用
     func resetGame() {
         //TODO: セーブデータのロード
-        parameter.resetParameters()
-        baranceViewContloller.reset()
-        triangleController.resetParameters()
-        itemController.resetParameters()
-        currentColor = MyColor()
+        stageModel.resetGame()
+        baranceViewContloller.resetGame()
+        triangleController.resetGame()
+        itemController.resetGame()
+        viewEnvironment.resetGame()
     }
     ///ステータスの更新とイベント処理を行う
     func updateGameParameters(deleteCount: Int) {
         //消去の数に応じてパラメーターの更新を行う
-        let result = parameter.updateParameters(deleteCount: deleteCount)
+        let result = stageModel.updateParameters(deleteCount: deleteCount)
         //アニメーションを実行
         baranceViewContloller.baranceAnimation()
         switch result {
@@ -54,18 +49,18 @@ class GameModel:ObservableObject {
     }
     func stageClear(){
         baranceViewContloller.clearAnimation { [self] in
-            parameter.level += 1
-            parameter.setParameters()
+            stageModel.level += 1
+            stageModel.setParameters()
             triangleController.setParameters()
             itemController.setParameters()
-            currentColor.nextColor()
+            viewEnvironment.stageClear()
         }
     }
     func gameOver(){
         score.setScores()
         score.updateHiScore()
         withAnimation {
-            showGameOverView = true
+            stageModel.showGameOverView = true
         }
         score.showScores()
     }

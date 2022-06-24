@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var gameModel: GameModel
+    @StateObject var stageModel = GameModel.shared.stageModel
     @State var circlePoint = CGPoint(x: 0, y: 0)
     
     var body: some View {
@@ -17,7 +17,8 @@ struct ContentView: View {
             BaranceCircleView(circlePoint: $circlePoint)
                 .ignoresSafeArea()
             StageView()
-            if gameModel.showGameOverView {
+                
+            if stageModel.showGameOverView {
                 Color(.init(gray: 0.4, alpha: 0.5))
                     .ignoresSafeArea()
                 GameOverView()
@@ -33,6 +34,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(GameModel.shared)
     }
 }

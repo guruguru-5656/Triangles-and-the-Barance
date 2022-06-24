@@ -15,10 +15,15 @@ class BaranceViewContloler: ObservableObject {
     @Published var showDeleteCountText = false
     @Published var deleteCount = 0
     @Published var isTriangleHiLighted = false
-    
+    @Published var deleteCountNow = 0
+    @Published var clearPersent: Double = 0
+
     func baranceAnimation() {
+        let deleteCount = Double(GameModel.shared.stageModel.deleteCount)
+        let targetDeleteCount = Double(GameModel.shared.stageModel.targetDeleteCount)
+        clearPersent = deleteCount / targetDeleteCount > 1 ? 1 : deleteCount / targetDeleteCount
         withAnimation(angleAnimation) {
-            angle = (1 - GameModel.shared.parameter.clearPersent) * Double.pi/16
+            angle = (1 - clearPersent) * Double.pi/16
         }
         //消した数のテキストを一時的に表示
         withAnimation {
@@ -48,7 +53,7 @@ class BaranceViewContloler: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [self] in
             self.clearCircleIsOn = true
             withAnimation(.easeOut(duration: 0.6)) {
-                self.clearCircleSize = GameModel.shared.screenBounds.height * 2
+                self.clearCircleSize = GameModel.shared.viewEnvironment.screenBounds.height * 2
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
@@ -65,7 +70,7 @@ class BaranceViewContloler: ObservableObject {
         }
     }
     
-    func reset() {
+    func resetGame() {
         clearCircleSize = 1
         clearCircleIsOn = false
         angle = Double.pi/16

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ActionProgressView: View {
-    @EnvironmentObject var gameModel: GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
     @State var size: CGFloat
     @ObservedObject var itemContloller = GameModel.shared.itemController
     var body: some View {
@@ -24,7 +24,7 @@ struct ActionProgressView: View {
 }
 
 struct ActionProgressViewNormal: View {
-    @EnvironmentObject var gameModel: GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
     let coordinate: ModelCoordinate
     init(size: CGFloat, coordinate: ModelCoordinate) {
         self.width = size
@@ -61,7 +61,7 @@ struct ActionProgressViewNormal: View {
     }
     var body: some View {
         DrawTriangleFromCenter()
-            .stroke(gameModel.currentColor.heavy, lineWidth: 2)
+            .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
             .frame(width: width, height: height)
             .rotationEffect(rotation)
             .position(drawPoint)

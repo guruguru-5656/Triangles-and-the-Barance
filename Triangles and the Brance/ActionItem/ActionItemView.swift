@@ -10,7 +10,7 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     
-    @EnvironmentObject var gameModel:GameModel
+    @EnvironmentObject var viewEnvironment: ViewEnvironment
     @State var itemModel: ActionItem
     @ObservedObject var itemController = GameModel.shared.itemController
     let size:CGFloat
@@ -37,7 +37,7 @@ struct ActionItemView: View {
     var body: some View {
         ZStack{
             Circle()
-                .stroke(gameModel.currentColor.heavy, lineWidth: 1)
+                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
                 .frame(width: size, height: size)
                 .scaleEffect(circleScale)
                 .animation(.easeOut(duration: 0.2), value: circleScale)

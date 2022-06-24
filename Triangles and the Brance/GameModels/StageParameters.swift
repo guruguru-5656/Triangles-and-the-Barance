@@ -7,42 +7,35 @@
 
 import Foundation
 
-struct GameParameters {
+class StageParameters:ObservableObject {
    
+    @Published var showGameOverView = false
+    
     //ゲーム開始時に初期化するステータス
-    var level:Int = 1
-    var maxCombo = 0
-    var allDeleteCount = 0
-    var score = 0
+    @Published var level:Int = 1
+    @Published var maxCombo = 0
+    @Published var allDeleteCount = 0
+    @Published var score = 0
     
     //ステージ開始時に初期化するステータス
-    var life:Int = 5
-    var deleteCount = 0
-    var deleteCountNow = 0
-    
-    var targetDeleteCount: Int = 0
-   
-    //クリア率。これを監視して、ステージクリアを呼び出す
-    var clearPersent: Double {
-        var percent = Double(deleteCount) / Double(targetDeleteCount)
-        if percent > 1 { percent = 1 }
-        return percent
-    }
+    @Published var life:Int = 5
+    @Published var deleteCount = 0
+    @Published var targetDeleteCount: Int = 0
+
     //ゲームの難易度に関わる定数
     var defaultLife = 5
     
     //ゲーム開始時に呼び出す
-    mutating func resetParameters() {
+    func resetGame() {
         level = 1
         maxCombo = 0
         allDeleteCount = 0
         score = 0
-        deleteCountNow = 0
         setParameters()
     }
     
     //ステージ開始時に呼び出す
-    mutating func setParameters() {
+    func setParameters() {
         loadSaveData()
         life = defaultLife
         
@@ -50,14 +43,14 @@ struct GameParameters {
         deleteCount = 0
     }
     
-    private mutating func loadSaveData() {
+    private func loadSaveData() {
         let lifeData = SaveData.shareData.shareUpgradeData(type: .life)
         defaultLife = lifeData.level + 2
     }
     
     ///ステータスの更新とクリア判定、ゲームオーバー判定を行う
-    mutating func updateParameters(deleteCount: Int) -> GameEvent{
-        self.deleteCountNow = deleteCount
+    func updateParameters(deleteCount: Int) -> GameEvent{
+        GameModel.shared.baranceViewContloller.deleteCountNow = deleteCount
         self.deleteCount += deleteCount
         self.allDeleteCount += deleteCount
         self.score += deleteCount * deleteCount * level

@@ -79,7 +79,7 @@ class ItemController: ObservableObject {
         }
     }
     ///ゲームリセット時の挙動
-    func resetParameters() {
+    func resetGame() {
         actionItems = []
         selectedItem = nil
         progressingTapActionItem = nil

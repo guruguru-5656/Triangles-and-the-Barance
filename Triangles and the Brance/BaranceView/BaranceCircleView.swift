@@ -9,21 +9,21 @@ import SwiftUI
 
 struct BaranceCircleView: View {
     
-    @EnvironmentObject private var gameModel: GameModel
+    @EnvironmentObject private var viewEnvironment: ViewEnvironment
     @ObservedObject private var contloller = GameModel.shared.baranceViewContloller
     @Binding var circlePoint: CGPoint
     var body: some View {
         ZStack {
-        gameModel.currentColor.previousColor.heavy
+        viewEnvironment.currentColor.previousColor.heavy
             .ignoresSafeArea()
             if contloller.clearCircleIsOn {
                 Ellipse()
-                    .fill(gameModel.currentColor.heavy)
+                    .fill(viewEnvironment.currentColor.heavy)
                     .frame(width: contloller.clearCircleSize * 2,
                            height: contloller.clearCircleSize)
                     .position(circlePoint)
                 Ellipse()
-                    .stroke(gameModel.currentColor.light, lineWidth: 5)
+                    .stroke(viewEnvironment.currentColor.light, lineWidth: 5)
                     .frame(width: contloller.clearCircleSize * 2,
                            height: contloller.clearCircleSize)
                     .position(circlePoint)

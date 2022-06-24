@@ -7,9 +7,7 @@
 
 import Foundation
 import SwiftUI
-///ステージ内のTriangleに対するアクションを実行する
-///処理を行う場所を特定し、プロパティーの更新を行う
-///利用する際にはplansとaddtionalItemを読み取る
+
 class TriangleContloller: ObservableObject {
     
     @Published var triangles: [TriangleViewModel] = []
@@ -25,7 +23,7 @@ class TriangleContloller: ObservableObject {
         [Int](-2...4)
     ]
     ///ゲーム開始時に呼び出す
-    func resetParameters() {
+    func resetGame() {
         setStageTriangles()
         setTrianglesStatus()
     }
@@ -63,7 +61,7 @@ class TriangleContloller: ObservableObject {
     }
     ///タップしたときのアクション
     func triangleTapAction(coordinate: ModelCoordinate) {
-        guard GameModel.shared.parameter.life != 0 else {
+        guard GameModel.shared.stageModel.life != 0 else {
             return
         }
         guard let index = indexOfTriangles(coordinate: coordinate) else {

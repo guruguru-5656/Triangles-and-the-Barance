@@ -33,10 +33,10 @@ final class PlayingScores: ObservableObject {
     }
     
     func setScores() {
-        results[0].value = GameModel.shared.parameter.level
-        results[1].value = GameModel.shared.parameter.deleteCount
-        results[2].value = GameModel.shared.parameter.maxCombo
-        results[3].value = GameModel.shared.parameter.score
+        results[0].value = GameModel.shared.stageModel.level
+        results[1].value = GameModel.shared.stageModel.deleteCount
+        results[2].value = GameModel.shared.stageModel.maxCombo
+        results[3].value = GameModel.shared.stageModel.score
         results.indices.forEach{
             results[$0].isUpdated = false
         }
