@@ -24,7 +24,7 @@ class UpgradeViewModel: ObservableObject {
         money = SaveData.shareData.money
         payingMoney = 0
         withAnimation {
-        GameModel.shared.score.showUpgrade = false
+            GameModel.shared.score.showUpgrade = false
         }
     }
     func permitPaying() {
@@ -32,14 +32,14 @@ class UpgradeViewModel: ObservableObject {
         SaveData.shareData.money = money
         GameModel.shared.score.money = money
         withAnimation {
-        GameModel.shared.score.showUpgrade = false
+            GameModel.shared.score.showUpgrade = false
         }
     }
 }
 
 //UpgradeSubViewのモデル
 struct UpgradeItemModel: Identifiable{
-
+    
     let type:UpgradeType
     var level: Int
     var text: String {
@@ -116,8 +116,7 @@ enum UpgradeType: Int, CaseIterable {
     case inventory
     case normalActionCount
     case pyramid
-    case triforceDrop
-    case withKeyTriforceUnlock
+    case hexagon
     ///UpGrade可能な範囲を返す
     var upgradeRange: ClosedRange<Int> {
         switch self {
@@ -129,11 +128,8 @@ enum UpgradeType: Int, CaseIterable {
             return 1...5
         case .pyramid:
             return 1...5
-        case .triforceDrop:
+        case .hexagon:
             return 1...10
-        case .withKeyTriforceUnlock:
-            return 0...1
-       
         }
     }
     ///UpGrade解放に必要なステージ数
@@ -147,10 +143,8 @@ enum UpgradeType: Int, CaseIterable {
             return 1
         case .pyramid:
             return 4
-        case .triforceDrop:
+        case .hexagon:
             return 4
-        case .withKeyTriforceUnlock:
-            return 8
         }
     }
     ///UpGrade解放に必要なフラグ、tupleの第一引数で条件になっている強化の種類を、第二引数で必要な強化段階を表す
@@ -164,12 +158,8 @@ enum UpgradeType: Int, CaseIterable {
             return []
         case .pyramid:
             return []
-        case .triforceDrop:
+        case .hexagon:
             return []
-            // TODO: Viewの実装
-        case .withKeyTriforceUnlock:
-            return [(.pyramid, 1)]
-        
         }
     }
     ///基本となる強化費用
@@ -183,14 +173,10 @@ enum UpgradeType: Int, CaseIterable {
             return 10
         case .pyramid:
             return 10
-        case .triforceDrop:
+        case .hexagon:
             return 10
-        case .withKeyTriforceUnlock:
-            return 1000
-       
         }
     }
-    
 }
 
 

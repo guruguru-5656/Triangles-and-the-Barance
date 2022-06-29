@@ -10,12 +10,7 @@ import CoreData
 
 
 final class SaveData {
-    private init() {
-        loadMoneyData()
-        loadUpgradeData()
-        loadHiScoreData()
-    }
-    static let shareData = SaveData()
+    
     private lazy var context: NSManagedObjectContext = {
         let container = NSPersistentCloudKitContainer(name: "CoreDataModel")
         container.loadPersistentStores { description, error in
@@ -39,6 +34,13 @@ final class SaveData {
         didSet{
             saveHiScoreData()
         }
+    }
+    
+    static let shareData = SaveData()
+    private init() {
+        loadMoneyData()
+        loadUpgradeData()
+        loadHiScoreData()
     }
     
     func shareUpgradeData(type: UpgradeType) -> UpgradeItemModel {

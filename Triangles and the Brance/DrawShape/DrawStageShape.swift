@@ -7,29 +7,23 @@
 
 import SwiftUI
 
-///TriVertexCoordinate座標系から頂点を設定、描画を行う
+///頂点の座標系から描画を行う
 struct DrawShapeFromVertexCoordinate:Shape{
     //初期値
-    let coordinates:[TriVertexCoordinate]
+    let coordinates:[TriangleVertexCoordinate]
     let scale:CGFloat
-    var drawPoint:[CGPoint]{
-        coordinates.map{ coordinate in
-            CGPoint(x: coordinate.drawPoint.x * scale,
-                    y: coordinate.drawPoint.y * scale)}
-    }
-    
     func path(in rect: CGRect) -> Path {
         Path{ path in
-            path.move(to: drawPoint[0])
-            let linePoint = drawPoint[1...drawPoint.count-1]
+            path.move(to: coordinates[0].drawPoint.scale(scale))
+            let linePoint = coordinates.dropFirst().map {
+                $0.drawPoint.scale(scale)
+            }
             linePoint.forEach{
                 path.addLine(to: $0)
             }
             path.closeSubpath()
         }
     }
-    
-
 }
 
 
@@ -39,14 +33,14 @@ struct DrawTriLine:Shape{
         endCoordinate = line.end
         self.scale = scale
     }
-    init(start:TriVertexCoordinate, end:TriVertexCoordinate,scale:CGFloat){
+    init(start:TriangleVertexCoordinate, end:TriangleVertexCoordinate,scale:CGFloat){
         self.startCoordinate = start
         self.endCoordinate = end
         self.scale = scale
     }
     
-    let startCoordinate:TriVertexCoordinate
-    let endCoordinate:TriVertexCoordinate
+    let startCoordinate:TriangleVertexCoordinate
+    let endCoordinate:TriangleVertexCoordinate
     let scale:CGFloat
     
     func path(in rect: CGRect) -> Path {
@@ -57,4 +51,9 @@ struct DrawTriLine:Shape{
     }
 }
 
+struct TriLine:Hashable,Identifiable{
+    let start:TriangleVertexCoordinate
+    let end:TriangleVertexCoordinate
+    var id = UUID()
+}
 

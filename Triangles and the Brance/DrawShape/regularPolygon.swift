@@ -9,7 +9,7 @@ import SwiftUI
 
 ///直径がframe widthの長さになる円に内接する正多角形
 ///frame heightには依存しない
-struct regularPolygon: Shape {
+struct RegularPolygon: Shape {
     //頂点の数、正N角形にするかを決める
     let vertexNumber: Int
     
@@ -19,10 +19,10 @@ struct regularPolygon: Shape {
         var angle: Double = 0
         for _ in 1 ... vertexNumber {
             vertex.append(CGPoint(x: cos(angle), y: sin(angle)))
-            angle += Double.pi * 2 / angle
+            angle += Double.pi * 2 / Double(vertexNumber)
         }
         let points = vertex.map { vertex in
-            CGPoint(x: (vertex.x - 0.5) * rect.maxX , y: (vertex.y - 0.5) * rect.maxX)
+            CGPoint(x: (vertex.x + 1) * rect.maxX/2 , y: (vertex.y + 1) * rect.maxX/2)
         }
         var path = Path()
         path.addLines(points)

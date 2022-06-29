@@ -11,7 +11,7 @@ import SwiftUI
 struct ActionItemView: View {
     
     @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @State var itemModel: ActionItem
+    @State var itemModel: ActionItemModel
     @ObservedObject var itemController = GameModel.shared.itemController
     let size:CGFloat
     //アニメーション用プロパティ
@@ -36,28 +36,6 @@ struct ActionItemView: View {
     
     var body: some View {
         ZStack{
-            Circle()
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
-                .frame(width: size, height: size)
-                .scaleEffect(circleScale)
-                .animation(.easeOut(duration: 0.2), value: circleScale)
-                .opacity(circleOpacity)
-                .animation(.easeOut(duration: 0.2), value: circleOpacity)
-                .contentShape(Circle())
-                .onTapGesture {
-                    if itemController.selectedItem == nil{
-                        if itemModel.action == .normal && itemController.normalActionCount == 0 {
-                            return
-                        }
-                        itemController.selectedItem = itemModel
-                    }else{
-                        itemController.selectedItem = nil
-                    }
-                }
-                .transition(
-                    .asymmetric(insertion: .opacity.combined(with: .move(edge: .trailing)),
-                                removal: .opacity)
-                )
             //アイテムの種類ごとに表示を出し分ける
             if let actionItem = itemModel.action{
                 switch actionItem{
@@ -67,8 +45,26 @@ struct ActionItemView: View {
                       
                 case .pyramid:
                     PyramidItemView(size: size)
+                case .hexagon:
+                    //MARK: 仮のView
+                    ActionItemHexagonView(size: size)
                 }
             }
+            Circle()
+                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+                .frame(width: size, height: size)
+                .scaleEffect(circleScale)
+                .animation(.easeOut(duration: 0.2), value: circleScale)
+                .opacity(circleOpacity)
+                .animation(.easeOut(duration: 0.2), value: circleOpacity)
+                .contentShape(Circle())
+                .onTapGesture {
+                    itemController.itemSelectAction(model: itemModel)
+                }
+                .transition(
+                    .asymmetric(insertion: .opacity.combined(with: .move(edge: .trailing)),
+                                removal: .opacity)
+                )
         }
     }
 }

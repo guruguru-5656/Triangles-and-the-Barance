@@ -8,7 +8,7 @@
 import SwiftUI
 
 ///
-struct ActionItem: Identifiable, Hashable {
+struct ActionItemModel: Identifiable, Hashable {
     let action: ActionType
     let id = UUID()
 }
@@ -16,6 +16,7 @@ struct ActionItem: Identifiable, Hashable {
 enum ActionType: CaseIterable {
     case normal
     case pyramid
+    case hexagon
     
     ///基準の座標からOnにする座標を示す
     ///外側の配列が順番を、内側の座標がtriangleの座標を表す
@@ -27,6 +28,8 @@ enum ActionType: CaseIterable {
         case .pyramid:
                 return [[(0,0)],
                         [(-1, 0), (1, -1), (1, 0)]]
+        case .hexagon:
+            return [[(0,0),(-1,0),(-2,0),(1,-1),(0,-1),(-1,-1)]]
         }
     }
     
@@ -35,9 +38,11 @@ enum ActionType: CaseIterable {
         switch self {
             
         case .normal:
-            return Position.face
+            return Position.center
         case .pyramid:
-            return Position.face
+            return Position.center
+        case .hexagon:
+            return Position.vertex
         }
     }
     
@@ -47,6 +52,8 @@ enum ActionType: CaseIterable {
             return nil
         case .pyramid:
             return 8
+        case .hexagon:
+            return 12
         }
     }
     var upgradeItem: UpgradeType? {
@@ -55,24 +62,21 @@ enum ActionType: CaseIterable {
             return nil
         case .pyramid:
             return .pyramid
+        case .hexagon:
+            return nil
         }
     }
     
 }
 
 enum Position {
-    case face
+    case center
     case vertex
 }
 
 ///面タップ時の描画のモデル
-struct FaceTapActionItemProgressModel {
+struct ActionEffectViewModel: Identifiable{
     let action: ActionType
-    let coordinate: ModelCoordinate
-}
-
-///頂点タップ時の描画のモデル
-struct vetexTapActionItemProgressModel {
-    let action: ActionType
-    let coordinate: TriVertexCoordinate
+    let coordinate: StageCoordinate
+    let id = UUID()
 }

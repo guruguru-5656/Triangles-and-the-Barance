@@ -12,18 +12,17 @@ struct ContentView: View {
     @State var circlePoint = CGPoint(x: 0, y: 0)
     
     var body: some View {
-        
         ZStack {
             BaranceCircleView(circlePoint: $circlePoint)
                 .ignoresSafeArea()
             StageView()
-                
+                .blur(radius: stageModel.showGameOverView ? 3.0 : 0)
             if stageModel.showGameOverView {
                 Color(.init(gray: 0.4, alpha: 0.5))
                     .ignoresSafeArea()
                 GameOverView()
-                    .cornerRadius(20)
-                    .padding(40)
+                    .cornerRadius(10)
+                    .padding(30)
             }
         }
         .onPreferenceChange(ClearCirclePoint.self) { point in

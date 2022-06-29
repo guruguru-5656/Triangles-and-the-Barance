@@ -9,28 +9,22 @@ import SwiftUI
 
 class ItemController: ObservableObject {
     
-    @Published var actionItems: [ActionItem] = []
-    @Published var selectedItem: ActionItem?
-    @Published var progressingTapActionItem: FaceTapActionItemProgressModel?
-    @Published var normalActionItem = ActionItem(action: .normal)
+    @Published var actionItems: [ActionItemModel] = []
+    @Published var selectedItem: ActionItemModel? 
+    @Published var actionEffectViewModel: [ActionEffectViewModel] = []
+    @Published var normalActionItem = ActionItemModel(action: .normal)
     @Published var normalActionCount: Int = 3
-    //TODO: インベントリ制限の実装
-    @Published var inventory: Int = 2
+    @Published var inventory: Int = 1
+    
     private var itemTable: [ItemForTable] = []
     private var defaultNormalActionCount:Int = 3
     
-    func itemAction(position: Position) -> [[(Int, Int)]]{
+    func itemAction(coordinate: StageCoordinate) -> [[(Int, Int)]]{
         guard let item = selectedItem else {
             return []
         }
-        //positionがactionで指定された場所でなければ選択状態を解除
-        guard item.action.position == position else{
-            selectedItem = nil
-            return []
-        }
-     
         switch item.action {
-        //normalのアクションはその他のアイテムとは別の管理になっている
+            //normalのアクションはその他のアイテムとは別の管理になっている
         case .normal:
             guard normalActionCount != 0 else{
                 print("カウントゼロの状態で選択されている")
@@ -49,13 +43,38 @@ class ItemController: ObservableObject {
                 actionItems.remove(at: indexOfItem)
             }
         }
+        actionAnimation(coordinate: coordinate)
         selectedItem = nil
-        actionAnimation()
         return item.action.actionCoordinate
     }
     
-    private func actionAnimation() {
-        
+    func itemSelectAction(model: ActionItemModel) {
+        if selectedItem == nil {
+            if model.action == .normal && normalActionCount == 0 {
+                return
+            }
+            selectedItem = model
+            
+        } else {
+            selectedItem = nil
+        }
+    }
+    
+    func actionAnimation(coordinate: StageCoordinate) {
+        let model = ActionEffectViewModel(action: selectedItem!.action, coordinate: coordinate)
+        withAnimation {
+            actionEffectViewModel.append(model)
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            let index = self.actionEffectViewModel.firstIndex {
+                $0.id == model.id
+            }
+            if let index = index {
+                _ = withAnimation {
+                    self.actionEffectViewModel.remove(at: index)
+                }
+            }
+        }
     }
     ///triangleを消した数を受けて最大コストのactionItemを追加
     func appendStageItems(count: Int) {
@@ -67,12 +86,12 @@ class ItemController: ObservableObject {
         for table in table{
             if count >= table.cost!{
                 if actionItems.count == inventory {
-                _ = withAnimation {
+                    _ = withAnimation {
                         actionItems.removeFirst()
                     }
                 }
                 withAnimation{
-                    actionItems.append(ActionItem(action: table.type))
+                    actionItems.append(ActionItemModel(action: table.type))
                 }
                 break
             }
@@ -82,8 +101,9 @@ class ItemController: ObservableObject {
     func resetGame() {
         actionItems = []
         selectedItem = nil
-        progressingTapActionItem = nil
+        actionEffectViewModel = []
         loadNormalActionCount()
+        loadInventoryData()
         setItemTable()
         setParameters()
     }
@@ -101,8 +121,8 @@ class ItemController: ObservableObject {
         let inventoryData = SaveData.shareData.shareUpgradeData(type: .inventory)
         inventory = inventoryData.level
     }
-   
-   private func setItemTable() {
+    
+    private func setItemTable() {
         let upgradeData = SaveData.shareData.upgradeItems
         let table = ActionType.allCases.map { actionType -> ItemForTable in
             if let data = upgradeData.first (where: {
@@ -137,8 +157,9 @@ class ItemController: ObservableObject {
                 default:
                     fatalError("想定外のレベル")
                 }
+            case .hexagon:
+                return 12
             }
         }
     }
-    
 }

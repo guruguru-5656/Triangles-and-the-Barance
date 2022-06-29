@@ -55,6 +55,8 @@ struct StageView: View {
                 Spacer()
                 GeometryReader { geometry in
                     TriangleView(size: geometry.size.width / 6)
+                    //MARK: 現状エフェクトviewは未使用
+//                    ActionEffectView(size: geometry.size.width / 6)
                 }
                 .frame(height: geometry.size.width * 1/2 )
                 .padding(.top)

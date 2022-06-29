@@ -11,6 +11,8 @@ import SwiftUI
 class TriangleContloller: ObservableObject {
     
     @Published var triangles: [TriangleViewModel] = []
+    @Published var triangleVertexs: [TriangleVertexCoordinate] = []
+ 
     let triangleIsOnProbability:Double = 40
     var triangleHaveActionProbability:Double = 0
     
@@ -26,18 +28,19 @@ class TriangleContloller: ObservableObject {
     func resetGame() {
         setStageTriangles()
         setTrianglesStatus()
+        setTrianleVertexs()
     }
     ///ステージ開始時に呼び出す
     func setParameters() {
         setTrianglesStatus()
     }
-    ///三角形のビューのセットアップ
+    ///triangleの配列の生成
     private func setStageTriangles(){
         triangles = []
-        withAnimation{
-            for (triangleY, arrangement) in triangleArrengement.enumerated(){
-                for triangleX in arrangement{
-                    let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff, action: nil )
+        for (triangleY, arrangement) in triangleArrengement.enumerated(){
+            for triangleX in arrangement{
+                let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff, action: nil )
+                withAnimation{
                     triangles.append(triangleModel)
                 }
             }
@@ -52,15 +55,39 @@ class TriangleContloller: ObservableObject {
                 let randomNumber:Double = Double.random(in:1...100)
                 if randomNumber <= triangleHaveActionProbability {
                     //MARK: 変更予定
-                    triangles[index].actionItem = ActionItem(action: .pyramid)
+                    triangles[index].actionItem = ActionItemModel(action: .pyramid)
                 }
             }else{
                 triangles[index].status = .isOff
             }
         }
     }
+    ///頂点の配列の生成
+    private func setTrianleVertexs() {
+        let vertexs = triangles.flatMap {
+            $0.vertexCoordinate
+        }
+        triangleVertexs = Array(Set(vertexs))
+    }
+    ///item実行専用のアクション
+    func triangleVertexTapAction(coordinate: TriangleVertexCoordinate) {
+        if let selectedItem = GameModel.shared.itemController.selectedItem {
+            guard selectedItem.action.position == .vertex else{
+                GameModel.shared.itemController.selectedItem = nil
+                return
+            }
+            //ItemController側の処理を実行し、更新する座標を受け取る
+            let itemCoordinate = GameModel.shared.itemController.itemAction(coordinate: coordinate)
+            guard !itemCoordinate.isEmpty else {
+                return
+            }
+            let coordinates = coordinate.relative(coordinates: itemCoordinate)
+            //Trianglesのステータスの更新
+            turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
+        }
+    }
     ///タップしたときのアクション
-    func triangleTapAction(coordinate: ModelCoordinate) {
+    func triangleTapAction(coordinate: TriangleCenterCoordinate) {
         guard GameModel.shared.stageModel.life != 0 else {
             return
         }
@@ -68,22 +95,23 @@ class TriangleContloller: ObservableObject {
             print("インデックス取得エラー")
             return
         }
-        if triangles[index].status == .isOn{
-            trianglesChainAction(index: index)
-        }else{
-            //アイテムが入っていた場合の処理
-            if GameModel.shared.itemController.selectedItem != nil {
-                //更新する座標を求める
-                let itemCoordinate = GameModel.shared.itemController.itemAction(position: .face)
-                guard !itemCoordinate.isEmpty else {
-                    return
-                }
-                let coordinate = triangles[index].coordinate
-                let coordinates = coordinate.relative(coordinates: itemCoordinate)
-                //Trianglesのステータスの更新
-                turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates)) {
-                }
+        //アイテムが入っていた場合の処理
+        if let selectedItem = GameModel.shared.itemController.selectedItem {
+            guard selectedItem.action.position == .center else{
+                GameModel.shared.itemController.selectedItem = nil
+                return
             }
+            //ItemController側の処理を実行し、更新する座標を受け取る
+            let itemCoordinate = GameModel.shared.itemController.itemAction(coordinate: coordinate)
+            guard !itemCoordinate.isEmpty else {
+                return
+            }
+            let coordinate = triangles[index].coordinate
+            let coordinates = coordinate.relative(coordinates: itemCoordinate)
+            //Trianglesのステータスの更新
+            turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
+        } else if triangles[index].status == .isOn {
+            trianglesChainAction(index: index)
         }
     }
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
@@ -112,7 +140,7 @@ class TriangleContloller: ObservableObject {
         }
     }
     ///座標のからindexへ変換する
-    func getIndexesOfAction(coordinates: [[ModelCoordinate]]) -> [[Int]] {
+    func getIndexesOfAction(coordinates: [[TriangleCenterCoordinate]]) -> [[Int]] {
         coordinates.map { coordinates in
             coordinates.compactMap {
                 indexOfTriangles(coordinate: $0)
@@ -120,7 +148,7 @@ class TriangleContloller: ObservableObject {
         }
     }
     ///時間をずらしながらisOnに変更する
-    private func turnOnTriangles(plans: [[Int]], completion: @escaping () -> Void) {
+    private func turnOnTriangles(plans: [[Int]]) {
         DispatchQueue.global().async { [self] in
             for plan in plans.dropLast(){
                 plan.forEach { index in
@@ -135,7 +163,6 @@ class TriangleContloller: ObservableObject {
                     triangles[index].status = .isOn
                 }
             }
-            completion()
         }
     }
     ///順番に描画が更新されるように時間をずらしながらビューを更新する
@@ -162,19 +189,18 @@ class TriangleContloller: ObservableObject {
             DispatchQueue.main.async {
                 trianglesDeleteFeedback(plans: plans)
             }
-            Thread.sleep(forTimeInterval: 0.6)
             DispatchQueue.main.async{
                 completion()
             }
         }
     }
     ///Triangleの消去の順番を求める
-    private func planingDeleteTriangles(coordinate:ModelCoordinate) throws ->   [PlanOfChangeStatus]{
+    private func planingDeleteTriangles(coordinate:TriangleCenterCoordinate) throws ->   [PlanOfChangeStatus]{
         var plan:[PlanOfChangeStatus] = []
         //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var counter = 0
-        var didSearched: Set<ModelCoordinate> = []
-        var willSearch: Set<ModelCoordinate> = []
+        var didSearched: Set<TriangleCenterCoordinate> = []
+        var willSearch: Set<TriangleCenterCoordinate> = []
         willSearch.insert(coordinate)
         while !willSearch.isEmpty {
             let searching = willSearch
@@ -201,15 +227,15 @@ class TriangleContloller: ObservableObject {
         return plan
     }
     ///Triangleの座標で検索を行い、ステージ配列のインデックスを取得する
-    private func indexOfTriangles(coordinate:ModelCoordinate) -> Int?{
+    private func indexOfTriangles(coordinate:TriangleCenterCoordinate) -> Int?{
         triangles.firstIndex{ $0.coordinate == coordinate }
     }
     ///ステージ内にあるかどうかを返す
-    private func isInStage(coordinate:ModelCoordinate) -> Bool{
+    private func isInStage(coordinate:TriangleCenterCoordinate) -> Bool{
         triangles.contains{ $0.coordinate == coordinate }
     }
     ///ステージ内に含まれる座標を返す
-    private func coordinatesInStage(coordinates: Set<ModelCoordinate>) -> Set<ModelCoordinate>{
+    private func coordinatesInStage(coordinates: Set<TriangleCenterCoordinate>) -> Set<TriangleCenterCoordinate>{
         Set(coordinates.filter{ isInStage(coordinate: $0) })
     }
     ///ステータス変更の予定のセット

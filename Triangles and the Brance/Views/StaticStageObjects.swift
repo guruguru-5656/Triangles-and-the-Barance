@@ -14,8 +14,8 @@ struct StaticStageObjects {
     ///線を引くビューのセットアップ
     private mutating func setStageLines(){
         let lines = lineArrangement.map {
-            TriLine(start: TriVertexCoordinate(x: $0.start.x, y: $0.start.y),
-                    end: TriVertexCoordinate(x: $0.end.x, y: $0.end.y))
+            TriLine(start: TriangleVertexCoordinate(x: $0.start.x, y: $0.start.y),
+                    end: TriangleVertexCoordinate(x: $0.end.x, y: $0.end.y))
         }
         stageLines.append(contentsOf: lines)
     }
@@ -27,11 +27,11 @@ struct StaticStageObjects {
     ]
     var stageLines:[TriLine] = []
     //ステージの背景の六角形
-    let hexagon:[TriVertexCoordinate] = [
-        TriVertexCoordinate(x: 2, y: 0), TriVertexCoordinate(x: 5, y: 0),
-        TriVertexCoordinate(x: 5, y: 3),TriVertexCoordinate(x: 2, y: 6),
-        TriVertexCoordinate(x: -1, y: 6),TriVertexCoordinate(x: -1, y: 3),
-        TriVertexCoordinate(x: 2, y: 0)
+    let hexagon:[TriangleVertexCoordinate] = [
+        TriangleVertexCoordinate(x: 2, y: 0), TriangleVertexCoordinate(x: 5, y: 0),
+        TriangleVertexCoordinate(x: 5, y: 3),TriangleVertexCoordinate(x: 2, y: 6),
+        TriangleVertexCoordinate(x: -1, y: 6),TriangleVertexCoordinate(x: -1, y: 3),
+        TriangleVertexCoordinate(x: 2, y: 0)
     ]
     //ビューの再生成時にidが変わらないようにあらかじめ生成
     

@@ -4,35 +4,50 @@ import Foundation
 import SwiftUI
 
 struct TriangleView: View {
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @ObservedObject var contloller = GameModel.shared.triangleController
+    @EnvironmentObject private var viewEnvironment: ViewEnvironment
+    @ObservedObject private var controller = GameModel.shared.triangleController
+    @ObservedObject private var itemController = GameModel.shared.itemController
     @State var size: CGFloat
     @State var backGround = StaticStageObjects()
+    var isVertexHilighted: Bool {
+            itemController.selectedItem?.action.position == .vertex ? true : false
+    }
     
     var body: some View {
         ZStack{
-        //背景
-        DrawShapeFromVertexCoordinate(coordinates: backGround.hexagon, scale: size)
-            .foregroundColor(.backgroundLightGray)
-            .scaleEffect(1.08)
-        //背景の線部分
-        ForEach(backGround.stageLines){ line in
-            DrawTriLine(line: line, scale: size)
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
-        }
-        //メインの三角形の表示
-        ForEach($contloller.triangles){ $triangle in
-            TriangleFromCenterView(model: $triangle, width: size)
-                .onTapGesture {
-                    contloller.triangleTapAction(coordinate: triangle.coordinate)
+            //背景
+            DrawShapeFromVertexCoordinate(coordinates: backGround.hexagon, scale: size)
+                .foregroundColor(.backgroundLightGray)
+                .scaleEffect(1.08)
+            //背景の線部分
+            ForEach(backGround.stageLines){ line in
+                DrawTriLine(line: line, scale: size)
+                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+            }
+            //メインの三角形の表示
+            ForEach($controller.triangles){ $triangle in
+                StageTriangleView(model: $triangle, width: size)
+                    .onTapGesture {
+                        controller.triangleTapAction(coordinate: triangle.coordinate)
+                    }
+            }
+            if isVertexHilighted {
+                ForEach(controller.triangleVertexs, id: \.self) { coordinate in
+                    Circle()
+                        .frame(width: size * 0.7, height: size * 0.7)
+                        .position(coordinate.drawPoint.scale(size))
+                        .foregroundColor(Color(white: 0.9, opacity: 0.5))
+                        .onTapGesture {
+                            controller.triangleVertexTapAction(coordinate: coordinate)
+                        }
                 }
-        }
+            }
         }
     }
 }
 ///メイン画面の三角形の描画
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
-struct TriangleFromCenterView: View, DrawTriangle {
+struct StageTriangleView: View, DrawTriangle {
     
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @Binding var model: TriangleViewModel
@@ -40,22 +55,8 @@ struct TriangleFromCenterView: View, DrawTriangle {
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
     ///rotationEffectをかける際に位置ずれを防ぐため、frameをこの比率で設定
-    internal var height:CGFloat{
+    var height:CGFloat{
         width / sqrt(3)
-    }
-    ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
-    private var drawPoint:CGPoint{
-        let X = CGFloat(model.coordinate.x)
-        let Y = CGFloat(model.coordinate.y)
-
-        let remainder = model.coordinate.x % 2
-        if remainder == 0{
-            return CGPoint(x: (X/2 + Y/2) * width, y: Y * sqrt(3)/2 * width)
-        }else{
-            //正三角形を180度回転したときに生じる中心地点のずれ
-            let distance = sqrt(3)/2 - 1/sqrt(3)
-            return CGPoint(x: (X/2 + Y/2) * width, y: (distance + sqrt(3)/2 * Y) * width)
-        }
     }
     ///与えられた座標のX座標をもとに回転するかどうか判断する
     private var rotation:Angle{
@@ -127,26 +128,30 @@ struct TriangleFromCenterView: View, DrawTriangle {
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
             .animation(.easeOut(duration: duration), value: frameScale)
-            .position(drawPoint)
+            .position(model.coordinate.drawPoint.scale(width))
             .opacity(opacity)
             .animation(.easeOut(duration: duration), value: opacity)
     }
-
     //本体の描画
     var body: some View {
-        ZStack{
         DrawTriangleFromCenter()
                 .foregroundColor(viewEnvironment.currentColor.light)
                 .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)
                 .animation(.easeOut(duration: duration), value: scale)
-                .position(drawPoint)
+                .position(model.coordinate.drawPoint.scale(width))
                 .overlay(frameOfTriangle)
                 .opacity(opacity)
                 .animation(.easeIn(duration: duration), value: opacity)
-        }
     }
 }
 
 
+extension CGPoint {
+    func scale(_ scale: CGFloat) -> CGPoint {
+        let X = self.x * scale
+        let Y = self.y * scale
+        return CGPoint(x: X, y: Y)
+    }
+}

@@ -15,14 +15,14 @@ struct GameOverView: View {
             VStack (spacing: 20) {
                 Text("Result")
                     .font(.largeTitle)
-                    .padding(30)
+                    .padding(10)
                 if !score.showUpgrade{
                     Section {
                         Section {
                             ForEach($score.results) { $results in
                                 ScoreView(score: $results)
                                     .opacity(opacity)
-                                    .animation(.default.delay(Double(results.index) * 0.1), value: opacity)
+                                    .animation(.default.delay(Double(results.index) * 0.2), value: opacity)
                             }
                             HStack {
                                 Text("Money")
@@ -32,10 +32,10 @@ struct GameOverView: View {
                                     .font(.title)
                             }
                             .opacity(opacity)
-                            .animation(.default.delay(Double(score.results.count) * 0.1), value: opacity)
+                            .animation(.default.delay(Double(score.results.count) * 0.2), value: opacity)
                         }
                         .padding(.horizontal, geometry.size.width * 0.1)
-                        
+                        Spacer()
                         HStack (alignment: .center) {
                             Button(action: {
                                 GameModel.shared.resetGame()
@@ -73,14 +73,15 @@ struct GameOverView: View {
                                 }
                             }
                             .padding(.horizontal)
-                            .foregroundColor(.heavyYellowGreen)
-                            .border(Color.heavyYellowGreen, width: 2)
+                            .foregroundColor(.heavyGreen)
+                            .border(Color.heavyGreen, width: 2)
                         }
                         .frame(height: 50)
                         .padding()
                         .onAppear{
                             opacity = 1
                         }
+                        Spacer()
                     }.transition(.move(edge: .top).combined(with: .opacity))
                 }
                 if score.showUpgrade {
@@ -89,8 +90,9 @@ struct GameOverView: View {
                 }
             }
         }
-        .background(.white)
-        .transition(.asymmetric(insertion: .move(edge: .bottom),
+        .background(Color.lightGray)
+        .opacity(0.9)
+        .transition(.asymmetric(insertion: .opacity,
                                 removal: .opacity
                                     .animation(.easeOut(duration: 0.3).delay(0.1))
                                     .combined(with: .scale(scale: 1.1))
