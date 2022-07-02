@@ -8,7 +8,7 @@
 import SwiftUI
 
 class BaranceViewContloler: ObservableObject {
-    let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.4)
+    let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
     @Published var clearCircleSize: CGFloat = 1
     @Published var clearCircleIsOn = false
     @Published var angle: Double = Double.pi/16
@@ -46,33 +46,35 @@ class BaranceViewContloler: ObservableObject {
     }
     
     func clearAnimation(complesion: @escaping () -> Void) {
-        withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.3)) {
+        withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
             angle = -0.7 * Double.pi/16
         }
    
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { [self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
             self.clearCircleIsOn = true
             withAnimation(.easeOut(duration: 0.6)) {
                 self.clearCircleSize = GameModel.shared.viewEnvironment.screenBounds.height * 2
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
                 self.clearCircleIsOn = false
                 self.clearCircleSize = 1
+                self.clearPersent = 0
                 withAnimation(angleAnimation) {
                     self.angle = Double.pi/16
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.61) {
                 complesion()
             }
         }
     }
     
     func resetGame() {
-        clearCircleSize = 1
         clearCircleIsOn = false
+        clearCircleSize = 1
+        clearPersent = 0
         angle = Double.pi/16
         deleteCount = 0
     }

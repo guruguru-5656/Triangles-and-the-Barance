@@ -117,19 +117,22 @@ enum UpgradeType: Int, CaseIterable {
     case normalActionCount
     case pyramid
     case hexagon
+    case hxagram
     ///UpGrade可能な範囲を返す
     var upgradeRange: ClosedRange<Int> {
         switch self {
         case .life:
-            return  1...10
+            return  1...5
         case .inventory:
-            return  1...10
+            return  1...5
         case .normalActionCount:
             return 1...5
         case .pyramid:
-            return 1...5
+            return 0...3
         case .hexagon:
-            return 1...10
+            return 0...3
+        case .hxagram:
+            return 0...3
         }
     }
     ///UpGrade解放に必要なステージ数
@@ -144,6 +147,8 @@ enum UpgradeType: Int, CaseIterable {
         case .pyramid:
             return 4
         case .hexagon:
+            return 4
+        case .hxagram:
             return 4
         }
     }
@@ -160,6 +165,8 @@ enum UpgradeType: Int, CaseIterable {
             return []
         case .hexagon:
             return []
+        case .hxagram:
+            return []
         }
     }
     ///基本となる強化費用
@@ -175,6 +182,8 @@ enum UpgradeType: Int, CaseIterable {
             return 10
         case .hexagon:
             return 10
+        case .hxagram:
+            return 100
         }
     }
 }

@@ -16,6 +16,10 @@ struct NormalActionView: View{
     var body: some View {
         TriangleNormalShape()
             .fill(viewEnvironment.currentColor.light)
+            .overlay {
+                TriangleNormalShape()
+                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+            }
             .frame(width: size, height: size)
             .opacity(itemController.normalActionCount == 0 ? 0.5 : 1)
             .animation(.default, value: itemController.normalActionCount)
@@ -35,33 +39,15 @@ struct PyramidItemView: View{
     var body: some View {
         ZStack{
             TriangleNormalShape()
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 3)
-                .overlay(TriangleNormalShape()
-                            .fill(viewEnvironment.currentColor.light)
-                )
-                
-            TriangleNormalShapeSmall()
+                .fill(viewEnvironment.currentColor.light)
+            TriangleNormalShape()
+                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+            TriangleNormalShape()
                 .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
-                .scaleEffect(0.8)
-                
-            TriangleNormalShapeSmall()
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
-                .scaleEffect(0.8)
+                .scaleEffect(0.5)
                 .rotationEffect(Angle(degrees: 180))
         }
         .frame(width: size, height: size)
-    }
-}
-
-struct TriangleNormalShapeSmall: Shape{    
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to:CGPoint(x:rect.width * (4-sqrt(3))/8,y:rect.height * 3/8))
-        path.addLine(to: CGPoint(x:rect.width * (4+sqrt(3))/8,y:rect.height * 3/8))
-        path.addLine(to: CGPoint(x:rect.width / 2,y:rect.height * 3/4))
-        path.addLine(to: CGPoint(x:rect.width * (4-sqrt(3))/8,y:rect.height * 3/8))
-        path.closeSubpath()
-        return path
     }
 }
 

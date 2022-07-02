@@ -10,11 +10,11 @@ import SwiftUI
 
 class GameModel{
   
-    let stageModel = StageParameters()
+    let stageModel = StageModel()
     let triangleController = TriangleContloller()
     let itemController = ItemController()
     let baranceViewContloller = BaranceViewContloler()
-    let score = PlayingScores()
+    let score = ScoreModel()
     let viewEnvironment = ViewEnvironment()
 
     //シングルトン
@@ -57,7 +57,7 @@ class GameModel{
         }
     }
     func gameOver(){
-        score.setScores()
+        score.setResultScores()
         score.updateHiScore()
         withAnimation {
             stageModel.showGameOverView = true

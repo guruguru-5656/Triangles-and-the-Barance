@@ -45,7 +45,7 @@ struct ActionItemAllOverView: View {
 
 struct ActionItemAllOverView_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemAllOverView(size: 70)
+        ActionItemAllOverView(size: 300)
             .environmentObject(GameModel.shared.viewEnvironment)
     }
 }

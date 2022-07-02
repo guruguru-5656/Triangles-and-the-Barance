@@ -146,19 +146,31 @@ class ItemController: ObservableObject {
                 return nil
             case .pyramid:
                 switch level {
-                case 1...2:
-                    return 8
-                case 3...5:
-                    return 7
-                case 6...9:
-                    return 6
-                case 10:
-                    return 5
+                case 0:
+                    return nil
+                case 1...3:
+                    return 9 - level
                 default:
                     fatalError("想定外のレベル")
                 }
             case .hexagon:
-                return 12
+                switch level {
+                case 0:
+                    return nil
+                case 1...3:
+                    return 13 - level
+                default:
+                    fatalError("想定外のレベル")
+                }
+            case .hexagram:
+                switch level {
+                case 0:
+                    return nil
+                case 1...3:
+                    return 20 - level
+                default:
+                    fatalError("想定外のレベル")
+                }
             }
         }
     }

@@ -14,6 +14,10 @@ struct ActionItemHexagonView: View {
     var body: some View {
         RegularPolygon(vertexNumber: 6)
             .fill(viewEnvironment.currentColor.light)
+            .overlay {
+                RegularPolygon(vertexNumber: 6)
+                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+            }
             .frame(width: size, height: size)
     }
 }

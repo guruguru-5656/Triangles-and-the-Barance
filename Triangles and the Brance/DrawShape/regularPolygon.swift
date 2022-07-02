@@ -26,6 +26,7 @@ struct RegularPolygon: Shape {
         }
         var path = Path()
         path.addLines(points)
+        path.closeSubpath()
         return path
     }
 }

@@ -12,10 +12,7 @@ class TriangleContloller: ObservableObject {
     
     @Published var triangles: [TriangleViewModel] = []
     @Published var triangleVertexs: [TriangleVertexCoordinate] = []
- 
-    let triangleIsOnProbability:Double = 40
-    var triangleHaveActionProbability:Double = 0
-    
+    private let triangleIsOnProportion:Double = 0.4
     private var triangleArrengement: [[Int]] = [
         [Int](3...9),
         [Int](1...9),
@@ -46,20 +43,15 @@ class TriangleContloller: ObservableObject {
             }
         }
     }
- 
-    private func setTrianglesStatus(){
-        for index in triangles.indices {
-            let random:Double = Double.random(in:1...100)
-            if random <= triangleIsOnProbability {
-                triangles[index].status = .isOn
-                let randomNumber:Double = Double.random(in:1...100)
-                if randomNumber <= triangleHaveActionProbability {
-                    //MARK: 変更予定
-                    triangles[index].actionItem = ActionItemModel(action: .pyramid)
-                }
-            }else{
-                triangles[index].status = .isOff
-            }
+///triangle配列をランダムにOnにする
+    private func setTrianglesStatus() {
+        let randomIndex = triangles.indices.shuffled()
+        let isOnCount = Int(Double(triangles.count) * triangleIsOnProportion)
+        for index in randomIndex.prefix(isOnCount) {
+            triangles[index].status = .isOn
+        }
+        for index in randomIndex.suffix(triangles.count - isOnCount) {
+            triangles[index].status = .isOff
         }
     }
     ///頂点の配列の生成

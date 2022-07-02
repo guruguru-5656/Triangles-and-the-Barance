@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 //スコアを表示用に加工して出力する
-final class PlayingScores: ObservableObject {
+final class ScoreModel: ObservableObject {
     @Published var showUpgrade = false
     @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
@@ -32,7 +32,7 @@ final class PlayingScores: ObservableObject {
         }
     }
     
-    func setScores() {
+    func setResultScores() {
         results[0].value = GameModel.shared.stageModel.level
         results[1].value = GameModel.shared.stageModel.deleteCount
         results[2].value = GameModel.shared.stageModel.maxCombo

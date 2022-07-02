@@ -17,19 +17,30 @@ enum ActionType: CaseIterable {
     case normal
     case pyramid
     case hexagon
-    
+    case hexagram
     ///基準の座標からOnにする座標を示す
     ///外側の配列が順番を、内側の座標がtriangleの座標を表す
     var actionCoordinate:[[(Int,Int)]] {
         switch self {
             
         case .normal:
-                return [[(0,0)]]
+            return [
+                [(0, 0)]
+            ]
         case .pyramid:
-                return [[(0,0)],
-                        [(-1, 0), (1, -1), (1, 0)]]
+            return [
+                [(0, 0)],
+                [(-1, 0), (1, -1), (1, 0)]
+            ]
         case .hexagon:
-            return [[(0,0),(-1,0),(-2,0),(1,-1),(0,-1),(-1,-1)]]
+            return [
+                [(0, 0), (-1, 0), (-2, 0), (1,-1), (0, -1), (-1, -1)]
+            ]
+        case .hexagram:
+            return [
+                [(0, 0), (-1, 0), (-2, 0), (1,-1), (0, -1), (-1, -1)],
+                [(-3, 0), (1, 0), (1, -2), (-2, 1), (-2, -1), (2, -1)]
+            ]
         }
     }
     
@@ -38,11 +49,13 @@ enum ActionType: CaseIterable {
         switch self {
             
         case .normal:
-            return Position.center
+            return .center
         case .pyramid:
-            return Position.center
+            return .center
         case .hexagon:
-            return Position.vertex
+            return .vertex
+        case .hexagram:
+            return .vertex
         }
     }
     
@@ -54,6 +67,8 @@ enum ActionType: CaseIterable {
             return 8
         case .hexagon:
             return 12
+        case .hexagram:
+            return 16
         }
     }
     var upgradeItem: UpgradeType? {
@@ -63,7 +78,9 @@ enum ActionType: CaseIterable {
         case .pyramid:
             return .pyramid
         case .hexagon:
-            return nil
+            return .hexagon
+        case .hexagram:
+            return .hxagram
         }
     }
     

@@ -41,14 +41,8 @@ struct StageView: View {
                             .foregroundColor(viewEnvironment.currentColor.light)
                     }
                     Spacer()
-                    Button(action: {}){
-                        Image(systemName: "gearshape")
-                            .foregroundColor(Color(white: 0.3))
-                            .scaleEffect(1.5)
-                            .frame(width: viewEnvironment.screenBounds.width * 0.1, height: viewEnvironment.screenBounds.width * 0.1)
-                            .padding(.trailing, viewEnvironment.screenBounds.width * 0.05)
-                            .padding(.leading, viewEnvironment.screenBounds.width * 0.1)
-                    }
+                    Text("score")
+                    Text("\(stageModel.score)")
                 }
                 .frame(alignment: .center)
                 .padding(.horizontal, geometry.size.width / 16)
@@ -63,9 +57,10 @@ struct StageView: View {
                 .padding(.horizontal, geometry.size.width / 8)
                 .padding(.bottom, geometry.size.width / 8)
                 ActionItemAllOverView(size: geometry.size.width)
-
+                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.1)
                 BaranceView()
                     .padding(.top, 10)
+                    .position(x: geometry.size.width * 0.5,y: geometry.size.height * 0.1)
             }
         }
     }

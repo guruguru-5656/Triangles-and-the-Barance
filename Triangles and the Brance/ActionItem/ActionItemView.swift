@@ -46,8 +46,9 @@ struct ActionItemView: View {
                 case .pyramid:
                     PyramidItemView(size: size)
                 case .hexagon:
-                    //MARK: 仮のView
                     ActionItemHexagonView(size: size)
+                case .hexagram:
+                    ActionItemHexagramView(size: size)
                 }
             }
             Circle()
