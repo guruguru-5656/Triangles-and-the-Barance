@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GameOverView: View {
+struct ResultView: View {
     @ObservedObject var score = GameModel.shared.score
     @State var opacity: Double = 0
     var body: some View {
@@ -15,7 +15,13 @@ struct GameOverView: View {
             VStack (spacing: 20) {
                 Text("Result")
                     .font(.largeTitle)
-                    .padding(10)
+                    .padding(.vertical)
+                    .background(
+                        Rectangle()
+                            .frame(width: geometry.size.width)
+                            .foregroundColor(.white)
+                            .opacity(0.7)
+                    )
                 if !score.showUpgrade{
                     Section {
                         Section {
@@ -36,27 +42,21 @@ struct GameOverView: View {
                         }
                         .padding(.horizontal, geometry.size.width * 0.1)
                         Spacer()
-                        HStack (alignment: .center) {
+                        HStack(spacing: 20) {
                             Button(action: {
                                 GameModel.shared.resetGame()
                                 withAnimation {
-                                    GameModel.shared.stageModel.showGameOverView = false
+                                    GameModel.shared.stageModel.showResultView = false
                                 }
-                                
                             }){
                                 HStack {
                                     Image(systemName: "arrow.counterclockwise")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .padding(.vertical, 15)
-                                    
                                     Text("Retry")
-                                        .font(.title2)
                                 }
+                                .foregroundColor(Color.heavyRed)
                             }
-                            .padding(.horizontal)
-                            .foregroundColor(Color.heavyRed)
-                            .border(Color.heavyRed, width: 2)
+                            .buttonStyle(CustomButton())
+                            
                             Button(action: {
                                 withAnimation{
                                     score.showUpgrade = true
@@ -64,20 +64,13 @@ struct GameOverView: View {
                             }){
                                 HStack {
                                     Image(systemName: "arrowtriangle.up")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .padding(.vertical, 15)
-                                    
                                     Text("Upgrade")
-                                        .font(.title2)
                                 }
+                                .foregroundColor(.heavyGreen)
                             }
-                            .padding(.horizontal)
-                            .foregroundColor(.heavyGreen)
-                            .border(Color.heavyGreen, width: 2)
+                            .buttonStyle(CustomButton())
                         }
                         .frame(height: 50)
-                        .padding()
                         .onAppear{
                             opacity = 1
                         }
@@ -89,9 +82,9 @@ struct GameOverView: View {
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
+          
         }
-        .background(Color.lightGray)
-        .opacity(0.9)
+        .background(Color.backgroundLightGray.opacity(0.8))
         .transition(.asymmetric(insertion: .opacity,
                                 removal: .opacity
                                     .animation(.easeOut(duration: 0.3).delay(0.1))

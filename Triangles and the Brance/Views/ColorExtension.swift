@@ -10,6 +10,7 @@ import SwiftUI
 extension Color {
     static let allmostClear = Color( white: 1, opacity: 0.01)
     static let backgroundLightGray = Color(white: 0.85)
+    static let ultraLightGray = Color(white: 0.95)
     static let lightGray = Color(white: 0.9)
     
     static let lightRed = Color(red: 255/255, green: 165/255, blue: 165/255)

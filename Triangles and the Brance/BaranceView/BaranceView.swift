@@ -11,7 +11,7 @@ struct BaranceView: View {
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @ObservedObject var stageModel = GameModel.shared.stageModel
     @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
-
+    
     var baseScale: CGFloat {
         viewEnvironment.screenBounds.width/12
     }
@@ -25,8 +25,8 @@ struct BaranceView: View {
     var body: some View {
         ZStack{
             GeometryReader { geometry in
-                //垂れ下がっている部分
-                Group{
+                //左右に伸びる棒
+                Group {
                     Rectangle()
                         .foregroundColor(.gray)
                         .frame(width: baseScale/8, height: baseScale * 1.9)
@@ -40,68 +40,61 @@ struct BaranceView: View {
                         .frame(width: baseScale * 8, height: baseScale/4)
                         .rotationEffect(Angle(radians: baranceViewContloller.angle))
                         .position(x: baseScale * 4, y: baseScale/8)
+                }
+                //中央部分
+                Group {
                     Rectangle()
                         .foregroundColor(.lightGray)
                         .frame(width: baseScale/4, height: baseScale * 3)
                         .position(x: baseScale*4, y: baseScale * 1.5)
-                }
-                //中央の三角形
-                Group{
                     TriangleNormalShape()
-                        .frame(width: baseScale * 2, height: baseScale * sqrt(3))
+                        .frame(width: baseScale * 2.2, height: baseScale * 2.2 * sqrt(3)/2)
                         .foregroundColor(viewEnvironment.currentColor.light)
                         .position(x:baseScale * 4, y: baseScale * 2.8)
-                    Circle()
+                    RegularPolygon(vertexNumber: 6)
                         .foregroundColor(.gray)
-                        .frame(width:baseScale/1.5, height:baseScale/1.5)
-                        .position(x: baseScale * 4, y: baseScale / 6)
-                    Circle()
-                        .foregroundColor(.white)
-                        .frame(width:baseScale/3, height:baseScale/3)
+                        .frame(width:baseScale, height:baseScale)
                         .position(x: baseScale * 4, y: baseScale / 6)
                 }
-                //右側の円
-                Group {
-                    Circle()
-                        .foregroundColor(.gray)
-                        .frame(width:baseScale * 1.4, height:baseScale * 1.4 )
-                        .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
-                    
-                    Text(String(stageModel.targetDeleteCount))
-                        .font(.title2)
-                        .foregroundColor(Color(white: 0.1))
-                        .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
-                }
-                //左側の三角形の本体
+                //右側
                 TriangleNormalShape()
-                    .foregroundColor(.backgroundLightGray)
-                    .rotationEffect(Angle(degrees: 180))
-                    .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
-                    .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
-                    
+                    .foregroundColor(.gray)
+                    .overlay {
+                        Text(String(stageModel.targetDeleteCount))
+                            .font(.title2)
+                            .foregroundColor(Color(white: 0.1))
+                    }
+                    .frame(width: baseScale * sqrt(3), height: baseScale *
+                           1.5 )
+                
+                    .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
+                
+                //左側の三角形
                 Group {
+                    TriangleNormalShape()
+                        .foregroundColor(.backgroundLightGray)
+                        .rotationEffect(Angle(degrees: 180))
                     TriangleNormalShape()
                         .foregroundColor(viewEnvironment.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
-                        .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
-                        .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                     
+                        .opacity(opacity)
                     Text(String(stageModel.deleteCount))
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
-                        .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                        .opacity((1 + opacity) / 2)
+                    if baranceViewContloller.isTriangleHiLighted {
+                        TriangleNormalShape()
+                            .foregroundColor(.white)
+                            .rotationEffect(Angle(degrees: 180))
+                            .scaleEffect(1.1)
+                            .blur(radius: 5)
+                            .opacity(0.5)
+                    }
                 }
-                .opacity(opacity)
-                if baranceViewContloller.isTriangleHiLighted {
-                    TriangleNormalShape()
-                        .foregroundColor(.white)
-                        .rotationEffect(Angle(degrees: 180))
-                        .scaleEffect(1.1)
-                        .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
-                        .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
-                        .blur(radius: 5)
-                        .opacity(0.5)
-                }
+                .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
+                .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                
                 if baranceViewContloller.showDeleteCountText {
                     Text("+\(baranceViewContloller.deleteCountNow)")
                         .font(.title2)
@@ -111,13 +104,6 @@ struct BaranceView: View {
                             insertion: .opacity.combined(with: .offset(x: 0, y: -baseScale * 0.5)),
                             removal: .opacity))
                 }
-                
-                //三角形のフレーム部分
-                TriangleNormalShape()
-                    .stroke(viewEnvironment.currentColor.heavy)
-                    .rotationEffect(Angle(degrees: 180))
-                    .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
-                    .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
                 
                 //クリア演出用の円
                 if baranceViewContloller.clearCircleIsOn == false {
@@ -134,11 +120,10 @@ struct BaranceView: View {
                                     value: CGPoint(
                                         x: geometry.frame(in: .global).origin.x + baseScale * 0.25 + 10,
                                         y: geometry.frame(in: .global).origin.y + baseScale * 3.1))
-                    
-                }   
+                }
             }.frame(width: baseScale * 8, height: baseScale * 4)
                 .position(x: baseScale * 6, y: baseScale * 3 )
-                
+            
         }
     }
 }

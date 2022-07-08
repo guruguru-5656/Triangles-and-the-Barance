@@ -113,7 +113,7 @@ class ItemController: ObservableObject {
     }
     
     private func loadNormalActionCount() {
-        let normalActionData = SaveData.shareData.shareUpgradeData(type: .normalActionCount)
+        let normalActionData = SaveData.shareData.shareUpgradeData(type: .normal)
         defaultNormalActionCount = normalActionData.level + 2
     }
     

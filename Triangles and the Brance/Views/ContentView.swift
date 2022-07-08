@@ -16,11 +16,11 @@ struct ContentView: View {
             BaranceCircleView(circlePoint: $circlePoint)
                 .ignoresSafeArea()
             StageView()
-                .blur(radius: stageModel.showGameOverView ? 3.0 : 0)
-            if stageModel.showGameOverView {
+                .blur(radius: stageModel.showResultView ? 3.0 : 0)
+            if stageModel.showResultView {
                 Color(.init(gray: 0.4, alpha: 0.5))
                     .ignoresSafeArea()
-                GameOverView()
+                ResultView()
                     .cornerRadius(10)
                     .padding(30)
             }
@@ -33,5 +33,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(GameModel.shared.viewEnvironment)
     }
 }

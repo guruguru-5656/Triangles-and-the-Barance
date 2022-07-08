@@ -12,7 +12,7 @@ struct UpgradeView: View {
     @State var opacity:Double = 0
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: 20) {
+            VStack {
                 HStack {
                     Spacer()
                     VStack {
@@ -33,47 +33,42 @@ struct UpgradeView: View {
                 .font(.title)
                 ScrollView {
                     ForEach($upgradeModel.upgradeItems) { $item in
-                        UpgradeSubView(item: $item)
+                        UpgradeSubView(item: $item, geometrySize: geometry.size)
                             .opacity(opacity)
                             .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
                     }
                 }
-                .frame(height: geometry.size.height / 2)
-                HStack {
+                .frame(height: geometry.size.height * 0.6)
+                HStack(spacing: 20) {
                     Button(action: {
                         upgradeModel.cancel()
                     }){
                         HStack {
                             Image(systemName: "xmark")
-                                .resizable()
-                                .scaledToFit()
-                                .padding(.vertical, 15)
-                            
+               
                             Text("Cancel")
-                                .font(.title2)
+                            
                         }
+                        .foregroundColor(Color.heavyRed)
                     }
-                    .padding(.horizontal)
-                    .foregroundColor(Color.heavyRed)
-                    .border(Color.heavyRed, width: 2)
+                    .buttonStyle(CustomButton())
+                    
                     Button(action: {
                         upgradeModel.permitPaying()
                     }){
                         HStack {
                             Image(systemName: "checkmark")
-                                .resizable()
-                                .scaledToFit()
-                                .padding(.vertical, 15)
+                    
                             Text("Upgrade")
-                                .font(.title2)
+                            
                         }
+                        .foregroundColor(Color.heavyGreen)
                     }
-                    .padding(.horizontal)
-                    .foregroundColor(Color.heavyGreen)
-                    .border(Color.heavyGreen, width: 2)
+                    .buttonStyle(CustomButton())
+                    
                 }
                 .frame(height: 50)
-                .padding()
+             
             }
             .onAppear{
                 opacity = 1
@@ -84,28 +79,37 @@ struct UpgradeView: View {
 
 struct UpgradeSubView: View {
     @Binding var item: UpgradeItemModel
+    let geometrySize: CGSize
     var body: some View {
-        
         HStack {
-            Text(item.text)
-            Text(String(item.level))
+            
+            item.icon
+                .resizable()
+                .scaledToFit()
+                .padding(5)
+                .frame(width: geometrySize.width / 8)
+            Text(item.descriptionText)
+                .font(.body)
             Spacer()
-            Text(String(item.cost))
-                .foregroundColor(item.isNextPayable ? Color.black : Color.red)
+            Text(item.currentEffect)
+            Spacer()
+            Text(String("\(item.level) / \(item.type.upgradeRange.upperBound)"))
             Button(action: {
                 item.upgrade()
             }){
-                Image(systemName: "arrowtriangle.up")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(item.isUpdatable ? Color.heavyGreen : Color.gray)
-                    .padding(5)
+                Text(String(format: "%8d", item.cost))
+                    .foregroundColor(item.isUpdatable ? Color.heavyGreen : Color.heavyRed)
             }
+            .buttonStyle(CustomListButton())
             .disabled(!item.isUpdatable)
+            .overlay {
+                Color(white: 0.5, opacity: item.isUpdatable ? 0 : 0.2)
+            }
         }
-        .frame(height: 40)
+        .padding(.top, 10)
         .padding(.horizontal)
     }
+    
 }
 
 

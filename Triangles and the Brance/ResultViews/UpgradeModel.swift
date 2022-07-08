@@ -76,7 +76,7 @@ struct UpgradeItemModel: Identifiable{
     }
     //アップデート可能かどうか
     var isUpdatable: Bool {
-        if isNextPayable && isSatisfyRequirement &&
+        if isNextPayable &&
             (level + 1) <= type.upgradeRange.upperBound {
             return true
         } else {
@@ -84,37 +84,75 @@ struct UpgradeItemModel: Identifiable{
         }
     }
     //現在の所持金で支払いできるかどうか
-    var isNextPayable: Bool {
+    private var isNextPayable: Bool {
         guard let upgradeViewModel = parentModel else {
             return false
         }
         let cost = type.initialCost * Int(pow(Double(10), Double(level + 1)))
         return cost <= upgradeViewModel.money
     }
-    //解放に必要な前提条件を満たしているかどうか
-    var isSatisfyRequirement: Bool {
-        guard let upgradeViewModel = parentModel else {
-            return false
+    
+    
+    var descriptionImage: some View {
+        return Image(systemName: "bag")
+    }
+    
+    var descriptionText: String {
+        switch type {
+        case .life:
+            return "回数"
+        case .inventory:
+            return "容量"
+        case .normal:
+            return "回数"
+        case .pyramid:
+            return "コスト"
+        case .hexagon:
+            return "コスト"
+        case .hxagram:
+            return "コスト"
         }
-        if type.requiredUnlock.isEmpty {
-            return true
+    }
+    var currentEffect: String {
+        switch type {
+        case .life:
+            return "\(level + 2)"
+        case .inventory:
+            return "\(level)"
+        case .normal:
+            return "\(level + 2)"
+        case .pyramid:
+            return "\(9 - level)"
+        case .hexagon:
+            return "\(13 - level)"
+        case .hxagram:
+            return "\(21 - level)"
         }
-        //それぞれのUnlockに必要な情報を一つずつ取り出し、itemsの配列と照らし合わせる
-        let isSatisfyed: [Bool] = type.requiredUnlock
-            .map { flag in
-                let requiredItem = upgradeViewModel.upgradeItems.first{
-                    $0.type == flag.type
-                }!
-                return requiredItem.level >= flag.levelNeeds
-            }
-        return isSatisfyed.allSatisfy{ $0 }
+        
+    }
+    var icon: Image {
+        switch type {
+        case .life:
+            return Image(systemName: "heart")
+        case .inventory:
+            return Image(systemName: "bag")
+        case .normal:
+            return Image("normalSankaku")
+        case .pyramid:
+            return Image("pyramidSankaku")
+        case .hexagon:
+            return Image("normalHexagon")
+        case .hxagram:
+            return Image("hexagram")
+        }
+        
     }
 }
 
 enum UpgradeType: Int, CaseIterable {
     case life
     case inventory
-    case normalActionCount
+    case normal
     case pyramid
     case hexagon
     case hxagram
@@ -125,7 +163,7 @@ enum UpgradeType: Int, CaseIterable {
             return  1...5
         case .inventory:
             return  1...5
-        case .normalActionCount:
+        case .normal:
             return 1...5
         case .pyramid:
             return 0...3
@@ -135,40 +173,7 @@ enum UpgradeType: Int, CaseIterable {
             return 0...3
         }
     }
-    ///UpGrade解放に必要なステージ数
-    var stageFlag: Int {
-        switch self {
-        case .life:
-            return 1
-        case .inventory:
-            return 1
-        case .normalActionCount:
-            return 1
-        case .pyramid:
-            return 4
-        case .hexagon:
-            return 4
-        case .hxagram:
-            return 4
-        }
-    }
-    ///UpGrade解放に必要なフラグ、tupleの第一引数で条件になっている強化の種類を、第二引数で必要な強化段階を表す
-    var requiredUnlock: [(type:UpgradeType,levelNeeds: Int)] {
-        switch self {
-        case .life:
-            return []
-        case .inventory:
-            return []
-        case .normalActionCount:
-            return []
-        case .pyramid:
-            return []
-        case .hexagon:
-            return []
-        case .hxagram:
-            return []
-        }
-    }
+   
     ///基本となる強化費用
     var initialCost: Int {
         switch self {
@@ -176,7 +181,7 @@ enum UpgradeType: Int, CaseIterable {
             return 10
         case .inventory:
             return 10
-        case .normalActionCount:
+        case .normal:
             return 10
         case .pyramid:
             return 10

@@ -60,7 +60,7 @@ class GameModel{
         score.setResultScores()
         score.updateHiScore()
         withAnimation {
-            stageModel.showGameOverView = true
+            stageModel.showResultView = true
         }
         score.showScores()
     }

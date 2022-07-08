@@ -9,7 +9,7 @@ import Foundation
 
 class StageModel:ObservableObject {
    
-    @Published var showGameOverView = false
+    @Published var showResultView = false
     //ゲーム開始時に初期化するステータス
     @Published var level:Int = 1
     @Published var maxCombo = 0
