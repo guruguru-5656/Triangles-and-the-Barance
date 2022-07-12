@@ -1,8 +1,8 @@
 //
-//  regularPolygon.swift
+//  RegularPolygon.swift
 //  Triangles and the Brance
 //
-//  Created by 森本拓未 on 2022/04/11.
+//  Created by 森本拓未 on 2022/07/12.
 //
 
 import SwiftUI
