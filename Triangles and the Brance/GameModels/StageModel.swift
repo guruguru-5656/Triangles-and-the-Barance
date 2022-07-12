@@ -11,10 +11,11 @@ class StageModel:ObservableObject {
    
     @Published var showResultView = false
     //ゲーム開始時に初期化するステータス
-    @Published var level:Int = 1
+    @Published var level = 1
     @Published var maxCombo = 0
     @Published var allDeleteCount = 0
     @Published var score = 0
+    @Published var money = 0
     //ステージ開始時に初期化するステータス
     @Published var life:Int = 5
     @Published var deleteCount = 0
@@ -39,8 +40,11 @@ class StageModel:ObservableObject {
     }
     
     private func loadSaveData() {
-        let lifeData = SaveData.shareData.shareUpgradeData(type: .life)
+        let lifeData = SaveData.shareData.loadUpgradeData().first {
+            $0.type == .life
+        }!
         defaultLife = lifeData.level + 2
+        money = SaveData.shareData.loadMoneyData()
     }
     
     ///ステータスの更新とクリア判定、ゲームオーバー判定を行う
@@ -50,7 +54,7 @@ class StageModel:ObservableObject {
         self.allDeleteCount += deleteCount
         self.score += deleteCount * deleteCount * level
         self.life -= 1
-        SaveData.shareData.money += deleteCount * level
+        money += deleteCount * level
         if self.maxCombo < deleteCount {
             maxCombo = deleteCount
         }
@@ -61,5 +65,9 @@ class StageModel:ObservableObject {
             return .gameOver
         }
         return .nothing
+    }
+    
+    func saveData() {
+        SaveData.shareData.saveMoneyData(money: money)
     }
 }

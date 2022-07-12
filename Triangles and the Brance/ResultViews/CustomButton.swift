@@ -19,7 +19,7 @@ struct CustomButton: ButtonStyle {
                         .foregroundColor(.white)
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(lineWidth: 2)
-                        .foregroundColor(Color(white: 0.3))
+                        .foregroundColor(Color(white: 0.5))
                 }
                     .opacity(0.5)
             )

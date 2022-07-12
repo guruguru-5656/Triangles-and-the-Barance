@@ -52,11 +52,12 @@ class GameModel{
             stageModel.level += 1
             stageModel.setParameters()
             triangleController.setParameters()
-            itemController.setParameters()
+            itemController.prepareForNextStage()
             viewEnvironment.stageClear()
         }
     }
     func gameOver(){
+        stageModel.saveData()
         score.setResultScores()
         score.updateHiScore()
         withAnimation {

@@ -14,7 +14,7 @@ struct StageView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(alignment: .leading, spacing: 10) {
+            VStack(alignment: .center, spacing: 20) {
                 HStack {
                     Section {
                         Text(String(stageModel.life))
@@ -56,11 +56,11 @@ struct StageView: View {
                 .padding(.top)
                 .padding(.horizontal, geometry.size.width / 8)
                 .padding(.bottom, geometry.size.width / 8)
-                ActionItemAllOverView(size: geometry.size.width)
-                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.1)
+                ActionItemWholeView(size: geometry.size.width)
+                    .frame(width: geometry.size.width, height: geometry.size.height * 0.13)
                 BaranceView()
-                    .padding(.top, 10)
-                    .position(x: geometry.size.width * 0.5,y: geometry.size.height * 0.1)
+                    .frame( height: geometry.size.height * 0.1)
+                    .padding(.vertical, geometry.size.height * 0.1)
             }
         }
     }

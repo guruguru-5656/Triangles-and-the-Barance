@@ -23,7 +23,7 @@ struct BaranceView: View {
     }
     
     var body: some View {
-        ZStack{
+       
             GeometryReader { geometry in
                 //左右に伸びる棒
                 Group {
@@ -121,9 +121,7 @@ struct BaranceView: View {
                                         x: geometry.frame(in: .global).origin.x + baseScale * 0.25 + 10,
                                         y: geometry.frame(in: .global).origin.y + baseScale * 3.1))
                 }
-            }.frame(width: baseScale * 8, height: baseScale * 4)
-                .position(x: baseScale * 6, y: baseScale * 3 )
-            
-        }
+            }
+            .position(x: baseScale * 8 )
     }
 }

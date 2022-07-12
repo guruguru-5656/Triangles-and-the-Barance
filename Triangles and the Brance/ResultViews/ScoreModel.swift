@@ -14,7 +14,7 @@ final class ScoreModel: ObservableObject {
     @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
         }
-    @Published var money = SaveData.shareData.money
+    @Published var money = 0
     @Published var viewStatus: ViewStatus = .onAppear
     
     func showScores() {
@@ -40,20 +40,22 @@ final class ScoreModel: ObservableObject {
         results.indices.forEach{
             results[$0].isUpdated = false
         }
-        money = SaveData.shareData.money
+        money = SaveData.shareData.loadMoneyData()
     }
     
     func updateHiScore() {
-        //SaveData内のデータを更新
+        let hiScores = SaveData.shareData.loadHiScoreData()
+  
         for index in results.indices {
-            let hiScoreIndex = SaveData.shareData.hiScores.firstIndex{
-                $0.type == results[index].type
+            let hiScoreIndex = hiScores.firstIndex{
+                $0.type == String(describing: results[index].type)
             }!
-            if SaveData.shareData.hiScores[hiScoreIndex].value < results[index].value {
-                SaveData.shareData.hiScores[hiScoreIndex].value = results[index].value
+            if hiScores[hiScoreIndex].value < results[index].value {
                 results[index].isUpdated = true
+                hiScores[hiScoreIndex].value = Int64(results[index].value)
             }
         }
+        SaveData.shareData.saveHiScoreData()
     }
 }
 

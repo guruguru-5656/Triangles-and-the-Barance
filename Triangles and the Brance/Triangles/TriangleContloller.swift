@@ -64,7 +64,7 @@ class TriangleContloller: ObservableObject {
     ///item実行専用のアクション
     func triangleVertexTapAction(coordinate: TriangleVertexCoordinate) {
         if let selectedItem = GameModel.shared.itemController.selectedItem {
-            guard selectedItem.action.position == .vertex else{
+            guard selectedItem.type.position == .vertex else{
                 GameModel.shared.itemController.selectedItem = nil
                 return
             }
@@ -89,7 +89,7 @@ class TriangleContloller: ObservableObject {
         }
         //アイテムが入っていた場合の処理
         if let selectedItem = GameModel.shared.itemController.selectedItem {
-            guard selectedItem.action.position == .center else{
+            guard selectedItem.type.position == .center else{
                 GameModel.shared.itemController.selectedItem = nil
                 return
             }
@@ -114,7 +114,7 @@ class TriangleContloller: ObservableObject {
             let deleteCount = plans.count
             //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
             updateTrianglesStatus(plans: plans){
-                GameModel.shared.itemController.appendStageItems(count: deleteCount)
+                GameModel.shared.itemController.energy += plans.count
                 GameModel.shared.updateGameParameters(deleteCount: deleteCount)
             }
         }catch{

@@ -9,8 +9,61 @@ import SwiftUI
 
 ///
 struct ActionItemModel: Identifiable, Hashable {
-    let action: ActionType
+    let type: ActionType
+    let level: Int
+    init(type: ActionType, level: Int) {
+        self.type = type
+        self.level = level
+        self.count = defaultCount
+    }
+    var count: Int = 0
     let id = UUID()
+    var cost: Int? {
+        switch self.type {
+            
+        case .normal:
+            return nil
+        case .pyramid:
+            switch level {
+            case 0:
+                return nil
+            case 1...3:
+                return 9 - level
+            default:
+                fatalError("想定外のレベル")
+            }
+        case .hexagon:
+            switch level {
+            case 0:
+                return nil
+            case 1...3:
+                return 13 - level
+            default:
+                fatalError("想定外のレベル")
+            }
+        case .hexagram:
+            switch level {
+            case 0:
+                return nil
+            case 1...3:
+                return 20 - level
+            default:
+                fatalError("想定外のレベル")
+            }
+        }
+    }
+    private var defaultCount: Int {
+        switch type {
+        case .normal:
+            return level + 2
+        case .pyramid:
+            return 0
+        case .hexagon:
+            return 0
+        case .hexagram:
+            return 0
+        }
+    }
 }
 
 enum ActionType: CaseIterable {
@@ -59,22 +112,11 @@ enum ActionType: CaseIterable {
         }
     }
     
-    var defaultCost: Int? {
-        switch self {
-        case .normal:
-            return nil
-        case .pyramid:
-            return 8
-        case .hexagon:
-            return 12
-        case .hexagram:
-            return 16
-        }
-    }
+   
     var upgradeItem: UpgradeType? {
         switch self {
         case .normal:
-            return nil
+            return .normal
         case .pyramid:
             return .pyramid
         case .hexagon:

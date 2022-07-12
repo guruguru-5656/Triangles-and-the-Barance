@@ -14,22 +14,23 @@ class UpgradeViewModel: ObservableObject {
     @Published var payingMoney = 0
     
     init(){
-        upgradeItems = SaveData.shareData.upgradeItems
-        money = SaveData.shareData.money
+        upgradeItems = SaveData.shareData.loadUpgradeData()
+        money = GameModel.shared.stageModel.money
         upgradeItems.indices.forEach{
             upgradeItems[$0].parentModel = self
         }
     }
     func cancel() {
-        money = SaveData.shareData.money
+        money = GameModel.shared.stageModel.money
         payingMoney = 0
         withAnimation {
             GameModel.shared.score.showUpgrade = false
         }
     }
     func permitPaying() {
-        SaveData.shareData.upgradeItems = upgradeItems
-        SaveData.shareData.money = money
+        SaveData.shareData.saveUpgradeData(model: upgradeItems)
+        GameModel.shared.stageModel.money = money
+        GameModel.shared.stageModel.saveData()
         GameModel.shared.score.money = money
         withAnimation {
             GameModel.shared.score.showUpgrade = false
@@ -137,11 +138,11 @@ struct UpgradeItemModel: Identifiable{
         case .inventory:
             return Image(systemName: "bag")
         case .normal:
-            return Image("normalSankaku")
+            return Image("normalTriangle")
         case .pyramid:
-            return Image("pyramidSankaku")
+            return Image("pyramidTriangle")
         case .hexagon:
-            return Image("normalHexagon")
+            return Image("hexagon")
         case .hxagram:
             return Image("hexagram")
         }

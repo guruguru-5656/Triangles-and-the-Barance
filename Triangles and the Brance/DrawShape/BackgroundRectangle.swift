@@ -36,8 +36,8 @@ struct LeftCornerCutRectangle: Shape {
     }
 }
 
-///右上と左下に出っ張りがある四角形
-struct RectangleWithTwoTextSpace: Shape {
+///右上に出っ張りがある四角形
+struct RectangleWithTextSpace: Shape {
     let textSpaceWidth: CGFloat
     let textSpaceHeight: CGFloat
     func path(in rect: CGRect) -> Path {
@@ -47,9 +47,7 @@ struct RectangleWithTwoTextSpace: Shape {
         path.addLine(to: CGPoint(x: rect.width - textSpaceWidth + textSpaceHeight, y: 0 - textSpaceHeight))
         path.addLine(to: CGPoint(x: rect.width, y: 0 - textSpaceHeight))
         path.addLine(to: CGPoint(x: rect.width, y: rect.height))
-        path.addLine(to: CGPoint(x: textSpaceWidth, y: rect.height))
-        path.addLine(to: CGPoint(x: textSpaceWidth - textSpaceHeight, y: rect.height + textSpaceHeight))
-        path.addLine(to: CGPoint(x: 0, y: rect.height + textSpaceHeight))
+        path.addLine(to: CGPoint(x: 0, y: rect.height))
         path.addLine(to: .zero)
         path.closeSubpath()
         return path

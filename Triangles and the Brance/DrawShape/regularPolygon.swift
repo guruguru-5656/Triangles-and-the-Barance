@@ -30,3 +30,4 @@ struct RegularPolygon: Shape {
         return path
     }
 }
+

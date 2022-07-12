@@ -10,7 +10,7 @@ struct TriangleView: View {
     @State var size: CGFloat
     @State var backGround = StaticStageObjects()
     var isVertexHilighted: Bool {
-            itemController.selectedItem?.action.position == .vertex ? true : false
+            itemController.selectedItem?.type.position == .vertex ? true : false
     }
     
     var body: some View {
@@ -20,7 +20,7 @@ struct TriangleView: View {
                 .foregroundColor(.backgroundLightGray)
                 .scaleEffect(1.08)
             //背景の線部分
-            ForEach(backGround.stageLines){ line in
+            ForEach(backGround.stageLines, id: \.self){ line in
                 DrawTriLine(line: line, scale: size)
                     .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
             }

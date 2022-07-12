@@ -12,56 +12,47 @@ class ItemController: ObservableObject {
     @Published var actionItems: [ActionItemModel] = []
     @Published var selectedItem: ActionItemModel? 
     @Published var actionEffectViewModel: [ActionEffectViewModel] = []
-    @Published var normalActionItem = ActionItemModel(action: .normal)
-    @Published var normalActionCount: Int = 3
-    @Published var inventory: Int = 1
-    
-    private var itemTable: [ItemForTable] = []
-    private var defaultNormalActionCount:Int = 3
-    
+    @Published var energy: Int = 0
+  
     func itemAction(coordinate: StageCoordinate) -> [[(Int, Int)]]{
+        //アイテムが選択されていなければ何もしない
         guard let item = selectedItem else {
             return []
         }
-        switch item.action {
-            //normalのアクションはその他のアイテムとは別の管理になっている
-        case .normal:
-            guard normalActionCount != 0 else{
-                print("カウントゼロの状態で選択されている")
-                return []
-            }
-            normalActionCount -= 1
-        default:
-            let indexOfItem = actionItems.firstIndex {
+        //アイテムが残っていれば使用、残っていない時にはコストを消費してアクションを起こす
+        if item.count > 0 {
+            guard let index = actionItems.firstIndex (where:{
                 $0.id == item.id
+            }) else {
+                fatalError("itemのインデックスエラー")
             }
-            guard let indexOfItem = indexOfItem else {
-                print("アイテムのインデックス取得エラー")
-                return []
-            }
-            _ = withAnimation {
-                actionItems.remove(at: indexOfItem)
-            }
+            actionItems[index].count -= 1
+        } else if item.cost ?? .max <= energy {
+            energy -= item.cost!
+        } else {
+            print("選択されるべきでない状況でアイテムが選ばれている")
+            return []
         }
         actionAnimation(coordinate: coordinate)
         selectedItem = nil
-        return item.action.actionCoordinate
+        return item.type.actionCoordinate
     }
-    
-    func itemSelectAction(model: ActionItemModel) {
-        if selectedItem == nil {
-            if model.action == .normal && normalActionCount == 0 {
-                return
-            }
-            selectedItem = model
-            
-        } else {
+   
+    func itemSelect(model: ActionItemModel) {
+        //現在選択しているItemと同じものを選択した場合、選択を解除する
+        if model.id == selectedItem?.id {
             selectedItem = nil
+            return
         }
+        //個数が一つ以上あるか、コストが現在のエネルギーより小さい場合は選択する
+        if model.count > 0 || model.cost ?? .max <= energy {
+            selectedItem = model
+        }
+        return
     }
     
     func actionAnimation(coordinate: StageCoordinate) {
-        let model = ActionEffectViewModel(action: selectedItem!.action, coordinate: coordinate)
+        let model = ActionEffectViewModel(action: selectedItem!.type, coordinate: coordinate)
         withAnimation {
             actionEffectViewModel.append(model)
         }
@@ -76,102 +67,30 @@ class ItemController: ObservableObject {
             }
         }
     }
-    ///triangleを消した数を受けて最大コストのactionItemを追加
-    func appendStageItems(count: Int) {
-        let table = itemTable.filter {
-            $0.cost != nil
-        }.sorted {
-            $0.cost! > $1.cost!
-        }
-        for table in table{
-            if count >= table.cost!{
-                if actionItems.count == inventory {
-                    _ = withAnimation {
-                        actionItems.removeFirst()
-                    }
-                }
-                withAnimation{
-                    actionItems.append(ActionItemModel(action: table.type))
-                }
-                break
-            }
-        }
-    }
+
     ///ゲームリセット時の挙動
     func resetGame() {
-        actionItems = []
-        selectedItem = nil
+        prepareForNextStage()
         actionEffectViewModel = []
-        loadNormalActionCount()
-        loadInventoryData()
-        setItemTable()
-        setParameters()
     }
     ///ステージクリア時の挙動
-    func setParameters() {
-        normalActionCount = defaultNormalActionCount
+    func prepareForNextStage() {
+        setItemTable()
+        energy = 0
+        selectedItem = nil
     }
-    
-    private func loadNormalActionCount() {
-        let normalActionData = SaveData.shareData.shareUpgradeData(type: .normal)
-        defaultNormalActionCount = normalActionData.level + 2
-    }
-    
-    private func loadInventoryData() {
-        let inventoryData = SaveData.shareData.shareUpgradeData(type: .inventory)
-        inventory = inventoryData.level
-    }
-    
+ 
     private func setItemTable() {
-        let upgradeData = SaveData.shareData.upgradeItems
-        let table = ActionType.allCases.map { actionType -> ItemForTable in
-            if let data = upgradeData.first (where: {
-                $0.type == actionType.upgradeItem
+        let upgradeData = SaveData.shareData.loadUpgradeData()
+        let items = ActionType.allCases.map { actionType -> ActionItemModel in
+            if let data = upgradeData.first (where: { data in
+                data.type == actionType.upgradeItem
             }) {
-                return ItemForTable(type: actionType, level: data.level)
+                return ActionItemModel(type: actionType, level: data.level)
             } else {
-                return ItemForTable(type: actionType, level: 0)
+                return ActionItemModel(type: actionType, level: 0)
             }
         }
-        self.itemTable = table
-    }
-    
-    private struct ItemForTable {
-        let type: ActionType
-        let level: Int
-        var cost: Int? {
-            switch self.type {
-                
-            case .normal:
-                return nil
-            case .pyramid:
-                switch level {
-                case 0:
-                    return nil
-                case 1...3:
-                    return 9 - level
-                default:
-                    fatalError("想定外のレベル")
-                }
-            case .hexagon:
-                switch level {
-                case 0:
-                    return nil
-                case 1...3:
-                    return 13 - level
-                default:
-                    fatalError("想定外のレベル")
-                }
-            case .hexagram:
-                switch level {
-                case 0:
-                    return nil
-                case 1...3:
-                    return 20 - level
-                default:
-                    fatalError("想定外のレベル")
-                }
-            }
-        }
+        actionItems = items
     }
 }

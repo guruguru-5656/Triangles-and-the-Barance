@@ -84,7 +84,7 @@ struct ResultView: View {
             }
           
         }
-        .background(Color.backgroundLightGray.opacity(0.8))
+        .background(Color(white: 0.95, opacity: 0.8))
         .transition(.asymmetric(insertion: .opacity,
                                 removal: .opacity
                                     .animation(.easeOut(duration: 0.3).delay(0.1))

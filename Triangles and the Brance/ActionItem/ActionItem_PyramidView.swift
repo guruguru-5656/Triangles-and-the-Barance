@@ -21,14 +21,6 @@ struct NormalActionView: View{
                     .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
             }
             .frame(width: size, height: size)
-            .opacity(itemController.normalActionCount == 0 ? 0.5 : 1)
-            .animation(.default, value: itemController.normalActionCount)
-            .overlay {
-                Text("\(itemController.normalActionCount)")
-                    .offset(x: 0, y: size * 2/3)
-                    .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
-                    .foregroundColor(itemController.normalActionCount == 0 ? .red : .black)
-            }
     }
 }
 

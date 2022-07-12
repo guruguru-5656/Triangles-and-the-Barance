@@ -43,6 +43,13 @@ struct TriangleViewModel:Identifiable{
         }
         return returnCoordinates
     }
+    var triLine: [TriLine] {
+        return [
+            TriLine(start: vertexCoordinate[0], end: vertexCoordinate[1]),
+            TriLine(start: vertexCoordinate[1], end: vertexCoordinate[2]),
+            TriLine(start: vertexCoordinate[2], end: vertexCoordinate[0])
+        ]
+    }
 }
 
 ///現在の状態を表す、これにより入力の受付の判断や、描画の状態を変更する
