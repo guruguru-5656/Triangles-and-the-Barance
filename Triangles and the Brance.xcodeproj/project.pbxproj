@@ -42,7 +42,6 @@
 		045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 045A2057283CB51E003704C3 /* CoreDataModel.xcdatamodeld */; };
 		046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */; };
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
-		04909C39287D5A3A009D96A5 /* regularPolygon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04909C38287D5A3A009D96A5 /* regularPolygon.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
@@ -96,7 +95,6 @@
 		045A2058283CB51E003704C3 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
-		04909C38287D5A3A009D96A5 /* regularPolygon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = regularPolygon.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEnvironment.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			children = (
 				0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */,
 				0426B0E627DB93FF00AC348E /* DrawStageShape.swift */,
-				04909C38287D5A3A009D96A5 /* regularPolygon.swift */,
 				046FB85327F19D8600854EFE /* BackgroundRectangle.swift */,
 			);
 			path = DrawShape;
@@ -383,7 +380,6 @@
 				04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */,
 				0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */,
 				045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */,
-				04909C39287D5A3A009D96A5 /* regularPolygon.swift in Sources */,
 				046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */,
 				044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */,
 				041D26CF287541B2009DC72B /* CustomButton.swift in Sources */,
