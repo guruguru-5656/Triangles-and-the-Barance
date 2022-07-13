@@ -14,7 +14,8 @@ struct StageView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack(alignment: .center, spacing: 20) {
+            VStack(alignment: .center) {
+                Spacer()
                 HStack {
                     Section {
                         Text(String(stageModel.life))
@@ -47,20 +48,27 @@ struct StageView: View {
                 .frame(alignment: .center)
                 .padding(.horizontal, geometry.size.width / 16)
                 Spacer()
-                GeometryReader { geometry in
-                    TriangleView(size: geometry.size.width / 6)
+                Section {
+                    TriangleView(fieldSize:  geometry.size.width)
+                                     .padding(.horizontal, geometry.size.width / 10)
                     //MARK: 現状エフェクトviewは未使用
 //                    ActionEffectView(size: geometry.size.width / 6)
                 }
-                .frame(height: geometry.size.width * 1/2 )
-                .padding(.top)
-                .padding(.horizontal, geometry.size.width / 8)
-                .padding(.bottom, geometry.size.width / 8)
+                .frame(width: geometry.size.width ,height: geometry.size.width * 0.75)
+//                .background(.purple)
+                Spacer()
                 ActionItemWholeView(size: geometry.size.width)
-                    .frame(width: geometry.size.width, height: geometry.size.height * 0.13)
-                BaranceView()
-                    .frame( height: geometry.size.height * 0.1)
-                    .padding(.vertical, geometry.size.height * 0.1)
+                    .frame( height: geometry.size.height * 0.13)
+                    .background(.purple)
+                Spacer()
+                Section {
+                GeometryReader { geometry in
+                    BaranceView(size: geometry.size.width)
+                }
+                .padding(.horizontal, geometry.size.width * 0.1)
+                }
+                .frame( height: geometry.size.width * 0.35)
+                Spacer()
             }
         }
     }

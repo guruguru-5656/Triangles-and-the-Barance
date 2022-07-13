@@ -35,7 +35,7 @@
 		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
 		045121BA27D43EAB00936E2C /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B927D43EAB00936E2C /* GameModel.swift */; };
 		045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */; };
-		0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */; };
+		0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangle.swift */; };
 		0458239327E4C62B007800AC /* ActionItem_PyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */; };
 		0458239527E54758007800AC /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
@@ -44,6 +44,8 @@
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
+		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
+		04929528287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
@@ -90,7 +92,7 @@
 		045121B927D43EAB00936E2C /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
-		0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangleFromCenter.swift; sourceTree = "<group>"; };
+		0458236D27E2C542007800AC /* DrawTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangle.swift; sourceTree = "<group>"; };
 		0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_PyramidView.swift; sourceTree = "<group>"; };
 		0458239427E54758007800AC /* TriangleContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleContloller.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
+		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEnvironment.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
@@ -127,7 +130,6 @@
 		0426B0E927DC48AE00AC348E /* DrawShape */ = {
 			isa = PBXGroup;
 			children = (
-				0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */,
 				0426B0E627DB93FF00AC348E /* DrawStageShape.swift */,
 				04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */,
 				046FB85327F19D8600854EFE /* BackgroundRectangle.swift */,
@@ -150,9 +152,13 @@
 		044AD4342806D3F600D96CED /* Triangles */ = {
 			isa = PBXGroup;
 			children = (
-				045121B527D21BE800936E2C /* TriangleView.swift */,
 				0458239427E54758007800AC /* TriangleContloller.swift */,
 				045121B327D21B5E00936E2C /* TriangleModel.swift */,
+				045121B527D21BE800936E2C /* TriangleView.swift */,
+				0458236D27E2C542007800AC /* DrawTriangle.swift */,
+				04929526287D77EB0067E9B1 /* TriangleField.swift */,
+				0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */,
+				04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */,
 			);
 			path = Triangles;
 			sourceTree = "<group>";
@@ -182,7 +188,6 @@
 				0458237027E41E25007800AC /* GameModels */,
 				0458236F27E41E0A007800AC /* Views */,
 				0426B0E927DC48AE00AC348E /* DrawShape */,
-				04E0197E2866A157001D2AAE /* Coordinates */,
 				044AD4342806D3F600D96CED /* Triangles */,
 				0458237127E45223007800AC /* ActionItem */,
 				04F0B026280AFA0D00D1172C /* BaranceView */,
@@ -246,15 +251,6 @@
 				04F0B02B280EA28B00D1172C /* ActionEffectView.swift */,
 			);
 			path = ActionItem;
-			sourceTree = "<group>";
-		};
-		04E0197E2866A157001D2AAE /* Coordinates */ = {
-			isa = PBXGroup;
-			children = (
-				0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */,
-				04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */,
-			);
-			path = Coordinates;
 			sourceTree = "<group>";
 		};
 		04F0B026280AFA0D00D1172C /* BaranceView */ = {
@@ -395,11 +391,12 @@
 				044AD42F27FFF64C00D96CED /* StageModel.swift in Sources */,
 				04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */,
 				040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */,
-				0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */,
+				0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */,
 				040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
 				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
 				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,
+				04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */,
 				044AD42827FB240400D96CED /* UpgradeModel.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,
 				045121B627D21BE800936E2C /* TriangleView.swift in Sources */,
@@ -414,6 +411,7 @@
 				0426B0E827DB93FF00AC348E /* DrawStageShape.swift in Sources */,
 				0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */,
 				04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
+				04929528287D77EB0067E9B1 /* TriangleField.swift in Sources */,
 				0426B0E527DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

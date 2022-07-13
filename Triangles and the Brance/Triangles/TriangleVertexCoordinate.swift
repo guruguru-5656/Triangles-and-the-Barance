@@ -20,7 +20,7 @@ struct TriangleVertexCoordinate:Hashable, StageCoordinate{
     var drawPoint:CGPoint{
         let X = Double(x)
         let Y = Double(y)
-        return CGPoint(x: X + Y/2-1/2, y: Y * sqrt(3)/2-1/(2*sqrt(3)) )
+        return CGPoint(x: X + Y/2 - 1/2, y: Y * sqrt(3)/2 )
     }
     //相対座標を指定する配列から現在の座標をもとにした座標の配列を返す
     func relative(coordinates: [[(x: Int, y: Int)]]) -> [[TriangleCenterCoordinate]] {

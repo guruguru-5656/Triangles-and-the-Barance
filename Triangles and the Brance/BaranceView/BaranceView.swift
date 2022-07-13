@@ -11,9 +11,9 @@ struct BaranceView: View {
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @ObservedObject var stageModel = GameModel.shared.stageModel
     @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
-    
+    let size: CGFloat
     var baseScale: CGFloat {
-        viewEnvironment.screenBounds.width/12
+        size/8
     }
     var opacity:Double{
         baranceViewContloller.clearPersent
@@ -29,32 +29,32 @@ struct BaranceView: View {
                 Group {
                     Rectangle()
                         .foregroundColor(.gray)
-                        .frame(width: baseScale/8, height: baseScale * 1.9)
-                        .position(x: baseScale * 0.25, y: baseScale * 1 - distance)
+                        .frame(width: baseScale/8, height: baseScale * 1.5)
+                        .position(x: baseScale * 0.25, y: baseScale * 1.25 - distance)
                     Rectangle()
                         .foregroundColor(.gray)
-                        .frame(width: baseScale/8, height: baseScale * 1.9)
-                        .position(x: baseScale*7.75, y: baseScale * 1 + distance)
+                        .frame(width: baseScale/8, height: baseScale * 1.5)
+                        .position(x: baseScale*7.75, y: baseScale * 1.25 + distance)
                     RoundedRectangle(cornerRadius: 5)
                         .foregroundColor(.lightGray)
                         .frame(width: baseScale * 8, height: baseScale/4)
                         .rotationEffect(Angle(radians: baranceViewContloller.angle))
-                        .position(x: baseScale * 4, y: baseScale/8)
+                        .position(x: baseScale * 4, y: baseScale * 0.5)
                 }
                 //中央部分
                 Group {
                     Rectangle()
                         .foregroundColor(.lightGray)
-                        .frame(width: baseScale/4, height: baseScale * 3)
+                        .frame(width: baseScale/4, height: baseScale * 2)
                         .position(x: baseScale*4, y: baseScale * 1.5)
                     TriangleNormalShape()
-                        .frame(width: baseScale * 2.2, height: baseScale * 2.2 * sqrt(3)/2)
+                        .frame(width: baseScale * 2, height: baseScale * 2 * sqrt(3)/2)
                         .foregroundColor(viewEnvironment.currentColor.light)
                         .position(x:baseScale * 4, y: baseScale * 2.8)
                     RegularPolygon(vertexNumber: 6)
                         .foregroundColor(.gray)
-                        .frame(width:baseScale, height:baseScale)
-                        .position(x: baseScale * 4, y: baseScale / 6)
+                        .frame(width:baseScale * 0.8, height:baseScale * 0.8)
+                        .position(x: baseScale * 4, y: baseScale * 0.5)
                 }
                 //右側
                 TriangleNormalShape()
@@ -118,10 +118,9 @@ struct BaranceView: View {
                         .position(x: baseScale * 0.25, y: baseScale * 3.1)
                         .preference(key: ClearCirclePoint.self,
                                     value: CGPoint(
-                                        x: geometry.frame(in: .global).origin.x + baseScale * 0.25 + 10,
-                                        y: geometry.frame(in: .global).origin.y + baseScale * 3.1))
+                                        x: geometry.frame(in:.named("contentView") ).origin.x + baseScale * 0.25,
+                                        y: geometry.frame(in: .named("contentView")).origin.y + baseScale * 3.1))
                 }
             }
-            .position(x: baseScale * 8 )
     }
 }

@@ -27,6 +27,7 @@ struct ContentView: View {
         }
         .onPreferenceChange(ClearCirclePoint.self) { point in
             circlePoint = point }
+        .coordinateSpace(name: "contentView")
     }
 }
 

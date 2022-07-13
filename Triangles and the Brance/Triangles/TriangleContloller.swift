@@ -11,7 +11,10 @@ import SwiftUI
 class TriangleContloller: ObservableObject {
     
     @Published var triangles: [TriangleViewModel] = []
+    @Published var background: [TriLine] = []
     @Published var triangleVertexs: [TriangleVertexCoordinate] = []
+    @Published var stageLines: [TriLine] = []
+    @Published var numberOfCell: Int = 6
     private let triangleIsOnProportion:Double = 0.4
     private var triangleArrengement: [[Int]] = [
         [Int](3...9),
@@ -23,6 +26,7 @@ class TriangleContloller: ObservableObject {
     ]
     ///ゲーム開始時に呼び出す
     func resetGame() {
+        loadArrangement(field: TriangleField.largeHexagon)
         setStageTriangles()
         setTrianglesStatus()
         setTrianleVertexs()
@@ -31,7 +35,11 @@ class TriangleContloller: ObservableObject {
     func setParameters() {
         setTrianglesStatus()
     }
-    ///triangleの配列の生成
+    private func loadArrangement(field: TriangleField) {
+        triangleArrengement = field.arrangement
+        numberOfCell = field.numberOfCell
+    }
+    ///triangleの配列の生成とbackgroundの配列生成
     private func setStageTriangles(){
         triangles = []
         for (triangleY, arrangement) in triangleArrengement.enumerated(){
@@ -42,6 +50,11 @@ class TriangleContloller: ObservableObject {
                 }
             }
         }
+        let lines = triangles.flatMap {
+            $0.triLine
+        }
+        stageLines = lines
+        background = TriLine.outLine(original: lines)
     }
 ///triangle配列をランダムにOnにする
     private func setTrianglesStatus() {

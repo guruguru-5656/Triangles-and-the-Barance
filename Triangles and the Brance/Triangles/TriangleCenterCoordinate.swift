@@ -20,10 +20,10 @@ struct TriangleCenterCoordinate:Hashable, StageCoordinate {
 
         let remainder = x % 2
         if remainder == 0{
-            return CGPoint(x: (X/2 + Y/2), y: Y * sqrt(3)/2)
+            return CGPoint(x: (X/2 + Y/2), y: Y * sqrt(3)/2 + 1/(2*sqrt(3)))
         }else{
             //正三角形を180度回転したときに生じる中心地点のずれ
-            let distance = sqrt(3)/2 - 1/sqrt(3)
+            let distance = 1 / sqrt(3)
             return CGPoint(x: (X/2 + Y/2), y: (distance + sqrt(3)/2 * Y))
         }
     }

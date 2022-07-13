@@ -7,26 +7,31 @@ struct TriangleView: View {
     @EnvironmentObject private var viewEnvironment: ViewEnvironment
     @ObservedObject private var controller = GameModel.shared.triangleController
     @ObservedObject private var itemController = GameModel.shared.itemController
-    @State var size: CGFloat
+    let fieldSize: CGFloat
+    var size: CGFloat {
+        fieldSize / CGFloat(controller.numberOfCell)
+    }
+    
     @State var backGround = StaticStageObjects()
     var isVertexHilighted: Bool {
             itemController.selectedItem?.type.position == .vertex ? true : false
     }
     
     var body: some View {
-        ZStack{
+        GeometryReader { geometry in
+            ZStack(alignment: .top){
             //背景
-            DrawShapeFromVertexCoordinate(coordinates: backGround.hexagon, scale: size)
+                DrawShapeFromTriLines(lines: controller.background, scale: geometry.size.width / CGFloat(controller.numberOfCell))
                 .foregroundColor(.backgroundLightGray)
-                .scaleEffect(1.08)
+                .scaleEffect(1.1)
             //背景の線部分
-            ForEach(backGround.stageLines, id: \.self){ line in
-                DrawTriLine(line: line, scale: size)
+            ForEach(controller.stageLines){ line in
+                DrawTriLine(line: line, scale: geometry.size.width / CGFloat(controller.numberOfCell))
                     .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
             }
-            //メインの三角形の表示
+//            //メインの三角形の表示
             ForEach($controller.triangles){ $triangle in
-                StageTriangleView(model: $triangle, width: size)
+                StageTriangleView(model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
                     .onTapGesture {
                         controller.triangleTapAction(coordinate: triangle.coordinate)
                     }
@@ -34,8 +39,8 @@ struct TriangleView: View {
             if isVertexHilighted {
                 ForEach(controller.triangleVertexs, id: \.self) { coordinate in
                     Circle()
-                        .frame(width: size * 0.7, height: size * 0.7)
-                        .position(coordinate.drawPoint.scale(size))
+                        .frame(width: geometry.size.width / CGFloat(controller.numberOfCell) * 0.7, height: geometry.size.width / CGFloat(controller.numberOfCell) * 0.7)
+                        .position(coordinate.drawPoint.scale(geometry.size.width / CGFloat(controller.numberOfCell)))
                         .foregroundColor(Color(white: 0.9, opacity: 0.5))
                         .onTapGesture {
                             controller.triangleVertexTapAction(coordinate: coordinate)
@@ -43,6 +48,9 @@ struct TriangleView: View {
                 }
             }
         }
+        }
+        
+//        .background(.bar)
     }
 }
 ///メイン画面の三角形の描画
