@@ -49,7 +49,7 @@ struct StageView: View {
                 .padding(.horizontal, geometry.size.width / 16)
                 Spacer()
                 Section {
-                    TriangleView(fieldSize:  geometry.size.width)
+                    TriangleView()
                                      .padding(.horizontal, geometry.size.width / 10)
                     //MARK: 現状エフェクトviewは未使用
 //                    ActionEffectView(size: geometry.size.width / 6)

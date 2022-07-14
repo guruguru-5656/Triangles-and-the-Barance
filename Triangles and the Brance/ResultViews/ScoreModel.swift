@@ -10,7 +10,6 @@ import SwiftUI
 
 //スコアを表示用に加工して出力する
 final class ScoreModel: ObservableObject {
-    @Published var showUpgrade = false
     @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
         }

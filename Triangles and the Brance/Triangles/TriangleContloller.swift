@@ -11,23 +11,16 @@ import SwiftUI
 class TriangleContloller: ObservableObject {
     
     @Published var triangles: [TriangleViewModel] = []
-    @Published var background: [TriLine] = []
+    @Published var fieldOutLine: [TriLine] = []
     @Published var triangleVertexs: [TriangleVertexCoordinate] = []
-    @Published var stageLines: [TriLine] = []
+    @Published var fieldLine: [TriLine] = []
     @Published var numberOfCell: Int = 6
     private let triangleIsOnProportion:Double = 0.4
-    private var triangleArrengement: [[Int]] = [
-        [Int](3...9),
-        [Int](1...9),
-        [Int](-1...9),
-        [Int](-2...8),
-        [Int](-2...6),
-        [Int](-2...4)
-    ]
+
     ///ゲーム開始時に呼び出す
     func resetGame() {
-        loadArrangement(field: TriangleField.largeHexagon)
-        setStageTriangles()
+        loadArrangement(field: TriangleField.midiumOnigiri)
+//        setStageTriangles()
         setTrianglesStatus()
         setTrianleVertexs()
     }
@@ -35,27 +28,14 @@ class TriangleContloller: ObservableObject {
     func setParameters() {
         setTrianglesStatus()
     }
+    ///ステージ配置をセットする
     private func loadArrangement(field: TriangleField) {
-        triangleArrengement = field.arrangement
         numberOfCell = field.numberOfCell
+        triangles = field.triangles
+        fieldLine = field.fieldLines
+        fieldOutLine = field.fieldOutLines
     }
-    ///triangleの配列の生成とbackgroundの配列生成
-    private func setStageTriangles(){
-        triangles = []
-        for (triangleY, arrangement) in triangleArrengement.enumerated(){
-            for triangleX in arrangement{
-                let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff, action: nil )
-                withAnimation{
-                    triangles.append(triangleModel)
-                }
-            }
-        }
-        let lines = triangles.flatMap {
-            $0.triLine
-        }
-        stageLines = lines
-        background = TriLine.outLine(original: lines)
-    }
+ 
 ///triangle配列をランダムにOnにする
     private func setTrianglesStatus() {
         let randomIndex = triangles.indices.shuffled()
@@ -158,14 +138,14 @@ class TriangleContloller: ObservableObject {
             for plan in plans.dropLast(){
                 plan.forEach { index in
                     DispatchQueue.main.async {
-                        triangles[index].status = .isOn
+                        self.triangles[index].status = .isOn
                     }
                 }
                 Thread.sleep(forTimeInterval: 0.4)
             }
             plans.last?.forEach { index in
                 DispatchQueue.main.async {
-                    triangles[index].status = .isOn
+                    self.triangles[index].status = .isOn
                 }
             }
         }
@@ -192,7 +172,7 @@ class TriangleContloller: ObservableObject {
             }
             Thread.sleep(forTimeInterval: 0.4)
             DispatchQueue.main.async {
-                trianglesDeleteFeedback(plans: plans)
+                self.trianglesDeleteFeedback(plans: plans)
             }
             DispatchQueue.main.async{
                 completion()

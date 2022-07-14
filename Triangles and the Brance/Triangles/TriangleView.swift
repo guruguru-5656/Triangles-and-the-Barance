@@ -7,11 +7,7 @@ struct TriangleView: View {
     @EnvironmentObject private var viewEnvironment: ViewEnvironment
     @ObservedObject private var controller = GameModel.shared.triangleController
     @ObservedObject private var itemController = GameModel.shared.itemController
-    let fieldSize: CGFloat
-    var size: CGFloat {
-        fieldSize / CGFloat(controller.numberOfCell)
-    }
-    
+
     @State var backGround = StaticStageObjects()
     var isVertexHilighted: Bool {
             itemController.selectedItem?.type.position == .vertex ? true : false
@@ -21,11 +17,11 @@ struct TriangleView: View {
         GeometryReader { geometry in
             ZStack(alignment: .top){
             //背景
-                DrawShapeFromTriLines(lines: controller.background, scale: geometry.size.width / CGFloat(controller.numberOfCell))
+                DrawShapeFromTriLines(lines: controller.fieldOutLine, scale: geometry.size.width / CGFloat(controller.numberOfCell))
                 .foregroundColor(.backgroundLightGray)
                 .scaleEffect(1.1)
             //背景の線部分
-            ForEach(controller.stageLines){ line in
+            ForEach(controller.fieldLine){ line in
                 DrawTriLine(line: line, scale: geometry.size.width / CGFloat(controller.numberOfCell))
                     .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
             }
@@ -49,8 +45,6 @@ struct TriangleView: View {
             }
         }
         }
-        
-//        .background(.bar)
     }
 }
 ///メイン画面の三角形の描画

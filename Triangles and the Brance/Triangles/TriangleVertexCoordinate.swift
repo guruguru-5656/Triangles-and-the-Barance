@@ -36,4 +36,5 @@ protocol StageCoordinate {
     var x: Int { get }
     var y: Int { get }
     var drawPoint: CGPoint { get }
+    func relative(coordinates: [[(x: Int, y: Int)]]) -> [[TriangleCenterCoordinate]]
 }

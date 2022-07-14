@@ -46,6 +46,8 @@
 		04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
 		04929528287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
+		0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0492952A287E934A0067E9B1 /* DescriptionView.swift */; };
+		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
@@ -101,6 +103,8 @@
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
 		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
+		0492952A287E934A0067E9B1 /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
+		04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeDetaiilView.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEnvironment.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
@@ -143,6 +147,8 @@
 				044AD42127F9AA8F00D96CED /* ResultView.swift */,
 				044AD42327FAF7A300D96CED /* ScoreModel.swift */,
 				044AD42527FB100B00D96CED /* UpGradeView.swift */,
+				04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */,
+				0492952A287E934A0067E9B1 /* DescriptionView.swift */,
 				044AD42727FB240400D96CED /* UpgradeModel.swift */,
 				041D26CE287541B2009DC72B /* CustomButton.swift */,
 			);
@@ -370,9 +376,11 @@
 				0400630228182B240069FB39 /* ItemController.swift in Sources */,
 				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
 				045121BA27D43EAB00936E2C /* GameModel.swift in Sources */,
+				0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */,
 				045121A427D2187600936E2C /* ContentView.swift in Sources */,
 				044AD42427FAF7A300D96CED /* ScoreModel.swift in Sources */,
 				04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
+				04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */,
 				0458239B27E72A3A007800AC /* BaranceView.swift in Sources */,
 				040D5586286EBDBE009F0BF4 /* ActionItemShurikenView.swift in Sources */,
 				045121B427D21B5E00936E2C /* TriangleModel.swift in Sources */,

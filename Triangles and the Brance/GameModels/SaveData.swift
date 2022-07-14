@@ -96,7 +96,6 @@ final class SaveData {
     }
   
     func loadHiScoreData() -> [HiScore] {
-        //データを取得
         let request = NSFetchRequest<HiScore>(entityName: "HiScore")
         guard let hiScoreData = try? context.fetch(request) else {
             fatalError("Unable to load Data")

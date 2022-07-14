@@ -85,47 +85,12 @@ struct TriLine: Hashable , Identifiable {
         return lhs.start == rhs.start && lhs.end == rhs.end ||
         lhs.start == rhs.end && lhs.end == rhs.start
     }
-    //線の配列から重複部分を取り除き、外周部分を残す　重複が3つ以上の場合は機能しない
-    static func outLine(original: [TriLine]) -> [TriLine] {
-        var tranceformed: [TriLine] = []
-        original.forEach { original in
-            if let index = tranceformed.firstIndex(where: {
-                $0 == original
-            }) {
-                tranceformed.remove(at: index)
-            } else {
-                tranceformed.append(original)
-            }
-        }
-        return sort(&tranceformed)
-    }
+   
     mutating func reversed() {
         let copy = start
         start = end
         end = copy
     }
-    //線が繋がるように並び替え新たな配列を返す、頂点を3つ以上共有している場合は機能しない
-    private static func sort(_ original: inout [TriLine]) -> [TriLine] {
-        var sorted: [TriLine] = []
-        guard original.count > 0 else {
-            print(original.count)
-            return []
-        }
-        sorted.append(original.removeFirst())
-        while !original.isEmpty {
-            if let index = original.firstIndex(where: {
-                $0.start == sorted.last?.end
-            }) {
-                sorted.append(original.remove(at: index))
-            } else if let index = original.firstIndex(where: {
-                $0.end == sorted.last?.end
-            }) {
-                //
-                original[index].reversed()
-                sorted.append(original.remove(at: index))
-            }
-        }
-        return sorted
-    }
+    
 }
 

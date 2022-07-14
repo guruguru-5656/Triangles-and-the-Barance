@@ -16,9 +16,8 @@ struct ContentView: View {
             BaranceCircleView(circlePoint: $circlePoint)
                 .ignoresSafeArea()
             StageView()
-                .blur(radius: stageModel.showResultView ? 3.0 : 0)
             if stageModel.showResultView {
-                Color(.init(gray: 0.4, alpha: 0.5))
+                Color(.init(gray: 0.5, alpha: 0.6))
                     .ignoresSafeArea()
                 ResultView()
                     .cornerRadius(10)

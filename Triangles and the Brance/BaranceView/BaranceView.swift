@@ -13,13 +13,13 @@ struct BaranceView: View {
     @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
     let size: CGFloat
     var baseScale: CGFloat {
-        size/8
+        size / 8
     }
     var opacity:Double{
         baranceViewContloller.clearPersent
     }
     var distance:Double{
-        baseScale * 4 * sin(baranceViewContloller.angle)
+        baseScale * 3.25 * sin(baranceViewContloller.angle)
     }
     
     var body: some View {
@@ -29,15 +29,15 @@ struct BaranceView: View {
                 Group {
                     Rectangle()
                         .foregroundColor(.gray)
-                        .frame(width: baseScale/8, height: baseScale * 1.5)
-                        .position(x: baseScale * 0.25, y: baseScale * 1.25 - distance)
+                        .frame(width: baseScale / 8, height: baseScale * 1.5)
+                        .position(x: baseScale * 1, y: baseScale * 1.25 - distance)
                     Rectangle()
                         .foregroundColor(.gray)
-                        .frame(width: baseScale/8, height: baseScale * 1.5)
-                        .position(x: baseScale*7.75, y: baseScale * 1.25 + distance)
-                    RoundedRectangle(cornerRadius: 5)
+                        .frame(width: baseScale / 8, height: baseScale * 1.5)
+                        .position(x: baseScale * 7, y: baseScale * 1.25 + distance)
+                    RoundedRectangle(cornerRadius: 4)
                         .foregroundColor(.lightGray)
-                        .frame(width: baseScale * 8, height: baseScale/4)
+                        .frame(width: baseScale * 6.5, height: baseScale / 4)
                         .rotationEffect(Angle(radians: baranceViewContloller.angle))
                         .position(x: baseScale * 4, y: baseScale * 0.5)
                 }
@@ -45,8 +45,8 @@ struct BaranceView: View {
                 Group {
                     Rectangle()
                         .foregroundColor(.lightGray)
-                        .frame(width: baseScale/4, height: baseScale * 2)
-                        .position(x: baseScale*4, y: baseScale * 1.5)
+                        .frame(width: baseScale / 4, height: baseScale * 2)
+                        .position(x: baseScale * 4, y: baseScale * 1.5)
                     TriangleNormalShape()
                         .frame(width: baseScale * 2, height: baseScale * 2 * sqrt(3)/2)
                         .foregroundColor(viewEnvironment.currentColor.light)
@@ -67,7 +67,7 @@ struct BaranceView: View {
                     .frame(width: baseScale * sqrt(3), height: baseScale *
                            1.5 )
                 
-                    .position(x: baseScale * 7.75, y: baseScale * 1.8 + distance)
+                    .position(x: baseScale * 7, y: baseScale * 2 + distance)
                 
                 //左側の三角形
                 Group {
@@ -93,13 +93,13 @@ struct BaranceView: View {
                     }
                 }
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
-                .position(x: baseScale * 0.25, y: baseScale * 1.8 - distance)
+                .position(x: baseScale * 1, y: baseScale * 1.8 - distance)
                 
                 if baranceViewContloller.showDeleteCountText {
                     Text("+\(baranceViewContloller.deleteCountNow)")
                         .font(.title2)
                         .foregroundColor(Color.backgroundLightGray)
-                        .position(x: baseScale * 1.5, y: baseScale * 2 - distance)
+                        .position(x: baseScale * 2, y: baseScale * 2 - distance)
                         .transition(.asymmetric(
                             insertion: .opacity.combined(with: .offset(x: 0, y: -baseScale * 0.5)),
                             removal: .opacity))
@@ -110,15 +110,15 @@ struct BaranceView: View {
                     Ellipse()
                         .fill(viewEnvironment.currentColor.light)
                         .frame(width: 30, height: 15)
-                        .position(x: baseScale * 0.25, y: baseScale * 3.1)
+                        .position(x: baseScale , y: baseScale * 3.1)
                     
                     Ellipse()
                         .fill(viewEnvironment.currentColor.heavy)
                         .frame(width: 20, height: 10)
-                        .position(x: baseScale * 0.25, y: baseScale * 3.1)
+                        .position(x: baseScale , y: baseScale * 3.1)
                         .preference(key: ClearCirclePoint.self,
                                     value: CGPoint(
-                                        x: geometry.frame(in:.named("contentView") ).origin.x + baseScale * 0.25,
+                                        x: geometry.frame(in:.named("contentView") ).origin.x + baseScale ,
                                         y: geometry.frame(in: .named("contentView")).origin.y + baseScale * 3.1))
                 }
             }

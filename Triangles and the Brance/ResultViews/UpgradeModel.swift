@@ -12,6 +12,8 @@ class UpgradeViewModel: ObservableObject {
     @Published var upgradeItems: [UpgradeItemModel]
     @Published var money: Int
     @Published var payingMoney = 0
+    @Published var detailItem = UpgradeItemModel(type: .life)
+    @Published var showDetailView = false
     
     init(){
         upgradeItems = SaveData.shareData.loadUpgradeData()
@@ -23,17 +25,32 @@ class UpgradeViewModel: ObservableObject {
     func cancel() {
         money = GameModel.shared.stageModel.money
         payingMoney = 0
-        withAnimation {
-            GameModel.shared.score.showUpgrade = false
-        }
+        
     }
     func permitPaying() {
         SaveData.shareData.saveUpgradeData(model: upgradeItems)
         GameModel.shared.stageModel.money = money
         GameModel.shared.stageModel.saveData()
         GameModel.shared.score.money = money
+       
+    }
+    
+    func showDetail(_ item: UpgradeItemModel) {
+        if showDetailView {
+            withAnimation {
+                showDetailView = false
+            }
+        } else {
+            detailItem = item
+            withAnimation {
+                showDetailView = true
+            }
+            
+        }
+    }
+    func closeDetail() {
         withAnimation {
-            GameModel.shared.score.showUpgrade = false
+            showDetailView = false
         }
     }
 }
@@ -94,8 +111,21 @@ struct UpgradeItemModel: Identifiable{
     }
     
     
-    var descriptionImage: some View {
-        return Image(systemName: "bag")
+    var actionType: ActionType? {
+        switch type {
+        case .life:
+            return nil
+        case .inventory:
+            return nil
+        case .normal:
+            return .normal
+        case .pyramid:
+            return .pyramid
+        case .hexagon:
+            return .hexagon
+        case .hxagram:
+            return .hexagram
+        }
     }
     
     var descriptionText: String {

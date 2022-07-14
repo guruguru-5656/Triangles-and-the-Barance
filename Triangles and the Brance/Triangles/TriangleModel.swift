@@ -30,18 +30,16 @@ struct TriangleViewModel:Identifiable{
      let id = UUID()
     ///対応する頂点の座標系
     var vertexCoordinate: [TriangleVertexCoordinate] {
-        let returnCoordinates: [TriangleVertexCoordinate]
 
         if reversed {
-            returnCoordinates = [TriangleVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
+            return [TriangleVertexCoordinate(x:coordinate.x/2, y:coordinate.y),
                           TriangleVertexCoordinate(x:coordinate.x/2 + 1, y:coordinate.y),
                           TriangleVertexCoordinate(x:coordinate.x/2, y:coordinate.y + 1)]
         }else{
-            returnCoordinates = [TriangleVertexCoordinate(x:(coordinate.x+1)/2, y:coordinate.y),
+            return [TriangleVertexCoordinate(x:(coordinate.x+1)/2, y:coordinate.y),
                           TriangleVertexCoordinate(x:(coordinate.x+1)/2 - 1, y:coordinate.y + 1),
                           TriangleVertexCoordinate(x:(coordinate.x+1)/2, y:coordinate.y + 1)]
         }
-        return returnCoordinates
     }
     var triLine: [TriLine] {
         return [

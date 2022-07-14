@@ -10,6 +10,7 @@ import SwiftUI
 struct ResultView: View {
     @ObservedObject var score = GameModel.shared.score
     @State var opacity: Double = 0
+    @State var showUpgradeView = false
     var body: some View {
         GeometryReader { geometry in
             VStack (spacing: 20) {
@@ -22,7 +23,7 @@ struct ResultView: View {
                             .foregroundColor(.white)
                             .opacity(0.7)
                     )
-                if !score.showUpgrade{
+                if !showUpgradeView {
                     Section {
                         Section {
                             ForEach($score.results) { $results in
@@ -59,7 +60,7 @@ struct ResultView: View {
                             
                             Button(action: {
                                 withAnimation{
-                                    score.showUpgrade = true
+                                    showUpgradeView = true
                                 }
                             }){
                                 HStack {
@@ -77,8 +78,8 @@ struct ResultView: View {
                         Spacer()
                     }.transition(.move(edge: .top).combined(with: .opacity))
                 }
-                if score.showUpgrade {
-                    UpgradeView()
+                if showUpgradeView {
+                    UpgradeView(showUpgradeView: $showUpgradeView)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
