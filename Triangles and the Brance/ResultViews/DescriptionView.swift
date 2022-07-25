@@ -8,27 +8,24 @@
 import SwiftUI
 
 struct DescriptionView: View {
-    var field: TriangleField {
-        switch actionType.position {
-            
-        case .center:
-              return .midiumOnigiri
-        case .vertex:
-            return .smallHexagon
-        }
-    }
+    @State var field: TriangleField = TriangleField.largeHexagon
     let actionType: ActionType
     var originalCoordinate: StageCoordinate {
         switch actionType.position {
             
         case .center:
-            return  TriangleCenterCoordinate(x: 2, y: 2)
+            return  TriangleCenterCoordinate(x: 4, y: 2)
         case .vertex:
-            return TriangleVertexCoordinate(x: 2, y: 2)
+            return TriangleVertexCoordinate(x: 2, y: 3)
         }
     }
     var effectCoordinates: [TriangleCenterCoordinate] {
-        originalCoordinate.relative(coordinates: actionType.actionCoordinate).flatMap { $0 }
+        originalCoordinate.relative(coordinates: actionType.actionCoordinate).flatMap { $0 }.filter{
+            effectCoordinate in
+            field.triangles.contains {
+                $0.coordinate == effectCoordinate
+            }
+        }
     }
     
     var body: some View {
@@ -44,6 +41,7 @@ struct DescriptionView: View {
                     DrawTriLine(line: line, scale: viewSize)
                         .stroke(.gray, lineWidth: 1)
                 }
+                //アイテムの効果範囲を表す
                 ForEach(effectCoordinates, id: \.self){ coordinate in
                     DrawTriangleFromCenter()
                         .fill(Color.lightGreen)

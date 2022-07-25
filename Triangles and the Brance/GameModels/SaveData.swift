@@ -38,16 +38,16 @@ final class SaveData {
         }
     }
     
-    func saveMoneyData(money: Int) {
-        let request = NSFetchRequest<MoneyModel>(entityName: "MoneyModel")
-        guard let moneyData = try? context.fetch(request) else {
+    func savePointData(point: Int) {
+        let request = NSFetchRequest<PointsModel>(entityName: "PointsModel")
+        guard let pointData = try? context.fetch(request) else {
             fatalError("Unable to load Data")
         }
-        if moneyData.isEmpty  {
-            let model = MoneyModel(context: context)
-            model.value = Int64(money)
+        if pointData.isEmpty  {
+            let model = PointsModel(context: context)
+            model.value = Int64(point)
         } else {
-            moneyData.first!.value = Int64(money)
+            pointData.first!.value = Int64(point)
         }
         do {
             try context.save()
@@ -56,7 +56,7 @@ final class SaveData {
         }
     }
 
-    func saveUpgradeData(model: [UpgradeItemModel]) {
+    func saveUpgradeData(model: [UpgradeItemViewModel]) {
         let request = NSFetchRequest<UpGrade>(entityName: "UpGrade")
         guard let fetchData = try? context.fetch(request) else {
             fatalError("Unable to load Data")
@@ -70,18 +70,18 @@ final class SaveData {
         }
     }
     
-    func loadUpgradeData() -> [UpgradeItemModel] {
+    func loadUpgradeData() -> [UpgradeItemViewModel] {
         let request = NSFetchRequest<UpGrade>(entityName: "UpGrade")
         guard let loadData = try? context.fetch(request) else {
             fatalError("Unable to load Data")
         }
-        var itemModels:[UpgradeItemModel] = []
+        var itemModels:[UpgradeItemViewModel] = []
         //データが存在する場合は取得存在しなければ生成
         UpgradeType.allCases.forEach{ type in
             if let loadData = loadData.first(where: {$0.type == String(describing: type)}) {
-                itemModels.append(UpgradeItemModel(type: loadData.type!, level: loadData.level))
+                itemModels.append(UpgradeItemViewModel(type: loadData.type!, level: loadData.level))
             }else{
-                itemModels.append(UpgradeItemModel(type: type))
+                itemModels.append(UpgradeItemViewModel(type: type))
                 let dataModel = UpGrade(context: context)
                 dataModel.type = String(describing: type)
                 dataModel.level = Int64(type.upgradeRange.lowerBound)
@@ -116,18 +116,18 @@ final class SaveData {
         return hiScoreModel
     }
     
-    func loadMoneyData() -> Int {
-        let request = NSFetchRequest<MoneyModel>(entityName: "MoneyModel")
-        guard let moneyModel = try? context.fetch(request) else {
+    func loadPointData() -> Int {
+        let request = NSFetchRequest<PointsModel>(entityName: "PointsModel")
+        guard let pointsData = try? context.fetch(request) else {
             fatalError("Unable to load Data")
         }
-        if moneyModel.isEmpty {
-            let firstModel = MoneyModel(context: context)
+        if pointsData.isEmpty {
+            let firstModel = PointsModel(context: context)
             firstModel.value = 0
             try! context.save()
             return 0
         }else{
-            return Int(moneyModel.first!.value)
+            return Int(pointsData.first!.value)
         }
     }
 }

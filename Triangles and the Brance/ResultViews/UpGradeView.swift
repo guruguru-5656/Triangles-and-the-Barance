@@ -16,24 +16,15 @@ struct UpgradeView: View {
             VStack {
                 HStack {
                     Spacer()
-                    VStack {
-                        Text("ポイント")
-                            .font(.title2)
-                        Text(String(model.money))
-                            .font(.title2)
-                    }
+                    Text("Point")
+                        .font(.title)
                     Spacer()
-                    VStack {
-                        Text("使用ポイント")
-                            .font(.title2)
-                        Text(String(model.payingMoney))
-                            .font(.title2)
-                    }
+                    Text(String(model.point))
+                        .font(.title)
                     Spacer()
                 }
-                .font(.title)
                 ZStack {
-                ScrollView {
+                    ScrollView {
                     ForEach($model.upgradeItems) { $item in
                         UpgradeCellView(item: $item, upgradeModel: model,  size: geometry.size.width)
                             .opacity(opacity)
@@ -43,9 +34,9 @@ struct UpgradeView: View {
                 .frame(height: geometry.size.height * 0.6 )
                     if model.showDetailView {
                         UpGradeDetailView(model: model, size: CGSize(width: geometry.size.width, height: geometry.size.height * 0.6))
+                            .zIndex(1)
                     }
                 }
-                
                 HStack(spacing: 20) {
                     Button(action: {
                         model.cancel()
@@ -74,10 +65,9 @@ struct UpgradeView: View {
                         .foregroundColor(Color.heavyGreen)
                     }
                     .buttonStyle(CustomButton())
-                    .overlay(Color(white: 0.5, opacity: model.payingMoney > 0 ? 0 : 0.2))
+                    .overlay(Color(white: 0.5, opacity: model.payingPoint > 0 ? 0 : 0.2))
                 }
                 .frame(height: 50)
-                
             }
             .onAppear{
                 opacity = 1
@@ -92,11 +82,11 @@ struct UpgradeView: View {
 }
 
 struct UpgradeCellView: View {
-    @Binding var item: UpgradeItemModel
+    @Binding var item: UpgradeItemViewModel
     @ObservedObject var upgradeModel: UpgradeViewModel
     let size: CGFloat
+    
     var body: some View {
-       
             HStack {
                 item.icon
                     .resizable()

@@ -42,6 +42,7 @@
 		045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 045A2057283CB51E003704C3 /* CoreDataModel.xcdatamodeld */; };
 		046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */; };
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
+		0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
@@ -101,6 +102,7 @@
 		045A2058283CB51E003704C3 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
+		0470808D288BAB11001C0606 /* ActionItemHorizon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHorizon.swift; sourceTree = "<group>"; };
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
 		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
 		0492952A287E934A0067E9B1 /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */,
 				040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */,
 				040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */,
+				0470808D288BAB11001C0606 /* ActionItemHorizon.swift */,
 				04F0B02B280EA28B00D1172C /* ActionEffectView.swift */,
 			);
 			path = ActionItem;
@@ -401,6 +404,7 @@
 				040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */,
 				0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */,
 				040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */,
+				0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
 				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
 				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,

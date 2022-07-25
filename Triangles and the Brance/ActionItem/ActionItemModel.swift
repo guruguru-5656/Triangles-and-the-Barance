@@ -14,25 +14,40 @@ struct ActionItemModel: Identifiable, Hashable {
     init(type: ActionType, level: Int) {
         self.type = type
         self.level = level
-        self.count = defaultCount
     }
-    var count: Int = 0
     let id = UUID()
     var cost: Int? {
         switch self.type {
             
         case .normal:
-            return nil
+            return 0
         case .pyramid:
             switch level {
             case 0:
                 return nil
+            case 1...3:
+                return 7 - level
+            default:
+                fatalError("想定外のレベル")
+            }
+        case .shuriken:
+            switch level {
+            case 0: return nil
             case 1...3:
                 return 9 - level
             default:
                 fatalError("想定外のレベル")
             }
         case .hexagon:
+            switch level {
+            case 0:
+                return nil
+            case 1...3:
+                return 11 - level
+            default:
+                fatalError("想定外のレベル")
+            }
+        case .horizon:
             switch level {
             case 0:
                 return nil
@@ -46,22 +61,11 @@ struct ActionItemModel: Identifiable, Hashable {
             case 0:
                 return nil
             case 1...3:
-                return 20 - level
+                return 17 - level
             default:
                 fatalError("想定外のレベル")
             }
-        }
-    }
-    private var defaultCount: Int {
-        switch type {
-        case .normal:
-            return level + 2
-        case .pyramid:
-            return 0
-        case .hexagon:
-            return 0
-        case .hexagram:
-            return 0
+       
         }
     }
 }
@@ -69,7 +73,9 @@ struct ActionItemModel: Identifiable, Hashable {
 enum ActionType: CaseIterable {
     case normal
     case pyramid
+    case shuriken
     case hexagon
+    case horizon
     case hexagram
     ///基準の座標からOnにする座標を示す
     ///外側の配列が順番を、内側の座標がtriangleの座標を表す
@@ -85,9 +91,29 @@ enum ActionType: CaseIterable {
                 [(0, 0)],
                 [(-1, 0), (1, -1), (1, 0)]
             ]
+        case .shuriken:
+            return [
+            [(0, 0)],
+            [(-1, 0), (1, -1), (1, 0)],
+            [(2, -1), (0, 1), (-2, 0)]
+            ]
         case .hexagon:
             return [
                 [(0, 0), (-1, 0), (-2, 0), (1,-1), (0, -1), (-1, -1)]
+            ]
+        case .horizon:
+            return [
+                [(0, 0)],
+                [(-1, 0), (1, 0)],
+                [(-2, 0), (2, 0)],
+                [(-3, 0), (3, 0)],
+                [(-4, 0), (4, 0)],
+                [(-5, 0), (5, 0)],
+                [(-6, 0), (6, 0)],
+                [(-7, 0), (7, 0)],
+                [(-8, 0), (8, 0)],
+                [(-9, 0), (9, 0)],
+                [(-10, 0), (10, 0)]
             ]
         case .hexagram:
             return [
@@ -105,27 +131,16 @@ enum ActionType: CaseIterable {
             return .center
         case .pyramid:
             return .center
+        case .shuriken:
+            return .center
         case .hexagon:
             return .vertex
+        case .horizon:
+            return .center
         case .hexagram:
             return .vertex
         }
     }
-    
-   
-    var upgradeItem: UpgradeType? {
-        switch self {
-        case .normal:
-            return .normal
-        case .pyramid:
-            return .pyramid
-        case .hexagon:
-            return .hexagon
-        case .hexagram:
-            return .hxagram
-        }
-    }
-    
 }
 
 enum Position {
@@ -133,7 +148,7 @@ enum Position {
     case vertex
 }
 
-///面タップ時の描画のモデル
+///エフェクトのモデル
 struct ActionEffectViewModel: Identifiable{
     let action: ActionType
     let coordinate: StageCoordinate

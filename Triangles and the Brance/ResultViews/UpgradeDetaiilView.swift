@@ -34,7 +34,7 @@ struct UpGradeDetailView: View {
                 .buttonStyle(CustomListButton())
             }
             .padding(10)
-            if let actionType = model.detailItem.actionType {
+            if let actionType = model.detailItem.type.actionType {
                 DescriptionView(actionType: actionType)
                     .frame(width: size.width * 0.4, height: size.width * 0.4)
             }
@@ -44,6 +44,6 @@ struct UpGradeDetailView: View {
             RoundedRectangle(cornerRadius: 6)
                 .fill(Color(white: 0.98))
         }
-        .transition(.move(edge: .leading))
+        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
     }
 }

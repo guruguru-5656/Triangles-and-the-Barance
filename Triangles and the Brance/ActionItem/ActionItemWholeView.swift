@@ -16,7 +16,7 @@ struct ActionItemWholeView: View {
     
     var body: some View {
         ZStack {
-            ScrollView {
+            ScrollView(.horizontal,showsIndicators: false) {
                 HStack {
                     ForEach($itemController.actionItems, id: \.self){ $item in
                         ActionItemView(itemModel: $item, size: size / 8)
@@ -24,8 +24,11 @@ struct ActionItemWholeView: View {
                     }
                 }
             }
-            Text("\(itemController.energy)")
+            Text("x \(itemController.numberOfItems)")
                 .position(x: size * 0.9, y: size * -1/30)
+                .font(Font(UIFont.systemFont(ofSize: size / 16)))
+            Text("\(itemController.energy)")
+                .position(x: size * 0.9, y: size * 0.25)
                 .font(Font(UIFont.systemFont(ofSize: size / 16)))
         }
         .background{

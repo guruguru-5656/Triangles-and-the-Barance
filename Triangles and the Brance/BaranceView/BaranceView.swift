@@ -15,15 +15,14 @@ struct BaranceView: View {
     var baseScale: CGFloat {
         size / 8
     }
-    var opacity:Double{
+    var opacity:Double {
         baranceViewContloller.clearPersent
     }
-    var distance:Double{
-        baseScale * 3.25 * sin(baranceViewContloller.angle)
+    var distance:Double {
+        return baseScale * 3.25 * sin(baranceViewContloller.angle)
     }
     
     var body: some View {
-       
             GeometryReader { geometry in
                 //左右に伸びる棒
                 Group {
@@ -94,7 +93,6 @@ struct BaranceView: View {
                 }
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 1, y: baseScale * 1.8 - distance)
-                
                 if baranceViewContloller.showDeleteCountText {
                     Text("+\(baranceViewContloller.deleteCountNow)")
                         .font(.title2)
@@ -104,23 +102,7 @@ struct BaranceView: View {
                             insertion: .opacity.combined(with: .offset(x: 0, y: -baseScale * 0.5)),
                             removal: .opacity))
                 }
-                
-                //クリア演出用の円
-                if baranceViewContloller.clearCircleIsOn == false {
-                    Ellipse()
-                        .fill(viewEnvironment.currentColor.light)
-                        .frame(width: 30, height: 15)
-                        .position(x: baseScale , y: baseScale * 3.1)
-                    
-                    Ellipse()
-                        .fill(viewEnvironment.currentColor.heavy)
-                        .frame(width: 20, height: 10)
-                        .position(x: baseScale , y: baseScale * 3.1)
-                        .preference(key: ClearCirclePoint.self,
-                                    value: CGPoint(
-                                        x: geometry.frame(in:.named("contentView") ).origin.x + baseScale ,
-                                        y: geometry.frame(in: .named("contentView")).origin.y + baseScale * 3.1))
-                }
             }
+            .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
     }
 }

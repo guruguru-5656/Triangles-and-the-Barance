@@ -27,7 +27,7 @@ struct DrawShapeFromVertexCoordinate: View{
 }
 
 struct DrawShapeFromTriLines: View {
-    @State var lines: [TriLine]
+    let lines: [TriLine]
     let scale: CGFloat
     var maxY: CGFloat {
         let max = lines.map {

@@ -9,7 +9,6 @@ import SwiftUI
 
 class BaranceViewContloler: ObservableObject {
     let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
-    @Published var clearCircleSize: CGFloat = 1
     @Published var clearCircleIsOn = false
     @Published var angle: Double = Double.pi/16
     @Published var showDeleteCountText = false
@@ -46,34 +45,28 @@ class BaranceViewContloler: ObservableObject {
     }
     
     func clearAnimation(complesion: @escaping () -> Void) {
+        
         withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
-            angle = -0.7 * Double.pi/16
+            angle = -0.5 * Double.pi/16
         }
-   
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
-            self.clearCircleIsOn = true
-            withAnimation(.easeOut(duration: 0.6)) {
-                self.clearCircleSize = GameModel.shared.viewEnvironment.screenBounds.height * 2
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [self] in
+            withAnimation(.easeOut(duration: 0.5)) {
+                self.clearCircleIsOn = true
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [self] in
-                self.clearCircleIsOn = false
-                self.clearCircleSize = 1
-                self.clearPersent = 0
-                withAnimation(angleAnimation) {
-                    self.angle = Double.pi/16
-                }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.001) { [self] in
+            self.clearCircleIsOn = false
+            self.clearPersent = 0
+            withAnimation {
+                angle = Double.pi/16
             }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.61) {
-                complesion()
-            }
+            complesion()
         }
     }
     
     func resetGame() {
         clearCircleIsOn = false
-        clearCircleSize = 1
         clearPersent = 0
         angle = Double.pi/16
         deleteCount = 0
@@ -81,8 +74,8 @@ class BaranceViewContloler: ObservableObject {
 }
 
 struct ClearCirclePoint: PreferenceKey {
-    typealias Value = CGPoint
-    static var defaultValue = CGPoint(x: 0, y: 0)
+    typealias Value = Anchor<CGRect>?
+    static var defaultValue: Anchor<CGRect>? = nil
     static func reduce(value: inout Value, nextValue: () -> Value) {
         value = nextValue()
     }

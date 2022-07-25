@@ -15,31 +15,36 @@ class TriangleContloller: ObservableObject {
     @Published var triangleVertexs: [TriangleVertexCoordinate] = []
     @Published var fieldLine: [TriLine] = []
     @Published var numberOfCell: Int = 6
-    private let triangleIsOnProportion:Double = 0.4
+    private let isOnRate: Double = 0.5
+    private var recycleRate: Double = 0
 
     ///ゲーム開始時に呼び出す
     func resetGame() {
-        loadArrangement(field: TriangleField.midiumOnigiri)
-//        setStageTriangles()
+        loadArrangement(level: 1)
         setTrianglesStatus()
         setTrianleVertexs()
+        loadRecycleRate()
     }
     ///ステージ開始時に呼び出す
     func setParameters() {
+        let stageLevel = GameModel.shared.stageModel.level
+        loadArrangement(level: stageLevel)
+        setTrianleVertexs()
         setTrianglesStatus()
+        loadRecycleRate()
     }
     ///ステージ配置をセットする
-    private func loadArrangement(field: TriangleField) {
+    private func loadArrangement(level: Int) {
+        let field = TriangleField.loadField(level)
         numberOfCell = field.numberOfCell
         triangles = field.triangles
         fieldLine = field.fieldLines
         fieldOutLine = field.fieldOutLines
     }
- 
 ///triangle配列をランダムにOnにする
     private func setTrianglesStatus() {
         let randomIndex = triangles.indices.shuffled()
-        let isOnCount = Int(Double(triangles.count) * triangleIsOnProportion)
+        let isOnCount = Int(Double(triangles.count) * isOnRate)
         for index in randomIndex.prefix(isOnCount) {
             triangles[index].status = .isOn
         }
@@ -53,6 +58,14 @@ class TriangleContloller: ObservableObject {
             $0.vertexCoordinate
         }
         triangleVertexs = Array(Set(vertexs))
+    }
+    ///アップグレードのデータからrecycleのlevelを読み込み
+    private func loadRecycleRate() {
+        let data = SaveData.shareData.loadUpgradeData()
+        let recycleData = data.first {
+            $0.type == .recycle
+        }!
+        recycleRate = Double(recycleData.level) * 0.2
     }
     ///item実行専用のアクション
     func triangleVertexTapAction(coordinate: TriangleVertexCoordinate) {
@@ -102,21 +115,17 @@ class TriangleContloller: ObservableObject {
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
     private func trianglesChainAction(index: Int) {
         let coordinate = triangles[index].coordinate
-        do{
-            let plans = try planingDeleteTriangles(coordinate: coordinate)
+            let plans = planingDeleteTriangles(coordinate: coordinate)
             let deleteCount = plans.count
             //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
             updateTrianglesStatus(plans: plans){
                 GameModel.shared.itemController.energy += plans.count
                 GameModel.shared.updateGameParameters(deleteCount: deleteCount)
             }
-        }catch{
-            print("ERROR:\(error)")
-        }
     }
     ///消した数の半分の数を再度Onにする
     private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]) {
-        let numberToAdd = plans.count / 2
+        let numberToAdd = Int(Double(plans.count) * recycleRate)
         let shuffledIndexIsOff = triangles.indices.filter {
             triangles[$0].status == .isOff
         }.shuffled()
@@ -180,7 +189,7 @@ class TriangleContloller: ObservableObject {
         }
     }
     ///Triangleの消去の順番を求める
-    private func planingDeleteTriangles(coordinate:TriangleCenterCoordinate) throws ->   [PlanOfChangeStatus]{
+    private func planingDeleteTriangles(coordinate:TriangleCenterCoordinate) ->  [PlanOfChangeStatus]{
         var plan:[PlanOfChangeStatus] = []
         //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var counter = 0
@@ -198,7 +207,7 @@ class TriangleContloller: ObservableObject {
                 }
                 //インデックスの取得チェック
                 guard let index = indexOfTriangles(coordinate: searchingNow)
-                else{ throw StageError.triangleIndexError }
+                else{ fatalError("インデックス取得エラー") }
                 let nextCoordinates = searchingNow.nextCoordinates
                 if triangles[index].status == .isOn {
                         plan.append(PlanOfChangeStatus(index: index, count: counter))

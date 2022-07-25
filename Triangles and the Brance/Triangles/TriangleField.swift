@@ -33,7 +33,6 @@ struct TriangleField {
     private func sort(_ original: inout [TriLine]) -> [TriLine] {
         var sorted: [TriLine] = []
         guard original.count > 0 else {
-            print(original.count)
             return []
         }
         sorted.append(original.removeFirst())
@@ -70,11 +69,57 @@ struct TriangleField {
 
 extension TriangleField {
     
-    static let smallOnigiri = TriangleField(numberOfCell: 4, arrangement:
+    static func loadField(_ level: Int) -> TriangleField{
+        switch level {
+        case 1:
+            return smallPot
+        case 2:
+            return inazuma
+        case 3:
+            return midiumOnigiri
+        case 4:
+            return smallHexagon
+        case 5:
+            return midiumPot
+        case 6:
+            return midiumCrystal
+        case 7:
+            return largePot
+        case 8:
+            return largeCrystal
+        case 9:
+            return hanabira
+        case 10:
+            return largeOnigiri
+        case 11:
+            return hyoutann
+        case 12:
+            return largeHexagon
+        default:
+            return smallPot
+        }
+    }
+    
+    static let smallPot =  TriangleField(numberOfCell: 4, arrangement:
+                                                    [
+                                                        [Int](3...5),
+                                                        [Int](1...5),
+                                                        [Int](0...4),
+                                                        [Int](0...2)
+                                                    ])
+    static let inazuma =  TriangleField(numberOfCell: 4, arrangement:
+                                                    [
+                                                        [Int](5...7),
+                                                        [Int](1...6),
+                                                        [Int](-1...4),
+                                                        [Int](-2...0)
+                                                    ])
+    static let midiumOnigiri = TriangleField(numberOfCell: 4, arrangement:
                                                 [
                                                     [Int](3...5),
                                                     [Int](1...5),
-                                                    [Int](0...4)
+                                                    [Int](-1...5),
+                                                    [Int](-2...4)
                                                 ])
     static let smallHexagon = TriangleField(numberOfCell: 5, arrangement:
                                                 [
@@ -83,13 +128,66 @@ extension TriangleField {
                                                     [Int](0...6),
                                                     [Int](0...4)
                                                 ])
-    static let midiumOnigiri = TriangleField(numberOfCell: 4, arrangement:
+    static let midiumPot = TriangleField(numberOfCell: 5, arrangement:
                                                 [
-                                                    [Int](3...5),
-                                                    [Int](1...5),
-                                                    [Int](-1...5),
-                                                    [Int](-2...4)
+                                                    [Int](3...7),
+                                                    [Int](1...7),
+                                                    [Int](0...6),
+                                                    [Int](0...4),
+                                                    [Int](0...2)
                                                 ])
+    static let midiumCrystal = TriangleField(numberOfCell: 5, arrangement:
+                                                    [
+                                                        [Int](3...7),
+                                                        [Int](1...7),
+                                                        [Int](0...7),
+                                                        [Int](0...6),
+                                                        [Int](0...4),
+                                                    ])
+    static let largePot = TriangleField(numberOfCell: 5, arrangement:
+                                                    [
+                                                        [Int](3...7),
+                                                        [Int](1...7),
+                                                        [Int](-1...7),
+                                                        [Int](-2...6),
+                                                        [Int](-2...4),
+                                                    ])
+    static let largeCrystal = TriangleField(numberOfCell: 6, arrangement:
+                                                    [
+                                                        [Int](5...9),
+                                                        [Int](3...9),
+                                                        [Int](1...8),
+                                                        [Int](-1...6),
+                                                        [Int](-2...4),
+                                                        [Int](-2...2)
+                                                    ])
+    static let hanabira = TriangleField(numberOfCell: 6, arrangement:
+                                            [
+                                                [Int](5...7),
+                                                [Int](1...9),
+                                                [Int](0...8),
+                                                [Int](-1...7),
+                                                [Int](-2...6),
+                                                [Int](0...2)
+                                            ])
+    static let largeOnigiri = TriangleField(numberOfCell: 6, arrangement:
+                                                    [
+                                                        [Int](1...11),
+                                                        [Int](0...10),
+                                                        [Int](0...8),
+                                                        [Int](0...6),
+                                                        [Int](0...4),
+                                                        [Int](0...2)
+                                                    ])
+    static let hyoutann = TriangleField(numberOfCell: 6, arrangement:
+                                                    [
+                                                        [Int](3...9),
+                                                        [Int](1...9),
+                                                        [Int](0...8),
+                                                        [Int](-1...7),
+                                                        [Int](-2...6),
+                                                        [Int](-2...4)
+                                                    ])
     static let largeHexagon = TriangleField(numberOfCell: 6, arrangement:
                                                 [
                                                     [Int](3...9),
@@ -100,3 +198,4 @@ extension TriangleField {
                                                     [Int](-2...4)
                                                 ])
 }
+

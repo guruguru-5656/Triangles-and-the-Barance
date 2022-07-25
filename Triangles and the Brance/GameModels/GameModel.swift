@@ -67,10 +67,6 @@ class GameModel{
     }
 }
 
-enum StageError:Error{
-    case isNotExist
-    case triangleIndexError
-}
 
 enum GameEvent {
     case nothing

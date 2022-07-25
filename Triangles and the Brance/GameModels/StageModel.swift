@@ -13,9 +13,10 @@ class StageModel:ObservableObject {
     //ゲーム開始時に初期化するステータス
     @Published var level = 1
     @Published var maxCombo = 0
-    @Published var allDeleteCount = 0
+    @Published var totalDeleteCount = 0
     @Published var score = 0
-    @Published var money = 0
+    var totalPoint = 0
+    var point = 0
     //ステージ開始時に初期化するステータス
     @Published var life:Int = 5
     @Published var deleteCount = 0
@@ -26,8 +27,9 @@ class StageModel:ObservableObject {
     func resetGame() {
         level = 1
         maxCombo = 0
-        allDeleteCount = 0
+        totalDeleteCount = 0
         score = 0
+        point = 0
         setParameters()
     }
     
@@ -35,31 +37,36 @@ class StageModel:ObservableObject {
     func setParameters() {
         loadSaveData()
         life = defaultLife
-        targetDeleteCount = level * 10 + 10
+        targetDeleteCount = targetList[level - 1]
         deleteCount = 0
     }
-    
+    func getScore() -> [Int] {
+        return [ level, totalDeleteCount, maxCombo, score, point, totalPoint ]
+    }
     private func loadSaveData() {
         let lifeData = SaveData.shareData.loadUpgradeData().first {
             $0.type == .life
         }!
         defaultLife = lifeData.level + 2
-        money = SaveData.shareData.loadMoneyData()
+        totalPoint = SaveData.shareData.loadPointData()
     }
     
     ///ステータスの更新とクリア判定、ゲームオーバー判定を行う
     func updateParameters(deleteCount: Int) -> GameEvent{
         GameModel.shared.baranceViewContloller.deleteCountNow = deleteCount
         self.deleteCount += deleteCount
-        self.allDeleteCount += deleteCount
+        self.totalDeleteCount += deleteCount
         self.score += deleteCount * deleteCount * level
         self.life -= 1
-        money += deleteCount * level
         if self.maxCombo < deleteCount {
             maxCombo = deleteCount
         }
         if self.deleteCount >= targetDeleteCount {
-            return .stageClear
+            if level == 12 {
+                return .gameOver
+            } else {
+                return .stageClear
+            }
         }
         if life == 0{
             return .gameOver
@@ -68,6 +75,9 @@ class StageModel:ObservableObject {
     }
     
     func saveData() {
-        SaveData.shareData.saveMoneyData(money: money)
+        point = totalDeleteCount * level
+        totalPoint += point
+        SaveData.shareData.savePointData(point: totalPoint)
     }
+    private let targetList = [10, 15, 20, 25, 30, 35, 40, 45, 50,  55, 60, 70]
 }

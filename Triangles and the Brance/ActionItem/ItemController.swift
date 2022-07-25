@@ -13,21 +13,17 @@ class ItemController: ObservableObject {
     @Published var selectedItem: ActionItemModel? 
     @Published var actionEffectViewModel: [ActionEffectViewModel] = []
     @Published var energy: Int = 0
+    @Published var numberOfItems = 3
   
     func itemAction(coordinate: StageCoordinate) -> [[(Int, Int)]]{
         //アイテムが選択されていなければ何もしない
         guard let item = selectedItem else {
             return []
         }
-        //アイテムが残っていれば使用、残っていない時にはコストを消費してアクションを起こす
-        if item.count > 0 {
-            guard let index = actionItems.firstIndex (where:{
-                $0.id == item.id
-            }) else {
-                fatalError("itemのインデックスエラー")
-            }
-            actionItems[index].count -= 1
-        } else if item.cost ?? .max <= energy {
+        guard numberOfItems > 0 else {
+            return []
+        }
+        if item.cost ?? .max <= energy {
             energy -= item.cost!
         } else {
             print("選択されるべきでない状況でアイテムが選ばれている")
@@ -35,17 +31,21 @@ class ItemController: ObservableObject {
         }
         actionAnimation(coordinate: coordinate)
         selectedItem = nil
+        numberOfItems -= 1
         return item.type.actionCoordinate
     }
    
     func itemSelect(model: ActionItemModel) {
+        guard numberOfItems > 0 else {
+            return
+        }
         //現在選択しているItemと同じものを選択した場合、選択を解除する
         if model.id == selectedItem?.id {
             selectedItem = nil
             return
         }
-        //個数が一つ以上あるか、コストが現在のエネルギーより小さい場合は選択する
-        if model.count > 0 || model.cost ?? .max <= energy {
+        //コストが現在のエネルギーより小さい場合は選択する
+        if model.cost ?? .max <= energy {
             selectedItem = model
         }
         return
@@ -80,17 +80,28 @@ class ItemController: ObservableObject {
         selectedItem = nil
     }
  
+    private func loadNumberOfItems(_ upgradeData: [UpgradeItemViewModel]) {
+        let data = upgradeData.first{
+            $0.type == .actionCount
+        }
+        guard let data = data else {
+            print("NumberObItemsの読み込みエラー")
+            return
+        }
+        numberOfItems = data.level + 2
+    }
     private func setItemTable() {
         let upgradeData = SaveData.shareData.loadUpgradeData()
         let items = ActionType.allCases.map { actionType -> ActionItemModel in
             if let data = upgradeData.first (where: { data in
-                data.type == actionType.upgradeItem
+                data.type.actionType == actionType
             }) {
                 return ActionItemModel(type: actionType, level: data.level)
             } else {
-                return ActionItemModel(type: actionType, level: 0)
+                return ActionItemModel(type: actionType, level: 1)
             }
         }
         actionItems = items
+        loadNumberOfItems(upgradeData)
     }
 }

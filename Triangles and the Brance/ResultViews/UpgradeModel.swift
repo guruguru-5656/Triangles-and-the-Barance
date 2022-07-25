@@ -9,33 +9,32 @@ import Foundation
 import SwiftUI
 
 class UpgradeViewModel: ObservableObject {
-    @Published var upgradeItems: [UpgradeItemModel]
-    @Published var money: Int
-    @Published var payingMoney = 0
-    @Published var detailItem = UpgradeItemModel(type: .life)
+    @Published var upgradeItems: [UpgradeItemViewModel]
+    @Published var point: Int
+    @Published var payingPoint = 0
+    @Published var detailItem = UpgradeItemViewModel(type: .life)
     @Published var showDetailView = false
     
     init(){
         upgradeItems = SaveData.shareData.loadUpgradeData()
-        money = GameModel.shared.stageModel.money
+        point = GameModel.shared.stageModel.totalPoint
         upgradeItems.indices.forEach{
             upgradeItems[$0].parentModel = self
         }
     }
     func cancel() {
-        money = GameModel.shared.stageModel.money
-        payingMoney = 0
+        point = GameModel.shared.stageModel.totalPoint
+        payingPoint = 0
         
     }
     func permitPaying() {
         SaveData.shareData.saveUpgradeData(model: upgradeItems)
-        GameModel.shared.stageModel.money = money
+        GameModel.shared.stageModel.totalPoint = point
         GameModel.shared.stageModel.saveData()
-        GameModel.shared.score.money = money
-       
+        GameModel.shared.score.totalPoint = point
     }
     
-    func showDetail(_ item: UpgradeItemModel) {
+    func showDetail(_ item: UpgradeItemViewModel) {
         if showDetailView {
             withAnimation {
                 showDetailView = false
@@ -56,7 +55,7 @@ class UpgradeViewModel: ObservableObject {
 }
 
 //UpgradeSubViewのモデル
-struct UpgradeItemModel: Identifiable{
+struct UpgradeItemViewModel: Identifiable{
     
     let type:UpgradeType
     var level: Int
@@ -84,13 +83,13 @@ struct UpgradeItemModel: Identifiable{
         guard let parentModel = parentModel else {
             return
         }
-        parentModel.money -= cost
-        parentModel.payingMoney += cost
+        parentModel.point -= cost
+        parentModel.payingPoint += cost
         level += 1
     }
     ///10のレベル乗をinitialCostにかける
     var cost: Int {
-        type.initialCost * Int(pow(Double(10), Double(level + 1)))
+        initialCost * (level + 1) * (level + 1)
     }
     //アップデート可能かどうか
     var isUpdatable: Bool {
@@ -106,58 +105,51 @@ struct UpgradeItemModel: Identifiable{
         guard let upgradeViewModel = parentModel else {
             return false
         }
-        let cost = type.initialCost * Int(pow(Double(10), Double(level + 1)))
-        return cost <= upgradeViewModel.money
-    }
-    
-    
-    var actionType: ActionType? {
-        switch type {
-        case .life:
-            return nil
-        case .inventory:
-            return nil
-        case .normal:
-            return .normal
-        case .pyramid:
-            return .pyramid
-        case .hexagon:
-            return .hexagon
-        case .hxagram:
-            return .hexagram
-        }
+        
+        return cost <= upgradeViewModel.point
     }
     
     var descriptionText: String {
         switch type {
         case .life:
             return "回数"
-        case .inventory:
-            return "容量"
-        case .normal:
+        case .recycle:
+            return "確率"
+        case .actionCount:
             return "回数"
         case .pyramid:
             return "コスト"
+        case .shuriken:
+            return "コスト"
         case .hexagon:
+            return "コスト"
+        case .horizon:
             return "コスト"
         case .hxagram:
             return "コスト"
         }
     }
     var currentEffect: String {
+        if level == 0 &&  type.actionType != nil {
+            return ""
+        }
         switch type {
         case .life:
             return "\(level + 2)"
-        case .inventory:
-            return "\(level)"
-        case .normal:
+        case .recycle:
+            return "\(level * 20)%"
+        case .actionCount:
             return "\(level + 2)"
         case .pyramid:
+            return "\(7 - level)"
+        case .shuriken:
             return "\(9 - level)"
         case .hexagon:
-            return "\(13 - level)"
+            return "\(11 - level)"
+        case .horizon:
+            return "\(15 - level)"
         case .hxagram:
-            return "\(21 - level)"
+            return "\(17 - level)"
         }
         
     }
@@ -165,61 +157,96 @@ struct UpgradeItemModel: Identifiable{
         switch type {
         case .life:
             return Image(systemName: "heart")
-        case .inventory:
-            return Image(systemName: "bag")
-        case .normal:
+        case .recycle:
+            return Image("recycle")
+        case .actionCount:
             return Image("normalTriangle")
         case .pyramid:
             return Image("pyramidTriangle")
+        case .shuriken:
+            return Image("shuriken")
         case .hexagon:
             return Image("hexagon")
+        case .horizon:
+            return Image("horizonTriangle")
         case .hxagram:
             return Image("hexagram")
+       
         }
         
+    }
+    ///基本となる強化費用
+    private var initialCost: Int {
+        switch type {
+        case .life:
+            return 100
+        case .recycle:
+            return 50
+        case .actionCount:
+            return 100
+        case .pyramid:
+            return 50
+        case .shuriken:
+            return 400
+        case .hexagon:
+            return 1000
+        case .horizon:
+            return 3000
+        case .hxagram:
+            return 5000
+        }
     }
 }
 
 enum UpgradeType: Int, CaseIterable {
     case life
-    case inventory
-    case normal
+    case recycle
+    case actionCount
     case pyramid
+    case shuriken
     case hexagon
+    case horizon
     case hxagram
     ///UpGrade可能な範囲を返す
     var upgradeRange: ClosedRange<Int> {
         switch self {
         case .life:
-            return  1...5
-        case .inventory:
-            return  1...5
-        case .normal:
-            return 1...5
+            return  0...5
+        case .recycle:
+            return  0...3
+        case .actionCount:
+            return 1...3
         case .pyramid:
+            return 0...3
+        case .shuriken:
             return 0...3
         case .hexagon:
             return 0...3
+        case .horizon:
+            return 0...3
         case .hxagram:
             return 0...3
+       
         }
     }
-   
-    ///基本となる強化費用
-    var initialCost: Int {
+    var actionType: ActionType? {
         switch self {
         case .life:
-            return 10
-        case .inventory:
-            return 10
-        case .normal:
-            return 10
+            return nil
+        case .recycle:
+            return nil
+        case .actionCount:
+            return .normal
         case .pyramid:
-            return 10
+            return .pyramid
+        case .shuriken:
+            return .shuriken
         case .hexagon:
-            return 10
+            return .hexagon
+        case .horizon:
+            return .horizon
         case .hxagram:
-            return 100
+            return .hexagram
         }
     }
 }

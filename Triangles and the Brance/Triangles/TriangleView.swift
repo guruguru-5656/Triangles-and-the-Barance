@@ -25,13 +25,14 @@ struct TriangleView: View {
                 DrawTriLine(line: line, scale: geometry.size.width / CGFloat(controller.numberOfCell))
                     .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
             }
-//            //メインの三角形の表示
+            //メインの三角形の表示
             ForEach($controller.triangles){ $triangle in
                 StageTriangleView(model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
                     .onTapGesture {
                         controller.triangleTapAction(coordinate: triangle.coordinate)
                     }
             }
+            //頂点部分からアクションを起こすitemを選択している時に表示する
             if isVertexHilighted {
                 ForEach(controller.triangleVertexs, id: \.self) { coordinate in
                     Circle()
@@ -47,6 +48,7 @@ struct TriangleView: View {
         }
     }
 }
+
 ///メイン画面の三角形の描画
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
 struct StageTriangleView: View, DrawTriangle {

@@ -13,7 +13,8 @@ final class ScoreModel: ObservableObject {
     @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
         }
-    @Published var money = 0
+    @Published var point = 0
+    @Published var totalPoint = 0
     @Published var viewStatus: ViewStatus = .onAppear
     
     func showScores() {
@@ -32,19 +33,16 @@ final class ScoreModel: ObservableObject {
     }
     
     func setResultScores() {
-        results[0].value = GameModel.shared.stageModel.level
-        results[1].value = GameModel.shared.stageModel.deleteCount
-        results[2].value = GameModel.shared.stageModel.maxCombo
-        results[3].value = GameModel.shared.stageModel.score
+        for (index, value) in GameModel.shared.stageModel.getScore().enumerated() {
+            results[index].value = value
+        }
         results.indices.forEach{
             results[$0].isUpdated = false
         }
-        money = SaveData.shareData.loadMoneyData()
+        totalPoint = SaveData.shareData.loadPointData()
     }
-    
     func updateHiScore() {
         let hiScores = SaveData.shareData.loadHiScoreData()
-  
         for index in results.indices {
             let hiScoreIndex = hiScores.firstIndex{
                 $0.type == String(describing: results[index].type)
@@ -86,6 +84,10 @@ struct ResultModel: Identifiable, Hashable {
             return "Max Combo"
         case .score:
             return "Score"
+        case .point:
+            return "Point"
+        case .totalPoint:
+            return "Total Point"
         }
     }
 }
@@ -95,4 +97,6 @@ enum ScoreType: CaseIterable {
     case count
     case combo
     case score
+    case point
+    case totalPoint
 }

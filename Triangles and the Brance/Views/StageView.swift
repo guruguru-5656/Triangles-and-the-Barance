@@ -28,13 +28,13 @@ struct StageView: View {
                                     .stroke()
                                     .foregroundColor(viewEnvironment.currentColor.heavy)
                                     .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                    .frame(width: viewEnvironment.screenBounds.width * 0.1, height: viewEnvironment.screenBounds.width * 0.1)
+                                    .frame(width: geometry.size.width * 0.1, height: geometry.size.width * 0.1)
                                     .rotationEffect(Angle(degrees: 45)))
                     }
                     Spacer()
                     HStack(alignment: .center) {
                         Text("stage")
-                            .font(.title)
+                            .font(.largeTitle)
                             .foregroundColor(Color(white: 0.3))
                         
                         Text(String(stageModel.level))
@@ -42,8 +42,14 @@ struct StageView: View {
                             .foregroundColor(viewEnvironment.currentColor.light)
                     }
                     Spacer()
-                    Text("score")
-                    Text("\(stageModel.score)")
+                    Button(action: {
+                        GameModel.shared.gameOver()
+                    }){
+                        Image(systemName: "flag.fill")
+                            .resizable()
+                            .foregroundColor(.backgroundLightGray)
+                            .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
+                    }
                 }
                 .frame(alignment: .center)
                 .padding(.horizontal, geometry.size.width / 16)
@@ -58,7 +64,7 @@ struct StageView: View {
 //                .background(.purple)
                 Spacer()
                 ActionItemWholeView(size: geometry.size.width)
-                    .frame( height: geometry.size.height * 0.13)
+                    .frame( height: geometry.size.width * 0.22)
                     .background(.purple)
                 Spacer()
                 Section {
