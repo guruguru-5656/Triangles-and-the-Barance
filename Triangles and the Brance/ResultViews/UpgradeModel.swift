@@ -110,6 +110,9 @@ struct UpgradeItemViewModel: Identifiable{
     }
     
     var descriptionText: String {
+        if level == 0 &&  type.actionType != nil {
+            return ""
+        }
         switch type {
         case .life:
             return "回数"
