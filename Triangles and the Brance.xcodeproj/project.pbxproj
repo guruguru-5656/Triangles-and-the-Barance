@@ -11,12 +11,10 @@
 		040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */; };
 		040D5586286EBDBE009F0BF4 /* ActionItemShurikenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */; };
 		040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */; };
+		0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */; };
 		041D26CF287541B2009DC72B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D26CE287541B2009DC72B /* CustomButton.swift */; };
 		0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */; };
-		0426B0E527DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */; };
 		0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
-		0426B0E827DB93FF00AC348E /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
-		0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
 		0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
 		044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ResultView.swift */; };
@@ -34,7 +32,6 @@
 		045121B627D21BE800936E2C /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
 		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
 		045121BA27D43EAB00936E2C /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B927D43EAB00936E2C /* GameModel.swift */; };
-		045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */; };
 		0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangle.swift */; };
 		0458239327E4C62B007800AC /* ActionItem_PyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */; };
 		0458239527E54758007800AC /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
@@ -44,9 +41,7 @@
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
 		0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
-		04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
-		04929528287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
 		0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0492952A287E934A0067E9B1 /* DescriptionView.swift */; };
 		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
@@ -58,7 +53,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		045121C327D44DB300936E2C /* PBXContainerItemProxy */ = {
+		0414EF4C28910E2B00996F55 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0451219627D2187600936E2C /* Project object */;
 			proxyType = 1;
@@ -72,6 +67,8 @@
 		040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHexagonView.swift; sourceTree = "<group>"; };
 		040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemShurikenView.swift; sourceTree = "<group>"; };
 		040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHexagramView.swift; sourceTree = "<group>"; };
+		0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
 		041D26CE287541B2009DC72B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleVertexCoordinate.swift; sourceTree = "<group>"; };
 		0426B0E627DB93FF00AC348E /* DrawStageShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawStageShape.swift; sourceTree = "<group>"; };
@@ -93,8 +90,6 @@
 		045121B527D21BE800936E2C /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		045121B727D31F5000936E2C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		045121B927D43EAB00936E2C /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
-		045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
 		0458236D27E2C542007800AC /* DrawTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangle.swift; sourceTree = "<group>"; };
 		0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_PyramidView.swift; sourceTree = "<group>"; };
 		0458239427E54758007800AC /* TriangleContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleContloller.swift; sourceTree = "<group>"; };
@@ -116,14 +111,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0451219B27D2187600936E2C /* Frameworks */ = {
+		0414EF4528910E2B00996F55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		045121BC27D44DB300936E2C /* Frameworks */ = {
+		0451219B27D2187600936E2C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -133,6 +128,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0414EF4928910E2B00996F55 /* Triangles and the BranceTests */ = {
+			isa = PBXGroup;
+			children = (
+				0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */,
+			);
+			path = "Triangles and the BranceTests";
+			sourceTree = "<group>";
+		};
 		0426B0E927DC48AE00AC348E /* DrawShape */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,7 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				045121A027D2187600936E2C /* Triangles and the Brance */,
-				045121C027D44DB300936E2C /* Triangles and the BranceTests */,
+				0414EF4928910E2B00996F55 /* Triangles and the BranceTests */,
 				0451219F27D2187600936E2C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -184,7 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				0451219E27D2187600936E2C /* Triangles and the Brance.app */,
-				045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */,
+				0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -212,14 +215,6 @@
 				045121A827D2187700936E2C /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		045121C027D44DB300936E2C /* Triangles and the BranceTests */ = {
-			isa = PBXGroup;
-			children = (
-				045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */,
-			);
-			path = "Triangles and the BranceTests";
 			sourceTree = "<group>";
 		};
 		0458236F27E41E0A007800AC /* Views */ = {
@@ -275,6 +270,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0414EF4728910E2B00996F55 /* Triangles and the BranceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0414EF4E28910E2B00996F55 /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */;
+			buildPhases = (
+				0414EF4428910E2B00996F55 /* Sources */,
+				0414EF4528910E2B00996F55 /* Frameworks */,
+				0414EF4628910E2B00996F55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0414EF4D28910E2B00996F55 /* PBXTargetDependency */,
+			);
+			name = "Triangles and the BranceTests";
+			productName = "Triangles and the BranceTests";
+			productReference = 0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0451219D27D2187600936E2C /* Triangles and the Brance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 045121AC27D2187700936E2C /* Build configuration list for PBXNativeTarget "Triangles and the Brance" */;
@@ -292,24 +305,6 @@
 			productReference = 0451219E27D2187600936E2C /* Triangles and the Brance.app */;
 			productType = "com.apple.product-type.application";
 		};
-		045121BE27D44DB300936E2C /* Triangles and the BranceTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 045121C527D44DB300936E2C /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */;
-			buildPhases = (
-				045121BB27D44DB300936E2C /* Sources */,
-				045121BC27D44DB300936E2C /* Frameworks */,
-				045121BD27D44DB300936E2C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				045121C427D44DB300936E2C /* PBXTargetDependency */,
-			);
-			name = "Triangles and the BranceTests";
-			productName = "Triangles and the BranceTests";
-			productReference = 045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -317,15 +312,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					0414EF4728910E2B00996F55 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 0451219D27D2187600936E2C;
+					};
 					0451219D27D2187600936E2C = {
 						CreatedOnToolsVersion = 13.2.1;
-					};
-					045121BE27D44DB300936E2C = {
-						CreatedOnToolsVersion = 13.2.1;
-						TestTargetID = 0451219D27D2187600936E2C;
 					};
 				};
 			};
@@ -343,12 +338,19 @@
 			projectRoot = "";
 			targets = (
 				0451219D27D2187600936E2C /* Triangles and the Brance */,
-				045121BE27D44DB300936E2C /* Triangles and the BranceTests */,
+				0414EF4728910E2B00996F55 /* Triangles and the BranceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0414EF4628910E2B00996F55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0451219C27D2187600936E2C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -358,16 +360,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		045121BD27D44DB300936E2C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0414EF4428910E2B00996F55 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0451219A27D2187600936E2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -415,30 +418,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		045121BB27D44DB300936E2C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */,
-				0426B0E827DB93FF00AC348E /* DrawStageShape.swift in Sources */,
-				0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */,
-				04929525287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
-				04929528287D77EB0067E9B1 /* TriangleField.swift in Sources */,
-				0426B0E527DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		045121C427D44DB300936E2C /* PBXTargetDependency */ = {
+		0414EF4D28910E2B00996F55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0451219D27D2187600936E2C /* Triangles and the Brance */;
-			targetProxy = 045121C327D44DB300936E2C /* PBXContainerItemProxy */;
+			targetProxy = 0414EF4C28910E2B00996F55 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0414EF4F28910E2B00996F55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
+			};
+			name = Debug;
+		};
+		0414EF5028910E2B00996F55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
+			};
+			name = Release;
+		};
 		045121AA27D2187700936E2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -613,45 +641,18 @@
 			};
 			name = Release;
 		};
-		045121C627D44DB300936E2C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGQX3VL4R8;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
-			};
-			name = Debug;
-		};
-		045121C727D44DB300936E2C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGQX3VL4R8;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0414EF4E28910E2B00996F55 /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0414EF4F28910E2B00996F55 /* Debug */,
+				0414EF5028910E2B00996F55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0451219927D2187600936E2C /* Build configuration list for PBXProject "Triangles and the Brance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -666,15 +667,6 @@
 			buildConfigurations = (
 				045121AD27D2187700936E2C /* Debug */,
 				045121AE27D2187700936E2C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		045121C527D44DB300936E2C /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				045121C627D44DB300936E2C /* Debug */,
-				045121C727D44DB300936E2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
