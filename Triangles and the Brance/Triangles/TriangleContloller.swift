@@ -115,13 +115,13 @@ class TriangleContloller: ObservableObject {
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
     private func trianglesChainAction(index: Int) {
         let coordinate = triangles[index].coordinate
-            let plans = planingDeleteTriangles(coordinate: coordinate)
-            let deleteCount = plans.count
-            //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
-            updateTrianglesStatus(plans: plans){
-                GameModel.shared.itemController.energy += plans.count
-                GameModel.shared.updateGameParameters(deleteCount: deleteCount)
-            }
+        let plans = planingDeleteTriangles(coordinate: coordinate)
+        let deleteCount = plans.count
+        //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
+        updateTrianglesStatus(plans: plans){
+            GameModel.shared.itemController.energy += plans.count
+            GameModel.shared.updateGameParameters(deleteCount: deleteCount)
+        }
     }
     ///消した数の半分の数を再度Onにする
     private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]) {

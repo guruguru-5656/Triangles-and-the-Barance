@@ -10,7 +10,7 @@ import SwiftUI
 struct BaranceCircleView: View {
     
     @EnvironmentObject private var viewEnvironment: ViewEnvironment
-    @ObservedObject private var contloller = GameModel.shared.baranceViewContloller
+    @ObservedObject private var stageModel = GameModel.shared.stageModel
     let circlePoint: CGPoint
     var body: some View {
         //スクリーンの対角線の長さを楕円の短い方の半径の長さで割る
@@ -27,13 +27,15 @@ struct BaranceCircleView: View {
             Section {
                 Ellipse()
                     .fill(viewEnvironment.currentColor.light)
-                    .scaleEffect(contloller.clearCircleIsOn ? scale : 1)
+                    .scaleEffect(stageModel.clearCircleIsOn ? scale : 1)
                 Ellipse()
                     .fill(viewEnvironment.currentColor.heavy)
-                    .scaleEffect(contloller.clearCircleIsOn ? scale - 0.3 : 0.7)
+                    .scaleEffect(stageModel.clearCircleIsOn ? scale - 0.3 : 0.7)
             }
             .frame(width: 30, height: 15)
             .position(circlePoint)
         }
     }
 }
+
+

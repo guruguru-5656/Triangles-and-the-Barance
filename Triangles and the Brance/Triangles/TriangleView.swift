@@ -8,7 +8,6 @@ struct TriangleView: View {
     @ObservedObject private var controller = GameModel.shared.triangleController
     @ObservedObject private var itemController = GameModel.shared.itemController
 
-    @State var backGround = StaticStageObjects()
     var isVertexHilighted: Bool {
             itemController.selectedItem?.type.position == .vertex ? true : false
     }

@@ -17,6 +17,7 @@
 		0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
 		0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
+		0445252528A5F19300F3051C /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
 		044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ResultView.swift */; };
 		044AD42427FAF7A300D96CED /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42327FAF7A300D96CED /* ScoreModel.swift */; };
 		044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42527FB100B00D96CED /* UpGradeView.swift */; };
@@ -37,7 +38,6 @@
 		0458239527E54758007800AC /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
 		045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 045A2057283CB51E003704C3 /* CoreDataModel.xcdatamodeld */; };
-		046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */; };
 		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
 		0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
@@ -48,7 +48,6 @@
 		04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
 		04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
-		04F0B02A280B055200D1172C /* BaranceViewContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B029280B055200D1172C /* BaranceViewContloller.swift */; };
 		04F0B02C280EA28B00D1172C /* ActionEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B02B280EA28B00D1172C /* ActionEffectView.swift */; };
 /* End PBXBuildFile section */
 
@@ -95,7 +94,6 @@
 		0458239427E54758007800AC /* TriangleContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleContloller.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
 		045A2058283CB51E003704C3 /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticStageObjects.swift; sourceTree = "<group>"; };
 		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
 		0470808D288BAB11001C0606 /* ActionItemHorizon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHorizon.swift; sourceTree = "<group>"; };
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 		04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEnvironment.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
 		04F0B027280AFA4900D1172C /* BaranceCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceCircleView.swift; sourceTree = "<group>"; };
-		04F0B029280B055200D1172C /* BaranceViewContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceViewContloller.swift; sourceTree = "<group>"; };
 		04F0B02B280EA28B00D1172C /* ActionEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionEffectView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -223,7 +220,6 @@
 				045121B727D31F5000936E2C /* ColorExtension.swift */,
 				045121A327D2187600936E2C /* ContentView.swift */,
 				045121B127D21B1200936E2C /* StageView.swift */,
-				046FB84F27EF0C8800854EFE /* StaticStageObjects.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -261,7 +257,6 @@
 			isa = PBXGroup;
 			children = (
 				0458239A27E72A3A007800AC /* BaranceView.swift */,
-				04F0B029280B055200D1172C /* BaranceViewContloller.swift */,
 				04F0B027280AFA4900D1172C /* BaranceCircleView.swift */,
 			);
 			path = BaranceView;
@@ -368,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
+				0445252528A5F19300F3051C /* BaranceView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,7 +373,6 @@
 			files = (
 				0458239327E4C62B007800AC /* ActionItem_PyramidView.swift in Sources */,
 				044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */,
-				04F0B02A280B055200D1172C /* BaranceViewContloller.swift in Sources */,
 				044AD42A27FB2E3E00D96CED /* SaveData.swift in Sources */,
 				0400630228182B240069FB39 /* ItemController.swift in Sources */,
 				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
@@ -395,7 +390,6 @@
 				04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */,
 				0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */,
 				045A2059283CB51E003704C3 /* CoreDataModel.xcdatamodeld in Sources */,
-				046FB85027EF0C8800854EFE /* StaticStageObjects.swift in Sources */,
 				044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */,
 				041D26CF287541B2009DC72B /* CustomButton.swift in Sources */,
 				045121B827D31F5000936E2C /* ColorExtension.swift in Sources */,

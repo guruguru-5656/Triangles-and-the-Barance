@@ -6,20 +6,26 @@
 //
 
 import SwiftUI
+import Combine
 
 struct BaranceView: View {
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @ObservedObject var stageModel = GameModel.shared.stageModel
-    @ObservedObject var baranceViewContloller = GameModel.shared.baranceViewContloller
+
+    init(size: CGFloat) {
+        self.stageModel = GameModel.shared.stageModel
+        self.size = size
+    }
+    
     let size: CGFloat
     var baseScale: CGFloat {
         size / 8
     }
     var opacity:Double {
-        baranceViewContloller.clearPersent
+        Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
     }
     var distance:Double {
-        return baseScale * 3.25 * sin(baranceViewContloller.angle)
+        return baseScale * 3.25 * sin(stageModel.angle)
     }
     
     var body: some View {
@@ -37,7 +43,7 @@ struct BaranceView: View {
                     RoundedRectangle(cornerRadius: 4)
                         .foregroundColor(.lightGray)
                         .frame(width: baseScale * 6.5, height: baseScale / 4)
-                        .rotationEffect(Angle(radians: baranceViewContloller.angle))
+                        .rotationEffect(Angle(radians: stageModel.angle))
                         .position(x: baseScale * 4, y: baseScale * 0.5)
                 }
                 //中央部分
@@ -82,7 +88,7 @@ struct BaranceView: View {
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
                         .opacity((1 + opacity) / 2)
-                    if baranceViewContloller.isTriangleHiLighted {
+                    if stageModel.isTriangleHiLighted {
                         TriangleNormalShape()
                             .foregroundColor(.white)
                             .rotationEffect(Angle(degrees: 180))
@@ -93,8 +99,8 @@ struct BaranceView: View {
                 }
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 1, y: baseScale * 1.8 - distance)
-                if baranceViewContloller.showDeleteCountText {
-                    Text("+\(baranceViewContloller.deleteCountNow)")
+                if stageModel.showDeleteCountText {
+                    Text("+\(stageModel.deleteCountNow)")
                         .font(.title2)
                         .foregroundColor(Color.backgroundLightGray)
                         .position(x: baseScale * 2, y: baseScale * 2 - distance)
@@ -104,5 +110,14 @@ struct BaranceView: View {
                 }
             }
             .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
+    }
+}
+
+//viewの円の位置を伝えるための構造体
+struct ClearCirclePoint: PreferenceKey {
+    typealias Value = Anchor<CGRect>?
+    static var defaultValue: Anchor<CGRect>? = nil
+    static func reduce(value: inout Value, nextValue: () -> Value) {
+        value = nextValue()
     }
 }

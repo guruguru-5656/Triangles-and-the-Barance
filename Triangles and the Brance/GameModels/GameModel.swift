@@ -10,16 +10,18 @@ import SwiftUI
 
 class GameModel{
   
-    let stageModel = StageModel()
-    let triangleController = TriangleContloller()
-    let itemController = ItemController()
-    let baranceViewContloller = BaranceViewContloler()
+    let stageModel: StageModel
+    let triangleController: TriangleContloller
+    let itemController: ItemController
     let score = ScoreModel()
     let viewEnvironment = ViewEnvironment()
 
     //シングルトン
     static let shared = GameModel()
     private init(){
+        stageModel = StageModel()
+        triangleController = TriangleContloller()
+        itemController = ItemController()
         resetGame()
     }
     
@@ -27,7 +29,6 @@ class GameModel{
     func resetGame() {
         //TODO: セーブデータのロード
         stageModel.resetGame()
-        baranceViewContloller.resetGame()
         triangleController.resetGame()
         itemController.resetGame()
         viewEnvironment.resetGame()
@@ -36,8 +37,7 @@ class GameModel{
     func updateGameParameters(deleteCount: Int) {
         //消去の数に応じてパラメーターの更新を行う
         let result = stageModel.updateParameters(deleteCount: deleteCount)
-        //アニメーションを実行
-        baranceViewContloller.baranceAnimation()
+       
         switch result {
         case .nothing:
             return
@@ -48,12 +48,16 @@ class GameModel{
         }
     }
     func stageClear(){
-        baranceViewContloller.clearAnimation { [self] in
+        stageModel.clearAnimation()
+        Task {
+            try await Task.sleep(nanoseconds: 1000000000)
+            await MainActor.run {
             stageModel.level += 1
             stageModel.setParameters()
             triangleController.setParameters()
             itemController.prepareForNextStage()
             viewEnvironment.stageClear()
+            }
         }
     }
     func gameOver(){
