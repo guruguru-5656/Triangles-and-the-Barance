@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 class ItemController: ObservableObject {
     
@@ -14,26 +15,45 @@ class ItemController: ObservableObject {
     @Published var actionEffectViewModel: [ActionEffectViewModel] = []
     @Published var energy: Int = 0
     @Published var numberOfItems = 3
-  
-    func itemAction(coordinate: StageCoordinate) -> [[(Int, Int)]]{
+    
+    init(stageModel: StageModel) {
+        self.stageModel = stageModel
+    }
+    //イベントの受信設定
+    private let stageModel: StageModel
+    private var subscriber: AnyCancellable?
+    func subscribe() {
+        subscriber = stageModel.publisher
+            .sink { [ weak self ] event in
+                guard let self = self else {
+                    return
+                }
+                switch event {
+                case .stageClear:
+                    self.setParameters()
+                case .resetGame:
+                    self.setParameters()
+                default:
+                    break
+                }
+            }
+    }
+    
+    func itemAction<T: StageCoordinate>(coordinate: T) -> [[(Int, Int)]]{
         //アイテムが選択されていなければ何もしない
         guard let item = selectedItem else {
             return []
         }
-        guard numberOfItems > 0 else {
+        //入力された座標がitemのpositionと一致しない場合選択解除を行う
+        guard coordinate.position == item.type.position else{
+            selectedItem = nil
             return []
         }
-        if item.cost ?? .max <= energy {
-            energy -= item.cost!
-        } else {
-            print("選択されるべきでない状況でアイテムが選ばれている")
-            return []
-        }
-        actionAnimation(coordinate: coordinate)
+
         selectedItem = nil
         numberOfItems -= 1
         return item.type.actionCoordinate
-    }
+    }    
    
     func itemSelect(model: ActionItemModel) {
         guard numberOfItems > 0 else {
@@ -47,6 +67,7 @@ class ItemController: ObservableObject {
         //コストが現在のエネルギーより小さい場合は選択する
         if model.cost ?? .max <= energy {
             selectedItem = model
+            
         }
         return
     }
@@ -68,15 +89,13 @@ class ItemController: ObservableObject {
         }
     }
 
-    ///ゲームリセット時の挙動
-    func resetGame() {
-        prepareForNextStage()
-        actionEffectViewModel = []
-    }
-    ///ステージクリア時の挙動
-    func prepareForNextStage() {
+    ///パラメーターを初期値に戻す
+    func setParameters() {
         setItemTable()
         energy = 0
+        //TODO: データロード
+        numberOfItems = 3
+        
         selectedItem = nil
     }
  
@@ -104,4 +123,5 @@ class ItemController: ObservableObject {
         actionItems = items
         loadNumberOfItems(upgradeData)
     }
+    
 }

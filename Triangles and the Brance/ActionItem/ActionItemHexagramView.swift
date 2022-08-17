@@ -32,6 +32,6 @@ struct ActionItemHexagramView: View {
 struct ActionItemLargePyramid_Previews: PreviewProvider {
     static var previews: some View {
         ActionItemHexagramView(size: 80)
-            .environmentObject(ViewEnvironment())
+            .environmentObject(ViewEnvironment(stageModel: StageModel()))
     }
 }

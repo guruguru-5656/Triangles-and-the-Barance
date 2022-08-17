@@ -37,7 +37,7 @@ struct StageView: View {
                             .font(.largeTitle)
                             .foregroundColor(Color(white: 0.3))
                         
-                        Text(String(stageModel.level))
+                        Text(String(stageModel.stage))
                             .font(.largeTitle)
                             .foregroundColor(viewEnvironment.currentColor.light)
                     }

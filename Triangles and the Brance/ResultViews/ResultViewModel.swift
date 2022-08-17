@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 //スコアを表示用に加工して出力する
-final class ScoreModel: ObservableObject {
+final class ResultViewModel: ObservableObject {
     @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
         ResultModel(type: $0.element, index: $0.offset)
         }
@@ -33,9 +33,10 @@ final class ScoreModel: ObservableObject {
     }
     
     func setResultScores() {
-        for (index, value) in GameModel.shared.stageModel.getScore().enumerated() {
-            results[index].value = value
-        }
+        //TODO: 修正
+//        for (index, value) in GameModel.shared.stageModel.getScore().enumerated() {
+//            results[index].value = value
+//        }
         results.indices.forEach{
             results[$0].isUpdated = false
         }
@@ -92,11 +93,15 @@ struct ResultModel: Identifiable, Hashable {
     }
 }
 
-enum ScoreType: CaseIterable {
+enum ScoreType: CaseIterable, SaveDataValue {
     case stage
     case count
     case combo
     case score
     case point
     case totalPoint
+    
+    var defaultValue: Int {
+        return 0
+    }
 }

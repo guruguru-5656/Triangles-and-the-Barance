@@ -10,27 +10,31 @@ import SwiftUI
 
 class UpgradeViewModel: ObservableObject {
     @Published var upgradeItems: [UpgradeItemViewModel]
-    @Published var point: Int
+    @Published var point: Int = 0
     @Published var payingPoint = 0
     @Published var detailItem = UpgradeItemViewModel(type: .life)
     @Published var showDetailView = false
     
     init(){
         upgradeItems = SaveData.shareData.loadUpgradeData()
-        point = GameModel.shared.stageModel.totalPoint
+        //TODO: 修正
+//        point = GameModel.shared.stageModel.totalPoint
         upgradeItems.indices.forEach{
             upgradeItems[$0].parentModel = self
         }
     }
     func cancel() {
-        point = GameModel.shared.stageModel.totalPoint
+        //TODO: 修正
+        point
+//        point = GameModel.shared.stageModel.totalPoint
         payingPoint = 0
         
     }
     func permitPaying() {
         SaveData.shareData.saveUpgradeData(model: upgradeItems)
-        GameModel.shared.stageModel.totalPoint = point
-        GameModel.shared.stageModel.saveData()
+        //TODO: 修正
+//        GameModel.shared.stageModel.totalPoint = point
+//        GameModel.shared.stageModel.saveData()
         GameModel.shared.score.totalPoint = point
     }
     
@@ -201,7 +205,8 @@ struct UpgradeItemViewModel: Identifiable{
     }
 }
 
-enum UpgradeType: Int, CaseIterable {
+enum UpgradeType: Int, CaseIterable , SaveDataValue {
+   
     case life
     case recycle
     case actionCount
@@ -218,7 +223,7 @@ enum UpgradeType: Int, CaseIterable {
         case .recycle:
             return  0...3
         case .actionCount:
-            return 1...3
+            return 0...3
         case .pyramid:
             return 0...3
         case .shuriken:
@@ -232,6 +237,11 @@ enum UpgradeType: Int, CaseIterable {
        
         }
     }
+    
+    var defaultValue: Int {
+      return 0
+    }
+    
     var actionType: ActionType? {
         switch self {
         case .life:

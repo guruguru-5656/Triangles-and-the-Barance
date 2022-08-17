@@ -48,30 +48,30 @@ struct StageViewColor_Previews: PreviewProvider {
 }
 
 ///カラーをループする構造にした列挙体。イニシャライザで初期値が設定され、nextColorメソッドを呼ぶたびに次のcaseが表示される
-enum MyColor: Int {
+enum StageColor: Int {
     case red = 0
     case orenge,yellow,yellowGreen,green,greenBlue,
          waterBlue,whiteBlue,bluePurple,purple,fujiPurple,
          pinkPurple
-    init(){
-        self = .red
+    init(stage: Int){
+        self = .init(rawValue: (stage - 1) % 12 )!
     }
     ///次のカラーに移る
     mutating func nextColor(){
         switch self{
         case .pinkPurple:
-            return self = MyColor.red
+            return self = StageColor.red
         default:
-            return self = MyColor.init(rawValue: self.rawValue+1)!
+            return self = StageColor.init(rawValue: self.rawValue+1)!
         }
     }
     
-    var previousColor: MyColor {
+    var previousColor: StageColor {
         switch self {
         case .red:
             return .pinkPurple
         default:
-            return MyColor.init(rawValue: self.rawValue-1)!
+            return StageColor.init(rawValue: self.rawValue-1)!
         }
     }
     

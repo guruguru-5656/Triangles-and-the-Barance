@@ -5,43 +5,60 @@
 //  Created by 森本拓未 on 2022/03/19.
 //
 
-import Foundation
+import Combine
 import SwiftUI
 
 class TriangleContloller: ObservableObject {
     
+    private let itemController: ItemController
     @Published var triangles: [TriangleViewModel] = []
-    @Published var fieldOutLine: [TriLine] = []
-    @Published var triangleVertexs: [TriangleVertexCoordinate] = []
-    @Published var fieldLine: [TriLine] = []
-    @Published var numberOfCell: Int = 6
+    @Published private(set) var fieldOutLine: [TriLine] = []
+    @Published private(set) var triangleVertexs: [TriangleVertexCoordinate] = []
+    @Published private(set) var fieldLine: [TriLine] = []
+    @Published private(set) var numberOfCell: Int = 6
     private let isOnRate: Double = 0.5
     private var recycleRate: Double = 0
-
-    ///ゲーム開始時に呼び出す
-    func resetGame() {
-        loadArrangement(level: 1)
-        setTrianglesStatus()
-        setTrianleVertexs()
-        loadRecycleRate()
+    
+    init(stageModel: StageModel, itemController: ItemController) {
+        self.stageModel = stageModel
+        self.itemController = itemController
     }
+    //イベント通知を受け取る
+    private let stageModel: StageModel
+    var subscriber: AnyCancellable?
+    func subscribe() {
+        subscriber = stageModel.publisher
+            .sink { [ weak self ] event in
+                guard let self = self else {
+                    return
+                }
+                switch event {
+                case .stageClear:
+                    self.setParameters()
+                case .resetGame:
+                    self.setParameters()
+                default:
+                    break
+                }
+            }
+    }
+    
     ///ステージ開始時に呼び出す
     func setParameters() {
-        let stageLevel = GameModel.shared.stageModel.level
-        loadArrangement(level: stageLevel)
+        loadArrangement(stage: stageModel.stage)
         setTrianleVertexs()
         setTrianglesStatus()
         loadRecycleRate()
     }
     ///ステージ配置をセットする
-    private func loadArrangement(level: Int) {
-        let field = TriangleField.loadField(level)
+    private func loadArrangement(stage: Int) {
+        let field = TriangleField.loadField(stage)
         numberOfCell = field.numberOfCell
         triangles = field.triangles
         fieldLine = field.fieldLines
         fieldOutLine = field.fieldOutLines
     }
-///triangle配列をランダムにOnにする
+    ///triangle配列をランダムにOnにする
     private func setTrianglesStatus() {
         let randomIndex = triangles.indices.shuffled()
         let isOnCount = Int(Double(triangles.count) * isOnRate)
@@ -67,60 +84,48 @@ class TriangleContloller: ObservableObject {
         }!
         recycleRate = Double(recycleData.level) * 0.2
     }
-    ///item実行専用のアクション
-    func triangleVertexTapAction(coordinate: TriangleVertexCoordinate) {
-        if let selectedItem = GameModel.shared.itemController.selectedItem {
-            guard selectedItem.type.position == .vertex else{
-                GameModel.shared.itemController.selectedItem = nil
-                return
-            }
-            //ItemController側の処理を実行し、更新する座標を受け取る
-            let itemCoordinate = GameModel.shared.itemController.itemAction(coordinate: coordinate)
-            guard !itemCoordinate.isEmpty else {
-                return
-            }
-            let coordinates = coordinate.relative(coordinates: itemCoordinate)
-            //Trianglesのステータスの更新
-            turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
-        }
-    }
+ 
     ///タップしたときのアクション
     func triangleTapAction(coordinate: TriangleCenterCoordinate) {
-        guard GameModel.shared.stageModel.life != 0 else {
+        guard stageModel.life != 0 else {
             return
         }
         guard let index = indexOfTriangles(coordinate: coordinate) else {
             print("インデックス取得エラー")
             return
         }
-        //アイテムが入っていた場合の処理
-        if let selectedItem = GameModel.shared.itemController.selectedItem {
-            guard selectedItem.type.position == .center else{
-                GameModel.shared.itemController.selectedItem = nil
-                return
-            }
-            //ItemController側の処理を実行し、更新する座標を受け取る
-            let itemCoordinate = GameModel.shared.itemController.itemAction(coordinate: coordinate)
-            guard !itemCoordinate.isEmpty else {
-                return
-            }
-            let coordinate = triangles[index].coordinate
-            let coordinates = coordinate.relative(coordinates: itemCoordinate)
-            //Trianglesのステータスの更新
-            turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
-        } else if triangles[index].status == .isOn {
+        //アイテムが入っていた場合の処理を確認し、何も行われなかった場合は連鎖して消すアクションを行う
+        let isComplete = tryItemAction(coordinate: coordinate)
+        if isComplete {
+            return
+        }
+        if triangles[index].status == .isOn {
             trianglesChainAction(index: index)
         }
     }
+    
+    ///itemのアクションを実行を試みる、行われた場合はtrue 行われなかった場合はfalseを返す
+    func tryItemAction<T:StageCoordinate>(coordinate: T) -> Bool{
+        //ItemController側の処理を実行し、更新する座標を受け取る
+        let itemCoordinate = itemController.itemAction(coordinate: coordinate)
+        guard !itemCoordinate.isEmpty else {
+            return false
+        }
+        let coordinates = coordinate.relative(coordinates: itemCoordinate)
+        //Trianglesのステータスの更新
+        turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
+        return true
+    }
+    
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
     private func trianglesChainAction(index: Int) {
         let coordinate = triangles[index].coordinate
         let plans = planingDeleteTriangles(coordinate: coordinate)
         let deleteCount = plans.count
-        //ディレイをかけながらTriangleのステータスを更新し、完了後にGameModelのプロパティーを更新する
-        updateTrianglesStatus(plans: plans){
-            GameModel.shared.itemController.energy += plans.count
-            GameModel.shared.updateGameParameters(deleteCount: deleteCount)
+        //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
+        updateTrianglesStatus(plans: plans){ [self] in
+            itemController.energy += plans.count
+            stageModel.updateParameters(deleteCount: deleteCount)
         }
     }
     ///消した数の半分の数を再度Onにする
@@ -238,6 +243,3 @@ class TriangleContloller: ObservableObject {
         let count:Int
     }
 }
-
-
-

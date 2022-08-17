@@ -23,8 +23,7 @@ final class SaveData {
     private lazy var context: NSManagedObjectContext = {
         return container.viewContext
     }()
-  
-   
+ 
     static let shareData = SaveData()
     private init() {
 
@@ -152,3 +151,4 @@ struct HiScoreModel {
     let type: ScoreType
     var value: Int = 0
 }
+

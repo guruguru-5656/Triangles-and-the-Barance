@@ -36,7 +36,7 @@ struct ResultView: View {
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
-                                GameModel.shared.resetGame()
+                                GameModel.shared.stageModel.resetGame()
                                 withAnimation {
                                     GameModel.shared.stageModel.showResultView = false
                                 }
