@@ -24,7 +24,7 @@ struct ActionItemWholeView: View {
                     }
                 }
             }
-            Text("x \(itemController.numberOfItems)")
+            Text("x \(itemController.actionCount)")
                 .position(x: size * 0.9, y: size * -1/30)
                 .font(Font(UIFont.systemFont(ofSize: size / 16)))
             Text("\(itemController.energy)")

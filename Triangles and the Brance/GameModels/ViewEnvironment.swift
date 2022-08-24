@@ -22,7 +22,7 @@ class ViewEnvironment: ObservableObject{
     private let stageModel: StageModel
     private var subscriber: AnyCancellable?
     func subscribe() {
-        subscriber = stageModel.publisher
+        subscriber = stageModel.gameEventPublisher
             .sink { [ weak self ] event in
                 guard let self = self else {
                     return

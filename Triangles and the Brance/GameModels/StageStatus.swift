@@ -9,24 +9,19 @@ import Foundation
 
 
 
-enum GameStatus: SaveDataValue {
-    
+enum GameStatus: SaveDataName {
     case stage
     case deleteCount
     case life
     case point
-    
-    var defaultValue: Int {
-        switch self {
-        case .stage:
-            return 1
-        default:
-            return 0
-        }
-    }
 }
 
-struct StageLog {
+enum GameLog: SaveDataName {
+    case log
+}
+
+
+struct StageLog:Codable {
     let stage: Int
     let deleteCount: Int
     let maxCombo: Int

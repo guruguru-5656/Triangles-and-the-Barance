@@ -9,19 +9,19 @@ import Foundation
 import SwiftUI
 
 class UpgradeViewModel: ObservableObject {
-    @Published var upgradeItems: [UpgradeItemViewModel]
+    @Published var upgradeItems: [UpgradeItemViewModel] = []
     @Published var point: Int = 0
     @Published var payingPoint = 0
     @Published var detailItem = UpgradeItemViewModel(type: .life)
     @Published var showDetailView = false
     
     init(){
-        upgradeItems = SaveData.shareData.loadUpgradeData()
+//        upgradeItems = SaveData.shareData.loadUpgradeData()
         //TODO: 修正
 //        point = GameModel.shared.stageModel.totalPoint
-        upgradeItems.indices.forEach{
-            upgradeItems[$0].parentModel = self
-        }
+//        upgradeItems.indices.forEach{
+//            upgradeItems[$0].parentModel = self
+//        }
     }
     func cancel() {
         //TODO: 修正
@@ -31,7 +31,7 @@ class UpgradeViewModel: ObservableObject {
         
     }
     func permitPaying() {
-        SaveData.shareData.saveUpgradeData(model: upgradeItems)
+//        SaveData.shareData.saveUpgradeData(model: upgradeItems)
         //TODO: 修正
 //        GameModel.shared.stageModel.totalPoint = point
 //        GameModel.shared.stageModel.saveData()
@@ -205,7 +205,7 @@ struct UpgradeItemViewModel: Identifiable{
     }
 }
 
-enum UpgradeType: Int, CaseIterable , SaveDataValue {
+enum UpgradeType: Int, CaseIterable , SaveDataName {
    
     case life
     case recycle
@@ -237,11 +237,22 @@ enum UpgradeType: Int, CaseIterable , SaveDataValue {
        
         }
     }
-    
-    var defaultValue: Int {
-      return 0
+    init?(actionType: ActionType) {
+        switch actionType {
+        case .normal:
+            return nil
+        case .pyramid:
+            self = .pyramid
+        case .shuriken:
+            self = .shuriken
+        case .hexagon:
+            self = .hexagon
+        case .horizon:
+            self = .horizon
+        case .hexagram:
+            self = .hxagram
+        }
     }
-    
     var actionType: ActionType? {
         switch self {
         case .life:

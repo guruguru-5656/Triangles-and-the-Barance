@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-///
-struct ActionItemModel: Identifiable, Hashable {
+struct ActionItemModel: Hashable, Identifiable {
     let type: ActionType
     let level: Int
     init(type: ActionType, level: Int) {
@@ -18,7 +17,6 @@ struct ActionItemModel: Identifiable, Hashable {
     let id = UUID()
     var cost: Int? {
         switch self.type {
-            
         case .normal:
             return 0
         case .pyramid:
@@ -65,12 +63,11 @@ struct ActionItemModel: Identifiable, Hashable {
             default:
                 fatalError("想定外のレベル")
             }
-       
         }
     }
 }
 
-enum ActionType: CaseIterable {
+enum ActionType: String, CaseIterable {
     case normal
     case pyramid
     case shuriken

@@ -17,7 +17,7 @@ class BaranceViewModel: ObservableObject {
     private var subscriber: AnyCancellable?
     
     func subscribe() {
-        subscriber = stageModel.publisher
+        subscriber = stageModel.gameEventPublisher
             .sink { event in
                 switch event {
                 case .triangleDeleted:

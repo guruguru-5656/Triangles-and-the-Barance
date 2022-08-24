@@ -5,14 +5,35 @@
 //  Created by 森本拓未 on 2022/04/04.
 //
 
-import Foundation
+import Combine
 import SwiftUI
 
 //スコアを表示用に加工して出力する
 final class ResultViewModel: ObservableObject {
-    @Published var results: [ResultModel] = ScoreType.allCases.enumerated().map {
-        ResultModel(type: $0.element, index: $0.offset)
-        }
+    
+    init(stageModel: StageModel) {
+        self.stageModel = stageModel
+    }
+    private let stageModel: StageModel
+    private var subscriber: AnyCancellable?
+    func subscribe() {
+        subscriber = stageModel.gameEventPublisher
+            .sink { [ weak self ] event in
+                guard let self = self else {
+                    return
+                }
+                switch event {
+                case .gameOver:
+                    self.setResultScores()
+                    self.showScores()
+                    return
+                default:
+                    break
+                }
+            }
+    }
+    
+    @Published var results: [ResultModel] = []
     @Published var point = 0
     @Published var totalPoint = 0
     @Published var viewStatus: ViewStatus = .onAppear
@@ -33,42 +54,59 @@ final class ResultViewModel: ObservableObject {
     }
     
     func setResultScores() {
-        //TODO: 修正
-//        for (index, value) in GameModel.shared.stageModel.getScore().enumerated() {
-//            results[index].value = value
-//        }
-        results.indices.forEach{
-            results[$0].isUpdated = false
+        let log = stageModel.stageLogs
+      
+        let count = log.reduce(0) {
+            $0 + $1.deleteCount
         }
-        totalPoint = SaveData.shareData.loadPointData()
+        
+        let maxCombo = log.reduce(0) {
+            ($1.maxCombo > $0 ? $1.maxCombo : $0)
+        }
+        let score = log.reduce(0) {
+            $0 + $1.deleteCount * $1.maxCombo
+        } * log.count
+        let point = log.reduce(0) {
+            $1.maxCombo * $1.deleteCount + $1.stage
+        }
+
+        results = [
+            ResultModel(type: .stage, value: log.count),
+            ResultModel(type: .count, value: count),
+            ResultModel(type: .combo, value: maxCombo),
+            ResultModel(type: .score, value: score),
+            ResultModel(type: .point, value: point)
+            //TODO: totalPoint実装
+        ]
+//        totalPoint = SaveData.shareData.loadPointData()
     }
-    func updateHiScore() {
-        let hiScores = SaveData.shareData.loadHiScoreData()
-        for index in results.indices {
-            let hiScoreIndex = hiScores.firstIndex{
-                $0.type == String(describing: results[index].type)
-            }!
-            if hiScores[hiScoreIndex].value < results[index].value {
-                results[index].isUpdated = true
-                hiScores[hiScoreIndex].value = Int64(results[index].value)
-            }
-        }
-        SaveData.shareData.saveHiScoreData()
+//    func updateHiScore() {
+//        let hiScores = SaveData.shareData.loadHiScoreData()
+//        for index in results.indices {
+//            let hiScoreIndex = hiScores.firstIndex{
+//                $0.type == String(describing: results[index].type)
+//            }!
+//            if hiScores[hiScoreIndex].value < results[index].value {
+//                results[index].isUpdated = true
+//                hiScores[hiScoreIndex].value = Int64(results[index].value)
+//            }
+//        }
+//        SaveData.shareData.saveHiScoreData()
+//    }
+    func closeResult() {
+        stageModel.resetGame()
     }
 }
 
 struct ResultModel: Identifiable, Hashable {
-    init(type: ScoreType, index: Int) {
+    init(type: ScoreType, value: Int) {
         self.type = type
-        if type == .stage {
-            self.value = 1
-        }
-        self.index = index
+        self.value = value
     }
     
     let id = UUID()
     //アニメーションや配列の検索にindexを利用
-    let index: Int
+    let index: Int = 0
     var viewStatus: ViewStatus = .isOff
     
     let type: ScoreType
@@ -93,15 +131,11 @@ struct ResultModel: Identifiable, Hashable {
     }
 }
 
-enum ScoreType: CaseIterable, SaveDataValue {
+enum ScoreType: CaseIterable, SaveDataName {
     case stage
     case count
     case combo
     case score
     case point
     case totalPoint
-    
-    var defaultValue: Int {
-        return 0
-    }
 }

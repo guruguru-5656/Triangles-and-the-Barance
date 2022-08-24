@@ -11,30 +11,53 @@ import Combine
 class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItemModel] = []
-    @Published var selectedItem: ActionItemModel? 
+    @Published var selectedItem: ActionItemModel?
     @Published var actionEffectViewModel: [ActionEffectViewModel] = []
-    @Published var energy: Int = 0
-    @Published var numberOfItems = 3
+    @Published var energy: Int {
+        didSet {
+            SaveData.shared.saveData(name: PropertyName.energy, value: energy)
+        }
+    }
+    @Published var actionCount: Int
+    private var maxActionCount: Int
+    private var usedActionCount: Int {
+        didSet {
+            actionCount = maxActionCount - usedActionCount
+            SaveData.shared.saveData(name: PropertyName.usedActionCount, value: usedActionCount)
+        }
+    }
     
     init(stageModel: StageModel) {
         self.stageModel = stageModel
+        //データの読み込み
+        energy = SaveData.shared.loadData(name: PropertyName.energy)
+        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
+        usedActionCount = SaveData.shared.loadData(name: PropertyName.usedActionCount)
+        actionCount = maxActionCount - usedActionCount
+        loadItemTable()
     }
     //イベントの受信設定
     private let stageModel: StageModel
     private var subscriber: AnyCancellable?
     func subscribe() {
-        subscriber = stageModel.publisher
+        subscriber = stageModel.gameEventPublisher
             .sink { [ weak self ] event in
                 guard let self = self else {
                     return
                 }
                 switch event {
                 case .stageClear:
-                    self.setParameters()
+                    self.resetParameters()
                 case .resetGame:
-                    self.setParameters()
-                default:
-                    break
+                    self.resetParameters()
+                case .initialize:
+                    return
+                case .triangleDeleted:
+                    return
+                case .clearAnimation:
+                    return
+                case .gameOver:
+                    return
                 }
             }
     }
@@ -51,12 +74,12 @@ class ItemController: ObservableObject {
         }
 
         selectedItem = nil
-        numberOfItems -= 1
+        usedActionCount += 1
         return item.type.actionCoordinate
     }    
    
     func itemSelect(model: ActionItemModel) {
-        guard numberOfItems > 0 else {
+        guard actionCount > 0 else {
             return
         }
         //現在選択しているItemと同じものを選択した場合、選択を解除する
@@ -90,38 +113,32 @@ class ItemController: ObservableObject {
     }
 
     ///パラメーターを初期値に戻す
-    func setParameters() {
-        setItemTable()
+    func resetParameters() {
+        loadItemTable()
+        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
+        usedActionCount = 0
         energy = 0
-        //TODO: データロード
-        numberOfItems = 3
-        
+        print("a\(usedActionCount)")
+        print("b\(actionCount)")
         selectedItem = nil
     }
  
-    private func loadNumberOfItems(_ upgradeData: [UpgradeItemViewModel]) {
-        let data = upgradeData.first{
-            $0.type == .actionCount
-        }
-        guard let data = data else {
-            print("NumberObItemsの読み込みエラー")
-            return
-        }
-        numberOfItems = data.level + 2
+    private func loadActionCountData(){
+        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
     }
-    private func setItemTable() {
-        let upgradeData = SaveData.shareData.loadUpgradeData()
-        let items = ActionType.allCases.map { actionType -> ActionItemModel in
-            if let data = upgradeData.first (where: { data in
-                data.type.actionType == actionType
-            }) {
-                return ActionItemModel(type: actionType, level: data.level)
-            } else {
-                return ActionItemModel(type: actionType, level: 1)
+    private func loadItemTable() {
+        actionItems = ActionType.allCases.map { actionType -> ActionItemModel in
+            if let upgradeType = UpgradeType(actionType: actionType){
+                let saveData = SaveData.shared.loadData(name: upgradeType)
+                return ActionItemModel(type: actionType, level: saveData)
             }
+            return ActionItemModel(type: actionType, level: 1)
         }
-        actionItems = items
-        loadNumberOfItems(upgradeData)
     }
     
+    //データ保存用のキー
+    private enum PropertyName: SaveDataName {
+        case energy
+        case usedActionCount
+    }
 }

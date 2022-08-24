@@ -22,9 +22,9 @@ class StageModel: ObservableObject {
     }
     private let targetList = [10, 15, 20, 25, 30, 35, 40, 45, 50,  55, 60, 70]
     //スコアの生成に利用
-    private(set) var stageLogs: [StageLog] = []
+    private (set) var stageLogs: [StageLog] = []
     //イベントの発行
-    private(set) var publisher = PassthroughSubject<GameEvent, Never>()
+    private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
 
     init() {
         //TODO: データロード
@@ -40,7 +40,7 @@ class StageModel: ObservableObject {
         if self.maxCombo < deleteCount {
             maxCombo = deleteCount
         }
-        publisher.send(.triangleDeleted)
+        gameEventPublisher.send(.triangleDeleted)
         //イベントの判定
         if self.deleteCount >= targetDeleteCount {
             if stage == 12 {
@@ -55,30 +55,38 @@ class StageModel: ObservableObject {
         }
     }
 
+    func giveUp() {
+        createLog()
+        gameOver()
+    }
+    
     func resetGame() {
         stage = 1
         //TODO: データロード
         maxLife = 3
-        
+       
         resetStageParameter()
-        publisher.send(.resetGame)
+        gameEventPublisher.send(.resetGame)
+        withAnimation {
+            showResultView = false
+        }
     }
-  
+    
     private func stageClear() {
-        publisher.send(.clearAnimation)
+        gameEventPublisher.send(.clearAnimation)
         Task {
             try await Task.sleep(nanoseconds: 1000_000_000)
             await MainActor.run {
                 createLog()
                 stage += 1
                 resetStageParameter()
-                publisher.send(.stageClear)
+                gameEventPublisher.send(.stageClear)
             }
         }
     }
     
     private func gameOver() {
-        publisher.send(.gameOver)
+        gameEventPublisher.send(.gameOver)
         createLog()
         withAnimation {
             showResultView = true
@@ -89,13 +97,20 @@ class StageModel: ObservableObject {
         deleteCount = 0
         maxCombo = 0
         life = maxLife
+        stageLogs = []
     }
     
-    func createLog() {
+    private func createLog() {
         let log = StageLog(stage: stage, deleteCount: deleteCount, maxCombo: maxCombo)
         stageLogs.append(log)
     }
-    
+}
+
+//テスト用メソッド
+extension StageModel {
+    func setLog(logs: [StageLog]) {
+        self.stageLogs = logs
+    }
 }
 
 enum GameEvent {

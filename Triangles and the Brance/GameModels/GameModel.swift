@@ -9,13 +9,13 @@
 import Combine
 
 //依存関係を定義し、ViewModelを保持するクラス
-class GameModel {
+final class GameModel {
   
     let stageModel: StageModel
     let triangleController: TriangleContloller
     let itemController: ItemController
     let baranceViewModel: BaranceViewModel
-    let score = ResultViewModel()
+    let score: ResultViewModel
     let viewEnvironment: ViewEnvironment
     //シングルトン
     static let shared = GameModel()
@@ -27,22 +27,18 @@ class GameModel {
         triangleController = TriangleContloller(stageModel: stageModel, itemController: itemController)
         baranceViewModel = BaranceViewModel(stageModel: stageModel)
         viewEnvironment = ViewEnvironment(stageModel: stageModel)
+        score = ResultViewModel(stageModel: stageModel)
         //イベントの発行を監視
         triangleController.subscribe()
         baranceViewModel.subscribe()
         itemController.subscribe()
         viewEnvironment.subscribe()
+        score.subscribe()
         //データのロード
         
         //初期化処理
         triangleController.setParameters()
-        itemController.setParameters()
-    }
-   
-    func gameOver() {
-        score.setResultScores()
-        score.updateHiScore()
-        score.showScores()
+//        itemController.resetParameters()
     }
 }
 

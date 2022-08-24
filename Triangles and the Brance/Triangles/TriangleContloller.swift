@@ -8,7 +8,7 @@
 import Combine
 import SwiftUI
 
-class TriangleContloller: ObservableObject {
+final class TriangleContloller: ObservableObject {
     
     private let itemController: ItemController
     @Published var triangles: [TriangleViewModel] = []
@@ -25,9 +25,9 @@ class TriangleContloller: ObservableObject {
     }
     //イベント通知を受け取る
     private let stageModel: StageModel
-    var subscriber: AnyCancellable?
+    private var subscriber: AnyCancellable?
     func subscribe() {
-        subscriber = stageModel.publisher
+        subscriber = stageModel.gameEventPublisher
             .sink { [ weak self ] event in
                 guard let self = self else {
                     return
@@ -48,7 +48,7 @@ class TriangleContloller: ObservableObject {
         loadArrangement(stage: stageModel.stage)
         setTrianleVertexs()
         setTrianglesStatus()
-        loadRecycleRate()
+//        loadRecycleRate()
     }
     ///ステージ配置をセットする
     private func loadArrangement(stage: Int) {
@@ -77,13 +77,13 @@ class TriangleContloller: ObservableObject {
         triangleVertexs = Array(Set(vertexs))
     }
     ///アップグレードのデータからrecycleのlevelを読み込み
-    private func loadRecycleRate() {
-        let data = SaveData.shareData.loadUpgradeData()
-        let recycleData = data.first {
-            $0.type == .recycle
-        }!
-        recycleRate = Double(recycleData.level) * 0.2
-    }
+//    private func loadRecycleRate() {
+//        let data = SaveData.shareData.loadUpgradeData()
+//        let recycleData = data.first {
+//            $0.type == .recycle
+//        }!
+//        recycleRate = Double(recycleData.level) * 0.2
+//    }
  
     ///タップしたときのアクション
     func triangleTapAction(coordinate: TriangleCenterCoordinate) {

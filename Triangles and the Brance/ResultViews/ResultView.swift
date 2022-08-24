@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ResultView: View {
-    @ObservedObject private var score = GameModel.shared.score
+    @StateObject private var score = GameModel.shared.score
     @State private var opacity: Double = 0
     @State private var showUpgradeView = false
     var body: some View {
         GeometryReader { geometry in
             VStack (spacing: 20) {
-                Text((score.results[0].value == 12 ? "Final Result" : "Result"))
+                Text("Result")
                     .font(.largeTitle)
                     .padding(.vertical)
                     .background(
@@ -36,10 +36,7 @@ struct ResultView: View {
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
-                                GameModel.shared.stageModel.resetGame()
-                                withAnimation {
-                                    GameModel.shared.stageModel.showResultView = false
-                                }
+                                score.closeResult()
                             }){
                                 HStack {
                                     Image(systemName: "arrow.counterclockwise")

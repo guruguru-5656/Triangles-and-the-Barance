@@ -43,7 +43,7 @@ struct StageView: View {
                     }
                     Spacer()
                     Button(action: {
-                        GameModel.shared.gameOver()
+                        stageModel.giveUp()
                     }){
                         Image(systemName: "flag.fill")
                             .resizable()

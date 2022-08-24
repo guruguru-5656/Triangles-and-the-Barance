@@ -8,57 +8,93 @@
 import Foundation
 
 //検証用にデータを定数で読みこむクラス
-final class TestData {
-    static let startStage: Int = 5      // 1...12
-    var upgradeData: [(type: UpgradeType, value: Int)] = [
-        (type: .life, value: 1),        // 0...5
-        (type: .recycle, value: 1),     // 0...3
-        (type: .actionCount, value: 1), // 0...3
-        (type: .pyramid, value: 1),     // 0...3
-        (type: .shuriken, value: 1),    // 0...3
-        (type: .hexagon, value: 1),     // 0...3
-        (type: .horizon, value: 1),     // 0...3
-        (type: .hxagram, value: 1),     // 0...3
-    ]
-
-    var scoreData: [(type: ScoreType, value: Int)] = [
-        (type: .stage, value: 0),
-        (type: .count, value: 0),
-        (type: .combo, value: 0),
-        (type: .score, value: 0)
-    ]
+final class TestData: DataClass {
+    //テスト用データ
+    private struct UpgradeData {
+        let type: UpgradeType
+        var value: Int {
+            switch type {
+            case .life:
+                return 1
+            case .recycle:
+                return 1
+            case .actionCount:
+                return 1
+            case .pyramid:
+                return 1
+            case .shuriken:
+                return 1
+            case .hexagon:
+                return 1
+            case .horizon:
+               return  1
+            case .hxagram:
+                return 1
+            }
+        }
+    }
     
-    var point: Int = 0
+    private struct ScoreData {
+        let type: ScoreType
+        var value: Int {
+            switch type {
+            case .stage:
+               return 0
+            case .count:
+               return 0
+            case .combo:
+               return 0
+            case .score:
+                return 0
+            case .point:
+                return 0
+            case .totalPoint:
+               return  0
+            }
+        }
+    }
     
-//    func loadData<T:SaveDataType>(type: T) -> Int {
-//        switch type.self {
-//        case is UpgradeType:
-//            return upgradeData.first {
-//                $0.type == type as! UpgradeType
-//            }!.value
-//        case is ScoreType:
-//            return scoreData.first {
-//                $0.type == type as! ScoreType
-//            }!.value
-//        case is PointType:
-//            return point
-//        default:
-//            fatalError("想定外のタイプ指定")
-//        }
-//    }
-//    
-//    func saveData<T: SaveDataType>(type: T, value: Int) {
-//        switch type.self {
-//        case is UpgradeType:
-//            let index = upgradeData.firstIndex {
-//                $0.type == type as! UpgradeType
-//            }!
-//            upgradeData[index].value = value
-//        case is PointType:
-//            point = value
-//        default:
-//            fatalError("想定外のタイプ指定")
-//        }
-//    }
+    private struct GameStatusData {
+        let type: GameStatus
+        var value: Int {
+            switch type {
+            case .stage:
+               return 1
+            case .deleteCount:
+               return 0
+            case .life:
+               return 3
+            case .point:
+               return  3
+            }
+        }
+    }
+    //キャッシュ
+    private var casheData: [String:Int] = [:]
+    //キャッシュがあればそれをロードし、なければテスト用データをロードする
+    func loadData<T:SaveDataName>(name: T) -> Int {
+        if let data = casheData[name.description] {
+            return data
+        }
+        switch name.self {
+        case is UpgradeType:
+            return UpgradeData(type: name as! UpgradeType).value
+        case is ScoreType:
+            return ScoreData(type: name as! ScoreType).value
+        case is GameStatus:
+            return GameStatusData(type: name as! GameStatus).value
+        default:
+            fatalError("型指定エラー")
+        }
+    }
+    func saveData<T: SaveDataName>(name: T, intValue: Int) {
+        casheData.updateValue(intValue, forKey: name.description)
+    }
+    func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
+        return nil
+    }
+    
+    func saveData<T, U>(name: T, value: U) where T : SaveDataName, U : Decodable, U : Encodable {
+        return
+    }
 }
-

@@ -18,7 +18,7 @@ struct ActionItemView: View {
         if itemModel.level == 0 {
             return 0.2
         }
-        if itemModel.cost ?? .max <= itemController.energy && itemController.numberOfItems > 0{
+        if itemModel.cost ?? .max <= itemController.energy && itemController.actionCount > 0{
             return 1
         } else {
             return 0.5
