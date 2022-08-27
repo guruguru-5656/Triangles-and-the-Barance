@@ -22,6 +22,7 @@ final class TriangleContloller: ObservableObject {
     init(stageModel: StageModel, itemController: ItemController) {
         self.stageModel = stageModel
         self.itemController = itemController
+        loadRecycleRate()
     }
     //イベント通知を受け取る
     private let stageModel: StageModel
@@ -48,7 +49,7 @@ final class TriangleContloller: ObservableObject {
         loadArrangement(stage: stageModel.stage)
         setTrianleVertexs()
         setTrianglesStatus()
-//        loadRecycleRate()
+        loadRecycleRate()
     }
     ///ステージ配置をセットする
     private func loadArrangement(stage: Int) {
@@ -77,13 +78,10 @@ final class TriangleContloller: ObservableObject {
         triangleVertexs = Array(Set(vertexs))
     }
     ///アップグレードのデータからrecycleのlevelを読み込み
-//    private func loadRecycleRate() {
-//        let data = SaveData.shareData.loadUpgradeData()
-//        let recycleData = data.first {
-//            $0.type == .recycle
-//        }!
-//        recycleRate = Double(recycleData.level) * 0.2
-//    }
+    private func loadRecycleRate() {
+        let recycleLevel = SaveData.shared.loadData(name: UpgradeType.recycle)
+        recycleRate = Double(recycleLevel) * 0.2
+    }
  
     ///タップしたときのアクション
     func triangleTapAction(coordinate: TriangleCenterCoordinate) {
@@ -241,5 +239,10 @@ final class TriangleContloller: ObservableObject {
     private struct PlanOfChangeStatus{
         let index:Int
         let count:Int
+    }
+    
+    private enum PropertyName: SaveDataName {
+        case triangles
+        
     }
 }

@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct ResultView: View {
-    @StateObject private var score = GameModel.shared.score
+    @EnvironmentObject private var stageModel: StageModel
+    @StateObject private var resultViewModel = ResultViewModel()
     @State private var opacity: Double = 0
     @State private var showUpgradeView = false
+    
     var body: some View {
         GeometryReader { geometry in
             VStack (spacing: 20) {
@@ -26,7 +28,7 @@ struct ResultView: View {
                 if !showUpgradeView {
                     Section {
                         Section {
-                            ForEach($score.results) { $results in
+                            ForEach($resultViewModel.results) { $results in
                                 ScoreView(score: $results)
                                     .opacity(opacity)
                                     .animation(.default.delay(Double(results.index) * 0.2), value: opacity)
@@ -36,7 +38,7 @@ struct ResultView: View {
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
-                                score.closeResult()
+                                resultViewModel.closeResult()
                             }){
                                 HStack {
                                     Image(systemName: "arrow.counterclockwise")
@@ -68,11 +70,18 @@ struct ResultView: View {
                 if showUpgradeView {
                     UpgradeView(showUpgradeView: $showUpgradeView)
                         .transition(.move(edge: .bottom).combined(with: .opacity))
+                        .onDisappear {
+                            resultViewModel.loadTotalPointData()
+                        }
                 }
             }
         }
         .background(Color(white: 0.95, opacity: 0.8))
         .transition(.opacity)
+        .onAppear {
+            resultViewModel.depend(stageModel: stageModel)
+            resultViewModel.showScores()
+        }
     }
 }
 

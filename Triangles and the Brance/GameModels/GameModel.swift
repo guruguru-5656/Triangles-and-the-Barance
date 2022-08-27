@@ -15,7 +15,7 @@ final class GameModel {
     let triangleController: TriangleContloller
     let itemController: ItemController
     let baranceViewModel: BaranceViewModel
-    let score: ResultViewModel
+//    let resultViewModel: ResultViewModel
     let viewEnvironment: ViewEnvironment
     //シングルトン
     static let shared = GameModel()
@@ -27,13 +27,13 @@ final class GameModel {
         triangleController = TriangleContloller(stageModel: stageModel, itemController: itemController)
         baranceViewModel = BaranceViewModel(stageModel: stageModel)
         viewEnvironment = ViewEnvironment(stageModel: stageModel)
-        score = ResultViewModel(stageModel: stageModel)
+//        resultViewModel = ResultViewModel(stageModel: stageModel)
         //イベントの発行を監視
         triangleController.subscribe()
         baranceViewModel.subscribe()
         itemController.subscribe()
         viewEnvironment.subscribe()
-        score.subscribe()
+//        resultViewModel.subscribe()
         //データのロード
         
         //初期化処理

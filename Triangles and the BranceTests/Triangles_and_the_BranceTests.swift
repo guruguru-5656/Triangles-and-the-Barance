@@ -25,19 +25,6 @@ class Triangles_and_the_BranceTests: XCTestCase {
         // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
     }
     
-    func testResultViewModel() throws {
-       
-        let stageModel = StageModel()
-        let stageLogs = [
-            StageLog(stage: 1, deleteCount: 5, maxCombo: 5),
-            StageLog(stage: 2, deleteCount: 10, maxCombo: 10)
-        ]
-        stageModel.setLog(logs: stageLogs)
-        let resultViewModel = ResultViewModel(stageModel: stageModel)
-        resultViewModel.setResultScores()
-        XCTAssertEqual(resultViewModel.results[1].value, 15)
-    }
-    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         measure {

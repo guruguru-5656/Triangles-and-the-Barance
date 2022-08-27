@@ -21,7 +21,7 @@ enum GameLog: SaveDataName {
 }
 
 
-struct StageLog:Codable {
+struct StageData:Codable {
     let stage: Int
     let deleteCount: Int
     let maxCombo: Int

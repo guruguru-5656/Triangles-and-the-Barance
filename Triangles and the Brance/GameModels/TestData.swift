@@ -35,7 +35,7 @@ final class TestData: DataClass {
     }
     
     private struct ScoreData {
-        let type: ScoreType
+        let type: ResultValue
         var value: Int {
             switch type {
             case .stage:
@@ -79,8 +79,8 @@ final class TestData: DataClass {
         switch name.self {
         case is UpgradeType:
             return UpgradeData(type: name as! UpgradeType).value
-        case is ScoreType:
-            return ScoreData(type: name as! ScoreType).value
+        case is ResultValue:
+            return ScoreData(type: name as! ResultValue).value
         case is GameStatus:
             return GameStatusData(type: name as! GameStatus).value
         default:

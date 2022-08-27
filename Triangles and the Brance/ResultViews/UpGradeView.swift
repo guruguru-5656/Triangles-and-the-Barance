@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct UpgradeView: View {
+    
     @Binding var showUpgradeView: Bool
     @StateObject var model = UpgradeViewModel()
     @State var opacity:Double = 0
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -82,7 +84,7 @@ struct UpgradeView: View {
 }
 
 struct UpgradeCellView: View {
-    @Binding var item: UpgradeItemViewModel
+    @Binding var item: UpgradeCellViewModel
     @ObservedObject var upgradeModel: UpgradeViewModel
     let size: CGFloat
     

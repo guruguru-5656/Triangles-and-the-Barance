@@ -11,12 +11,24 @@ import SwiftUI
 //スコアを表示用に加工して出力する
 final class ResultViewModel: ObservableObject {
     
-    init(stageModel: StageModel) {
-        self.stageModel = stageModel
-    }
-    private let stageModel: StageModel
+    private var stageModel: StageModel?
     private var subscriber: AnyCancellable?
+    @Published var results: [ResultModel] = []
+    @Published var viewStatus: ViewStatus = .onAppear
+
+    func depend(stageModel: StageModel) {
+        guard self.stageModel == nil else {
+            return
+        }
+        self.stageModel = stageModel
+        subscribe()
+    }
+    
     func subscribe() {
+        guard let stageModel = stageModel else {
+            return
+        }
+
         subscriber = stageModel.gameEventPublisher
             .sink { [ weak self ] event in
                 guard let self = self else {
@@ -33,15 +45,11 @@ final class ResultViewModel: ObservableObject {
             }
     }
     
-    @Published var results: [ResultModel] = []
-    @Published var point = 0
-    @Published var totalPoint = 0
-    @Published var viewStatus: ViewStatus = .onAppear
-    
     func showScores() {
+        setResultScores()
         viewStatus = .onAppear
         withAnimation(.easeIn(duration: 3)){
-        viewStatus = .isOn
+            viewStatus = .isOn
         }
         results.indices.forEach { index in
             withAnimation(.linear(duration: 0.1).delay(10 + Double(index) * 0.3)){
@@ -54,64 +62,83 @@ final class ResultViewModel: ObservableObject {
     }
     
     func setResultScores() {
+        guard let stageModel = stageModel else {
+            return
+        }
+        
         let log = stageModel.stageLogs
-      
+        
+        let finalStage = log.reduce(0) {
+            ($1.stage > $0 ? $1.stage : $0)
+        }
         let count = log.reduce(0) {
             $0 + $1.deleteCount
         }
-        
         let maxCombo = log.reduce(0) {
             ($1.maxCombo > $0 ? $1.maxCombo : $0)
         }
         let score = log.reduce(0) {
-            $0 + $1.deleteCount * $1.maxCombo
-        } * log.count
-        let point = log.reduce(0) {
-            $1.maxCombo * $1.deleteCount + $1.stage
+            $0 + $1.deleteCount * $1.maxCombo * $1.stage
         }
+        let point = log.reduce(0) {
+            $0 + $1.maxCombo * $1.deleteCount
+        } * finalStage
 
         results = [
-            ResultModel(type: .stage, value: log.count),
+            ResultModel(type: .stage, value: finalStage),
             ResultModel(type: .count, value: count),
             ResultModel(type: .combo, value: maxCombo),
             ResultModel(type: .score, value: score),
             ResultModel(type: .point, value: point)
-            //TODO: totalPoint実装
         ]
-//        totalPoint = SaveData.shareData.loadPointData()
+        //ハイスコア読み込みおよび更新
+        results.indices.forEach { index in
+            let loadScore = SaveData.shared.loadData(name: results[index].type)
+            results[index].compareData(index: index, score: loadScore)
+            if results[index].isUpdated {
+                SaveData.shared.saveData(name: results[index].type, value: results[index].value )
+            }
+        }
+        //totalPointの読み込みおよび更新
+        let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + point
+        let totalPointIndex = results.count
+        results.append(ResultModel(type: .totalPoint, value: totalPoint, index: totalPointIndex))
+        SaveData.shared.saveData(name: ResultValue.totalPoint, value: totalPoint)
     }
-//    func updateHiScore() {
-//        let hiScores = SaveData.shareData.loadHiScoreData()
-//        for index in results.indices {
-//            let hiScoreIndex = hiScores.firstIndex{
-//                $0.type == String(describing: results[index].type)
-//            }!
-//            if hiScores[hiScoreIndex].value < results[index].value {
-//                results[index].isUpdated = true
-//                hiScores[hiScoreIndex].value = Int64(results[index].value)
-//            }
-//        }
-//        SaveData.shareData.saveHiScoreData()
-//    }
+   
+    func loadTotalPointData() {
+
+        results[5].value = SaveData.shared.loadData(name: ResultValue.totalPoint)
+    }
+    
     func closeResult() {
+        guard let stageModel = stageModel else {
+            return
+        }
         stageModel.resetGame()
     }
 }
 
 struct ResultModel: Identifiable, Hashable {
-    init(type: ScoreType, value: Int) {
+
+    let type: ResultValue
+    var value: Int = 0
+    private (set) var isUpdated = false
+    //アニメーション用の番号
+    private (set) var index: Int = 0
+    var viewStatus: ViewStatus = .isOff
+    let id = UUID()
+    
+    init(type: ResultValue, value: Int, index: Int = 0) {
         self.type = type
         self.value = value
+        self.index = index
     }
-    
-    let id = UUID()
-    //アニメーションや配列の検索にindexを利用
-    let index: Int = 0
-    var viewStatus: ViewStatus = .isOff
-    
-    let type: ScoreType
-    var value: Int = 0
-    var isUpdated = false
+ 
+    mutating func compareData(index: Int, score: Int) {
+        self.index = index
+        isUpdated = score < value
+    }
     
     var text: String {
         switch type {
@@ -131,7 +158,7 @@ struct ResultModel: Identifiable, Hashable {
     }
 }
 
-enum ScoreType: CaseIterable, SaveDataName {
+enum ResultValue: CaseIterable, SaveDataName {
     case stage
     case count
     case combo

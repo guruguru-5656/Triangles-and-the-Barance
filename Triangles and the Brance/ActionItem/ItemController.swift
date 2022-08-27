@@ -13,27 +13,14 @@ class ItemController: ObservableObject {
     @Published var actionItems: [ActionItemModel] = []
     @Published var selectedItem: ActionItemModel?
     @Published var actionEffectViewModel: [ActionEffectViewModel] = []
-    @Published var energy: Int {
-        didSet {
-            SaveData.shared.saveData(name: PropertyName.energy, value: energy)
-        }
-    }
+    @Published var energy: Int
     @Published var actionCount: Int
-    private var maxActionCount: Int
-    private var usedActionCount: Int {
-        didSet {
-            actionCount = maxActionCount - usedActionCount
-            SaveData.shared.saveData(name: PropertyName.usedActionCount, value: usedActionCount)
-        }
-    }
-    
+ 
     init(stageModel: StageModel) {
         self.stageModel = stageModel
         //データの読み込み
-        energy = SaveData.shared.loadData(name: PropertyName.energy)
-        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
-        usedActionCount = SaveData.shared.loadData(name: PropertyName.usedActionCount)
-        actionCount = maxActionCount - usedActionCount
+        energy = 0
+        actionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
         loadItemTable()
     }
     //イベントの受信設定
@@ -74,7 +61,7 @@ class ItemController: ObservableObject {
         }
 
         selectedItem = nil
-        usedActionCount += 1
+        actionCount -= 1
         return item.type.actionCoordinate
     }    
    
@@ -115,17 +102,11 @@ class ItemController: ObservableObject {
     ///パラメーターを初期値に戻す
     func resetParameters() {
         loadItemTable()
-        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
-        usedActionCount = 0
+        actionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
         energy = 0
-        print("a\(usedActionCount)")
-        print("b\(actionCount)")
         selectedItem = nil
     }
  
-    private func loadActionCountData(){
-        maxActionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
-    }
     private func loadItemTable() {
         actionItems = ActionType.allCases.map { actionType -> ActionItemModel in
             if let upgradeType = UpgradeType(actionType: actionType){
@@ -134,11 +115,5 @@ class ItemController: ObservableObject {
             }
             return ActionItemModel(type: actionType, level: 1)
         }
-    }
-    
-    //データ保存用のキー
-    private enum PropertyName: SaveDataName {
-        case energy
-        case usedActionCount
     }
 }

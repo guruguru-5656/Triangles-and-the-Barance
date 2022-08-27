@@ -17,20 +17,20 @@ class StageModel: ObservableObject {
     private var maxLife = 3
     private var maxCombo: Int = 0
     //目標値
-    var targetDeleteCount:Int {
+    var targetDeleteCount: Int {
         targetList[stage - 1]
     }
     private let targetList = [10, 15, 20, 25, 30, 35, 40, 45, 50,  55, 60, 70]
     //スコアの生成に利用
-    private (set) var stageLogs: [StageLog] = []
+    private (set) var stageLogs: [StageData] = []
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
 
     init() {
-        //TODO: データロード
-        stage = 1
-        maxLife = 3
-        
+        let stageData = SaveData.shared.loadData(name: StageState.stage)
+        stage = stageData == 0 ? 1 : stageData
+        maxLife = SaveData.shared.loadData(name: UpgradeType.life) + 2
+        stageLogs = SaveData.shared.loadData(name: StageLog.log, valueType: Array<StageData>.self) ?? []
         life = maxLife
     }
     
@@ -56,14 +56,12 @@ class StageModel: ObservableObject {
     }
 
     func giveUp() {
-        createLog()
         gameOver()
     }
     
     func resetGame() {
         stage = 1
-        //TODO: データロード
-        maxLife = 3
+        maxLife = SaveData.shared.loadData(name: UpgradeType.life) + 2
        
         resetStageParameter()
         gameEventPublisher.send(.resetGame)
@@ -79,18 +77,25 @@ class StageModel: ObservableObject {
             await MainActor.run {
                 createLog()
                 stage += 1
-                resetStageParameter()
+                deleteCount = 0
+                maxCombo = 0
+                life = maxLife
+                saveStageStatus()
                 gameEventPublisher.send(.stageClear)
             }
         }
     }
     
     private func gameOver() {
-        gameEventPublisher.send(.gameOver)
         createLog()
+        gameEventPublisher.send(.gameOver)
         withAnimation {
             showResultView = true
         }
+        //データを初期状態でセーブ
+        SaveData.shared.saveData(name: StageState.stage, value: 1)
+        let initialLog: [StageData] = []
+        SaveData.shared.saveData(name: StageLog.log, value: initialLog)
     }
     
     private func resetStageParameter() {
@@ -101,15 +106,13 @@ class StageModel: ObservableObject {
     }
     
     private func createLog() {
-        let log = StageLog(stage: stage, deleteCount: deleteCount, maxCombo: maxCombo)
+        let log = StageData(stage: stage, deleteCount: deleteCount, maxCombo: maxCombo)
         stageLogs.append(log)
     }
-}
-
-//テスト用メソッド
-extension StageModel {
-    func setLog(logs: [StageLog]) {
-        self.stageLogs = logs
+    
+    private func saveStageStatus() {
+        SaveData.shared.saveData(name: StageState.stage, value: stage)
+        SaveData.shared.saveData(name: StageLog.log, value: stageLogs)
     }
 }
 
@@ -120,4 +123,12 @@ enum GameEvent {
     case stageClear
     case gameOver
     case resetGame
+}
+
+enum StageState: SaveDataName {
+    case stage
+}
+
+enum StageLog: SaveDataName {
+    case log
 }

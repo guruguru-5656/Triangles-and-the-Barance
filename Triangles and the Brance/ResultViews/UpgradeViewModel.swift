@@ -9,36 +9,44 @@ import Foundation
 import SwiftUI
 
 class UpgradeViewModel: ObservableObject {
-    @Published var upgradeItems: [UpgradeItemViewModel] = []
+    @Published var upgradeItems: [UpgradeCellViewModel] = []
     @Published var point: Int = 0
     @Published var payingPoint = 0
-    @Published var detailItem = UpgradeItemViewModel(type: .life)
+    @Published var detailItem = UpgradeCellViewModel(type: .life, level: 0)
     @Published var showDetailView = false
     
-    init(){
-//        upgradeItems = SaveData.shareData.loadUpgradeData()
-        //TODO: 修正
-//        point = GameModel.shared.stageModel.totalPoint
-//        upgradeItems.indices.forEach{
-//            upgradeItems[$0].parentModel = self
-//        }
-    }
-    func cancel() {
-        //TODO: 修正
-        point
-//        point = GameModel.shared.stageModel.totalPoint
-        payingPoint = 0
-        
-    }
-    func permitPaying() {
-//        SaveData.shareData.saveUpgradeData(model: upgradeItems)
-        //TODO: 修正
-//        GameModel.shared.stageModel.totalPoint = point
-//        GameModel.shared.stageModel.saveData()
-        GameModel.shared.score.totalPoint = point
+    init() {
+        upgradeItems = loadUpgradeData()
+        point = loadTotalPointData()
+        upgradeItems.indices.forEach{
+            upgradeItems[$0].parentModel = self
+        }
     }
     
-    func showDetail(_ item: UpgradeItemViewModel) {
+    func loadUpgradeData() -> [UpgradeCellViewModel] {
+        UpgradeType.allCases.map { type -> UpgradeCellViewModel in
+            let level = SaveData.shared.loadData(name: type)
+            return UpgradeCellViewModel(type: type, level: level)
+        }
+    }
+    
+    func loadTotalPointData() -> Int {
+        SaveData.shared.loadData(name: ResultValue.totalPoint)
+    }
+  
+    func cancel() {
+        point += payingPoint
+        payingPoint = 0
+    }
+    
+    func permitPaying() {
+        upgradeItems.forEach {
+            SaveData.shared.saveData(name: $0.type, value: $0.level)
+        }
+        SaveData.shared.saveData(name: ResultValue.totalPoint, value: point)
+    }
+    
+    func showDetail(_ item: UpgradeCellViewModel) {
         if showDetailView {
             withAnimation {
                 showDetailView = false
@@ -59,7 +67,7 @@ class UpgradeViewModel: ObservableObject {
 }
 
 //UpgradeSubViewのモデル
-struct UpgradeItemViewModel: Identifiable{
+struct UpgradeCellViewModel: Identifiable{
     
     let type:UpgradeType
     var level: Int
@@ -69,20 +77,7 @@ struct UpgradeItemViewModel: Identifiable{
     let id = UUID()
     //親クラスの参照
     fileprivate weak var parentModel: UpgradeViewModel?
-    //levelのデータを読み込まなかった場合のイニシャライザ
-    init(type: UpgradeType) {
-        self.type = type
-        self.level = type.upgradeRange.lowerBound
-    }
-    
-    init(type: String, level: Int64) {
-        guard let upgradeType = UpgradeType.allCases.first (where: {String(describing: $0) == type})
-        else {
-            fatalError("UpgradeType指定エラー")
-        }
-        self.type = upgradeType
-        self.level = Int(level)
-    }
+   
     mutating func upgrade(){
         guard let parentModel = parentModel else {
             return
