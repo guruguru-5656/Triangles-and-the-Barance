@@ -18,8 +18,8 @@
 		0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
 		0445252528A5F19300F3051C /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
-		0445252A28A765D200F3051C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* UserData.swift */; };
-		0445252B28A765D200F3051C /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* UserData.swift */; };
+		0445252A28A765D200F3051C /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* SaveData.swift */; };
+		0445252B28A765D200F3051C /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* SaveData.swift */; };
 		0445252D28A7660600F3051C /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252C28A7660600F3051C /* TestData.swift */; };
 		0445252E28A7660600F3051C /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252C28A7660600F3051C /* TestData.swift */; };
 		0445253028A7729100F3051C /* BaranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252F28A7729100F3051C /* BaranceViewModel.swift */; };
@@ -60,8 +60,6 @@
 		0445255428A776D400F3051C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D26CE287541B2009DC72B /* CustomButton.swift */; };
 		0445255528A776D700F3051C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A527D2187700936E2C /* Assets.xcassets */; };
 		0445255628A776DD00F3051C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A827D2187700936E2C /* Preview Assets.xcassets */; };
-		0445255B28A8942A00F3051C /* StageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445255A28A8942A00F3051C /* StageStatus.swift */; };
-		0445255C28A8942A00F3051C /* StageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445255A28A8942A00F3051C /* StageStatus.swift */; };
 		044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ResultView.swift */; };
 		044AD42427FAF7A300D96CED /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42327FAF7A300D96CED /* ResultViewModel.swift */; };
 		044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42527FB100B00D96CED /* UpGradeView.swift */; };
@@ -115,10 +113,9 @@
 		0426B0E627DB93FF00AC348E /* DrawStageShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawStageShape.swift; sourceTree = "<group>"; };
 		0426B0F127DF29EF00AC348E /* ActionItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemModel.swift; sourceTree = "<group>"; };
 		0426B0F327DF460000AC348E /* ActionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemView.swift; sourceTree = "<group>"; };
-		0445252928A765D200F3051C /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		0445252928A765D200F3051C /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
 		0445252C28A7660600F3051C /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		0445252F28A7729100F3051C /* BaranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceViewModel.swift; sourceTree = "<group>"; };
-		0445255A28A8942A00F3051C /* StageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageStatus.swift; sourceTree = "<group>"; };
 		044AD42127F9AA8F00D96CED /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
 		044AD42327FAF7A300D96CED /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
 		044AD42527FB100B00D96CED /* UpGradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpGradeView.swift; sourceTree = "<group>"; };
@@ -273,9 +270,8 @@
 			children = (
 				045121B927D43EAB00936E2C /* GameModel.swift */,
 				044AD42E27FFF64C00D96CED /* StageModel.swift */,
-				0445255A28A8942A00F3051C /* StageStatus.swift */,
 				04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */,
-				0445252928A765D200F3051C /* UserData.swift */,
+				0445252928A765D200F3051C /* SaveData.swift */,
 				0445252C28A7660600F3051C /* TestData.swift */,
 			);
 			path = GameModels;
@@ -422,7 +418,6 @@
 				0445253428A7766C00F3051C /* GameModel.swift in Sources */,
 				0445253228A7766600F3051C /* ViewEnvironment.swift in Sources */,
 				0445253E28A7769600F3051C /* TriangleView.swift in Sources */,
-				0445255C28A8942A00F3051C /* StageStatus.swift in Sources */,
 				0445255028A776C800F3051C /* UpGradeView.swift in Sources */,
 				0445255328A776D200F3051C /* UpgradeViewModel.swift in Sources */,
 				0445254E28A776C400F3051C /* ResultView.swift in Sources */,
@@ -441,7 +436,7 @@
 				0445254F28A776C600F3051C /* ResultViewModel.swift in Sources */,
 				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
 				0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */,
-				0445252B28A765D200F3051C /* UserData.swift in Sources */,
+				0445252B28A765D200F3051C /* SaveData.swift in Sources */,
 				0445252E28A7660600F3051C /* TestData.swift in Sources */,
 				0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */,
 				0445254628A776AB00F3051C /* ActionItemView.swift in Sources */,
@@ -474,7 +469,7 @@
 				045121B227D21B1200936E2C /* StageView.swift in Sources */,
 				0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */,
 				04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */,
-				0445252A28A765D200F3051C /* UserData.swift in Sources */,
+				0445252A28A765D200F3051C /* SaveData.swift in Sources */,
 				0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */,
 				044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */,
 				041D26CF287541B2009DC72B /* CustomButton.swift in Sources */,
@@ -489,7 +484,6 @@
 				0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */,
 				040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */,
 				0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */,
-				0445255B28A8942A00F3051C /* StageStatus.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
 				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
 				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,
@@ -723,6 +717,115 @@
 			};
 			name = Release;
 		};
+		046F3AA528BB01DA000D2087 /* GameDesignTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = GameDesignTest;
+		};
+		046F3AA628BB01DA000D2087 /* GameDesignTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-Brance";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = GameDesignTest;
+		};
+		046F3AA728BB01DA000D2087 /* GameDesignTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
+			};
+			name = GameDesignTest;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -730,6 +833,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0414EF4F28910E2B00996F55 /* Debug */,
+				046F3AA728BB01DA000D2087 /* GameDesignTest */,
 				0414EF5028910E2B00996F55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -739,6 +843,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				045121AA27D2187700936E2C /* Debug */,
+				046F3AA528BB01DA000D2087 /* GameDesignTest */,
 				045121AB27D2187700936E2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -748,6 +853,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				045121AD27D2187700936E2C /* Debug */,
+				046F3AA628BB01DA000D2087 /* GameDesignTest */,
 				045121AE27D2187700936E2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

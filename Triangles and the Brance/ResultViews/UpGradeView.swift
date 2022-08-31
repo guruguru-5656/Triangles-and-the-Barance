@@ -27,13 +27,13 @@ struct UpgradeView: View {
                 }
                 ZStack {
                     ScrollView {
-                    ForEach($model.upgradeItems) { $item in
-                        UpgradeCellView(item: $item, upgradeModel: model,  size: geometry.size.width)
-                            .opacity(opacity)
-                            .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
+                        ForEach($model.upgradeItems) { $item in
+                            UpgradeCellView(item: $item, upgradeModel: model,height: geometry.size.width / 8)
+                                .opacity(opacity)
+                                .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
+                        }
                     }
-                }
-                .frame(height: geometry.size.height * 0.6 )
+                    .frame(height: geometry.size.height * 0.6 )
                     if model.showDetailView {
                         UpGradeDetailView(model: model, size: CGSize(width: geometry.size.width, height: geometry.size.height * 0.6))
                             .zIndex(1)
@@ -84,40 +84,41 @@ struct UpgradeView: View {
 }
 
 struct UpgradeCellView: View {
+    
     @Binding var item: UpgradeCellViewModel
     @ObservedObject var upgradeModel: UpgradeViewModel
-    let size: CGFloat
-    
+    let height: CGFloat
     var body: some View {
-            HStack {
+        GeometryReader { geometry in
+            HStack(alignment: .center) {
                 item.icon
                     .resizable()
                     .scaledToFit()
                     .padding(5)
-                    .frame(width: size / 8)
-                    .onTapGesture {
-                        upgradeModel.showDetail(item)
-                    }
+                    .frame(width: geometry.size.width / 8, height: geometry.size.width / 8)
                 Text(item.descriptionText)
                     .font(.body)
-                Spacer()
+                    .frame(width: geometry.size.width * 1/4)
                 Text(item.currentEffect)
+                    .frame(width: geometry.size.width / 10)
                 Spacer()
-                Text(String("\(item.level) / \(item.type.upgradeRange.upperBound)"))
+                Text(String("\(item.level) / \(item.type.costList.count)"))
+                    .frame(width: geometry.size.width / 8)
                 Button(action: {
                     item.upgrade()
                 }){
-                    Text(String(format: "%8d", item.cost))
+                    Text(item.costText)
                         .foregroundColor(item.isUpdatable ? Color.heavyGreen : Color.heavyRed)
                 }
-                .buttonStyle(CustomListButton())
-                .disabled(!item.isUpdatable)
+                .buttonStyle(CustomListButton(width: geometry.size.width * 3/8))
                 .overlay {
                     Color(white: 0.5, opacity: item.isUpdatable ? 0 : 0.2)
                 }
             }
-            .padding(.top, 10)
-            .padding(.horizontal)
+        }
+        .frame(height: height)
+        .padding(.horizontal)
+        .background(Color.white.opacity(0.7))
     }
 }
 

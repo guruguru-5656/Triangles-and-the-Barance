@@ -81,7 +81,7 @@ final class ResultViewModel: ObservableObject {
             $0 + $1.deleteCount * $1.maxCombo * $1.stage
         }
         let point = log.reduce(0) {
-            $0 + $1.maxCombo * $1.deleteCount
+            $0 + $1.deleteCount
         } * finalStage
 
         results = [
@@ -107,7 +107,6 @@ final class ResultViewModel: ObservableObject {
     }
    
     func loadTotalPointData() {
-
         results[5].value = SaveData.shared.loadData(name: ResultValue.totalPoint)
     }
     

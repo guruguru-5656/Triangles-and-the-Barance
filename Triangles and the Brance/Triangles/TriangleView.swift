@@ -39,8 +39,7 @@ struct TriangleView: View {
                         .position(coordinate.drawPoint.scale(geometry.size.width / CGFloat(controller.numberOfCell)))
                         .foregroundColor(Color(white: 0.9, opacity: 0.5))
                         .onTapGesture {
-                            //
-                           _ = controller.tryItemAction(coordinate: coordinate)
+                            controller.itemAction(coordinate: coordinate)
                         }
                 }
             }

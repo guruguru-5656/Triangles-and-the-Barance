@@ -56,9 +56,9 @@ class UpgradeViewModel: ObservableObject {
             withAnimation {
                 showDetailView = true
             }
-            
         }
     }
+    
     func closeDetail() {
         withAnimation {
             showDetailView = false
@@ -82,41 +82,52 @@ struct UpgradeCellViewModel: Identifiable{
         guard let parentModel = parentModel else {
             return
         }
-        parentModel.point -= cost
-        parentModel.payingPoint += cost
+        guard isUpdatable else {
+            return
+        }
+        parentModel.point -= cost!
+        parentModel.payingPoint += cost!
         level += 1
     }
-    ///10のレベル乗をinitialCostにかける
-    var cost: Int {
-        initialCost * (level + 1) * (level + 1)
+    
+    private var cost: Int? {
+        guard type.costList.indices.contains(level) else {
+            return nil
+        }
+        return type.costList[level]
     }
     //アップデート可能かどうか
     var isUpdatable: Bool {
-        if isNextPayable &&
-            (level + 1) <= type.upgradeRange.upperBound {
-            return true
-        } else {
-            return false
-        }
+       isNextPayable && (level + 1) <= type.costList.count
     }
     //現在の所持金で支払いできるかどうか
     private var isNextPayable: Bool {
         guard let upgradeViewModel = parentModel else {
             return false
         }
-        
+        guard let cost = cost else {
+            return false
+        }
         return cost <= upgradeViewModel.point
+    }
+    
+    var costText: String {
+        if let cost = cost {
+            return String(format: "%6d", cost)
+        } else {
+            return "   Max"
+        }
     }
     
     var descriptionText: String {
         if level == 0 &&  type.actionType != nil {
-            return ""
+            return "Locked"
         }
         switch type {
         case .life:
             return "回数"
         case .recycle:
-            return "確率"
+            return "割合(%)"
         case .actionCount:
             return "回数"
         case .pyramid:
@@ -127,33 +138,15 @@ struct UpgradeCellViewModel: Identifiable{
             return "コスト"
         case .horizon:
             return "コスト"
-        case .hxagram:
+        case .hexagram:
             return "コスト"
         }
     }
     var currentEffect: String {
-        if level == 0 &&  type.actionType != nil {
+        if level == 0 && type.actionType != nil {
             return ""
         }
-        switch type {
-        case .life:
-            return "\(level + 2)"
-        case .recycle:
-            return "\(level * 20)%"
-        case .actionCount:
-            return "\(level + 2)"
-        case .pyramid:
-            return "\(7 - level)"
-        case .shuriken:
-            return "\(9 - level)"
-        case .hexagon:
-            return "\(11 - level)"
-        case .horizon:
-            return "\(15 - level)"
-        case .hxagram:
-            return "\(17 - level)"
-        }
-        
+        return String(type.effect(level: level))
     }
     var icon: Image {
         switch type {
@@ -171,31 +164,8 @@ struct UpgradeCellViewModel: Identifiable{
             return Image("hexagon")
         case .horizon:
             return Image("horizonTriangle")
-        case .hxagram:
+        case .hexagram:
             return Image("hexagram")
-       
-        }
-        
-    }
-    ///基本となる強化費用
-    private var initialCost: Int {
-        switch type {
-        case .life:
-            return 100
-        case .recycle:
-            return 50
-        case .actionCount:
-            return 100
-        case .pyramid:
-            return 50
-        case .shuriken:
-            return 400
-        case .hexagon:
-            return 1000
-        case .horizon:
-            return 3000
-        case .hxagram:
-            return 5000
         }
     }
 }
@@ -209,29 +179,8 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
     case shuriken
     case hexagon
     case horizon
-    case hxagram
-    ///UpGrade可能な範囲を返す
-    var upgradeRange: ClosedRange<Int> {
-        switch self {
-        case .life:
-            return  0...5
-        case .recycle:
-            return  0...3
-        case .actionCount:
-            return 0...3
-        case .pyramid:
-            return 0...3
-        case .shuriken:
-            return 0...3
-        case .hexagon:
-            return 0...3
-        case .horizon:
-            return 0...3
-        case .hxagram:
-            return 0...3
-       
-        }
-    }
+    case hexagram
+  
     init?(actionType: ActionType) {
         switch actionType {
         case .normal:
@@ -245,9 +194,10 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
         case .horizon:
             self = .horizon
         case .hexagram:
-            self = .hxagram
+            self = .hexagram
         }
     }
+    
     var actionType: ActionType? {
         switch self {
         case .life:
@@ -255,7 +205,7 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
         case .recycle:
             return nil
         case .actionCount:
-            return .normal
+            return nil
         case .pyramid:
             return .pyramid
         case .shuriken:
@@ -264,12 +214,50 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
             return .hexagon
         case .horizon:
             return .horizon
-        case .hxagram:
+        case .hexagram:
             return .hexagram
         }
     }
+    
+    func effect(level:Int) -> Int {
+        switch self {
+        case .life:
+            return level + 2
+        case .recycle:
+            return level * 10
+        case .actionCount:
+            return level + 2
+        case .pyramid:
+            return 9 - level
+        case .shuriken:
+            return 11 - level
+        case .hexagon:
+            return 12 - level
+        case .horizon:
+            return 14 - level
+        case .hexagram:
+            return 17 - level
+        }
+    }
+    ///強化費用
+    var costList: [Int] {
+        switch self {
+        case .life:
+            return [100, 1000, 5000, 10000]
+        case .recycle:
+            return [50, 100, 200, 400, 1000]
+        case .actionCount:
+            return [100, 500, 2000, 5000, 10000]
+        case .pyramid:
+            return [20, 50, 200, 500, 1000]
+        case .shuriken:
+            return [400, 600, 800, 1000, 1500]
+        case .hexagon:
+            return [600, 800, 1000, 1500, 2000]
+        case .horizon:
+            return [1000, 1500, 2000]
+        case .hexagram:
+            return [2000, 3000, 4000]
+        }
+    }
 }
-
-
-
-

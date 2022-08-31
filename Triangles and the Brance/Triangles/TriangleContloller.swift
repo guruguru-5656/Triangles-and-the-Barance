@@ -80,7 +80,7 @@ final class TriangleContloller: ObservableObject {
     ///アップグレードのデータからrecycleのlevelを読み込み
     private func loadRecycleRate() {
         let recycleLevel = SaveData.shared.loadData(name: UpgradeType.recycle)
-        recycleRate = Double(recycleLevel) * 0.2
+        recycleRate = Double(UpgradeType.recycle.effect(level: recycleLevel)) / 100
     }
  
     ///タップしたときのアクション
@@ -92,27 +92,31 @@ final class TriangleContloller: ObservableObject {
             print("インデックス取得エラー")
             return
         }
-        //アイテムが入っていた場合の処理を確認し、何も行われなかった場合は連鎖して消すアクションを行う
-        let isComplete = tryItemAction(coordinate: coordinate)
-        if isComplete {
+        //アイテムが入っていた場合の処理を確認、何も行われなかった場合は連鎖して消すアクションを行う
+        if itemController.selectedItem != nil {
+           itemAction(coordinate: coordinate)
             return
         }
+               
         if triangles[index].status == .isOn {
             trianglesChainAction(index: index)
         }
     }
     
-    ///itemのアクションを実行を試みる、行われた場合はtrue 行われなかった場合はfalseを返す
-    func tryItemAction<T:StageCoordinate>(coordinate: T) -> Bool{
-        //ItemController側の処理を実行し、更新する座標を受け取る
-        let itemCoordinate = itemController.itemAction(coordinate: coordinate)
-        guard !itemCoordinate.isEmpty else {
-            return false
+    ///itemのアクションを実行する
+    func itemAction<T:StageCoordinate>(coordinate: T) {
+        //itemが更新する座標を取得
+        let itemCoordinates = itemController.itemEffectCoordinates(coordinate: coordinate)
+        let actionIndex = getIndexesOfAction(coordinates: itemCoordinates)
+        if actionIndex.allSatisfy ({ $0.isEmpty }) {
+            itemController.releaseItemSelect()
+            return
         }
-        let coordinates = coordinate.relative(coordinates: itemCoordinate)
+        itemController.useItem()
+        itemController.releaseItemSelect()
         //Trianglesのステータスの更新
-        turnOnTriangles(plans: getIndexesOfAction(coordinates: coordinates))
-        return true
+        turnOnTriangles(plans: actionIndex)
+        return
     }
     
     ///Triangleのステータスを参照し、アクションを実行するか判断、自身のプロパティを書き換える
@@ -122,13 +126,13 @@ final class TriangleContloller: ObservableObject {
         let deleteCount = plans.count
         //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
         updateTrianglesStatus(plans: plans){ [self] in
-            itemController.energy += plans.count
+            itemController.energyChange(plans.count)
             stageModel.updateParameters(deleteCount: deleteCount)
         }
     }
-    ///消した数の半分の数を再度Onにする
+    ///一定割合復活させる
     private func trianglesDeleteFeedback(plans: [PlanOfChangeStatus]) {
-        let numberToAdd = Int(Double(plans.count) * recycleRate)
+        let numberToAdd = Int(ceil(Double(plans.count) * recycleRate))
         let shuffledIndexIsOff = triangles.indices.filter {
             triangles[$0].status == .isOff
         }.shuffled()
@@ -136,11 +140,13 @@ final class TriangleContloller: ObservableObject {
             triangles[$0].status = .isOn
         }
     }
-    ///座標のからindexへ変換する
+    ///座標からindexへ変換、更新がない座標を取り除く
     func getIndexesOfAction(coordinates: [[TriangleCenterCoordinate]]) -> [[Int]] {
         coordinates.map { coordinates in
             coordinates.compactMap {
                 indexOfTriangles(coordinate: $0)
+            }.filter {
+                triangles[$0].status == .isOff
             }
         }
     }
@@ -239,10 +245,5 @@ final class TriangleContloller: ObservableObject {
     private struct PlanOfChangeStatus{
         let index:Int
         let count:Int
-    }
-    
-    private enum PropertyName: SaveDataName {
-        case triangles
-        
     }
 }

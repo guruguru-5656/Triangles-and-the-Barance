@@ -10,26 +10,36 @@ import Foundation
 //検証用にデータを定数で読みこむクラス
 final class TestData: DataClass {
     //テスト用データ
+    private struct GameStatusData {
+        let type: StageState
+        var value: Int {
+            switch type {
+            case .stage:
+               return 9
+            }
+        }
+    }
+    
     private struct UpgradeData {
         let type: UpgradeType
         var value: Int {
             switch type {
             case .life:
-                return 1
+                return 2
             case .recycle:
-                return 1
+                return 4
             case .actionCount:
-                return 1
+                return 2
             case .pyramid:
-                return 1
+                return 4
             case .shuriken:
-                return 1
+                return 3
             case .hexagon:
-                return 1
+                return 2
             case .horizon:
                return  1
-            case .hxagram:
-                return 1
+            case .hexagram:
+                return 0
             }
         }
     }
@@ -49,26 +59,11 @@ final class TestData: DataClass {
             case .point:
                 return 0
             case .totalPoint:
-               return  0
+               return  100000
             }
         }
     }
     
-    private struct GameStatusData {
-        let type: GameStatus
-        var value: Int {
-            switch type {
-            case .stage:
-               return 1
-            case .deleteCount:
-               return 0
-            case .life:
-               return 3
-            case .point:
-               return  3
-            }
-        }
-    }
     //キャッシュ
     private var casheData: [String:Int] = [:]
     //キャッシュがあればそれをロードし、なければテスト用データをロードする
@@ -81,17 +76,24 @@ final class TestData: DataClass {
             return UpgradeData(type: name as! UpgradeType).value
         case is ResultValue:
             return ScoreData(type: name as! ResultValue).value
-        case is GameStatus:
-            return GameStatusData(type: name as! GameStatus).value
+        case is StageState:
+            return GameStatusData(type: name as! StageState).value
         default:
             fatalError("型指定エラー")
         }
     }
+    
     func saveData<T: SaveDataName>(name: T, intValue: Int) {
         casheData.updateValue(intValue, forKey: name.description)
     }
+    
     func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
-        return nil
+        switch name.self {
+        case is StageLog:
+            return [StageData]() as? U
+        default:
+            return nil
+        }
     }
     
     func saveData<T, U>(name: T, value: U) where T : SaveDataName, U : Decodable, U : Encodable {

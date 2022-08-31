@@ -11,10 +11,11 @@ import Combine
 class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItemModel] = []
-    @Published var selectedItem: ActionItemModel?
-    @Published var actionEffectViewModel: [ActionEffectViewModel] = []
+    @Published private(set) var selectedItem: ActionItemModel?
+    @Published private(set) var actionEffectViewModel: [ActionEffectViewModel] = []
     @Published var energy: Int
-    @Published var actionCount: Int
+    @Published private(set) var energyDifference: Int?
+    @Published private(set) var actionCount: Int
  
     init(stageModel: StageModel) {
         self.stageModel = stageModel
@@ -48,22 +49,30 @@ class ItemController: ObservableObject {
                 }
             }
     }
-    
-    func itemAction<T: StageCoordinate>(coordinate: T) -> [[(Int, Int)]]{
+    ///効果を及ぼす座標を返す
+    func itemEffectCoordinates<T: StageCoordinate>(coordinate: T) -> [[TriangleCenterCoordinate]]{
         //アイテムが選択されていなければ何もしない
         guard let item = selectedItem else {
             return []
         }
-        //入力された座標がitemのpositionと一致しない場合選択解除を行う
+        //入力された座標がitemのpositionと一致するかチェック
         guard coordinate.position == item.type.position else{
-            selectedItem = nil
             return []
         }
-
+        return coordinate.relative(coordinates: item.type.actionCoordinate)
+    }
+    
+    func releaseItemSelect() {
         selectedItem = nil
+    }
+    
+    func useItem() {
+        guard let selectedItem = selectedItem else {
+            return
+        }
         actionCount -= 1
-        return item.type.actionCoordinate
-    }    
+        energyChange( -1 * selectedItem.cost!)
+    }
    
     func itemSelect(model: ActionItemModel) {
         guard actionCount > 0 else {
@@ -77,9 +86,27 @@ class ItemController: ObservableObject {
         //コストが現在のエネルギーより小さい場合は選択する
         if model.cost ?? .max <= energy {
             selectedItem = model
-            
         }
         return
+    }
+    
+    func energyChange(_ count: Int) {
+        energy += count
+        showEnergyDifference(count)
+    }
+    //テキストを一定時間表示
+    func showEnergyDifference(_ difference: Int) {
+        withAnimation {
+            energyDifference = difference
+        }
+        Task {
+            try await Task.sleep(nanoseconds: 1000_000_000)
+            await MainActor.run {
+                withAnimation {
+                    energyDifference = nil
+                }
+            }
+        }
     }
     
     func actionAnimation(coordinate: StageCoordinate) {

@@ -66,7 +66,6 @@ struct BaranceView: View {
                     }
                     .frame(width: baseScale * sqrt(3), height: baseScale *
                            1.5 )
-                
                     .position(x: baseScale * 7, y: baseScale * 2 + distance)
                 
                 //左側の三角形

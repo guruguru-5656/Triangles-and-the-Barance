@@ -29,11 +29,11 @@ struct CustomButton: ButtonStyle {
 }
 
 struct CustomListButton: ButtonStyle {
-    
+    let width: CGFloat
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.system(size: 15, design: .monospaced))
-            .padding(8)
+            .font(.system(size: width / 7, design: .monospaced))
+            .padding(width / 14)
             .background(
                 ZStack {
                     RoundedRectangle(cornerRadius: 5)

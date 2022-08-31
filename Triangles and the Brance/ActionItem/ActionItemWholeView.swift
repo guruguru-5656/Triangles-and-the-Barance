@@ -8,11 +8,25 @@
 import SwiftUI
 
 import SwiftUI
+import Combine
 
 struct ActionItemWholeView: View {
-    
+ 
     @ObservedObject var itemController = GameModel.shared.itemController
+    @State var text: String = ""
     let size: CGFloat
+    var energyDifferenceText: String? {
+        guard let energyDiffernce = itemController.energyDifference else {
+            return nil
+        }
+        if energyDiffernce < 0 {
+            return "\(energyDiffernce)"
+        } else if energyDiffernce == 0 {
+            return nil
+        } else {
+            return "+\(energyDiffernce)"
+        }
+    }
     
     var body: some View {
         ZStack {
@@ -25,11 +39,19 @@ struct ActionItemWholeView: View {
                 }
             }
             Text("x \(itemController.actionCount)")
-                .position(x: size * 0.9, y: size * -1/30)
+                .position(x: size * 0.15, y: size * -1/30)
                 .font(Font(UIFont.systemFont(ofSize: size / 16)))
             Text("\(itemController.energy)")
-                .position(x: size * 0.9, y: size * 0.25)
+                .position(x: size * 0.85, y: size * 0.25)
                 .font(Font(UIFont.systemFont(ofSize: size / 16)))
+            if let text = energyDifferenceText {
+            Text(text)
+                .position(x: size * 0.95, y: size * 0.25)
+                .font(Font(UIFont.systemFont(ofSize: size / 20)))
+                .transition(.asymmetric(
+                    insertion: .offset(y: -10).combined(with: .opacity),
+                    removal: .opacity))
+            }
         }
         .background{
             RectangleWithTextSpace(textSpaceWidth: size / 4, textSpaceHeight: size / 15)

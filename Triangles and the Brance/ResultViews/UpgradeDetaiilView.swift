@@ -25,13 +25,13 @@ struct UpGradeDetailView: View {
                 Spacer()
                 Text(model.detailItem.currentEffect)
                 Spacer()
-                Text(String("\(model.detailItem.level) / \(model.detailItem.type.upgradeRange.upperBound)"))
+                Text(String("\(model.detailItem.level) / \(model.detailItem.type.costList.count)"))
                 Button(action: {
                     model.closeDetail()
                 }){
                    Image(systemName: "xmark")
                 }
-                .buttonStyle(CustomListButton())
+                .buttonStyle(CustomListButton(width: 100))
             }
             .padding(10)
             if let actionType = model.detailItem.type.actionType {
@@ -41,9 +41,14 @@ struct UpGradeDetailView: View {
         }
         .frame(width: size.width * 0.8 )
         .background{
-            RoundedRectangle(cornerRadius: 6)
-                .fill(Color(white: 0.98))
+            RoundedRectangle(cornerRadius: 5)
+                .fill(Color.white)
         }
-        .transition(.asymmetric(insertion: .move(edge: .leading), removal: .move(edge: .trailing)))
+        .padding(5)
+        .background{
+            RoundedRectangle(cornerRadius: 5)
+                .fill(Color(white: 0.8))
+        }
+        .transition(.opacity)
     }
 }

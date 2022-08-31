@@ -20,7 +20,7 @@ class StageModel: ObservableObject {
     var targetDeleteCount: Int {
         targetList[stage - 1]
     }
-    private let targetList = [10, 15, 20, 25, 30, 35, 40, 45, 50,  55, 60, 70]
+    private let targetList = [10, 15, 20, 25, 30, 36, 43, 50, 57, 63, 70, 80]
     //スコアの生成に利用
     private (set) var stageLogs: [StageData] = []
     //イベントの発行
@@ -131,4 +131,10 @@ enum StageState: SaveDataName {
 
 enum StageLog: SaveDataName {
     case log
+}
+
+struct StageData:Codable {
+    let stage: Int
+    let deleteCount: Int
+    let maxCombo: Int
 }

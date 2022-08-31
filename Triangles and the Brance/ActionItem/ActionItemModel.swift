@@ -16,53 +16,44 @@ struct ActionItemModel: Hashable, Identifiable {
     }
     let id = UUID()
     var cost: Int? {
+        guard let upgradeType = upgradeType else {
+            return defaultCost
+        }
+        if level == 0 {
+            return nil
+        }
+       return upgradeType.effect(level: level)
+    }
+    private var upgradeType: UpgradeType? {
+        switch self.type {
+        case .normal:
+             return  nil
+        case .pyramid:
+              return  .pyramid
+        case .shuriken:
+            return .shuriken
+        case .hexagon:
+            return .hexagon
+        case .horizon:
+            return .horizon
+        case .hexagram:
+            return .hexagram
+        }
+    }
+    private var defaultCost: Int? {
         switch self.type {
         case .normal:
             return 0
         case .pyramid:
-            switch level {
-            case 0:
-                return nil
-            case 1...3:
-                return 7 - level
-            default:
-                fatalError("想定外のレベル")
-            }
+            return nil
         case .shuriken:
-            switch level {
-            case 0: return nil
-            case 1...3:
-                return 9 - level
-            default:
-                fatalError("想定外のレベル")
-            }
+            return nil
         case .hexagon:
-            switch level {
-            case 0:
-                return nil
-            case 1...3:
-                return 11 - level
-            default:
-                fatalError("想定外のレベル")
-            }
+            return nil
         case .horizon:
-            switch level {
-            case 0:
-                return nil
-            case 1...3:
-                return 13 - level
-            default:
-                fatalError("想定外のレベル")
-            }
+            return nil
         case .hexagram:
-            switch level {
-            case 0:
-                return nil
-            case 1...3:
-                return 17 - level
-            default:
-                fatalError("想定外のレベル")
-            }
+            return nil
         }
     }
 }

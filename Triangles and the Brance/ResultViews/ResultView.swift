@@ -76,7 +76,7 @@ struct ResultView: View {
                 }
             }
         }
-        .background(Color(white: 0.95, opacity: 0.8))
+        .background(Color(white: 0.99, opacity: 0.8))
         .transition(.opacity)
         .onAppear {
             resultViewModel.depend(stageModel: stageModel)

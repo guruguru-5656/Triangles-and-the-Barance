@@ -8,13 +8,14 @@
 import Foundation
 import Combine
 
-//データクラスにアクセスするクラス
+//データクラスを切り替えるためのクラス
 final class SaveData {
         
     private let dataClass: DataClass
     static let shared = SaveData()
+    
     private init() {
-        #if GameDesignTest
+        #if TEST
         dataClass = TestData()
         #else
         dataClass = UserData()

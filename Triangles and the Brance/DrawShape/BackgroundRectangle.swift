@@ -42,10 +42,10 @@ struct RectangleWithTextSpace: Shape {
     let textSpaceHeight: CGFloat
     func path(in rect: CGRect) -> Path {
         var path = Path()
-        path.move(to: .zero)
-        path.addLine(to: CGPoint(x: rect.width - textSpaceWidth, y: 0))
-        path.addLine(to: CGPoint(x: rect.width - textSpaceWidth + textSpaceHeight, y: 0 - textSpaceHeight))
-        path.addLine(to: CGPoint(x: rect.width, y: 0 - textSpaceHeight))
+        path.move(to: CGPoint(x: 0, y: 0 - textSpaceHeight))
+        path.addLine(to: CGPoint(x: textSpaceWidth, y: 0 - textSpaceHeight))
+        path.addLine(to: CGPoint(x: textSpaceWidth + textSpaceHeight , y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
         path.addLine(to: CGPoint(x: rect.width, y: rect.height + textSpaceHeight))
         path.addLine(to: CGPoint(x: rect.width - textSpaceWidth + textSpaceHeight, y: rect.height + textSpaceHeight))
         path.addLine(to: CGPoint(x: rect.width - textSpaceWidth , y: rect.height ))

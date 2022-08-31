@@ -11,10 +11,11 @@ import Combine
 class BaranceViewModel: ObservableObject {
     
     let stageModel: StageModel
+    private var subscriber: AnyCancellable?
+    
     init(stageModel: StageModel) {
         self.stageModel = stageModel
     }
-    private var subscriber: AnyCancellable?
     
     func subscribe() {
         subscriber = stageModel.gameEventPublisher
@@ -92,13 +93,13 @@ class BaranceViewModel: ObservableObject {
                     clearCircleIsOn = true
                 }
             }
-            try await Task.sleep(nanoseconds: 400_000_000)
+            try await Task.sleep(nanoseconds: 550_000_000)
             await MainActor.run {
-                withAnimation(.easeOut(duration: 0.5)) {
+                withAnimation(.linear(duration: 0.2)) {
                     angle = Double.pi/16
                 }
             }
-            try await Task.sleep(nanoseconds: 200_000_000)
+            try await Task.sleep(nanoseconds: 100_000_000)
             await MainActor.run {
                 self.clearCircleIsOn = false
             }
