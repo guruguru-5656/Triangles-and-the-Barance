@@ -9,15 +9,19 @@ import Foundation
 import SwiftUI
 
 class UpgradeViewModel: ObservableObject {
+    
     @Published var upgradeItems: [UpgradeCellViewModel] = []
     @Published var point: Int = 0
     @Published var payingPoint = 0
     @Published var detailItem = UpgradeCellViewModel(type: .life, level: 0)
     @Published var showDetailView = false
+    private let decideSound = EffectSoundPlayer(name: "decideSound")
+    private let cancelSound = EffectSoundPlayer(name: "cancelSound")
+    private let upgradeSound = EffectSoundPlayer(name: "upgradeSound")
     
     init() {
         upgradeItems = loadUpgradeData()
-        point = loadTotalPointData()
+        point = SaveData.shared.loadData(name: ResultValue.totalPoint)
         upgradeItems.indices.forEach{
             upgradeItems[$0].parentModel = self
         }
@@ -29,14 +33,11 @@ class UpgradeViewModel: ObservableObject {
             return UpgradeCellViewModel(type: type, level: level)
         }
     }
-    
-    func loadTotalPointData() -> Int {
-        SaveData.shared.loadData(name: ResultValue.totalPoint)
-    }
   
     func cancel() {
         point += payingPoint
         payingPoint = 0
+        cancelSound?.play()
     }
     
     func permitPaying() {
@@ -44,6 +45,7 @@ class UpgradeViewModel: ObservableObject {
             SaveData.shared.saveData(name: $0.type, value: $0.level)
         }
         SaveData.shared.saveData(name: ResultValue.totalPoint, value: point)
+        decideSound?.play()
     }
     
     func showDetail(_ item: UpgradeCellViewModel) {
@@ -63,6 +65,10 @@ class UpgradeViewModel: ObservableObject {
         withAnimation {
             showDetailView = false
         }
+    }
+    
+    func playUpgradeSound() {
+        upgradeSound?.play()
     }
 }
 
@@ -257,7 +263,7 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
         case .horizon:
             return [1000, 1500, 2000]
         case .hexagram:
-            return [2000, 3000, 4000]
+            return [3000]
         }
     }
 }

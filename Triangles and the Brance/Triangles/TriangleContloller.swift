@@ -7,6 +7,7 @@
 
 import Combine
 import SwiftUI
+import AudioToolbox
 
 final class TriangleContloller: ObservableObject {
     
@@ -23,6 +24,7 @@ final class TriangleContloller: ObservableObject {
         self.stageModel = stageModel
         self.itemController = itemController
         loadRecycleRate()
+        createChainActionSoundId()
     }
     //イベント通知を受け取る
     private let stageModel: StageModel
@@ -159,7 +161,7 @@ final class TriangleContloller: ObservableObject {
                         self.triangles[index].status = .isOn
                     }
                 }
-                Thread.sleep(forTimeInterval: 0.4)
+                Thread.sleep(forTimeInterval: 0.2)
             }
             plans.last?.forEach { index in
                 DispatchQueue.main.async {
@@ -180,6 +182,8 @@ final class TriangleContloller: ObservableObject {
                 if counter != 0{
                     Thread.sleep(forTimeInterval: 0.4)
                 }
+                //効果音を再生する
+                playChainActionSound(index: counter)
                 //ステータスの更新を行う
                 for plan in separatedPlan {
                     DispatchQueue.main.async{
@@ -198,7 +202,7 @@ final class TriangleContloller: ObservableObject {
         }
     }
     ///Triangleの消去の順番を求める
-    private func planingDeleteTriangles(coordinate:TriangleCenterCoordinate) ->  [PlanOfChangeStatus]{
+    private func planingDeleteTriangles(coordinate:TriangleCenterCoordinate) ->  [PlanOfChangeStatus] {
         var plan:[PlanOfChangeStatus] = []
         //Offにする予定の座標を設定、一定時間後に消去を行うためにカウンターを用意
         var counter = 0
@@ -246,4 +250,28 @@ final class TriangleContloller: ObservableObject {
         let index:Int
         let count:Int
     }
+    ///indexで指定して音声を再生する
+    ///用意している音声より後のindexを渡した場合は最後の部分を再生する
+    private func playChainActionSound(index: Int) {
+        let limitedIndex = index < sounds.count ? index : sounds.count - 1
+        sounds[limitedIndex].play()
+    }
+    ///音声再生用のIDを生成する
+    private func createChainActionSoundId() {
+        sounds = chainActionSoundNames.compactMap {
+            EffectSoundPlayer(name: $0)
+        }
+    }
+    
+    private var sounds: [EffectSoundPlayer] = []
+    private let chainActionSoundNames = [
+        "marimba_1",
+        "marimba_2",
+        "marimba_3",
+        "marimba_4",
+        "marimba_5",
+        "marimba_6",
+        "marimba_7",
+        "marimba_8",
+    ]
 }

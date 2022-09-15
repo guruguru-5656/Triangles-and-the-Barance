@@ -16,6 +16,8 @@ class ItemController: ObservableObject {
     @Published var energy: Int
     @Published private(set) var energyDifference: Int?
     @Published private(set) var actionCount: Int
+    private var itemUseSound = EffectSoundPlayer(name: "itemUsed")
+    private var itemSelectSound = EffectSoundPlayer(name: "selectSound")
  
     init(stageModel: StageModel) {
         self.stageModel = stageModel
@@ -70,6 +72,8 @@ class ItemController: ObservableObject {
         guard let selectedItem = selectedItem else {
             return
         }
+        //MARK: 要検討
+        itemUseSound?.play()
         actionCount -= 1
         energyChange( -1 * selectedItem.cost!)
     }
@@ -86,6 +90,7 @@ class ItemController: ObservableObject {
         //コストが現在のエネルギーより小さい場合は選択する
         if model.cost ?? .max <= energy {
             selectedItem = model
+            itemSelectSound?.play()
         }
         return
     }

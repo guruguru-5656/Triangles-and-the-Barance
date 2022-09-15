@@ -7,14 +7,17 @@
 
 import SwiftUI
 import Combine
+import AudioToolbox
 
 class BaranceViewModel: ObservableObject {
     
     let stageModel: StageModel
     private var subscriber: AnyCancellable?
+    private let clearSound: EffectSoundPlayer?
     
     init(stageModel: StageModel) {
         self.stageModel = stageModel
+        clearSound = EffectSoundPlayer(name: "clearSound")
     }
     
     func subscribe() {
@@ -93,6 +96,7 @@ class BaranceViewModel: ObservableObject {
                     clearCircleIsOn = true
                 }
             }
+            clearSound?.play()
             try await Task.sleep(nanoseconds: 550_000_000)
             await MainActor.run {
                 withAnimation(.linear(duration: 0.2)) {

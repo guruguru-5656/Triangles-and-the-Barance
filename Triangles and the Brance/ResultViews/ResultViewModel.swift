@@ -15,6 +15,8 @@ final class ResultViewModel: ObservableObject {
     private var subscriber: AnyCancellable?
     @Published var results: [ResultModel] = []
     @Published var viewStatus: ViewStatus = .onAppear
+    private let restartSound = EffectSoundPlayer(name: "restartSound")
+    private let decideSound = EffectSoundPlayer(name: "decideSound")
 
     func depend(stageModel: StageModel) {
         guard self.stageModel == nil else {
@@ -24,7 +26,7 @@ final class ResultViewModel: ObservableObject {
         subscribe()
     }
     
-    func subscribe() {
+    private func subscribe() {
         guard let stageModel = stageModel else {
             return
         }
@@ -110,10 +112,15 @@ final class ResultViewModel: ObservableObject {
         results[5].value = SaveData.shared.loadData(name: ResultValue.totalPoint)
     }
     
+    func playDecideSound() {
+        decideSound?.play()
+    }
+    
     func closeResult() {
         guard let stageModel = stageModel else {
             return
         }
+        restartSound?.play()
         stageModel.resetGame()
     }
 }

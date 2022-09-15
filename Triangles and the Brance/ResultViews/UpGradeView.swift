@@ -96,16 +96,29 @@ struct UpgradeCellView: View {
                     .scaledToFit()
                     .padding(5)
                     .frame(width: geometry.size.width / 8, height: geometry.size.width / 8)
+                    .onTapGesture {
+                        upgradeModel.showDetail(item)
+                    }
                 Text(item.descriptionText)
                     .font(.body)
                     .frame(width: geometry.size.width * 1/4)
+                    .onTapGesture {
+                        upgradeModel.showDetail(item)
+                    }
                 Text(item.currentEffect)
                     .frame(width: geometry.size.width / 10)
+                    .onTapGesture {
+                        upgradeModel.showDetail(item)
+                    }
                 Spacer()
                 Text(String("\(item.level) / \(item.type.costList.count)"))
                     .frame(width: geometry.size.width / 8)
+                    .onTapGesture {
+                        upgradeModel.showDetail(item)
+                    }
                 Button(action: {
                     item.upgrade()
+                    upgradeModel.playUpgradeSound()
                 }){
                     Text(item.costText)
                         .foregroundColor(item.isUpdatable ? Color.heavyGreen : Color.heavyRed)
@@ -118,7 +131,11 @@ struct UpgradeCellView: View {
         }
         .frame(height: height)
         .padding(.horizontal)
-        .background(Color.white.opacity(0.7))
+        .background(
+            Color.white.opacity(0.7)
+            .onTapGesture {
+                upgradeModel.showDetail(item)
+            })
     }
 }
 

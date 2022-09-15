@@ -15,7 +15,7 @@ final class TestData: DataClass {
         var value: Int {
             switch type {
             case .stage:
-               return 9
+               return 5
             }
         }
     }

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import AVFoundation
 
 class StageModel: ObservableObject {
  
@@ -25,7 +26,7 @@ class StageModel: ObservableObject {
     private (set) var stageLogs: [StageData] = []
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
-
+    
     init() {
         let stageData = SaveData.shared.loadData(name: StageState.stage)
         stage = stageData == 0 ? 1 : stageData
@@ -62,12 +63,12 @@ class StageModel: ObservableObject {
     func resetGame() {
         stage = 1
         maxLife = SaveData.shared.loadData(name: UpgradeType.life) + 2
-       
         resetStageParameter()
         gameEventPublisher.send(.resetGame)
         withAnimation {
             showResultView = false
         }
+        changeBgm(to: .stage)
     }
     
     private func stageClear() {
@@ -89,6 +90,8 @@ class StageModel: ObservableObject {
     private func gameOver() {
         createLog()
         gameEventPublisher.send(.gameOver)
+        gameOverSound?.play()
+        changeBgm(to: .gameOver)
         withAnimation {
             showResultView = true
         }
@@ -113,6 +116,48 @@ class StageModel: ObservableObject {
     private func saveStageStatus() {
         SaveData.shared.saveData(name: StageState.stage, value: stage)
         SaveData.shared.saveData(name: StageLog.log, value: stageLogs)
+    }
+    //SE再生
+    private var gameOverSound = EffectSoundPlayer(name: "gameOverSound")
+    
+    //BGM再生
+    private var stageBgm: AVAudioPlayer?
+    
+    func startBgm(){
+        play(bgm: .stage)
+    }
+    
+    private func changeBgm(to bgm: Bgm) {
+        stageBgm?.setVolume(0, fadeDuration: 1)
+        Task {
+            try await Task.sleep(nanoseconds: 1000_000_000)
+            await MainActor.run {
+                stageBgm?.stop()
+                play(bgm: bgm)
+            }
+        }
+    }
+    
+    private func play(bgm: Bgm) {
+        switch bgm {
+        case .stage:
+            guard let url = Bundle.main.url(forResource: "stageBGM", withExtension: "mp3") else {
+                      return
+                  }
+            self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
+        case . gameOver:
+            guard let url = Bundle.main.url(forResource: "gameOverBGM", withExtension: "mp3") else {
+                      return
+                  }
+            self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
+        }
+        stageBgm?.numberOfLoops = -1
+        stageBgm?.play()
+    }
+    
+    private enum Bgm {
+        case stage
+        case gameOver
     }
 }
 

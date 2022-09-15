@@ -61,7 +61,6 @@ struct StageView: View {
 //                    ActionEffectView(size: geometry.size.width / 6)
                 }
                 .frame(width: geometry.size.width ,height: geometry.size.width * 0.75)
-//                .background(.purple)
                 Spacer()
                 ActionItemWholeView(size: geometry.size.width)
                     .frame( height: geometry.size.width * 0.22)
@@ -76,6 +75,9 @@ struct StageView: View {
                 .frame( height: geometry.size.width * 0.35)
                 Spacer()
             }
+        }
+        .onAppear {
+            stageModel.startBgm()
         }
     }
 }

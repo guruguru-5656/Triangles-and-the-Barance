@@ -32,6 +32,7 @@ struct ContentView: View {
             }
         }
         .environmentObject(stageModel)
+        .preferredColorScheme(.light)
     }
 }
 

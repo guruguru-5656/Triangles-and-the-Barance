@@ -48,6 +48,7 @@ struct ResultView: View {
                             }
                             .buttonStyle(CustomButton())
                             Button(action: {
+                                resultViewModel.playDecideSound()
                                 withAnimation{
                                     showUpgradeView = true
                                 }
