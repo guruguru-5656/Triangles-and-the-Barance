@@ -8,64 +8,57 @@
 import Foundation
 
 //検証用にデータを定数で読みこむクラス
-final class TestData: DataClass {
+final class TestData {
     //テスト用データ
-    private struct GameStatusData {
-        let type: StageState
-        var value: Int {
-            switch type {
-            case .stage:
-               return 5
-            }
+    private func gameStatusValue(type: StageState) -> Int {
+        switch type {
+        case .stage:
+            return 5
         }
     }
     
-    private struct UpgradeData {
-        let type: UpgradeType
-        var value: Int {
-            switch type {
-            case .life:
-                return 2
-            case .recycle:
-                return 4
-            case .actionCount:
-                return 2
-            case .pyramid:
-                return 4
-            case .shuriken:
-                return 3
-            case .hexagon:
-                return 2
-            case .horizon:
-               return  1
-            case .hexagram:
-                return 0
-            }
+    private func upgradeDataValue(type: UpgradeType) -> Int {
+        switch type {
+        case .life:
+            return 2
+        case .recycle:
+            return 4
+        case .actionCount:
+            return 2
+        case .pyramid:
+            return 4
+        case .shuriken:
+            return 3
+        case .hexagon:
+            return 2
+        case .horizon:
+            return  1
+        case .hexagram:
+            return 0
         }
     }
     
-    private struct ScoreData {
-        let type: ResultValue
-        var value: Int {
-            switch type {
-            case .stage:
-               return 0
-            case .count:
-               return 0
-            case .combo:
-               return 0
-            case .score:
-                return 0
-            case .point:
-                return 0
-            case .totalPoint:
-               return  100000
-            }
+    private func scoreDataValue(type: ResultValue) -> Int {
+        switch type {
+        case .stage:
+            return 0
+        case .count:
+            return 0
+        case .combo:
+            return 0
+        case .score:
+            return 0
+        case .point:
+            return 0
+        case .totalPoint:
+            return  100000
         }
     }
-    
     //キャッシュ
     private var casheData: [String:Int] = [:]
+}
+
+extension TestData: DataClass {
     //キャッシュがあればそれをロードし、なければテスト用データをロードする
     func loadData<T:SaveDataName>(name: T) -> Int {
         if let data = casheData[name.description] {
@@ -73,11 +66,11 @@ final class TestData: DataClass {
         }
         switch name.self {
         case is UpgradeType:
-            return UpgradeData(type: name as! UpgradeType).value
+            return upgradeDataValue(type: name as! UpgradeType)
         case is ResultValue:
-            return ScoreData(type: name as! ResultValue).value
+            return scoreDataValue(type: name as! ResultValue)
         case is StageState:
-            return GameStatusData(type: name as! StageState).value
+            return gameStatusValue(type: name as! StageState)
         default:
             fatalError("型指定エラー")
         }

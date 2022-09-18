@@ -28,6 +28,7 @@ struct ContentView: View {
                     let rect = geometry[values]
                     let point = CGPoint(x: rect.origin.x + rect.width/8, y: rect.origin.y + rect.width * 3/8)
                     BaranceCircleView(circlePoint: point)
+//                        .zIndex(1)
                 }
             }
         }

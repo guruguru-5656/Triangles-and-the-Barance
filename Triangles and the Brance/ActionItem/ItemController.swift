@@ -12,7 +12,6 @@ class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItemModel] = []
     @Published private(set) var selectedItem: ActionItemModel?
-    @Published private(set) var actionEffectViewModel: [ActionEffectViewModel] = []
     @Published var energy: Int
     @Published private(set) var energyDifference: Int?
     @Published private(set) var actionCount: Int
@@ -114,23 +113,6 @@ class ItemController: ObservableObject {
         }
     }
     
-    func actionAnimation(coordinate: StageCoordinate) {
-        let model = ActionEffectViewModel(action: selectedItem!.type, coordinate: coordinate)
-        withAnimation {
-            actionEffectViewModel.append(model)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            let index = self.actionEffectViewModel.firstIndex {
-                $0.id == model.id
-            }
-            if let index = index {
-                _ = withAnimation {
-                    self.actionEffectViewModel.remove(at: index)
-                }
-            }
-        }
-    }
-
     ///パラメーターを初期値に戻す
     func resetParameters() {
         loadItemTable()

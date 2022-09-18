@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-struct StageView: View {
-    
+struct StageView: View {    
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @StateObject var stageModel = GameModel.shared.stageModel
     
@@ -57,8 +56,6 @@ struct StageView: View {
                 Section {
                     TriangleView()
                                      .padding(.horizontal, geometry.size.width / 10)
-                    //MARK: 現状エフェクトviewは未使用
-//                    ActionEffectView(size: geometry.size.width / 6)
                 }
                 .frame(width: geometry.size.width ,height: geometry.size.width * 0.75)
                 Spacer()

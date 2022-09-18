@@ -24,7 +24,7 @@ struct BaranceView: View {
     }
     
     var body: some View {
-            GeometryReader { geometry in
+        ZStack {
                 //左右に伸びる棒
                 Group {
                     Rectangle()
