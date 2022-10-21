@@ -81,8 +81,6 @@
 		046F3AE428C8658D000D2087 /* EffectSoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046F3AE228C8658D000D2087 /* EffectSoundPlayer.swift */; };
 		046F3B0128CDCE96000D2087 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B0028CDCE96000D2087 /* stageBGM.mp3 */; };
 		046F3B0228CDCE96000D2087 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B0028CDCE96000D2087 /* stageBGM.mp3 */; };
-		046F3B5528D1B105000D2087 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B5428D1B105000D2087 /* gameOverBGM.mp3 */; };
-		046F3B5628D1B105000D2087 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B5428D1B105000D2087 /* gameOverBGM.mp3 */; };
 		046F3B6B28D1C256000D2087 /* marimba_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6328D1C255000D2087 /* marimba_1.mp3 */; };
 		046F3B6C28D1C256000D2087 /* marimba_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6328D1C255000D2087 /* marimba_1.mp3 */; };
 		046F3B6D28D1C256000D2087 /* marimba_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6428D1C255000D2087 /* marimba_3.mp3 */; };
@@ -120,6 +118,10 @@
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
 		0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0492952A287E934A0067E9B1 /* DescriptionView.swift */; };
+		04BD7AEB290158C2001AE3A8 /* endingBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */; };
+		04BD7AEC290158C2001AE3A8 /* endingBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */; };
+		04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
+		04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
 		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E0197D2865AE80001D2AAE /* ViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */; };
@@ -173,7 +175,6 @@
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
 		046F3AE228C8658D000D2087 /* EffectSoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EffectSoundPlayer.swift; sourceTree = "<group>"; };
 		046F3B0028CDCE96000D2087 /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
-		046F3B5428D1B105000D2087 /* gameOverBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverBGM.mp3; sourceTree = "<group>"; };
 		046F3B6328D1C255000D2087 /* marimba_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_1.mp3; sourceTree = "<group>"; };
 		046F3B6428D1C255000D2087 /* marimba_3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_3.mp3; sourceTree = "<group>"; };
 		046F3B6528D1C255000D2087 /* marimba_4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_4.mp3; sourceTree = "<group>"; };
@@ -195,6 +196,8 @@
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
 		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
 		0492952A287E934A0067E9B1 /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
+		04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = endingBGM.mp3; sourceTree = "<group>"; };
+		04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverBGM.mp3; sourceTree = "<group>"; };
 		04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeDetaiilView.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197C2865AE80001D2AAE /* ViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewEnvironment.swift; sourceTree = "<group>"; };
@@ -369,7 +372,8 @@
 				046F3B8528D2F8AB000D2087 /* restartSound.mp3 */,
 				046F3B9928D30103000D2087 /* gameOverSound.mp3 */,
 				046F3B0028CDCE96000D2087 /* stageBGM.mp3 */,
-				046F3B5428D1B105000D2087 /* gameOverBGM.mp3 */,
+				04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */,
+				04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */,
 			);
 			path = SoundResource;
 			sourceTree = "<group>";
@@ -468,11 +472,11 @@
 				046F3B9228D2F8AB000D2087 /* cancelSound.mp3 in Resources */,
 				046F3B0228CDCE96000D2087 /* stageBGM.mp3 in Resources */,
 				046F3BAA28D303D4000D2087 /* selectSound.mp3 in Resources */,
-				046F3B5628D1B105000D2087 /* gameOverBGM.mp3 in Resources */,
 				046F3B8E28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
 				046F3B7828D1C256000D2087 /* marimba_5.mp3 in Resources */,
 				046F3B7428D1C256000D2087 /* marimba_8.mp3 in Resources */,
 				046F3B6C28D1C256000D2087 /* marimba_1.mp3 in Resources */,
+				04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
 				046F3B9528D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
 				046F3B7628D1C256000D2087 /* marimba_6.mp3 in Resources */,
 				046F3B7028D1C256000D2087 /* marimba_4.mp3 in Resources */,
@@ -482,6 +486,7 @@
 				046F3B7A28D1C256000D2087 /* marimba_2.mp3 in Resources */,
 				046F3B7228D1C256000D2087 /* marimba_7.mp3 in Resources */,
 				046F3B6E28D1C256000D2087 /* marimba_3.mp3 in Resources */,
+				04BD7AEC290158C2001AE3A8 /* endingBGM.mp3 in Resources */,
 				0445255628A776DD00F3051C /* Preview Assets.xcassets in Resources */,
 				046F3B9B28D30103000D2087 /* gameOverSound.mp3 in Resources */,
 				0445255528A776D700F3051C /* Assets.xcassets in Resources */,
@@ -495,11 +500,11 @@
 				046F3B9128D2F8AB000D2087 /* cancelSound.mp3 in Resources */,
 				046F3B0128CDCE96000D2087 /* stageBGM.mp3 in Resources */,
 				046F3BA928D303D4000D2087 /* selectSound.mp3 in Resources */,
-				046F3B5528D1B105000D2087 /* gameOverBGM.mp3 in Resources */,
 				046F3B8D28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
 				046F3B7728D1C256000D2087 /* marimba_5.mp3 in Resources */,
 				046F3B7328D1C256000D2087 /* marimba_8.mp3 in Resources */,
 				046F3B6B28D1C256000D2087 /* marimba_1.mp3 in Resources */,
+				04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
 				046F3B9428D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
 				046F3B7528D1C256000D2087 /* marimba_6.mp3 in Resources */,
 				046F3B6F28D1C256000D2087 /* marimba_4.mp3 in Resources */,
@@ -509,6 +514,7 @@
 				046F3B7928D1C256000D2087 /* marimba_2.mp3 in Resources */,
 				046F3B7128D1C256000D2087 /* marimba_7.mp3 in Resources */,
 				046F3B6D28D1C256000D2087 /* marimba_3.mp3 in Resources */,
+				04BD7AEB290158C2001AE3A8 /* endingBGM.mp3 in Resources */,
 				045121A927D2187700936E2C /* Preview Assets.xcassets in Resources */,
 				046F3B9A28D30103000D2087 /* gameOverSound.mp3 in Resources */,
 				045121A627D2187700936E2C /* Assets.xcassets in Resources */,

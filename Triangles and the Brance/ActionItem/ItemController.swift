@@ -12,12 +12,13 @@ class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItemModel] = []
     @Published private(set) var selectedItem: ActionItemModel?
+    @Published private(set) var descriptionItem: ActionType?
     @Published var energy: Int
     @Published private(set) var energyDifference: Int?
     @Published private(set) var actionCount: Int
     private var itemUseSound = EffectSoundPlayer(name: "itemUsed")
     private var itemSelectSound = EffectSoundPlayer(name: "selectSound")
- 
+    
     init(stageModel: StageModel) {
         self.stageModel = stageModel
         //データの読み込み
@@ -31,21 +32,14 @@ class ItemController: ObservableObject {
     func subscribe() {
         subscriber = stageModel.gameEventPublisher
             .sink { [ weak self ] event in
-                guard let self = self else {
-                    return
-                }
                 switch event {
                 case .stageClear:
-                    self.resetParameters()
+                    self?.closeDescriptionView()
+                    self?.resetParameters()
                 case .resetGame:
-                    self.resetParameters()
-                case .initialize:
-                    return
-                case .triangleDeleted:
-                    return
-                case .clearAnimation:
-                    return
-                case .gameOver:
+                    self?.closeDescriptionView()
+                    self?.resetParameters()
+                default:
                     return
                 }
             }
@@ -71,13 +65,13 @@ class ItemController: ObservableObject {
         guard let selectedItem = selectedItem else {
             return
         }
-        //MARK: 要検討
         itemUseSound?.play()
         actionCount -= 1
         energyChange( -1 * selectedItem.cost!)
     }
-   
+    
     func itemSelect(model: ActionItemModel) {
+        closeDescriptionView()
         guard actionCount > 0 else {
             return
         }
@@ -92,6 +86,35 @@ class ItemController: ObservableObject {
             itemSelectSound?.play()
         }
         return
+    }
+    
+    //説明Viewを表示し、一定時間後に閉じる
+    private var task: Task<(), Error>?
+    func showDescriptionView(item: ActionItemModel) {
+        withAnimation {
+            descriptionItem = item.type
+        }
+        task?.cancel()
+        task = Task {
+            do {
+                try await Task.sleep(nanoseconds: 5000_000_000)
+                await MainActor.run {
+                    withAnimation {
+                        descriptionItem = nil
+                    }
+                }
+            } catch {
+                print("cancel")
+                return
+            }
+        }
+    }
+    
+    func closeDescriptionView() {
+        withAnimation {
+            descriptionItem = nil
+        }
+        task?.cancel()
     }
     
     func energyChange(_ count: Int) {
@@ -120,7 +143,7 @@ class ItemController: ObservableObject {
         energy = 0
         selectedItem = nil
     }
- 
+    
     private func loadItemTable() {
         actionItems = ActionType.allCases.map { actionType -> ActionItemModel in
             if let upgradeType = UpgradeType(actionType: actionType){

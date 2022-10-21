@@ -15,8 +15,8 @@ struct ResultView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            VStack (spacing: 20) {
-                Text("Result")
+            VStack {
+                Text(stageModel.isGameClear ? "Game Result" : "Result")
                     .font(.largeTitle)
                     .padding(.vertical)
                     .background(
@@ -27,14 +27,13 @@ struct ResultView: View {
                     )
                 if !showUpgradeView {
                     Section {
-                        Section {
-                            ForEach($resultViewModel.results) { $results in
-                                ScoreView(score: $results)
-                                    .opacity(opacity)
-                                    .animation(.default.delay(Double(results.index) * 0.2), value: opacity)
-                            }
+                        ForEach($resultViewModel.results) { $results in
+                            ScoreView(score: $results)
+                                .opacity(opacity)
+                                .animation(.default.delay(Double(results.index) * 0.2), value: opacity)
+                            
                         }
-                        .padding(.horizontal, geometry.size.width * 0.1)
+                        
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {
@@ -77,7 +76,7 @@ struct ResultView: View {
                 }
             }
         }
-        .background(Color(white: 0.99, opacity: 0.8))
+        .background(Color(white: 1, opacity: 0.9))
         .transition(.opacity)
         .onAppear {
             resultViewModel.depend(stageModel: stageModel)
@@ -101,5 +100,8 @@ struct ScoreView: View {
                     .foregroundColor(Color.heavyRed)
             }
         }
+        .padding(.vertical, 10)
+        .padding(.horizontal, 30)
+        .background(Color(white: score.index % 2 == 0 ? 0.85 : 0.9))
     }
 }

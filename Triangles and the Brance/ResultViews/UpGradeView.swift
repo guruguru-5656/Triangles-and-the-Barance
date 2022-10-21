@@ -28,7 +28,7 @@ struct UpgradeView: View {
                 ZStack {
                     ScrollView {
                         ForEach($model.upgradeItems) { $item in
-                            UpgradeCellView(item: $item, upgradeModel: model,height: geometry.size.width / 8)
+                            UpgradeCellView(item: $item,height: geometry.size.width / 6)
                                 .opacity(opacity)
                                 .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
                         }
@@ -86,44 +86,47 @@ struct UpgradeView: View {
 struct UpgradeCellView: View {
     
     @Binding var item: UpgradeCellViewModel
-    @ObservedObject var upgradeModel: UpgradeViewModel
     let height: CGFloat
+    
     var body: some View {
         GeometryReader { geometry in
-            HStack(alignment: .center) {
+            HStack {
                 item.icon
                     .resizable()
                     .scaledToFit()
-                    .padding(5)
-                    .frame(width: geometry.size.width / 8, height: geometry.size.width / 8)
+                    .padding(.vertical, 8)
+                    .padding(.leading, 8)
+                    .frame(width: geometry.size.height - 8, height: geometry.size.height)
                     .onTapGesture {
-                        upgradeModel.showDetail(item)
-                    }
-                Text(item.descriptionText)
-                    .font(.body)
-                    .frame(width: geometry.size.width * 1/4)
-                    .onTapGesture {
-                        upgradeModel.showDetail(item)
-                    }
-                Text(item.currentEffect)
-                    .frame(width: geometry.size.width / 10)
-                    .onTapGesture {
-                        upgradeModel.showDetail(item)
+                        item.showDetail()
                     }
                 Spacer()
-                Text(String("\(item.level) / \(item.type.costList.count)"))
-                    .frame(width: geometry.size.width / 8)
-                    .onTapGesture {
-                        upgradeModel.showDetail(item)
+                ZStack {
+                    GeometryReader { proxy in
+                        Text(item.descriptionText)
+                            .font(.caption)
+                            .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
+                        Text(item.currentEffect)
+                            .font(.title)
+                            .padding(.leading, 7)
+                            .frame(width: proxy.size.width * 0.5, alignment: .leading)
+                            .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)
                     }
+                    .frame(width: geometry.size.width * 0.35 , height: geometry.size.height)
+                    .background(Color(white: 0.9))
+                    .onTapGesture {
+                        item.showDetail()
+                    }
+                }
+                Spacer()
                 Button(action: {
                     item.upgrade()
-                    upgradeModel.playUpgradeSound()
+                    item.playUpgradeSound()
                 }){
                     Text(item.costText)
                         .foregroundColor(item.isUpdatable ? Color.heavyGreen : Color.heavyRed)
                 }
-                .buttonStyle(CustomListButton(width: geometry.size.width * 3/8))
+                .buttonStyle(CustomListButton(width: geometry.size.width * 0.4))
                 .overlay {
                     Color(white: 0.5, opacity: item.isUpdatable ? 0 : 0.2)
                 }
@@ -133,9 +136,9 @@ struct UpgradeCellView: View {
         .padding(.horizontal)
         .background(
             Color.white.opacity(0.7)
-            .onTapGesture {
-                upgradeModel.showDetail(item)
-            })
+                .onTapGesture {
+                    item.showDetail()
+                })
     }
 }
 

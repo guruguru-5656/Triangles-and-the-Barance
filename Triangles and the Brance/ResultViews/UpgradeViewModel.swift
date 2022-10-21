@@ -17,7 +17,7 @@ class UpgradeViewModel: ObservableObject {
     @Published var showDetailView = false
     private let decideSound = EffectSoundPlayer(name: "decideSound")
     private let cancelSound = EffectSoundPlayer(name: "cancelSound")
-    private let upgradeSound = EffectSoundPlayer(name: "upgradeSound")
+   
     
     init() {
         upgradeItems = loadUpgradeData()
@@ -67,9 +67,6 @@ class UpgradeViewModel: ObservableObject {
         }
     }
     
-    func playUpgradeSound() {
-        upgradeSound?.play()
-    }
 }
 
 //UpgradeSubViewのモデル
@@ -83,7 +80,7 @@ struct UpgradeCellViewModel: Identifiable{
     let id = UUID()
     //親クラスの参照
     fileprivate weak var parentModel: UpgradeViewModel?
-   
+   //upgradeできる状態か確認し実行する
     mutating func upgrade(){
         guard let parentModel = parentModel else {
             return
@@ -94,6 +91,15 @@ struct UpgradeCellViewModel: Identifiable{
         parentModel.point -= cost!
         parentModel.payingPoint += cost!
         level += 1
+    }
+    //説明画面を開く
+    func showDetail() {
+        parentModel?.showDetail(self)
+    }
+    //音声の再生
+    private let upgradeSound = EffectSoundPlayer(name: "upgradeSound")
+    func playUpgradeSound() {
+        upgradeSound?.play()
     }
     
     private var cost: Int? {
@@ -236,13 +242,13 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
         case .pyramid:
             return 9 - level
         case .shuriken:
-            return 11 - level
+            return 13 - level
         case .hexagon:
-            return 12 - level
+            return 13 - level
         case .horizon:
             return 14 - level
         case .hexagram:
-            return 17 - level
+            return 21 - level
         }
     }
     ///強化費用

@@ -28,6 +28,7 @@ struct TriangleView: View {
             ForEach($controller.triangles){ $triangle in
                 StageTriangleView(model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
                     .onTapGesture {
+                        itemController.closeDescriptionView()
                         controller.triangleTapAction(coordinate: triangle.coordinate)
                     }
             }

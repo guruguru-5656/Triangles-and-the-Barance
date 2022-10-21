@@ -53,10 +53,9 @@ struct ActionItemView: View {
 
     var body: some View {
         
-        ZStack {
-            VStack(spacing: 0) {
-                ZStack {
-            //アイテムの種類ごとに表示を出し分ける
+        VStack(spacing: 0) {
+            ZStack {
+                //アイテムの種類ごとに表示を出し分ける
                 switch itemModel.type{
                     
                 case .normal:
@@ -72,32 +71,31 @@ struct ActionItemView: View {
                 case .hexagram:
                     ActionItemHexagramView(size: size)
                 }
-                    if itemModel.level == 0 {
-                        Image(systemName: "lock.square")
-                            .resizable()
-                            .foregroundColor(Color(white: 0))
-                            .frame(width: size * 0.5 , height: size * 0.5)
-                    }
-                    Circle()
-                        .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
-                        .frame(width: size , height: size)
-                        .scaleEffect(circleScale)
-                        .animation(.easeOut(duration: 0.2), value: circleScale)
-                        .opacity(circleOpacity)
-                        .animation(.easeOut(duration: 0.2), value: circleOpacity)
-                        .contentShape(Circle())
-                        .onTapGesture {
-                            itemController.itemSelect(model: itemModel)
-                        }
-                    
+                if itemModel.level == 0 {
+                    Image(systemName: "lock.square")
+                        .resizable()
+                        .foregroundColor(Color(white: 0))
+                        .frame(width: size * 0.5 , height: size * 0.5)
                 }
-                Text(itemText)
-//                    .offset(x: 0, y: size * 2/3)
-                    .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
+                Circle()
+                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+                    .frame(width: size , height: size)
+                    .scaleEffect(circleScale)
+                    .animation(.easeOut(duration: 0.2), value: circleScale)
+                    .opacity(circleOpacity)
+                    .animation(.easeOut(duration: 0.2), value: circleOpacity)
+                    .contentShape(Circle())
+                    .onTapGesture {
+                        itemController.itemSelect(model: itemModel)
+                    }
+                    .onLongPressGesture {
+                        itemController.showDescriptionView(item: itemModel)
+                    }
             }
-            .opacity(selectableOpacity)
-          
+            Text(itemText)
+                .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
         }
+        .opacity(selectableOpacity)
         .padding(.top, size / 4)
     }
 }

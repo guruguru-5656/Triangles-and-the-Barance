@@ -29,12 +29,6 @@ struct DrawShapeFromVertexCoordinate: View{
 struct DrawShapeFromTriLines: View {
     let lines: [TriLine]
     let scale: CGFloat
-    var maxY: CGFloat {
-        let max = lines.map {
-            $0.start.drawPoint.scale(scale).y
-        }.max() ?? 0
-        return max
-    }
     var body: some View {
         
         Path { path in
@@ -48,7 +42,6 @@ struct DrawShapeFromTriLines: View {
             path.addLines(points)
             path.closeSubpath()
         }
-        .frame(height: maxY)
     }
 }
 

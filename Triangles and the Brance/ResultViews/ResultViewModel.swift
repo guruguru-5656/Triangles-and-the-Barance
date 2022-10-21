@@ -96,7 +96,7 @@ final class ResultViewModel: ObservableObject {
         //ハイスコア読み込みおよび更新
         results.indices.forEach { index in
             let loadScore = SaveData.shared.loadData(name: results[index].type)
-            results[index].compareData(index: index, score: loadScore)
+            results[index].setParameters(index: index, score: loadScore)
             if results[index].isUpdated {
                 SaveData.shared.saveData(name: results[index].type, value: results[index].value )
             }
@@ -141,7 +141,7 @@ struct ResultModel: Identifiable, Hashable {
         self.index = index
     }
  
-    mutating func compareData(index: Int, score: Int) {
+    mutating func setParameters(index: Int, score: Int) {
         self.index = index
         isUpdated = score < value
     }

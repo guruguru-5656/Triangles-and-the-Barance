@@ -14,6 +14,7 @@ struct Triangles_and_the_BranceApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(GameModel.shared.viewEnvironment)
+                .preferredColorScheme(.light)
         }
     }
 }

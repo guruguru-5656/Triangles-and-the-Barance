@@ -14,6 +14,7 @@ struct ActionItemWholeView: View {
  
     @ObservedObject var itemController = GameModel.shared.itemController
     @State var text: String = ""
+    
     let size: CGFloat
     var energyDifferenceText: String? {
         guard let energyDiffernce = itemController.energyDifference else {
@@ -30,6 +31,7 @@ struct ActionItemWholeView: View {
     
     var body: some View {
         ZStack {
+            
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack {
                     ForEach($itemController.actionItems, id: \.self){ $item in
@@ -37,6 +39,10 @@ struct ActionItemWholeView: View {
                             .padding(.leading, 15)
                     }
                 }
+            }
+            .background{
+                RectangleWithTextSpace(textSpaceWidth: size / 4, textSpaceHeight: size / 15)
+                    .foregroundColor(Color.backgroundLightGray)
             }
             Text("x \(itemController.actionCount)")
                 .position(x: size * 0.15, y: size * -1/30)
@@ -52,10 +58,14 @@ struct ActionItemWholeView: View {
                     insertion: .offset(y: -10).combined(with: .opacity),
                     removal: .opacity))
             }
-        }
-        .background{
-            RectangleWithTextSpace(textSpaceWidth: size / 4, textSpaceHeight: size / 15)
-                .foregroundColor(Color.backgroundLightGray)
+            if let descriptionItem = itemController.descriptionItem {
+                DescriptionView(actionType: descriptionItem)
+                    .frame(width: size * 0.4, height: size * 0.4, alignment: .center)
+                    .position(x: size * 0.5, y: size * 0.5)
+                    .onTapGesture {
+                        itemController.closeDescriptionView()
+                    }
+            }
         }
     }
 }

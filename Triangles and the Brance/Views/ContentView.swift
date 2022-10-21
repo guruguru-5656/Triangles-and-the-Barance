@@ -9,31 +9,59 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var stageModel = GameModel.shared.stageModel
-    @State var circlePoint = CGPoint(x: 0, y: 0)
+    @State var circleAncor: Anchor<CGRect>?
     @EnvironmentObject private var viewEnvironment: ViewEnvironment
+    
     var body: some View {
-        ZStack {
-            StageView()
-            if stageModel.showResultView {
-                Color(.init(gray: 0.3, alpha: 0.6))
+        GeometryReader { geometry in
+            ZStack {
+                viewEnvironment.currentColor.previousColor.heavy
                     .ignoresSafeArea()
-                ResultView()
-                    .cornerRadius(10)
-                    .padding(30)
-            }
-        }
-        .backgroundPreferenceValue(ClearCirclePoint.self) { value in
-            value.map { values in
-                GeometryReader { geometry in
-                    let rect = geometry[values]
+                if let circleAncor = circleAncor {
+                    let rect = geometry[circleAncor]
                     let point = CGPoint(x: rect.origin.x + rect.width/8, y: rect.origin.y + rect.width * 3/8)
                     BaranceCircleView(circlePoint: point)
-//                        .zIndex(1)
+                }
+                LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
+                    .opacity(0.3)
+                    .ignoresSafeArea()
+                StageView()
+                if stageModel.showResultView && !stageModel.isGameClear  {
+                    Color(.init(gray: 0.3, alpha: 0.6))
+                        .ignoresSafeArea()
+                    ResultView()
+                        .cornerRadius(10)
+                        .padding(30)
+                }
+                if stageModel.isGameClear {
+                    if let circleAncor = circleAncor {
+                        let rect = geometry[circleAncor]
+                        let point = CGPoint(x: rect.origin.x + rect.width/8, y: rect.origin.y + rect.width * 3/8)
+                        BaranceCircleView(circlePoint: point)
+                        if !stageModel.showResultView {
+                            LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                .opacity(0.3)
+                                .ignoresSafeArea()
+                                .mask(BaranceCircleView(circlePoint: point))
+                        }
+                    }
+                    if stageModel.showResultView {
+                        viewEnvironment.currentColor.heavy
+                            .ignoresSafeArea()
+                        LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
+                            .opacity(0.3)
+                            .ignoresSafeArea()
+                        ResultView()
+                            .cornerRadius(10)
+                            .padding(30)
+                    }
                 }
             }
         }
+        .onPreferenceChange(ClearCirclePoint.self) { value in
+            circleAncor = value
+        }
         .environmentObject(stageModel)
-        .preferredColorScheme(.light)
     }
 }
 

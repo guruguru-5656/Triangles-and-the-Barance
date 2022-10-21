@@ -21,11 +21,6 @@ struct BaranceCircleView: View {
             let scaleY = geometry.size.height / axisY
             let scale = sqrt(pow(scaleX, 2) + pow(scaleY, 2))
             ZStack {
-                viewEnvironment.currentColor.previousColor.heavy
-                    .ignoresSafeArea()
-                LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
-                    .opacity(0.3)
-                    .ignoresSafeArea()
                 Section {
                     Ellipse()
                         .fill(viewEnvironment.currentColor.light)

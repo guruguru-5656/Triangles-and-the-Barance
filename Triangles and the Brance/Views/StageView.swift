@@ -62,14 +62,11 @@ struct StageView: View {
                 ActionItemWholeView(size: geometry.size.width)
                     .frame( height: geometry.size.width * 0.22)
                     .background(.purple)
+                    .zIndex(1)
                 Spacer()
-                Section {
-                GeometryReader { geometry in
-                    BaranceView(size: geometry.size.width)
-                }
-                .padding(.horizontal, geometry.size.width * 0.1)
-                }
-                .frame( height: geometry.size.width * 0.35)
+                BaranceView()
+                    .padding(.horizontal, geometry.size.width * 0.1)
+                    .frame( height: geometry.size.width * 0.35)
                 Spacer()
             }
         }

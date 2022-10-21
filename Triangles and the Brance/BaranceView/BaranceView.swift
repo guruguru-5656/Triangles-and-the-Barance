@@ -11,20 +11,16 @@ import Combine
 struct BaranceView: View {
     @EnvironmentObject var viewEnvironment: ViewEnvironment
     @ObservedObject var model = GameModel.shared.baranceViewModel
-
-    let size: CGFloat
-    var baseScale: CGFloat {
-        size / 8
-    }
+    
     var opacity:Double {
         Double(model.stageModel.deleteCount) / Double(model.stageModel.targetDeleteCount) > 1 ? 1 : Double(model.stageModel.deleteCount) / Double(model.stageModel.targetDeleteCount)
     }
-    var distance:Double {
-        return baseScale * 3.25 * sin(model.angle)
-    }
     
     var body: some View {
-        ZStack {
+        GeometryReader { geometry in
+            let baseScale: CGFloat = geometry.size.width / 8
+            let distance: Double = baseScale * 3.25 * sin(model.angle)
+        
                 //左右に伸びる棒
                 Group {
                     Rectangle()
@@ -102,8 +98,8 @@ struct BaranceView: View {
                             insertion: .opacity.combined(with: .offset(x: 0, y: -baseScale * 0.5)),
                             removal: .opacity))
                 }
-            }
-            .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
+        }
+        .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
     }
 }
 
@@ -112,6 +108,9 @@ struct ClearCirclePoint: PreferenceKey {
     typealias Value = Anchor<CGRect>?
     static var defaultValue: Anchor<CGRect>? = nil
     static func reduce(value: inout Value, nextValue: () -> Value) {
+        guard nextValue() != nil else {
+            return
+        }
         value = nextValue()
     }
 }

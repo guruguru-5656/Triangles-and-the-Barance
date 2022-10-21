@@ -10,8 +10,9 @@ import Combine
 import AVFoundation
 
 class StageModel: ObservableObject {
- 
+    
     @Published var showResultView = false
+    @Published var isGameClear = false
     @Published var stage: Int
     @Published var deleteCount: Int = 0
     @Published var life: Int
@@ -45,7 +46,8 @@ class StageModel: ObservableObject {
         //イベントの判定
         if self.deleteCount >= targetDeleteCount {
             if stage == 12 {
-                //TODO: GameClear
+                gameClear()
+                return
             } else {
                 stageClear()
                 return
@@ -55,7 +57,7 @@ class StageModel: ObservableObject {
             gameOver()
         }
     }
-
+    
     func giveUp() {
         gameOver()
     }
@@ -67,6 +69,9 @@ class StageModel: ObservableObject {
         gameEventPublisher.send(.resetGame)
         withAnimation {
             showResultView = false
+        }
+        withAnimation {
+            isGameClear = false
         }
         changeBgm(to: .stage)
     }
@@ -101,6 +106,27 @@ class StageModel: ObservableObject {
         SaveData.shared.saveData(name: StageLog.log, value: initialLog)
     }
     
+    private func gameClear() {
+        isGameClear = true
+        gameEventPublisher.send(.gameClear)
+        
+        changeBgm(to: .ending)
+        //データを初期状態でセーブ
+        SaveData.shared.saveData(name: StageState.stage, value: 1)
+        let initialLog: [StageData] = []
+        SaveData.shared.saveData(name: StageLog.log, value: initialLog)
+        Task {
+            try await Task.sleep(nanoseconds: 3000_000_000)
+            await MainActor.run {
+                withAnimation {
+                    showResultView = true
+                }
+                createLog()
+                saveStageStatus()
+            }
+        }
+    }
+    
     private func resetStageParameter() {
         deleteCount = 0
         maxCombo = 0
@@ -124,13 +150,17 @@ class StageModel: ObservableObject {
     private var stageBgm: AVAudioPlayer?
     
     func startBgm(){
+        if stageBgm?.isPlaying ?? false {
+            return
+        }
         play(bgm: .stage)
     }
     
     private func changeBgm(to bgm: Bgm) {
         stageBgm?.setVolume(0, fadeDuration: 1)
         Task {
-            try await Task.sleep(nanoseconds: 1000_000_000)
+            let waitTime: UInt64 = bgm == .ending ? 3000_000_000 : 1000_000_000
+            try await Task.sleep(nanoseconds: waitTime)
             await MainActor.run {
                 stageBgm?.stop()
                 play(bgm: bgm)
@@ -139,18 +169,11 @@ class StageModel: ObservableObject {
     }
     
     private func play(bgm: Bgm) {
-        switch bgm {
-        case .stage:
-            guard let url = Bundle.main.url(forResource: "stageBGM", withExtension: "mp3") else {
-                      return
-                  }
-            self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
-        case . gameOver:
-            guard let url = Bundle.main.url(forResource: "gameOverBGM", withExtension: "mp3") else {
-                      return
-                  }
-            self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
+        guard let url = Bundle.main.url(forResource: bgm.faileName, withExtension: "mp3") else {
+            return
         }
+        self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
+        
         stageBgm?.numberOfLoops = -1
         stageBgm?.play()
     }
@@ -158,15 +181,26 @@ class StageModel: ObservableObject {
     private enum Bgm {
         case stage
         case gameOver
+        case ending
+        var faileName: String {
+            switch self {
+            case .stage:
+                return "stageBGM"
+            case .gameOver:
+                return "gameOverBGM"
+            case .ending:
+                return  "endingBGM"
+            }
+        }
     }
 }
 
 enum GameEvent {
-    case initialize
     case triangleDeleted
     case clearAnimation
     case stageClear
     case gameOver
+    case gameClear
     case resetGame
 }
 
@@ -178,7 +212,7 @@ enum StageLog: SaveDataName {
     case log
 }
 
-struct StageData:Codable {
+struct StageData:Codable, Hashable {
     let stage: Int
     let deleteCount: Int
     let maxCombo: Int

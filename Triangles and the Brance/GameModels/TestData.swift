@@ -13,28 +13,28 @@ final class TestData {
     private func gameStatusValue(type: StageState) -> Int {
         switch type {
         case .stage:
-            return 5
+            return 12
         }
     }
     
     private func upgradeDataValue(type: UpgradeType) -> Int {
         switch type {
         case .life:
-            return 2
+            return 3
         case .recycle:
             return 4
         case .actionCount:
-            return 2
+            return 3
         case .pyramid:
             return 4
         case .shuriken:
             return 3
         case .hexagon:
-            return 2
+            return 3
         case .horizon:
-            return  1
+            return  2
         case .hexagram:
-            return 0
+            return 1
         }
     }
     
