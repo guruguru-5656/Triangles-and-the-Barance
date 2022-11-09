@@ -107,7 +107,7 @@ struct UpgradeCellView: View {
                             .font(.caption)
                             .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
                         Text(item.currentEffect)
-                            .font(.title)
+                            .font(.title2)
                             .padding(.leading, 7)
                             .frame(width: proxy.size.width * 0.5, alignment: .leading)
                             .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)

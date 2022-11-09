@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct ActionItemModel: Hashable, Identifiable {
+    
     let type: ActionType
     let level: Int
+    let id = UUID()
+    
     init(type: ActionType, level: Int) {
         self.type = type
         self.level = level
     }
-    let id = UUID()
+    
     var cost: Int? {
         guard let upgradeType = upgradeType else {
             return defaultCost
@@ -24,6 +27,7 @@ struct ActionItemModel: Hashable, Identifiable {
         }
        return upgradeType.effect(level: level)
     }
+    
     private var upgradeType: UpgradeType? {
         switch self.type {
         case .normal:
@@ -40,6 +44,7 @@ struct ActionItemModel: Hashable, Identifiable {
             return .hexagram
         }
     }
+    
     private var defaultCost: Int? {
         switch self.type {
         case .normal:
@@ -56,6 +61,8 @@ struct ActionItemModel: Hashable, Identifiable {
             return nil
         }
     }
+    
+    
 }
 
 enum ActionType: String, CaseIterable {
@@ -128,6 +135,15 @@ enum ActionType: String, CaseIterable {
         case .hexagram:
             return .vertex
         }
+    }
+    
+    ///効果を及ぼす座標を返す
+    func itemEffectCoordinates<T: StageCoordinate>(coordinate: T) -> [[TriangleCenterCoordinate]] {
+        //入力された座標がitemのpositionと一致するかチェック
+        guard coordinate.position == self.position else{
+            return []
+        }
+        return coordinate.relative(coordinates: actionCoordinate)
     }
 }
 

@@ -32,11 +32,11 @@ final class ResultViewModel: ObservableObject {
         }
 
         subscriber = stageModel.gameEventPublisher
-            .sink { [ weak self ] event in
+            .sink { [ weak self ] completion in
                 guard let self = self else {
                     return
                 }
-                switch event {
+                switch completion.event {
                 case .gameOver:
                     self.setResultScores()
                     self.showScores()

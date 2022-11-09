@@ -11,19 +11,14 @@ import AudioToolbox
 
 class BaranceViewModel: ObservableObject {
     
-    let stageModel: StageModel
+    private var stageModel: StageModel?
     private var subscriber: AnyCancellable?
-    private let clearSound: EffectSoundPlayer?
     
-    init(stageModel: StageModel) {
+    func setUp(stageModel: StageModel) {
         self.stageModel = stageModel
-        clearSound = EffectSoundPlayer(name: "clearSound")
-    }
-    
-    func subscribe() {
         subscriber = stageModel.gameEventPublisher
-            .sink { event in
-                switch event {
+            .sink { completion in
+                switch completion.event {
                 case .triangleDeleted:
                     self.baranceAnimation()
                     self.hiLightAnimation()
@@ -38,22 +33,24 @@ class BaranceViewModel: ObservableObject {
                 }
             }
     }
-    
+
     //天秤の角度のアニメーション
     private let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
-    @Published var angle: Double = Double.pi/16
-    
-    func baranceAnimation() {
-        let clearPersent = Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
-        withAnimation(angleAnimation) {
-            angle = (1 - clearPersent) * Double.pi/16
-        }
-    }
+    @Published private (set) var angle: Double = Double.pi/16
+    private func baranceAnimation() {
+         guard let stageModel = stageModel else {
+             return
+         }
+         let clearPercent = Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
+         withAnimation(angleAnimation) {
+             angle = (1 - clearPercent) * Double.pi/16
+         }
+     }
     
     //一時的に白く光らせるアニメーション
-    @Published var isTriangleHiLighted = false
+    @Published private (set) var isTriangleHiLighted = false
     
-    func hiLightAnimation() {
+    private func hiLightAnimation() {
         withAnimation {
             isTriangleHiLighted = true
         }
@@ -68,10 +65,10 @@ class BaranceViewModel: ObservableObject {
     }
     
     //テキストを一時的に表示するアニメーション
-    @Published var deleteCountNow = 0
-    @Published var showDeleteCountText = false
+    @Published private (set) var deleteCountNow = 0
+    @Published private (set) var showDeleteCountText = false
     
-    func showTextAnimation(count: Int) {
+    private func showTextAnimation(count: Int) {
         deleteCountNow = count
         withAnimation {
             showDeleteCountText = true
@@ -86,9 +83,7 @@ class BaranceViewModel: ObservableObject {
         }
     }
     
-    //クリア時のアニメーション
-    @Published var clearCircleIsOn = false
-    
+   
     private func stageClearAnimation() {
         Task {
             await MainActor.run {
@@ -96,22 +91,13 @@ class BaranceViewModel: ObservableObject {
                     angle = -0.5 * Double.pi/16
                 }
             }
-            try await Task.sleep(nanoseconds: 500_000_000)
-            await MainActor.run {
-                withAnimation(.easeOut(duration: 0.5)) {
-                    clearCircleIsOn = true
-                }
-            }
-            clearSound?.play()
-            try await Task.sleep(nanoseconds: 550_000_000)
+            try await Task.sleep(nanoseconds: 1050_000_000)
             await MainActor.run {
                 withAnimation(.linear(duration: 0.2)) {
                     angle = Double.pi/16
                 }
             }
-            await MainActor.run {
-                self.clearCircleIsOn = false
-            }
+            
         }
     }
     
@@ -121,17 +107,6 @@ class BaranceViewModel: ObservableObject {
                 withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
                     angle = -0.5 * Double.pi/16
                 }
-            }
-            try await Task.sleep(nanoseconds: 500_000_000)
-            await MainActor.run {
-                withAnimation(.easeOut(duration: 0.5)) {
-                    clearCircleIsOn = true
-                }
-            }
-            clearSound?.play()
-            try await Task.sleep(nanoseconds: 3000_000_000)
-            await MainActor.run {
-                self.clearCircleIsOn = false
             }
         }
     }

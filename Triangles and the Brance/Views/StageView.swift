@@ -7,9 +7,8 @@
 
 import SwiftUI
 
-struct StageView: View {    
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @StateObject var stageModel = GameModel.shared.stageModel
+struct StageView: View {
+    @EnvironmentObject var stageModel: StageModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,7 +24,7 @@ struct StageView: View {
                             .background(
                                 Rectangle()
                                     .stroke()
-                                    .foregroundColor(viewEnvironment.currentColor.heavy)
+                                    .foregroundColor(stageModel.currentColor.heavy)
                                     .background(Color.backgroundLightGray.scaleEffect(1.2))
                                     .frame(width: geometry.size.width * 0.1, height: geometry.size.width * 0.1)
                                     .rotationEffect(Angle(degrees: 45)))
@@ -38,7 +37,7 @@ struct StageView: View {
                         
                         Text(String(stageModel.stage))
                             .font(.largeTitle)
-                            .foregroundColor(viewEnvironment.currentColor.light)
+                            .foregroundColor(stageModel.currentColor.light)
                     }
                     Spacer()
                     Button(action: {
@@ -79,7 +78,7 @@ struct StageView: View {
 struct StageView_Previews: PreviewProvider {
     static var previews: some View {
         StageView()
-            .environmentObject(GameModel.shared.viewEnvironment)
+            .environmentObject(StageModel())
     }
 }
 

@@ -11,10 +11,10 @@ import SwiftUI
 import Combine
 
 struct ActionItemWholeView: View {
- 
-    @ObservedObject var itemController = GameModel.shared.itemController
-    @State var text: String = ""
     
+    @StateObject var itemController = ItemController()
+    @State var text: String = ""
+    @EnvironmentObject var stageModel: StageModel
     let size: CGFloat
     var energyDifferenceText: String? {
         guard let energyDiffernce = itemController.energyDifference else {
@@ -31,28 +31,30 @@ struct ActionItemWholeView: View {
     
     var body: some View {
         ZStack {
-            
             ScrollView(.horizontal,showsIndicators: false) {
                 HStack {
                     ForEach($itemController.actionItems, id: \.self){ $item in
                         ActionItemView(itemModel: $item, size: size / 8)
                             .padding(.leading, 15)
+                            .onTapGesture {
+                                itemController.itemSelect(model: item)
+                            }
+                            .onLongPressGesture {
+                                itemController.showDescriptionView(item: item)
+                            }
                     }
                 }
             }
             .background{
-                RectangleWithTextSpace(textSpaceWidth: size / 4, textSpaceHeight: size / 15)
+                RectangleWithTextSpace(textSpaceWidth: size * 0.25, textSpaceHeight: size * 0.07)
                     .foregroundColor(Color.backgroundLightGray)
             }
-            Text("x \(itemController.actionCount)")
-                .position(x: size * 0.15, y: size * -1/30)
-                .font(Font(UIFont.systemFont(ofSize: size / 16)))
-            Text("\(itemController.energy)")
-                .position(x: size * 0.85, y: size * 0.25)
-                .font(Font(UIFont.systemFont(ofSize: size / 16)))
+            Text("\(stageModel.energy)")
+                .position(x: size * 0.17, y: size * -0.03)
+                .font(Font(UIFont.systemFont(ofSize: size / 14)))
             if let text = energyDifferenceText {
             Text(text)
-                .position(x: size * 0.95, y: size * 0.25)
+                    .position(x: size * 0.08, y: size * -0.03)
                 .font(Font(UIFont.systemFont(ofSize: size / 20)))
                 .transition(.asymmetric(
                     insertion: .offset(y: -10).combined(with: .opacity),
@@ -67,12 +69,15 @@ struct ActionItemWholeView: View {
                     }
             }
         }
+        .onAppear {
+            itemController.subscribe(stageModel: stageModel)
+        }
     }
 }
 
 struct ActionItemAllOverView_Previews: PreviewProvider {
     static var previews: some View {
         ActionItemWholeView(size: 300)
-            .environmentObject(GameModel.shared.viewEnvironment)
+            .environmentObject(StageModel())
     }
 }

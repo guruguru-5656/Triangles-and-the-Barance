@@ -8,20 +8,19 @@
 import SwiftUI
 
 struct ActionItemHexagramView: View {
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @ObservedObject var itemController = GameModel.shared.itemController
+    @EnvironmentObject var stageModel: StageModel
     let size: CGFloat
     var body: some View {
         ZStack{
             RegularPolygon(vertexNumber: 6)
-                .fill(viewEnvironment.currentColor.light)
+                .fill(stageModel.currentColor.light)
             RegularPolygon(vertexNumber: 6)
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+                .stroke(stageModel.currentColor.heavy, lineWidth: 1)
             TriangleNormalShape()
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
+                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
                 .scaleEffect(0.6)
             TriangleNormalShape()
-                .stroke(viewEnvironment.currentColor.heavy, lineWidth: 2)
+                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
                 .scaleEffect(0.6)
                 .rotationEffect(Angle(degrees: 180))
         }
@@ -32,6 +31,6 @@ struct ActionItemHexagramView: View {
 struct ActionItemLargePyramid_Previews: PreviewProvider {
     static var previews: some View {
         ActionItemHexagramView(size: 80)
-            .environmentObject(ViewEnvironment(stageModel: StageModel()))
+            .environmentObject(StageModel())
     }
 }

@@ -9,11 +9,12 @@ import SwiftUI
 import Combine
 
 struct BaranceView: View {
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @ObservedObject var model = GameModel.shared.baranceViewModel
+   
+    @EnvironmentObject var stageModel: StageModel
+    @StateObject var model = BaranceViewModel()
     
     var opacity:Double {
-        Double(model.stageModel.deleteCount) / Double(model.stageModel.targetDeleteCount) > 1 ? 1 : Double(model.stageModel.deleteCount) / Double(model.stageModel.targetDeleteCount)
+        Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
     }
     
     var body: some View {
@@ -45,7 +46,7 @@ struct BaranceView: View {
                         .position(x: baseScale * 4, y: baseScale * 1.5)
                     TriangleNormalShape()
                         .frame(width: baseScale * 2, height: baseScale * 2 * sqrt(3)/2)
-                        .foregroundColor(viewEnvironment.currentColor.light)
+                        .foregroundColor(stageModel.currentColor.light)
                         .position(x:baseScale * 4, y: baseScale * 2.8)
                     RegularPolygon(vertexNumber: 6)
                         .foregroundColor(.gray)
@@ -56,7 +57,7 @@ struct BaranceView: View {
                 TriangleNormalShape()
                     .foregroundColor(.gray)
                     .overlay {
-                        Text(String(model.stageModel.targetDeleteCount))
+                        Text(String(stageModel.targetDeleteCount))
                             .font(.title2)
                             .foregroundColor(Color(white: 0.1))
                     }
@@ -70,11 +71,11 @@ struct BaranceView: View {
                         .foregroundColor(.backgroundLightGray)
                         .rotationEffect(Angle(degrees: 180))
                     TriangleNormalShape()
-                        .foregroundColor(viewEnvironment.currentColor.heavy)
+                        .foregroundColor(stageModel.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
                     
                         .opacity(opacity)
-                    Text(String(model.stageModel.deleteCount))
+                    Text(String(stageModel.deleteCount))
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
                         .opacity((1 + opacity) / 2)
@@ -90,7 +91,7 @@ struct BaranceView: View {
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 1, y: baseScale * 1.8 - distance)
                 if model.showDeleteCountText {
-                    Text("+\(model.stageModel.deleteCount)")
+                    Text("+\(stageModel.deleteCount)")
                         .font(.title2)
                         .foregroundColor(Color.backgroundLightGray)
                         .position(x: baseScale * 2, y: baseScale * 2 - distance)
@@ -100,6 +101,9 @@ struct BaranceView: View {
                 }
         }
         .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
+        .onAppear {
+            model.setUp(stageModel: stageModel)
+        }
     }
 }
 

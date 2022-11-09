@@ -140,8 +140,6 @@ struct UpgradeCellViewModel: Identifiable{
             return "回数"
         case .recycle:
             return "割合(%)"
-        case .actionCount:
-            return "回数"
         case .pyramid:
             return "コスト"
         case .shuriken:
@@ -166,8 +164,6 @@ struct UpgradeCellViewModel: Identifiable{
             return Image(systemName: "heart")
         case .recycle:
             return Image("recycle")
-        case .actionCount:
-            return Image("normalTriangle")
         case .pyramid:
             return Image("pyramidTriangle")
         case .shuriken:
@@ -186,7 +182,6 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
    
     case life
     case recycle
-    case actionCount
     case pyramid
     case shuriken
     case hexagon
@@ -216,8 +211,6 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
             return nil
         case .recycle:
             return nil
-        case .actionCount:
-            return nil
         case .pyramid:
             return .pyramid
         case .shuriken:
@@ -234,11 +227,9 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
     func effect(level:Int) -> Int {
         switch self {
         case .life:
-            return level + 2
+            return level + 3
         case .recycle:
             return level * 10
-        case .actionCount:
-            return level + 2
         case .pyramid:
             return 9 - level
         case .shuriken:
@@ -255,11 +246,9 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
     var costList: [Int] {
         switch self {
         case .life:
-            return [100, 1000, 5000, 10000]
+            return [100, 200, 500, 1000, 2000, 5000, 10000]
         case .recycle:
             return [50, 100, 200, 400, 1000]
-        case .actionCount:
-            return [100, 500, 2000, 5000, 10000]
         case .pyramid:
             return [20, 50, 200, 500, 1000]
         case .shuriken:

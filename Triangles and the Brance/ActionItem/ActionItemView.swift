@@ -10,21 +10,26 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
+    @EnvironmentObject private var stageModel: StageModel
     @Binding var itemModel: ActionItemModel
-    @ObservedObject var itemController = GameModel.shared.itemController
     let size:CGFloat
-    var selectableOpacity: Double {
+    
+    private var isSelected: Bool {
+        itemModel.id == stageModel.selectedItem?.id
+    }
+    
+    private var selectableOpacity: Double {
         if itemModel.level == 0 {
             return 0.2
         }
-        if itemModel.cost ?? .max <= itemController.energy && itemController.actionCount > 0{
+        if  itemModel.cost ?? .max <= stageModel.energy && stageModel.life > 0 {
             return 1
         } else {
             return 0.5
         }
     }
-    var itemText: String {
+    
+    private var itemText: String {
         if let cost = itemModel.cost {
             return String(cost)
         } else {
@@ -32,23 +37,12 @@ struct ActionItemView: View {
         }
     }
     //アニメーション用プロパティ
-    var circleScale:Double{
-        guard let stageItem = itemController.selectedItem
-        else { return 1.4 }
-        if stageItem.id == itemModel.id {
-            return 1
-        }else{
-            return 1.4
-        }
+    var circleScale:Double {
+        isSelected ? 1 : 1.4
     }
-    var circleOpacity:Double{
-        guard let stageItem = itemController.selectedItem
-        else { return 0 }
-        if stageItem.id == itemModel.id{
-            return 1
-        }else{
-            return 0
-        }
+    
+    var circleOpacity:Double {
+        isSelected ? 1 : 0
     }
 
     var body: some View {
@@ -78,19 +72,13 @@ struct ActionItemView: View {
                         .frame(width: size * 0.5 , height: size * 0.5)
                 }
                 Circle()
-                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
                     .frame(width: size , height: size)
                     .scaleEffect(circleScale)
                     .animation(.easeOut(duration: 0.2), value: circleScale)
                     .opacity(circleOpacity)
                     .animation(.easeOut(duration: 0.2), value: circleOpacity)
                     .contentShape(Circle())
-                    .onTapGesture {
-                        itemController.itemSelect(model: itemModel)
-                    }
-                    .onLongPressGesture {
-                        itemController.showDescriptionView(item: itemModel)
-                    }
             }
             Text(itemText)
                 .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))

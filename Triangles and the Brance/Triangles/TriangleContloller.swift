@@ -7,11 +7,9 @@
 
 import Combine
 import SwiftUI
-import AudioToolbox
 
 final class TriangleContloller: ObservableObject {
-    
-    private let itemController: ItemController
+      
     @Published var triangles: [TriangleViewModel] = []
     @Published private(set) var fieldOutLine: [TriLine] = []
     @Published private(set) var triangleVertexs: [TriangleVertexCoordinate] = []
@@ -20,34 +18,39 @@ final class TriangleContloller: ObservableObject {
     private let isOnRate: Double = 0.5
     private var recycleRate: Double = 0
     
-    init(stageModel: StageModel, itemController: ItemController) {
-        self.stageModel = stageModel
-        self.itemController = itemController
+    init() {
         loadRecycleRate()
         createChainActionSoundId()
     }
+    
+    func setUp(stageModel: StageModel) {
+        self.stageModel = stageModel
+        subscribe(stageModel: stageModel)
+        setParameters()
+    }
+    
     //イベント通知を受け取る
-    private let stageModel: StageModel
+    private var stageModel: StageModel?
     private var subscriber: AnyCancellable?
-    func subscribe() {
+    private func subscribe(stageModel: StageModel) {
         subscriber = stageModel.gameEventPublisher
-            .sink { [ weak self ] event in
-                guard let self = self else {
-                    return
-                }
-                switch event {
+            .sink { [ weak self ] completion in
+                switch completion.event {
                 case .stageClear:
-                    self.setParameters()
+                    self?.setParameters()
                 case .resetGame:
-                    self.setParameters()
+                    self?.setParameters()
                 default:
                     break
                 }
             }
     }
-    
+        
     ///ステージ開始時に呼び出す
-    func setParameters() {
+    private func setParameters() {
+        guard let stageModel = stageModel else {
+            return
+        }
         loadArrangement(stage: stageModel.stage)
         setTrianleVertexs()
         setTrianglesStatus()
@@ -87,6 +90,10 @@ final class TriangleContloller: ObservableObject {
  
     ///タップしたときのアクション
     func triangleTapAction(coordinate: TriangleCenterCoordinate) {
+        guard let stageModel = stageModel else {
+            return
+        }
+
         guard stageModel.life != 0 else {
             return
         }
@@ -95,7 +102,7 @@ final class TriangleContloller: ObservableObject {
             return
         }
         //アイテムが入っていた場合の処理を確認、何も行われなかった場合は連鎖して消すアクションを行う
-        if itemController.selectedItem != nil {
+        if stageModel.selectedItem != nil {
            itemAction(coordinate: coordinate)
             return
         }
@@ -107,16 +114,16 @@ final class TriangleContloller: ObservableObject {
     
     ///itemのアクションを実行する
     func itemAction<T:StageCoordinate>(coordinate: T) {
-        //itemが更新する座標を取得
-        let itemCoordinates = itemController.itemEffectCoordinates(coordinate: coordinate)
-        let actionIndex = getIndexesOfAction(coordinates: itemCoordinates)
-        if actionIndex.allSatisfy ({ $0.isEmpty }) {
-            itemController.releaseItemSelect()
+        guard let selectedItem = stageModel?.selectedItem else {
             return
         }
-        itemController.useItem()
-        itemController.releaseItemSelect()
-        //Trianglesのステータスの更新
+        //itemが更新する座標を取得
+        let itemCoordinates = selectedItem.type.itemEffectCoordinates(coordinate: coordinate)
+        let actionIndex = getIndexesOfAction(coordinates: itemCoordinates)
+        if actionIndex.allSatisfy ({ $0.isEmpty }) {
+            return
+        }
+        stageModel?.useItem()
         turnOnTriangles(plans: actionIndex)
         return
     }
@@ -128,8 +135,7 @@ final class TriangleContloller: ObservableObject {
         let deleteCount = plans.count
         //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
         updateTrianglesStatus(plans: plans){ [self] in
-            itemController.energyChange(plans.count)
-            stageModel.updateParameters(deleteCount: deleteCount)
+            stageModel?.updateParameters(deleteCount: deleteCount)
         }
     }
     ///一定割合復活させる
@@ -143,7 +149,7 @@ final class TriangleContloller: ObservableObject {
         }
     }
     ///座標からindexへ変換、更新がない座標を取り除く
-    func getIndexesOfAction(coordinates: [[TriangleCenterCoordinate]]) -> [[Int]] {
+    private func getIndexesOfAction(coordinates: [[TriangleCenterCoordinate]]) -> [[Int]] {
         coordinates.map { coordinates in
             coordinates.compactMap {
                 indexOfTriangles(coordinate: $0)

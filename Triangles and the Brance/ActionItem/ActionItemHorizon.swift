@@ -9,19 +9,18 @@ import SwiftUI
 
 struct ActionItemHorizon: View {
     
-    @EnvironmentObject var viewEnvironment: ViewEnvironment
-    @ObservedObject var itemController = GameModel.shared.itemController
+    @EnvironmentObject private var stageModel: StageModel
     let size: CGFloat
     var body: some View {
         TriangleNormalShape()
-            .fill(viewEnvironment.currentColor.light)
+            .fill(stageModel.currentColor.light)
             .overlay {
                 TriangleNormalShape()
-                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1)
+                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
             }
             .overlay{
                 HorizonShape()
-                    .stroke(viewEnvironment.currentColor.heavy, lineWidth: 1.5)
+                    .stroke(stageModel.currentColor.heavy, lineWidth: 1.5)
                     .frame(width: size / 2.5, height: size / 2.5)
             }
             .frame(width: size, height: size)
@@ -31,7 +30,7 @@ struct ActionItemHorizon: View {
 struct ActionItemHorizon_Previews: PreviewProvider {
     static var previews: some View {
         ActionItemHorizon(size: 80)
-            .environmentObject(GameModel.shared.viewEnvironment)
+            .environmentObject(StageModel())
     }
 }
 

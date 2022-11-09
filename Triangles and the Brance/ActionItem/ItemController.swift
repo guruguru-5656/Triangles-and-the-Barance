@@ -11,81 +11,46 @@ import Combine
 class ItemController: ObservableObject {
     
     @Published var actionItems: [ActionItemModel] = []
-    @Published private(set) var selectedItem: ActionItemModel?
     @Published private(set) var descriptionItem: ActionType?
-    @Published var energy: Int
     @Published private(set) var energyDifference: Int?
-    @Published private(set) var actionCount: Int
+   
     private var itemUseSound = EffectSoundPlayer(name: "itemUsed")
-    private var itemSelectSound = EffectSoundPlayer(name: "selectSound")
     
-    init(stageModel: StageModel) {
-        self.stageModel = stageModel
-        //データの読み込み
-        energy = 0
-        actionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
+    init() {
         loadItemTable()
     }
+
     //イベントの受信設定
-    private let stageModel: StageModel
+    private var stageModel: StageModel!
     private var subscriber: AnyCancellable?
-    func subscribe() {
-        subscriber = stageModel.gameEventPublisher
-            .sink { [ weak self ] event in
-                switch event {
+    func subscribe(stageModel: StageModel) {
+        self.stageModel = stageModel
+        subscriber = self.stageModel.gameEventPublisher
+            .sink { [ weak self ] completion in
+                guard let self = self else {
+                    return
+                }
+                switch completion.event {
+                case .itemUsed:
+                    self.itemUseSound?.play()
+                    self.showEnergyDifference(completion.value! * -1)
+                case .triangleDeleted:
+                    self.showEnergyDifference(completion.value!)
                 case .stageClear:
-                    self?.closeDescriptionView()
-                    self?.resetParameters()
+                    self.closeDescriptionView()
+                    self.resetParameters()
                 case .resetGame:
-                    self?.closeDescriptionView()
-                    self?.resetParameters()
+                    self.closeDescriptionView()
+                    self.resetParameters()
                 default:
                     return
                 }
             }
     }
-    ///効果を及ぼす座標を返す
-    func itemEffectCoordinates<T: StageCoordinate>(coordinate: T) -> [[TriangleCenterCoordinate]]{
-        //アイテムが選択されていなければ何もしない
-        guard let item = selectedItem else {
-            return []
-        }
-        //入力された座標がitemのpositionと一致するかチェック
-        guard coordinate.position == item.type.position else{
-            return []
-        }
-        return coordinate.relative(coordinates: item.type.actionCoordinate)
-    }
-    
-    func releaseItemSelect() {
-        selectedItem = nil
-    }
-    
-    func useItem() {
-        guard let selectedItem = selectedItem else {
-            return
-        }
-        itemUseSound?.play()
-        actionCount -= 1
-        energyChange( -1 * selectedItem.cost!)
-    }
     
     func itemSelect(model: ActionItemModel) {
         closeDescriptionView()
-        guard actionCount > 0 else {
-            return
-        }
-        //現在選択しているItemと同じものを選択した場合、選択を解除する
-        if model.id == selectedItem?.id {
-            selectedItem = nil
-            return
-        }
-        //コストが現在のエネルギーより小さい場合は選択する
-        if model.cost ?? .max <= energy {
-            selectedItem = model
-            itemSelectSound?.play()
-        }
-        return
+        stageModel.itemSelect(model: model)
     }
     
     //説明Viewを表示し、一定時間後に閉じる
@@ -104,7 +69,6 @@ class ItemController: ObservableObject {
                     }
                 }
             } catch {
-                print("cancel")
                 return
             }
         }
@@ -117,12 +81,8 @@ class ItemController: ObservableObject {
         task?.cancel()
     }
     
-    func energyChange(_ count: Int) {
-        energy += count
-        showEnergyDifference(count)
-    }
     //テキストを一定時間表示
-    func showEnergyDifference(_ difference: Int) {
+    private func showEnergyDifference(_ difference: Int) {
         withAnimation {
             energyDifference = difference
         }
@@ -137,11 +97,8 @@ class ItemController: ObservableObject {
     }
     
     ///パラメーターを初期値に戻す
-    func resetParameters() {
+    private func resetParameters() {
         loadItemTable()
-        actionCount = SaveData.shared.loadData(name: UpgradeType.actionCount) + 2
-        energy = 0
-        selectedItem = nil
     }
     
     private func loadItemTable() {

@@ -8,14 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var stageModel = GameModel.shared.stageModel
+    @StateObject var stageModel = StageModel()
     @State var circleAncor: Anchor<CGRect>?
-    @EnvironmentObject private var viewEnvironment: ViewEnvironment
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                viewEnvironment.currentColor.previousColor.heavy
+                stageModel.currentColor.previousColor.heavy
                     .ignoresSafeArea()
                 if let circleAncor = circleAncor {
                     let rect = geometry[circleAncor]
@@ -46,7 +45,7 @@ struct ContentView: View {
                         }
                     }
                     if stageModel.showResultView {
-                        viewEnvironment.currentColor.heavy
+                        stageModel.currentColor.heavy
                             .ignoresSafeArea()
                         LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                             .opacity(0.3)
@@ -68,6 +67,5 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environmentObject(GameModel.shared.viewEnvironment)
     }
 }
