@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 //データクラスを切り替えるためのクラス
-final class SaveData {
+final class SaveData: DataClass {
         
     private let dataClass: DataClass
     static let shared = SaveData()
@@ -26,8 +26,8 @@ final class SaveData {
         return dataClass.loadData(name: name)
     }
     
-    func saveData<T:SaveDataName>(name: T, value: Int) {
-        dataClass.saveData(name: name, intValue: value)
+    func saveData<T:SaveDataName>(name: T, intValue: Int) {
+        dataClass.saveData(name: name, intValue: intValue)
     }
     
     func loadData<T:SaveDataName, U:Codable>(name: T,valueType: U.Type) -> Optional<U> {

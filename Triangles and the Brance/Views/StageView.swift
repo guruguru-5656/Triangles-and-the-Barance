@@ -60,7 +60,6 @@ struct StageView: View {
                 Spacer()
                 ActionItemWholeView(size: geometry.size.width)
                     .frame( height: geometry.size.width * 0.22)
-                    .background(.purple)
                     .zIndex(1)
                 Spacer()
                 BaranceView()

@@ -31,39 +31,61 @@ struct ActionItemWholeView: View {
     
     var body: some View {
         ZStack {
-            ScrollView(.horizontal,showsIndicators: false) {
+            VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    ForEach($itemController.actionItems, id: \.self){ $item in
-                        ActionItemView(itemModel: $item, size: size / 8)
-                            .padding(.leading, 15)
-                            .onTapGesture {
-                                itemController.itemSelect(model: item)
-                            }
-                            .onLongPressGesture {
-                                itemController.showDescriptionView(item: item)
-                            }
+                    Image(systemName: "bolt.batteryblock")
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(stageModel.currentColor.heavy)
+                        .frame(width: size * 0.06, height: size * 0.06)
+                        .padding(.leading)
+                    Spacer()
+                    Text("\(stageModel.energy)")
+                        .font(Font(UIFont.systemFont(ofSize: size / 14)))
+                    Spacer()
+                    ZStack {
+                        if let text = energyDifferenceText {
+                            Text(text)
+                                .font(Font(UIFont.systemFont(ofSize: size / 20)))
+                                .transition(.asymmetric(
+                                    insertion: .offset(y: -10).combined(with: .opacity),
+                                    removal: .opacity))
+                        }
+                    }
+                    .frame(width: size * 0.1)
+                }
+                .frame(width: size * 0.35)
+                .background{
+                    RightCornerCutRectangle()
+                        .foregroundColor(.backgroundLightGray)
+                }
+                ScrollView(.horizontal,showsIndicators: false) {
+                    HStack {
+                        ForEach($itemController.actionItems, id: \.self){ $item in
+                            ActionItemView(itemModel: $item, size: size / 8)
+                                .padding(.leading, 15)
+                                .onTapGesture {
+                                    itemController.itemSelect(model: item)
+                                }
+                                .onLongPressGesture {
+                                    itemController.showDescriptionView(item: item)
+                                }
+                        }
                     }
                 }
+                .background{
+                    Color.backgroundLightGray
+                    //                RectangleWithTextSpace(textSpaceWidth: size * 0.3, textSpaceHeight: size * 0.07)
+                    //                    .foregroundColor(Color.backgroundLightGray)
+                }
             }
-            .background{
-                RectangleWithTextSpace(textSpaceWidth: size * 0.25, textSpaceHeight: size * 0.07)
-                    .foregroundColor(Color.backgroundLightGray)
-            }
-            Text("\(stageModel.energy)")
-                .position(x: size * 0.17, y: size * -0.03)
-                .font(Font(UIFont.systemFont(ofSize: size / 14)))
-            if let text = energyDifferenceText {
-            Text(text)
-                    .position(x: size * 0.08, y: size * -0.03)
-                .font(Font(UIFont.systemFont(ofSize: size / 20)))
-                .transition(.asymmetric(
-                    insertion: .offset(y: -10).combined(with: .opacity),
-                    removal: .opacity))
-            }
+           
             if let descriptionItem = itemController.descriptionItem {
-                DescriptionView(actionType: descriptionItem)
-                    .frame(width: size * 0.4, height: size * 0.4, alignment: .center)
-                    .position(x: size * 0.5, y: size * 0.5)
+                PopUpView {
+                    DescriptionView(actionType: descriptionItem)
+                }
+                    .frame(width: size * 0.4, height: size * 0.35, alignment: .center)
+                    .position(x: size * 0.5, y: size * 0.35)
                     .onTapGesture {
                         itemController.closeDescriptionView()
                     }

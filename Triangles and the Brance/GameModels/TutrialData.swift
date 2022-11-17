@@ -1,38 +1,38 @@
 //
-//  TestData.swift
+//  SaveDataStore.swift
 //  Triangles and the Brance
 //
-//  Created by 森本拓未 on 2022/08/13.
+//  Created by 森本拓未 on 2022/11/09.
 //
 
 import Foundation
 
-//検証用にデータを定数で読みこむクラス
-final class TestData {
-    //テスト用データ
+
+final class TutrialData {
+    
     private func gameStatusValue(type: StageState) -> Int {
         switch type {
         case .stage:
-            return 12
+            return 1
         }
     }
     
     private func upgradeDataValue(type: UpgradeType) -> Int {
         switch type {
         case .life:
-            return 5
-        case .recycle:
-            return 4
-        case .pyramid:
-            return 4
-        case .shuriken:
-            return 3
-        case .hexagon:
-            return 3
-        case .horizon:
-            return  2
-        case .hexagram:
             return 1
+        case .recycle:
+            return 1
+        case .pyramid:
+            return 1
+        case .shuriken:
+            return 0
+        case .hexagon:
+            return 0
+        case .horizon:
+            return  0
+        case .hexagram:
+            return 0
         }
     }
     
@@ -49,14 +49,14 @@ final class TestData {
         case .point:
             return 0
         case .totalPoint:
-            return  100000
+            return  0
         }
     }
     //キャッシュ
     private var casheData: [String:Int] = [:]
 }
 
-extension TestData: DataClass {
+extension TutrialData: DataClass {
     //キャッシュがあればそれをロードし、なければテスト用データをロードする
     func loadData<T:SaveDataName>(name: T) -> Int {
         if let data = casheData[name.description] {
@@ -80,7 +80,7 @@ extension TestData: DataClass {
     
     func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
         switch name.self {
-        case is StageLogs:
+        case is StageLog:
             return [StageLog]() as? U
         default:
             return nil

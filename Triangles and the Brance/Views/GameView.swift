@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct ContentView: View {
-    @StateObject var stageModel = StageModel()
+struct GameView: View {
+    @ObservedObject var stageModel = StageModel()
     @State var circleAncor: Anchor<CGRect>?
     
     var body: some View {
@@ -61,11 +61,12 @@ struct ContentView: View {
             circleAncor = value
         }
         .environmentObject(stageModel)
+        .navigationBarHidden(true)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        GameView()
     }
 }

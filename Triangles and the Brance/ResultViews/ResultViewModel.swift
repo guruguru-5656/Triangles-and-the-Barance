@@ -98,14 +98,14 @@ final class ResultViewModel: ObservableObject {
             let loadScore = SaveData.shared.loadData(name: results[index].type)
             results[index].setParameters(index: index, score: loadScore)
             if results[index].isUpdated {
-                SaveData.shared.saveData(name: results[index].type, value: results[index].value )
+                SaveData.shared.saveData(name: results[index].type, intValue: results[index].value )
             }
         }
         //totalPointの読み込みおよび更新
         let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + point
         let totalPointIndex = results.count
         results.append(ResultModel(type: .totalPoint, value: totalPoint, index: totalPointIndex))
-        SaveData.shared.saveData(name: ResultValue.totalPoint, value: totalPoint)
+        SaveData.shared.saveData(name: ResultValue.totalPoint, intValue: totalPoint)
     }
    
     func loadTotalPointData() {

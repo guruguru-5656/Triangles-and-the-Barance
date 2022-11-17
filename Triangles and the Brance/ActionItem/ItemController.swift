@@ -17,7 +17,7 @@ class ItemController: ObservableObject {
     private var itemUseSound = EffectSoundPlayer(name: "itemUsed")
     
     init() {
-        loadItemTable()
+        
     }
 
     //イベントの受信設定
@@ -25,6 +25,7 @@ class ItemController: ObservableObject {
     private var subscriber: AnyCancellable?
     func subscribe(stageModel: StageModel) {
         self.stageModel = stageModel
+        loadItemTable()
         subscriber = self.stageModel.gameEventPublisher
             .sink { [ weak self ] completion in
                 guard let self = self else {
@@ -104,7 +105,7 @@ class ItemController: ObservableObject {
     private func loadItemTable() {
         actionItems = ActionType.allCases.map { actionType -> ActionItemModel in
             if let upgradeType = UpgradeType(actionType: actionType){
-                let saveData = SaveData.shared.loadData(name: upgradeType)
+                let saveData = stageModel.dataStore.loadData(name: upgradeType)
                 return ActionItemModel(type: actionType, level: saveData)
             }
             return ActionItemModel(type: actionType, level: 1)

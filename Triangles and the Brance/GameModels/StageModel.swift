@@ -11,6 +11,7 @@ import AVFoundation
 
 class StageModel: ObservableObject {
     
+    @Published var isPresented = true
     @Published var showResultView = false
     @Published var isGameClear = false
     @Published var stage: Int
@@ -19,27 +20,29 @@ class StageModel: ObservableObject {
     @Published var life: Int
     @Published var selectedItem: ActionItemModel?
     @Published var energy: Int = 0
-    private (set) var resentDeleteCount: Int = 0
     private var maxLife = 3
-    private var maxCombo: Int = 0
+    var maxCombo: Int = 0
     //目標値
     var targetDeleteCount: Int {
         targetList[stage - 1]
     }
+    
     private let targetList = [10, 15, 20, 25, 30, 36, 43, 50, 57, 63, 70, 80]
     //スコアの生成に利用
-    private (set) var stageLogs: [StageData] = []
+    private (set) var stageLogs: [StageLog] = []
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEventObject, Never>()
+    let dataStore: DataClass
     
-    init() {
-        let stageData = SaveData.shared.loadData(name: StageState.stage)
-        //stageDataが0の場合は1にする
+    init(dataStore: DataClass = SaveData.shared) {
+        self.dataStore = dataStore
+        let stageData = dataStore.loadData(name: StageState.stage)
+        //stageDataが0(データが存在しない場合)は1にする
         let formattedStageData = stageData == 0 ? 1 : stageData
         stage = formattedStageData
         currentColor = StageColor(stage: formattedStageData)
-        maxLife = SaveData.shared.loadData(name: UpgradeType.life) + 2
-        stageLogs = SaveData.shared.loadData(name: StageLog.log, valueType: Array<StageData>.self) ?? []
+        maxLife = dataStore.loadData(name: UpgradeType.life) + 5
+        stageLogs = dataStore.loadData(name: StageLogs.log, valueType: Array<StageLog>.self) ?? []
         life = maxLife
     }
     
@@ -86,15 +89,14 @@ class StageModel: ObservableObject {
         return
     }
     
-    func updateParameters(deleteCount: Int) {
-        self.deleteCount += deleteCount
-        resentDeleteCount = deleteCount
-        energy += deleteCount
+    func triangleDidDeleted(count: Int) {
+        self.deleteCount += count
+        energy += count
         life -= 1
-        if maxCombo < deleteCount {
-            maxCombo = deleteCount
+        if maxCombo < count {
+            maxCombo = count
         }
-        gameEventPublisher.send(.init(.triangleDeleted, value: deleteCount))
+        gameEventPublisher.send(.init(.triangleDeleted, value: count))
         //イベントの判定
         if self.deleteCount >= targetDeleteCount {
             if stage == 12 {
@@ -117,7 +119,7 @@ class StageModel: ObservableObject {
     func resetGame() {
         stage = 1
         currentColor = StageColor(stage: 1)
-        maxLife = SaveData.shared.loadData(name: UpgradeType.life) + 2
+        maxLife = dataStore.loadData(name: UpgradeType.life) + 5
         resetStageParameter()
         gameEventPublisher.send(.init(.resetGame))
         withAnimation {
@@ -156,9 +158,9 @@ class StageModel: ObservableObject {
             showResultView = true
         }
         //データを初期状態でセーブ
-        SaveData.shared.saveData(name: StageState.stage, value: 1)
-        let initialLog: [StageData] = []
-        SaveData.shared.saveData(name: StageLog.log, value: initialLog)
+        dataStore.saveData(name: StageState.stage, intValue: 1)
+        let initialLog: [StageLog] = []
+        dataStore.saveData(name: StageLogs.log, value: initialLog)
     }
     
     private func gameClear() {
@@ -167,9 +169,9 @@ class StageModel: ObservableObject {
         
         changeBgm(to: .ending)
         //データを初期状態でセーブ
-        SaveData.shared.saveData(name: StageState.stage, value: 1)
-        let initialLog: [StageData] = []
-        SaveData.shared.saveData(name: StageLog.log, value: initialLog)
+        dataStore.saveData(name: StageState.stage, intValue: 1)
+        let initialLog: [StageLog] = []
+        dataStore.saveData(name: StageLogs.log, value: initialLog)
         Task {
             try await Task.sleep(nanoseconds: 3000_000_000)
             await MainActor.run {
@@ -191,17 +193,17 @@ class StageModel: ObservableObject {
     }
     
     private func createLog() {
-        let log = StageData(stage: stage, deleteCount: deleteCount, maxCombo: maxCombo)
+        let log = StageLog(stage: stage, deleteCount: deleteCount, maxCombo: maxCombo)
         stageLogs.append(log)
     }
     
     private func saveStageStatus() {
-        SaveData.shared.saveData(name: StageState.stage, value: stage)
-        SaveData.shared.saveData(name: StageLog.log, value: stageLogs)
+        dataStore.saveData(name: StageState.stage, intValue: stage)
+        dataStore.saveData(name: StageLogs.log, value: stageLogs)
     }
     //SE再生
     private var gameOverSound = EffectSoundPlayer(name: "gameOverSound")
-    private var itemSelectSound = EffectSoundPlayer(name: "selectSound")
+    var itemSelectSound = EffectSoundPlayer(name: "selectSound")
     
     //BGM再生
     private var stageBgm: AVAudioPlayer?
@@ -275,16 +277,18 @@ struct GameEventObject {
     }
 }
 
+
+struct StageLog:Codable, Hashable {
+    let stage: Int
+    let deleteCount: Int
+    let maxCombo: Int
+}
+
+//データ保存用の名前
 enum StageState: SaveDataName {
     case stage
 }
 
-enum StageLog: SaveDataName {
+enum StageLogs: SaveDataName {
     case log
-}
-
-struct StageData:Codable, Hashable {
-    let stage: Int
-    let deleteCount: Int
-    let maxCombo: Int
 }

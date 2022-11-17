@@ -19,12 +19,12 @@ final class TriangleContloller: ObservableObject {
     private var recycleRate: Double = 0
     
     init() {
-        loadRecycleRate()
         createChainActionSoundId()
     }
     
     func setUp(stageModel: StageModel) {
         self.stageModel = stageModel
+        loadRecycleRate()
         subscribe(stageModel: stageModel)
         setParameters()
     }
@@ -84,7 +84,7 @@ final class TriangleContloller: ObservableObject {
     }
     ///アップグレードのデータからrecycleのlevelを読み込み
     private func loadRecycleRate() {
-        let recycleLevel = SaveData.shared.loadData(name: UpgradeType.recycle)
+        let recycleLevel = stageModel!.dataStore.loadData(name: UpgradeType.recycle)
         recycleRate = Double(UpgradeType.recycle.effect(level: recycleLevel)) / 100
     }
  
@@ -135,7 +135,7 @@ final class TriangleContloller: ObservableObject {
         let deleteCount = plans.count
         //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
         updateTrianglesStatus(plans: plans){ [self] in
-            stageModel?.updateParameters(deleteCount: deleteCount)
+            stageModel?.triangleDidDeleted(count: deleteCount)
         }
     }
     ///一定割合復活させる
@@ -251,7 +251,7 @@ final class TriangleContloller: ObservableObject {
     private func coordinatesInStage(coordinates: Set<TriangleCenterCoordinate>) -> Set<TriangleCenterCoordinate>{
         Set(coordinates.filter{ isInStage(coordinate: $0) })
     }
-    ///ステータス変更の予定のセット
+    ///ステータス変更の予定
     private struct PlanOfChangeStatus{
         let index:Int
         let count:Int

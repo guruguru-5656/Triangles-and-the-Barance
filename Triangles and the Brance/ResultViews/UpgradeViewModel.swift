@@ -17,7 +17,6 @@ class UpgradeViewModel: ObservableObject {
     @Published var showDetailView = false
     private let decideSound = EffectSoundPlayer(name: "decideSound")
     private let cancelSound = EffectSoundPlayer(name: "cancelSound")
-   
     
     init() {
         upgradeItems = loadUpgradeData()
@@ -42,9 +41,9 @@ class UpgradeViewModel: ObservableObject {
     
     func permitPaying() {
         upgradeItems.forEach {
-            SaveData.shared.saveData(name: $0.type, value: $0.level)
+            SaveData.shared.saveData(name: $0.type, intValue: $0.level)
         }
-        SaveData.shared.saveData(name: ResultValue.totalPoint, value: point)
+        SaveData.shared.saveData(name: ResultValue.totalPoint, intValue: point)
         decideSound?.play()
     }
     
@@ -70,7 +69,7 @@ class UpgradeViewModel: ObservableObject {
 }
 
 //UpgradeSubViewのモデル
-struct UpgradeCellViewModel: Identifiable{
+struct UpgradeCellViewModel: Identifiable {
     
     let type:UpgradeType
     var level: Int
@@ -178,7 +177,7 @@ struct UpgradeCellViewModel: Identifiable{
     }
 }
 
-enum UpgradeType: Int, CaseIterable , SaveDataName {
+enum UpgradeType: Int, CaseIterable, SaveDataName {
    
     case life
     case recycle
@@ -227,7 +226,7 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
     func effect(level:Int) -> Int {
         switch self {
         case .life:
-            return level + 3
+            return level + 5
         case .recycle:
             return level * 10
         case .pyramid:
@@ -237,7 +236,7 @@ enum UpgradeType: Int, CaseIterable , SaveDataName {
         case .hexagon:
             return 13 - level
         case .horizon:
-            return 14 - level
+            return 16 - level
         case .hexagram:
             return 21 - level
         }
