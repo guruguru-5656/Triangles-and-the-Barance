@@ -17,8 +17,8 @@ class BaranceViewModel: ObservableObject {
     func setUp(stageModel: StageModel) {
         self.stageModel = stageModel
         subscriber = stageModel.gameEventPublisher
-            .sink { completion in
-                switch completion.event {
+            .sink { event in
+                switch event {
                 case .triangleDeleted:
                     self.baranceAnimation()
                     self.hiLightAnimation()

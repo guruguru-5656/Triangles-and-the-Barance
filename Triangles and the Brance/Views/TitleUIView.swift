@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct TitleUIView: View {
-    let titleColor = StageColor(stage: 1)
-    @State private var isGameViewActive = false
-    @State private var isTutrialViewActive = false
+    private let bgmPlayer = BGMPlayer.instance
+    private let soundPlayer = SoundPlayer.instance
+    private let titleColor = StageColor(stage: 1)
+    @Binding var mainView: MainView
     var body: some View {
         NavigationView {
             GeometryReader { proxy in
@@ -72,44 +73,28 @@ struct TitleUIView: View {
                         .frame(height: proxy.size.width * 0.5)
                         .padding()
                         HStack(spacing: 30) {
-                            NavigationLink( isActive: $isGameViewActive,
-                                            destination: { GameView() },
-                                            label: {
-                                Button(action: {
-                                    var transaction = Transaction()
-                                    transaction.disablesAnimations = true
-                                    withTransaction(transaction) {
-                                        isGameViewActive = true
-                                    }
-                                }){
-                                    HStack {
-                                        Image(systemName: "arrowtriangle.up")
-                                        Text("START")
-                                    }
-                                    .foregroundColor(Color.heavyRed)
+                            Button(action: {
+                                startGame(of: .game)
+                            },
+                                   label:{
+                                HStack {
+                                    Image(systemName: "arrowtriangle.up")
+                                    Text("START")
                                 }
-                                .buttonStyle(CustomButton())
+                                .foregroundColor(Color.heavyRed)
                             })
-                            NavigationLink( isActive: $isTutrialViewActive,
-                                            destination: { TutrialView() },
-                                            label: {
-                                Button(action: {
-                                    var transaction = Transaction()
-                                    transaction.disablesAnimations = true
-                                    withTransaction(transaction) {
-                                        isTutrialViewActive = true
-                                    }
-                                },
-                                       label: {
-                                    HStack {
-                                        Image(systemName:"book")
-                                        Text("TUTRIAL")
-                                    }
-                                    .foregroundColor(.heavyGreen)
-                                })
-                                .buttonStyle(CustomButton())
+                            .buttonStyle(CustomButton())
+                            Button(action: {
+                                startGame(of: .tutrial)
+                            },
+                                   label: {
+                                HStack {
+                                    Image(systemName:"book")
+                                    Text("TUTRIAL")
+                                }
+                                .foregroundColor(.heavyGreen)
                             })
-                            
+                            .buttonStyle(CustomButton())
                         }
                         .frame(width: proxy.size.width ,height: 100)
                         .background(Color.lightGray)
@@ -119,11 +104,21 @@ struct TitleUIView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear {
+            bgmPlayer.play(bgm: .title)
+        }
+    }
+    
+    func startGame(of view: MainView) {
+        mainView = view
+        bgmPlayer.play(bgm: view.bgm)
+        soundPlayer.play(sound: .restartSound)
     }
 }
 
 struct TitleUIView_Previews: PreviewProvider {
+    @State static var view: MainView = .title
     static var previews: some View {
-        TitleUIView()
+        TitleUIView(mainView: $view)
     }
 }

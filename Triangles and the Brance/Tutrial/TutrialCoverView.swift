@@ -26,11 +26,18 @@ struct TutrialCoverView: View {
 }
 
 struct ShapeWithSquareHole: Shape {
-    let clipRect: CGRect
+    
+    let clipRects: [CGRect]
+    
+    init(clipRect: CGRect...) {
+        self.clipRects = clipRect
+    }
     
     func path(in rect: CGRect) -> Path {
         var path = Path(rect)
-        path.addRoundedRect(in: clipRect, cornerSize: CGSize(width: 10, height: 10))
+        for clipRect in clipRects {
+            path.addRoundedRect(in: clipRect, cornerSize: CGSize(width: 10, height: 10))
+        }
         return path
     }
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct StageView: View {
     @EnvironmentObject var stageModel: StageModel
+    @Binding var isShowPopup: Bool
+    private let soundPlayer = SoundPlayer.instance
     
     var body: some View {
         GeometryReader { geometry in
@@ -41,7 +43,8 @@ struct StageView: View {
                     }
                     Spacer()
                     Button(action: {
-                        stageModel.giveUp()
+                        soundPlayer.play(sound: .selectSound)
+                        isShowPopup.toggle()
                     }){
                         Image(systemName: "flag.fill")
                             .resizable()
@@ -68,15 +71,13 @@ struct StageView: View {
                 Spacer()
             }
         }
-        .onAppear {
-            stageModel.startBgm()
-        }
     }
 }
 
 struct StageView_Previews: PreviewProvider {
+    @State static private var isShowPopup = false
     static var previews: some View {
-        StageView()
+        StageView(isShowPopup: $isShowPopup)
             .environmentObject(StageModel())
     }
 }

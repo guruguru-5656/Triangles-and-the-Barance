@@ -17,10 +17,7 @@ final class TriangleContloller: ObservableObject {
     @Published private(set) var numberOfCell: Int = 6
     private let isOnRate: Double = 0.5
     private var recycleRate: Double = 0
-    
-    init() {
-        createChainActionSoundId()
-    }
+    private let soundPlayer = SoundPlayer.instance
     
     func setUp(stageModel: StageModel) {
         self.stageModel = stageModel
@@ -34,8 +31,8 @@ final class TriangleContloller: ObservableObject {
     private var subscriber: AnyCancellable?
     private func subscribe(stageModel: StageModel) {
         subscriber = stageModel.gameEventPublisher
-            .sink { [ weak self ] completion in
-                switch completion.event {
+            .sink { [ weak self ] event in
+                switch event {
                 case .stageClear:
                     self?.setParameters()
                 case .resetGame:
@@ -259,25 +256,8 @@ final class TriangleContloller: ObservableObject {
     ///indexで指定して音声を再生する
     ///用意している音声より後のindexを渡した場合は最後の部分を再生する
     private func playChainActionSound(index: Int) {
-        let limitedIndex = index < sounds.count ? index : sounds.count - 1
-        sounds[limitedIndex].play()
+        let limitedIndex = index < 8 ? index + 1 : 8
+        let sound = SoundPlayer.Sound(rawValue: "marimba_" + String(limitedIndex))!
+        soundPlayer.play(sound: sound)
     }
-    ///音声再生用のIDを生成する
-    private func createChainActionSoundId() {
-        sounds = chainActionSoundNames.compactMap {
-            EffectSoundPlayer(name: $0)
-        }
-    }
-    
-    private var sounds: [EffectSoundPlayer] = []
-    private let chainActionSoundNames = [
-        "marimba_1",
-        "marimba_2",
-        "marimba_3",
-        "marimba_4",
-        "marimba_5",
-        "marimba_6",
-        "marimba_7",
-        "marimba_8",
-    ]
 }

@@ -15,8 +15,7 @@ final class ResultViewModel: ObservableObject {
     private var subscriber: AnyCancellable?
     @Published var results: [ResultModel] = []
     @Published var viewStatus: ViewStatus = .onAppear
-    private let restartSound = EffectSoundPlayer(name: "restartSound")
-    private let decideSound = EffectSoundPlayer(name: "decideSound")
+    private let soundPlayer = SoundPlayer.instance
 
     func depend(stageModel: StageModel) {
         guard self.stageModel == nil else {
@@ -32,11 +31,11 @@ final class ResultViewModel: ObservableObject {
         }
 
         subscriber = stageModel.gameEventPublisher
-            .sink { [ weak self ] completion in
+            .sink { [ weak self ] event in
                 guard let self = self else {
                     return
                 }
-                switch completion.event {
+                switch event {
                 case .gameOver:
                     self.setResultScores()
                     self.showScores()
@@ -113,14 +112,14 @@ final class ResultViewModel: ObservableObject {
     }
     
     func playDecideSound() {
-        decideSound?.play()
+        soundPlayer.play(sound: .decideSound)
     }
     
     func closeResult() {
         guard let stageModel = stageModel else {
             return
         }
-        restartSound?.play()
+        soundPlayer.play(sound: .restartSound)
         stageModel.resetGame()
     }
 }

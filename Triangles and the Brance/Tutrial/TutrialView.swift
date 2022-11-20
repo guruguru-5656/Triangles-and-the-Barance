@@ -9,15 +9,17 @@ import SwiftUI
 
 struct TutrialView: View {
     
-    @Environment(\.dismiss) private var dismiss
+    @Binding var mainView: MainView
     @ObservedObject var tutrialModel = TutrialViewModel()
     @State private var circleAncor: Anchor<CGRect>?
     @State private var anchors: [TutrialGeometryKey: Anchor<CGRect>] = [:]
-
+    @State private var isShowPopup = false
+    private let soundPlayer = SoundPlayer.instance
+    
     private var textPosition: Double {
         switch tutrialModel.description.textPosition {
         case .up:
-            return 0.5
+            return 0.55
         case .down:
             return 0.65
         case .none:
@@ -27,7 +29,7 @@ struct TutrialView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
+            ZStack(alignment: .topTrailing) {
                 //背景
                 tutrialModel.currentColor.previousColor.heavy
                     .ignoresSafeArea()
@@ -63,16 +65,8 @@ struct TutrialView: View {
                             .font(.largeTitle)
                             .foregroundColor(Color(white: 0.3))
                         Spacer()
-                        Button(action: {
-                            tutrialModel.exitTutrial()
-                        }){
-                            Image(systemName: "arrowshape.turn.up.backward.fill")
-                                .resizable()
-                                .foregroundColor(.backgroundLightGray)
-                                .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
-                        }
+                        
                     }
-                    .frame(alignment: .center)
                     .padding(.horizontal, geometry.size.width / 16)
                     Spacer()
                     Section {
@@ -92,9 +86,6 @@ struct TutrialView: View {
                         .frame(height: geometry.size.width * 0.35)
                         .modifier(TutrialViewSpace(key: .baranceView))
                     Spacer()
-                }
-                .onAppear {
-                    tutrialModel.startBgm()
                 }
                 Section {
                     //説明している場所以外をカバーするView
@@ -123,8 +114,53 @@ struct TutrialView: View {
                     .padding()
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
                 }
-                .zIndex(2)
                 .ignoresSafeArea()
+                ZStack() {
+                    Button(action: {
+                        soundPlayer.play(sound: .selectSound)
+                        withAnimation {
+                            isShowPopup = true
+                        }
+                    }){
+                        Image(systemName: "arrowshape.turn.up.backward.fill")
+                            .resizable()
+                            .foregroundColor(.backgroundLightGray)
+                            .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
+                    }
+                }
+                .padding(geometry.size.width * 0.1)
+                if isShowPopup {
+                    PopUpView {
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                soundPlayer.play(sound: .cancelSound)
+                                withAnimation {
+                                    isShowPopup = false
+                                }
+                            }){
+                                HStack {
+                                    Image(systemName: "xmark")
+                                    Text("Cancel")
+                                }
+                                .foregroundColor(Color.heavyRed)
+                            }
+                            .buttonStyle(CustomButton())
+                            Button(action: {
+                                soundPlayer.play(sound: .decideSound)
+                                tutrialModel.exit()
+                            }){
+                                HStack {
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    Text("Exit")
+                                }
+                                .foregroundColor(Color.heavyGreen)
+                            }
+                            .buttonStyle(CustomButton())
+                        }
+                        .frame(height: 50)
+                    }
+                    .padding()
+                }
             }
         }
         .onPreferenceChange(ClearCirclePoint.self) { value in
@@ -137,18 +173,15 @@ struct TutrialView: View {
         .navigationBarHidden(true)
         .onReceive(tutrialModel.$isPresented) { isPresented in
             if isPresented == false {
-                var transaction = Transaction()
-                transaction.disablesAnimations = true
-                withTransaction(transaction) {
-                    dismiss()
-                }
+                mainView = .title
             }
         }
     }
 }
 
 struct TutrialView_Previews: PreviewProvider {
+    @State static private var mainView: MainView = .tutrial
     static var previews: some View {
-        TutrialView()
+        TutrialView(mainView: $mainView)
     }
 }

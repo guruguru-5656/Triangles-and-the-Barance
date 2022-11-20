@@ -11,7 +11,6 @@ import AVFoundation
 
 class StageModel: ObservableObject {
     
-    @Published var isPresented = true
     @Published var showResultView = false
     @Published var isGameClear = false
     @Published var stage: Int
@@ -28,10 +27,11 @@ class StageModel: ObservableObject {
     }
     
     private let targetList = [10, 15, 20, 25, 30, 36, 43, 50, 57, 63, 70, 80]
+    let soundPlayer = SoundPlayer.instance
     //スコアの生成に利用
     private (set) var stageLogs: [StageLog] = []
     //イベントの発行
-    private(set) var gameEventPublisher = PassthroughSubject<GameEventObject, Never>()
+    private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
     let dataStore: DataClass
     
     init(dataStore: DataClass = SaveData.shared) {
@@ -66,7 +66,7 @@ class StageModel: ObservableObject {
         life -= 1
         energy -= selectedItem.cost!
         self.selectedItem = nil
-        gameEventPublisher.send(.init(.itemUsed, value: selectedItem.cost!))
+        gameEventPublisher.send(.itemUsed(selectedItem.cost!))
         if life == 0 {
             gameOver()
         }
@@ -84,7 +84,7 @@ class StageModel: ObservableObject {
         //コストが現在のエネルギーより小さい場合は選択する
         if model.cost ?? .max <= energy {
             selectedItem = model
-            itemSelectSound?.play()
+            soundPlayer.play(sound: .selectSound)
         }
         return
     }
@@ -96,7 +96,7 @@ class StageModel: ObservableObject {
         if maxCombo < count {
             maxCombo = count
         }
-        gameEventPublisher.send(.init(.triangleDeleted, value: count))
+        gameEventPublisher.send(.triangleDeleted(count))
         //イベントの判定
         if self.deleteCount >= targetDeleteCount {
             if stage == 12 {
@@ -121,18 +121,18 @@ class StageModel: ObservableObject {
         currentColor = StageColor(stage: 1)
         maxLife = dataStore.loadData(name: UpgradeType.life) + 5
         resetStageParameter()
-        gameEventPublisher.send(.init(.resetGame))
+        gameEventPublisher.send(.resetGame)
         withAnimation {
             showResultView = false
         }
         withAnimation {
             isGameClear = false
         }
-        changeBgm(to: .stage)
+        BGMPlayer.instance.play(bgm: .stage)
     }
     
     private func stageClear() {
-        gameEventPublisher.send(.init(.clearAnimation))
+        gameEventPublisher.send(.clearAnimation)
         Task {
             try await Task.sleep(nanoseconds: 1000_000_000)
             await MainActor.run {
@@ -144,16 +144,16 @@ class StageModel: ObservableObject {
                 energy = 0
                 life = maxLife
                 saveStageStatus()
-                gameEventPublisher.send(.init(.stageClear))
+                gameEventPublisher.send(.stageClear)
             }
         }
     }
     
     private func gameOver() {
         createLog()
-        gameEventPublisher.send(.init(.gameOver))
-        gameOverSound?.play()
-        changeBgm(to: .gameOver)
+        gameEventPublisher.send(.gameOver)
+        soundPlayer.play(sound: .gameOverSound)
+        BGMPlayer.instance.play(bgm: .gameOver)
         withAnimation {
             showResultView = true
         }
@@ -165,9 +165,8 @@ class StageModel: ObservableObject {
     
     private func gameClear() {
         isGameClear = true
-        gameEventPublisher.send(.init(.gameClear))
-        
-        changeBgm(to: .ending)
+        gameEventPublisher.send(.gameClear)
+        BGMPlayer.instance.play(bgm: .ending)
         //データを初期状態でセーブ
         dataStore.saveData(name: StageState.stage, intValue: 1)
         let initialLog: [StageLog] = []
@@ -201,82 +200,17 @@ class StageModel: ObservableObject {
         dataStore.saveData(name: StageState.stage, intValue: stage)
         dataStore.saveData(name: StageLogs.log, value: stageLogs)
     }
-    //SE再生
-    private var gameOverSound = EffectSoundPlayer(name: "gameOverSound")
-    var itemSelectSound = EffectSoundPlayer(name: "selectSound")
-    
-    //BGM再生
-    private var stageBgm: AVAudioPlayer?
-    
-    func startBgm(){
-        if stageBgm?.isPlaying ?? false {
-            return
-        }
-        play(bgm: .stage)
-    }
-    
-    private func changeBgm(to bgm: Bgm) {
-        stageBgm?.setVolume(0, fadeDuration: 1)
-        Task {
-            let waitTime: UInt64 = bgm == .ending ? 3000_000_000 : 1000_000_000
-            try await Task.sleep(nanoseconds: waitTime)
-            await MainActor.run {
-                stageBgm?.stop()
-                play(bgm: bgm)
-            }
-        }
-    }
-    
-    private func play(bgm: Bgm) {
-        guard let url = Bundle.main.url(forResource: bgm.faileName, withExtension: "mp3") else {
-            return
-        }
-        self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
-        
-        stageBgm?.numberOfLoops = -1
-        stageBgm?.play()
-    }
-    
-    private enum Bgm {
-        case stage
-        case gameOver
-        case ending
-        var faileName: String {
-            switch self {
-            case .stage:
-                return "stageBGM"
-            case .gameOver:
-                return "gameOverBGM"
-            case .ending:
-                return  "endingBGM"
-            }
-        }
-    }
 }
 
 enum GameEvent {
-    case triangleDeleted
-    case itemUsed
+    case triangleDeleted (Int)
+    case itemUsed (Int)
     case clearAnimation
     case stageClear
     case gameOver
     case gameClear
     case resetGame
 }
-
-struct GameEventObject {
-    let event: GameEvent
-    let value: Int?
-    init(_ event: GameEvent) {
-        self.event = event
-        self.value = nil
-    }
-    init(_ event: GameEvent, value: Int) {
-        self.event = event
-        self.value = value
-    }
-}
-
 
 struct StageLog:Codable, Hashable {
     let stage: Int

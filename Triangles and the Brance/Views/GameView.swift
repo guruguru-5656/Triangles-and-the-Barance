@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct GameView: View {
+    @Binding var mainView: MainView
     @ObservedObject var stageModel = StageModel()
-    @State var circleAncor: Anchor<CGRect>?
+    @State private var isShowPopup = false
+    @State private var circleAncor: Anchor<CGRect>?
+    private let soundPlayer = SoundPlayer.instance
     
     var body: some View {
         GeometryReader { geometry in
@@ -24,7 +27,51 @@ struct GameView: View {
                 LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                     .opacity(0.3)
                     .ignoresSafeArea()
-                StageView()
+                StageView(isShowPopup: $isShowPopup)
+                if isShowPopup {
+                    PopUpView {
+                        VStack {
+                            Button(action: {
+                                stageModel.giveUp()
+                                isShowPopup = false
+                            }){
+                                HStack {
+                                    Image(systemName: "flag.fill")
+                                    Text("GiveUp")
+                                }
+                                .foregroundColor(Color.heavyGreen)
+                            }
+                            .buttonStyle(CustomButton())
+                            HStack(spacing: 20) {
+                                Button(action: {
+                                    soundPlayer.play(sound: .cancelSound)
+                                    withAnimation {
+                                        isShowPopup = false
+                                    }
+                                }){
+                                    HStack {
+                                        Image(systemName: "xmark")
+                                        Text("Cancel")
+                                    }
+                                    .foregroundColor(Color.heavyRed)
+                                }
+                                .buttonStyle(CustomButton())
+                                Button(action: {
+                                    soundPlayer.play(sound: .decideSound)
+                                    mainView = .title
+                                }){
+                                    HStack {
+                                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                                        Text("Exit")
+                                    }
+                                    .foregroundColor(Color.heavyGreen)
+                                }
+                                .buttonStyle(CustomButton())
+                            }
+                            .frame(height: 50)
+                        }
+                    }
+                }
                 if stageModel.showResultView && !stageModel.isGameClear  {
                     Color(.init(gray: 0.3, alpha: 0.6))
                         .ignoresSafeArea()
@@ -65,8 +112,9 @@ struct GameView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct GameView_Previews: PreviewProvider {
+    @State static private var mainView: MainView = .game
     static var previews: some View {
-        GameView()
+        GameView(mainView: $mainView)
     }
 }

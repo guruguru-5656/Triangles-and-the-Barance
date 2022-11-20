@@ -15,8 +15,7 @@ class UpgradeViewModel: ObservableObject {
     @Published var payingPoint = 0
     @Published var detailItem = UpgradeCellViewModel(type: .life, level: 0)
     @Published var showDetailView = false
-    private let decideSound = EffectSoundPlayer(name: "decideSound")
-    private let cancelSound = EffectSoundPlayer(name: "cancelSound")
+    private let soundPlayer = SoundPlayer.instance
     
     init() {
         upgradeItems = loadUpgradeData()
@@ -36,7 +35,7 @@ class UpgradeViewModel: ObservableObject {
     func cancel() {
         point += payingPoint
         payingPoint = 0
-        cancelSound?.play()
+        soundPlayer.play(sound: .cancelSound)
     }
     
     func permitPaying() {
@@ -44,7 +43,7 @@ class UpgradeViewModel: ObservableObject {
             SaveData.shared.saveData(name: $0.type, intValue: $0.level)
         }
         SaveData.shared.saveData(name: ResultValue.totalPoint, intValue: point)
-        decideSound?.play()
+        soundPlayer.play(sound: .decideSound)
     }
     
     func showDetail(_ item: UpgradeCellViewModel) {
@@ -70,7 +69,8 @@ class UpgradeViewModel: ObservableObject {
 
 //UpgradeSubViewのモデル
 struct UpgradeCellViewModel: Identifiable {
-    
+
+   
     let type:UpgradeType
     var level: Int
     var text: String {
@@ -79,6 +79,7 @@ struct UpgradeCellViewModel: Identifiable {
     let id = UUID()
     //親クラスの参照
     fileprivate weak var parentModel: UpgradeViewModel?
+    private let soundPlayer = SoundPlayer.instance
    //upgradeできる状態か確認し実行する
     mutating func upgrade(){
         guard let parentModel = parentModel else {
@@ -95,10 +96,9 @@ struct UpgradeCellViewModel: Identifiable {
     func showDetail() {
         parentModel?.showDetail(self)
     }
-    //音声の再生
-    private let upgradeSound = EffectSoundPlayer(name: "upgradeSound")
+    
     func playUpgradeSound() {
-        upgradeSound?.play()
+        soundPlayer.play(sound: .decideSound)
     }
     
     private var cost: Int? {

@@ -41,8 +41,9 @@ extension Color {
 }
 
 struct StageViewColor_Previews: PreviewProvider {
+    @State private static var isShowPopup = false
     static var previews: some View {
-        StageView()
+        StageView(isShowPopup: $isShowPopup)
             .environmentObject(StageModel())
     }
 }

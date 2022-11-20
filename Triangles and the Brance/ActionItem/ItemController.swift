@@ -14,12 +14,11 @@ class ItemController: ObservableObject {
     @Published private(set) var descriptionItem: ActionType?
     @Published private(set) var energyDifference: Int?
    
-    private var itemUseSound = EffectSoundPlayer(name: "itemUsed")
+    private let soundPlayer = SoundPlayer.instance
     
     init() {
         
     }
-
     //イベントの受信設定
     private var stageModel: StageModel!
     private var subscriber: AnyCancellable?
@@ -27,16 +26,16 @@ class ItemController: ObservableObject {
         self.stageModel = stageModel
         loadItemTable()
         subscriber = self.stageModel.gameEventPublisher
-            .sink { [ weak self ] completion in
+            .sink { [ weak self ] event in
                 guard let self = self else {
                     return
                 }
-                switch completion.event {
-                case .itemUsed:
-                    self.itemUseSound?.play()
-                    self.showEnergyDifference(completion.value! * -1)
-                case .triangleDeleted:
-                    self.showEnergyDifference(completion.value!)
+                switch event {
+                case .itemUsed(let value):
+                    self.soundPlayer.play(sound: .itemUsed)
+                    self.showEnergyDifference(value * -1)
+                case .triangleDeleted(let value):
+                    self.showEnergyDifference(value)
                 case .stageClear:
                     self.closeDescriptionView()
                     self.resetParameters()

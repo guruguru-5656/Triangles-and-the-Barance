@@ -11,6 +11,7 @@ import SwiftUI
 final class TutrialViewModel: StageModel {
     
     @Published private(set) var description = Description()
+    @Published private(set) var isPresented = true
     
     init() {
         super.init(dataStore: TutrialData())
@@ -23,12 +24,14 @@ final class TutrialViewModel: StageModel {
         if description.canContinue {
             description.next()
         } else {
-            exitTutrial()
+            exit()
         }
     }
     
-    func exitTutrial() {
-        isPresented = false
+    func exit() {
+        withAnimation {
+            isPresented = false
+        }
     }
     
     override func triangleDidDeleted(count: Int) {
@@ -38,7 +41,7 @@ final class TutrialViewModel: StageModel {
         if maxCombo < count {
             maxCombo = count
         }
-        gameEventPublisher.send(.init(.triangleDeleted, value: count))
+        gameEventPublisher.send(.triangleDeleted(count))
         //元の処理からゲームクリア等のイベントを削除
         continueTutrial(.triangleDeleted)
     }
@@ -53,7 +56,7 @@ final class TutrialViewModel: StageModel {
         }
         if model.cost ?? .max <= energy {
             selectedItem = model
-            itemSelectSound?.play()
+            soundPlayer.play(sound: .selectSound)
             //チュートリアルを進める判定を追加
             continueTutrial(.itemSelected)
         }
@@ -67,7 +70,7 @@ final class TutrialViewModel: StageModel {
         life -= 1
         energy -= selectedItem.cost!
         self.selectedItem = nil
-        gameEventPublisher.send(.init(.itemUsed, value: selectedItem.cost!))
+        gameEventPublisher.send(.itemUsed(selectedItem.cost!))
         //元の処理からゲームオーバーの処理を削除
         continueTutrial(.itemUsed)
     }
