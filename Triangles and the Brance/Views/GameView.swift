@@ -19,14 +19,20 @@ struct GameView: View {
             ZStack {
                 stageModel.currentColor.previousColor.heavy
                     .ignoresSafeArea()
-                if let circleAncor = circleAncor {
-                    let rect = geometry[circleAncor]
-                    let point = CGPoint(x: rect.origin.x + rect.width/8, y: rect.origin.y + rect.width * 3/8)
-                    BaranceCircleView(circlePoint: point)
-                }
                 LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                     .opacity(0.3)
                     .ignoresSafeArea()
+                if let circleAncor = circleAncor {
+                    let rect = geometry[circleAncor]
+                    let point = CGPoint(x: rect.origin.x + rect.width / 8, y: rect.origin.y + rect.width * 3/8)
+                    BaranceCircleView(circlePoint: point)
+                        .zIndex(stageModel.isGameClear ? 1 : 0)
+                    LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
+                        .opacity(0.3)
+                        .ignoresSafeArea()
+                        .mask(BaranceCircleView(circlePoint: point))
+                        .zIndex(stageModel.isGameClear ? 1 : 0)
+                }
                 StageView(isShowPopup: $isShowPopup)
                 if isShowPopup {
                     PopUpView {
@@ -72,35 +78,13 @@ struct GameView: View {
                         }
                     }
                 }
-                if stageModel.showResultView && !stageModel.isGameClear  {
-                    Color(.init(gray: 0.3, alpha: 0.6))
+                if stageModel.showResultView {
+                    Color(.init(gray: 0.3, alpha: stageModel.isGameClear ? 0 : 0.6))
                         .ignoresSafeArea()
                     ResultView()
                         .cornerRadius(10)
                         .padding(30)
-                }
-                if stageModel.isGameClear {
-                    if let circleAncor = circleAncor {
-                        let rect = geometry[circleAncor]
-                        let point = CGPoint(x: rect.origin.x + rect.width/8, y: rect.origin.y + rect.width * 3/8)
-                        BaranceCircleView(circlePoint: point)
-                        if !stageModel.showResultView {
-                            LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
-                                .opacity(0.3)
-                                .ignoresSafeArea()
-                                .mask(BaranceCircleView(circlePoint: point))
-                        }
-                    }
-                    if stageModel.showResultView {
-                        stageModel.currentColor.heavy
-                            .ignoresSafeArea()
-                        LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
-                            .opacity(0.3)
-                            .ignoresSafeArea()
-                        ResultView()
-                            .cornerRadius(10)
-                            .padding(30)
-                    }
+                        .zIndex(1)
                 }
             }
         }

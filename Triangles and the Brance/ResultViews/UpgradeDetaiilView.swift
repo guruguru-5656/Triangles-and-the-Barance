@@ -34,7 +34,6 @@ struct UpGradeDetailView: View {
                     }
                     .buttonStyle(CustomListButton(width: 100))
                 }
-                .padding(10)
                 if let actionType = model.detailItem.type.actionType {
                     DescriptionView(actionType: actionType)
                         .frame(width: size.width * 0.4, height: size.width * 0.4)

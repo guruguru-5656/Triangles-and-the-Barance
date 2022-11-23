@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct ActionItemShurikenView: View {
-    @EnvironmentObject private var stageModel: StageModel
+    let stageColor: StageColor
     let size:CGFloat
     
     var body: some View {
         ZStack {
             TriangleNormalShape()
                 .frame(width: size, height: size)
-                .foregroundColor(stageModel.currentColor.light)
+                .foregroundColor(stageColor.light)
             ShurikenShape()
-                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
+                .stroke(stageColor.heavy, lineWidth: 2)
                 .frame(width: size * 0.4, height: size * 0.4 * sqrt(3)/2)
                 .offset(y:size * 0.03)
         }
@@ -44,7 +44,6 @@ struct ShurikenShape: Shape {
 
 struct ActionItemShurikenView_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemShurikenView(size: 200)
-            .environmentObject(StageModel())
+        ActionItemShurikenView(stageColor: StageColor(stage: 1), size: 200)
     }
 }

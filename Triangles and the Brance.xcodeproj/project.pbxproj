@@ -52,7 +52,7 @@
 		0445254428A776A500F3051C /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0445254528A776A800F3051C /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		0445254628A776AB00F3051C /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
-		0445254728A776AE00F3051C /* ActionItem_PyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */; };
+		0445254728A776AE00F3051C /* ActionItemPyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItemPyramidView.swift */; };
 		0445254828A776B000F3051C /* ActionItemShurikenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */; };
 		0445254928A776B300F3051C /* ActionItemHexagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */; };
 		0445254A28A776B500F3051C /* ActionItemHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */; };
@@ -81,7 +81,7 @@
 		045121B627D21BE800936E2C /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
 		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
 		0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangle.swift */; };
-		0458239327E4C62B007800AC /* ActionItem_PyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */; };
+		0458239327E4C62B007800AC /* ActionItemPyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItemPyramidView.swift */; };
 		0458239527E54758007800AC /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
 		046F3B0128CDCE96000D2087 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B0028CDCE96000D2087 /* stageBGM.mp3 */; };
@@ -141,6 +141,10 @@
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
 		04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
+		04F4291E292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */; };
+		04F4291F292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */; };
+		04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */; };
+		04F42922292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -188,7 +192,7 @@
 		045121B527D21BE800936E2C /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		045121B727D31F5000936E2C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		0458236D27E2C542007800AC /* DrawTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangle.swift; sourceTree = "<group>"; };
-		0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_PyramidView.swift; sourceTree = "<group>"; };
+		0458239227E4C62B007800AC /* ActionItemPyramidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemPyramidView.swift; sourceTree = "<group>"; };
 		0458239427E54758007800AC /* TriangleContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleContloller.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
 		046F3B0028CDCE96000D2087 /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
@@ -224,6 +228,8 @@
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
 		04F0B027280AFA4900D1172C /* BaranceCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceCircleView.swift; sourceTree = "<group>"; };
+		04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHourglassView.swift; sourceTree = "<group>"; };
+		04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemTriHexagonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,7 +372,9 @@
 				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
 				04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */,
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
-				0458239227E4C62B007800AC /* ActionItem_PyramidView.swift */,
+				04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */,
+				04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */,
+				0458239227E4C62B007800AC /* ActionItemPyramidView.swift */,
 				040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */,
 				040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */,
 				040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */,
@@ -576,6 +584,7 @@
 				04320C5B291BEE7700FC56CC /* TutrialData.swift in Sources */,
 				049543D02922227800A2022D /* PopUpView.swift in Sources */,
 				0445253728A7768500F3051C /* GameView.swift in Sources */,
+				04F42922292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
 				0445254B28A776B800F3051C /* ActionItemHorizon.swift in Sources */,
 				0445253E28A7769600F3051C /* TriangleView.swift in Sources */,
 				0445255028A776C800F3051C /* UpGradeView.swift in Sources */,
@@ -603,9 +612,10 @@
 				0445252E28A7660600F3051C /* TestData.swift in Sources */,
 				0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */,
 				0445254628A776AB00F3051C /* ActionItemView.swift in Sources */,
-				0445254728A776AE00F3051C /* ActionItem_PyramidView.swift in Sources */,
+				0445254728A776AE00F3051C /* ActionItemPyramidView.swift in Sources */,
 				0445252528A5F19300F3051C /* BaranceView.swift in Sources */,
 				049543D6292247ED00A2022D /* TutrialCoverView.swift in Sources */,
+				04F4291F292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */,
 				0445253628A7767C00F3051C /* ColorExtension.swift in Sources */,
 				042F84352925E3EA0092C309 /* ContentView.swift in Sources */,
 				0445253128A7729100F3051C /* BaranceViewModel.swift in Sources */,
@@ -618,7 +628,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0458239327E4C62B007800AC /* ActionItem_PyramidView.swift in Sources */,
+				0458239327E4C62B007800AC /* ActionItemPyramidView.swift in Sources */,
 				044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */,
 				0400630228182B240069FB39 /* ItemController.swift in Sources */,
 				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
@@ -628,6 +638,7 @@
 				04320C5A291BEE7700FC56CC /* TutrialData.swift in Sources */,
 				049543CF2922227800A2022D /* PopUpView.swift in Sources */,
 				04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
+				04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
 				04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */,
 				0445252D28A7660600F3051C /* TestData.swift in Sources */,
 				0458239B27E72A3A007800AC /* BaranceView.swift in Sources */,
@@ -658,6 +669,7 @@
 				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,
 				04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */,
 				049543D5292247ED00A2022D /* TutrialCoverView.swift in Sources */,
+				04F4291E292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */,
 				044AD42827FB240400D96CED /* UpgradeViewModel.swift in Sources */,
 				042F84342925E3EA0092C309 /* ContentView.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,

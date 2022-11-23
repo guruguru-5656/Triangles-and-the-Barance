@@ -11,6 +11,7 @@ import AVFoundation
 class BGMPlayer {
     //シングルトン
     static let instance = BGMPlayer()
+    private let volume: Float = 0.5
     private init(){
     }
     
@@ -50,6 +51,7 @@ class BGMPlayer {
         }
         self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
         stageBgm?.numberOfLoops = -1
+        stageBgm?.setVolume(volume, fadeDuration: 0)
         stageBgm?.play()
     }
     

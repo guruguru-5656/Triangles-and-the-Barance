@@ -19,8 +19,9 @@ struct StageView: View {
                 HStack {
                     Section {
                         Text(String(stageModel.life))
-                            .font(Font(UIFont.monospacedSystemFont(ofSize: 35.0, weight: .regular)))
+                            .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
                             .foregroundColor(stageModel.life <= 1 ? Color.red : Color(white: 0.3))
+                            .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
                             .padding(.horizontal, 20)
                             .padding(.vertical, 5)
                             .background(
@@ -28,18 +29,19 @@ struct StageView: View {
                                     .stroke()
                                     .foregroundColor(stageModel.currentColor.heavy)
                                     .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                    .frame(width: geometry.size.width * 0.1, height: geometry.size.width * 0.1)
+                                    .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
                                     .rotationEffect(Angle(degrees: 45)))
                     }
                     Spacer()
                     HStack(alignment: .center) {
-                        Text("stage")
-                            .font(.largeTitle)
+                        Text("STAGE")
+                            .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
                             .foregroundColor(Color(white: 0.3))
-                        
                         Text(String(stageModel.stage))
                             .font(.largeTitle)
+                            .bold()
                             .foregroundColor(stageModel.currentColor.light)
+                            .padding(5)
                     }
                     Spacer()
                     Button(action: {
@@ -68,7 +70,7 @@ struct StageView: View {
                 BaranceView()
                     .padding(.horizontal, geometry.size.width * 0.1)
                     .frame( height: geometry.size.width * 0.35)
-                Spacer()
+     
             }
         }
     }

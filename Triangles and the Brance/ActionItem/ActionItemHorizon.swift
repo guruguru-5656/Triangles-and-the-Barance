@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct ActionItemHorizon: View {
-    
-    @EnvironmentObject private var stageModel: StageModel
+    let stageColor: StageColor
     let size: CGFloat
+    
     var body: some View {
         TriangleNormalShape()
-            .fill(stageModel.currentColor.light)
+            .fill(stageColor.light)
             .overlay {
                 TriangleNormalShape()
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                    .stroke(stageColor.heavy, lineWidth: 1)
             }
             .overlay{
                 HorizonShape()
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1.5)
+                    .stroke(stageColor.heavy, lineWidth: 1.5)
                     .frame(width: size / 2.5, height: size / 2.5)
             }
             .frame(width: size, height: size)
@@ -29,8 +29,7 @@ struct ActionItemHorizon: View {
 
 struct ActionItemHorizon_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemHorizon(size: 80)
-            .environmentObject(StageModel())
+        ActionItemHorizon(stageColor: StageColor(stage: 1), size: 80)
     }
 }
 
@@ -40,11 +39,9 @@ struct HorizonShape:Shape {
         path.move(to: CGPoint(x: rect.width * 0.2, y: rect.height * 0.425 ))
         path.addLine(to: CGPoint(x: rect.width, y: rect.height * 0.425))
         path.addLine(to: CGPoint(x: rect.width * 0.8, y: rect.height * 0.75))
-//        path.closeSubpath()
         path.move(to: CGPoint(x: rect.width * 0.8, y: rect.height * 0.575))
         path.addLine(to: CGPoint(x: rect.minX, y: rect.height * 0.575))
         path.addLine(to: CGPoint(x: rect.width * 0.2, y: rect.height * 0.25))
-//        path.closeSubpath()
                return path
     }
 }

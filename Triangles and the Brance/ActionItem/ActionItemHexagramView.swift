@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct ActionItemHexagramView: View {
-    @EnvironmentObject var stageModel: StageModel
+    let stageColor: StageColor
     let size: CGFloat
     var body: some View {
         ZStack{
             RegularPolygon(vertexNumber: 6)
-                .fill(stageModel.currentColor.light)
+                .fill(stageColor.light)
             RegularPolygon(vertexNumber: 6)
-                .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                .stroke(stageColor.heavy, lineWidth: 1)
             TriangleNormalShape()
-                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
+                .stroke(stageColor.heavy, lineWidth: 2)
                 .scaleEffect(0.6)
             TriangleNormalShape()
-                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
+                .stroke(stageColor.heavy, lineWidth: 2)
                 .scaleEffect(0.6)
                 .rotationEffect(Angle(degrees: 180))
         }
@@ -30,7 +30,6 @@ struct ActionItemHexagramView: View {
 
 struct ActionItemLargePyramid_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemHexagramView(size: 80)
-            .environmentObject(StageModel())
+        ActionItemHexagramView(stageColor: StageColor(stage: 1), size: 80)
     }
 }

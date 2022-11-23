@@ -43,31 +43,29 @@ struct TutrialView: View {
                     .ignoresSafeArea()
                 //ステージ
                 VStack(alignment: .center) {
-                    Spacer()
-                    HStack {
-                        Section {
+                    HStack(spacing: geometry.size.width * 0.1) {
                             Text(String(tutrialModel.life))
-                                .font(Font(UIFont.monospacedSystemFont(ofSize: 35.0, weight: .regular)))
+                                .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
                                 .foregroundColor(tutrialModel.life <= 1 ? Color.red : Color(white: 0.3))
-                                .padding(.horizontal, 20)
-                                .padding(.vertical, 5)
-                                .background(
+                                .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
+                                .background {
                                     Rectangle()
                                         .stroke()
                                         .foregroundColor(tutrialModel.currentColor.heavy)
                                         .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                        .frame(width: geometry.size.width * 0.1, height: geometry.size.width * 0.1)
-                                        .rotationEffect(Angle(degrees: 45)))
-                        }
-                        .modifier(TutrialViewSpace(key: .lifeView))
-                        Spacer()
+                                        .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
+                                        .rotationEffect(Angle(degrees: 45))
+                                }
+                                .modifier(TutrialViewSpace(key: .lifeView))
+                                .padding(.leading, geometry.size.width * 0.07)
                         Text("Tutrial")
-                            .font(.largeTitle)
-                            .foregroundColor(Color(white: 0.3))
+                            .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
+                            .foregroundColor(Color(white: 1))
+                            .frame(width: geometry.size.width * 0.3,
+                                   height: geometry.size.height * 0.1, alignment: .center)
                         Spacer()
-                        
                     }
-                    .padding(.horizontal, geometry.size.width / 16)
+                    .padding(.top, geometry.size.width * 0.05)
                     Spacer()
                     Section {
                         TriangleView()
@@ -85,7 +83,6 @@ struct TutrialView: View {
                         .padding(.horizontal, geometry.size.width * 0.1)
                         .frame(height: geometry.size.width * 0.35)
                         .modifier(TutrialViewSpace(key: .baranceView))
-                    Spacer()
                 }
                 Section {
                     //説明している場所以外をカバーするView
@@ -104,18 +101,27 @@ struct TutrialView: View {
                                 //何もしない
                             }
                     }
-                    PopUpView {
-                        Text(tutrialModel.description.text)
-                            .multilineTextAlignment(.leading)
-                    }
-                    .onTapGesture {
-                        tutrialModel.continueTutrial(.next)
-                    }
-                    .padding()
-                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
+                        PopUpView {
+                            ZStack (alignment: .bottomTrailing) {
+                                Text(tutrialModel.description.text + " ")
+                                    .multilineTextAlignment(.leading)
+                                if tutrialModel.description.flag == .next {
+                                        TriangleNormalShape()
+                                        .frame(width: 15, height: 7.5 * sqrt(3))
+                                        .rotationEffect(Angle(degrees: 180))
+                                        .padding(3)
+                                        .foregroundColor(Color(white: 0.3))
+                                        .offset(x: 15, y: 10)
+                                }
+                            }
+                        }
+                        .onTapGesture {
+                            tutrialModel.continueTutrial(.next)
+                        }
+                        .padding()
+                        .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
                 }
                 .ignoresSafeArea()
-                ZStack() {
                     Button(action: {
                         soundPlayer.play(sound: .selectSound)
                         withAnimation {
@@ -126,40 +132,39 @@ struct TutrialView: View {
                             .resizable()
                             .foregroundColor(.backgroundLightGray)
                             .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
-                    }
-                }
-                .padding(geometry.size.width * 0.1)
+                    } .padding(geometry.size.width * 0.1)
                 if isShowPopup {
-                    PopUpView {
-                        HStack(spacing: 20) {
-                            Button(action: {
-                                soundPlayer.play(sound: .cancelSound)
-                                withAnimation {
-                                    isShowPopup = false
+                        PopUpView {
+                            HStack(spacing: 20) {
+                                Button(action: {
+                                    soundPlayer.play(sound: .cancelSound)
+                                    withAnimation {
+                                        isShowPopup = false
+                                    }
+                                }){
+                                    HStack {
+                                        Image(systemName: "xmark")
+                                        Text("Cancel")
+                                    }
+                                    .foregroundColor(Color.heavyRed)
                                 }
-                            }){
-                                HStack {
-                                    Image(systemName: "xmark")
-                                    Text("Cancel")
+                                .buttonStyle(CustomButton())
+                                Button(action: {
+                                    soundPlayer.play(sound: .decideSound)
+                                    tutrialModel.exit()
+                                }){
+                                    HStack {
+                                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                                        Text("Exit")
+                                    }
+                                    .foregroundColor(Color.heavyGreen)
                                 }
-                                .foregroundColor(Color.heavyRed)
+                                .buttonStyle(CustomButton())
                             }
-                            .buttonStyle(CustomButton())
-                            Button(action: {
-                                soundPlayer.play(sound: .decideSound)
-                                tutrialModel.exit()
-                            }){
-                                HStack {
-                                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                                    Text("Exit")
-                                }
-                                .foregroundColor(Color.heavyGreen)
-                            }
-                            .buttonStyle(CustomButton())
+                            .frame(height: 50)
                         }
-                        .frame(height: 50)
-                    }
-                    .padding()
+                        .position(x: geometry.size.width * 0.5,
+                                  y: geometry.size.height * 0.5)
                 }
             }
         }

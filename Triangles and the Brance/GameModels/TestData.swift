@@ -20,11 +20,15 @@ final class TestData {
     private func upgradeDataValue(type: UpgradeType) -> Int {
         switch type {
         case .life:
-            return 5
+            return 6
         case .recycle:
-            return 4
+            return 5
+        case .hourGlass:
+            return 3
+        case .triHexagon:
+            return 3
         case .pyramid:
-            return 4
+            return 3
         case .shuriken:
             return 3
         case .hexagon:

@@ -32,8 +32,12 @@ struct ActionItemModel: Hashable, Identifiable {
         switch self.type {
         case .normal:
              return  nil
+        case .hourGlass:
+            return .hourGlass
+        case .triHexagon:
+            return .triHexagon
         case .pyramid:
-              return  .pyramid
+            return  .pyramid
         case .shuriken:
             return .shuriken
         case .hexagon:
@@ -49,6 +53,10 @@ struct ActionItemModel: Hashable, Identifiable {
         switch self.type {
         case .normal:
             return 0
+        case .hourGlass:
+            return nil
+        case .triHexagon:
+            return nil
         case .pyramid:
             return nil
         case .shuriken:
@@ -61,12 +69,12 @@ struct ActionItemModel: Hashable, Identifiable {
             return nil
         }
     }
-    
-    
 }
 
 enum ActionType: String, CaseIterable {
     case normal
+    case hourGlass
+    case triHexagon
     case pyramid
     case shuriken
     case hexagon
@@ -80,6 +88,15 @@ enum ActionType: String, CaseIterable {
         case .normal:
             return [
                 [(0, 0)]
+            ]
+        case .hourGlass:
+            return [
+                [(0, 0)],
+                [(1, -1)]
+            ]
+        case .triHexagon:
+            return [
+                [(0, 0), (-2, 0), (0, -1), ]
             ]
         case .pyramid:
             return [
@@ -124,6 +141,10 @@ enum ActionType: String, CaseIterable {
             
         case .normal:
             return .center
+        case .hourGlass:
+            return .center
+        case .triHexagon:
+            return .vertex
         case .pyramid:
             return .center
         case .shuriken:

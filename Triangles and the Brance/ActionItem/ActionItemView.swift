@@ -53,17 +53,22 @@ struct ActionItemView: View {
                 switch itemModel.type{
                     
                 case .normal:
-                    NormalActionView(size: size)
+                    NormalActionView(stageColor: stageModel.currentColor, size: size)
+                case .hourGlass:
+                    ActionItemHourglassView(stageColor: stageModel.currentColor, size: size)
+                case .triHexagon:
+                    ActionItemTriHexagonView(stageColor: stageModel.currentColor, size: size)
                 case .pyramid:
-                    PyramidItemView(size: size)
+                    PyramidItemView(stageColor: stageModel.currentColor, size: size)
                 case .shuriken:
-                    ActionItemShurikenView(size: size)
+                    ActionItemShurikenView(stageColor: stageModel.currentColor, size: size)
                 case .hexagon:
-                    ActionItemHexagonView(size: size)
+                    ActionItemHexagonView(stageColor: stageModel.currentColor, size: size)
                 case .horizon:
-                    ActionItemHorizon(size: size)
+                    ActionItemHorizon(stageColor: stageModel.currentColor, size: size)
                 case .hexagram:
-                    ActionItemHexagramView(size: size)
+                    ActionItemHexagramView(stageColor: stageModel.currentColor, size: size)
+                    
                 }
                 if itemModel.level == 0 {
                     Image(systemName: "lock.square")

@@ -9,33 +9,32 @@ import SwiftUI
 
 
 struct NormalActionView: View{
-    
-    @EnvironmentObject private var stageModel: StageModel
+    let stageColor: StageColor
     let size: CGFloat
     
     var body: some View {
         TriangleNormalShape()
-            .fill(stageModel.currentColor.light)
+            .fill(stageColor.light)
             .overlay {
                 TriangleNormalShape()
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                    .stroke(stageColor.heavy, lineWidth: 1)
             }
             .frame(width: size, height: size)
     }
 }
 
 struct PyramidItemView: View{
-    
-    @EnvironmentObject private var stageModel: StageModel
+    let stageColor: StageColor
     let size:CGFloat
+    
     var body: some View {
         ZStack{
             TriangleNormalShape()
-                .fill(stageModel.currentColor.light)
+                .fill(stageColor.light)
             TriangleNormalShape()
-                .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                .stroke(stageColor.heavy, lineWidth: 1)
             TriangleNormalShape()
-                .stroke(stageModel.currentColor.heavy, lineWidth: 2)
+                .stroke(stageColor.heavy, lineWidth: 2)
                 .scaleEffect(0.5)
                 .rotationEffect(Angle(degrees: 180))
         }

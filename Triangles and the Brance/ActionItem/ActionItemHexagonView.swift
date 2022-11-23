@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ActionItemHexagonView: View {
-    @EnvironmentObject var stageModel: StageModel
+    let stageColor: StageColor
     let size: CGFloat
     var body: some View {
         RegularPolygon(vertexNumber: 6)
-            .fill(stageModel.currentColor.light)
+            .fill(stageColor.light)
             .overlay {
                 RegularPolygon(vertexNumber: 6)
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                    .stroke(stageColor.heavy, lineWidth: 1)
             }
             .frame(width: size, height: size)
     }
@@ -23,7 +23,7 @@ struct ActionItemHexagonView: View {
 
 struct ActionItem_HexagonView_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemHexagonView(size: 10)
+        ActionItemHexagonView(stageColor: StageColor(stage: 1), size: 10)
             .environmentObject(StageModel())
     }
 }

@@ -139,6 +139,10 @@ struct UpgradeCellViewModel: Identifiable {
             return "回数"
         case .recycle:
             return "割合(%)"
+        case .hourGlass:
+            return "コスト"
+        case .triHexagon:
+            return "コスト"
         case .pyramid:
             return "コスト"
         case .shuriken:
@@ -163,6 +167,10 @@ struct UpgradeCellViewModel: Identifiable {
             return Image(systemName: "heart")
         case .recycle:
             return Image("recycle")
+        case .hourGlass:
+            return Image("hourGlass")
+        case .triHexagon:
+            return Image("triHexagon")
         case .pyramid:
             return Image("pyramidTriangle")
         case .shuriken:
@@ -181,6 +189,8 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
    
     case life
     case recycle
+    case hourGlass
+    case triHexagon
     case pyramid
     case shuriken
     case hexagon
@@ -191,6 +201,10 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
         switch actionType {
         case .normal:
             return nil
+        case .hourGlass:
+            self = .hourGlass
+        case .triHexagon:
+            self = .triHexagon
         case .pyramid:
             self = .pyramid
         case .shuriken:
@@ -210,6 +224,10 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
             return nil
         case .recycle:
             return nil
+        case .hourGlass:
+            return .hourGlass
+        case .triHexagon:
+            return .triHexagon
         case .pyramid:
             return .pyramid
         case .shuriken:
@@ -229,6 +247,10 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
             return level + 5
         case .recycle:
             return level * 10
+        case .hourGlass:
+            return 5 - level
+        case .triHexagon:
+            return 7 - level
         case .pyramid:
             return 9 - level
         case .shuriken:
@@ -248,12 +270,16 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
             return [100, 200, 500, 1000, 2000, 5000, 10000]
         case .recycle:
             return [50, 100, 200, 400, 1000]
+        case .hourGlass:
+            return [20, 100, 200]
+        case .triHexagon:
+            return [50, 100, 200]
         case .pyramid:
-            return [20, 50, 200, 500, 1000]
+            return [100, 200, 400]
         case .shuriken:
-            return [400, 600, 800, 1000, 1500]
+            return [400, 600, 800]
         case .hexagon:
-            return [600, 800, 1000, 1500, 2000]
+            return [600, 800, 1000]
         case .horizon:
             return [1000, 1500, 2000]
         case .hexagram:

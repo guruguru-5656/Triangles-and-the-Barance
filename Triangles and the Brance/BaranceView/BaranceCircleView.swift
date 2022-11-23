@@ -18,9 +18,7 @@ struct BaranceCircleView: View {
         GeometryReader { geometry in
             let axisX = geometry.size.width / 20
             let axisY = geometry.size.width / 40
-            let scaleX = geometry.size.width / axisX
-            let scaleY = geometry.size.height / axisY
-            let scale = sqrt(pow(scaleX, 2) + pow(scaleY, 2))
+            let scale = sqrt(pow(geometry.size.width, 2) + pow(geometry.size.height, 2)) / axisY
             ZStack {
                 Section {
                     Ellipse()
@@ -48,6 +46,8 @@ final class BaranceCircleViewModel: ObservableObject {
     func setUp(stageModel: StageModel) {
         subscriber = stageModel.gameEventPublisher.sink { [ weak self ] event in
             switch event {
+            case .resetGame:
+                self?.clearCircleIsOn = false
             case .clearAnimation:
                 self?.clearAnimation()
             case.gameClear:
@@ -83,11 +83,6 @@ final class BaranceCircleViewModel: ObservableObject {
                 withAnimation(.easeOut(duration: 0.5)) {
                     clearCircleIsOn = true
                 }
-            }
-            
-            try await Task.sleep(nanoseconds: 3000_000_000)
-            await MainActor.run {
-                self.clearCircleIsOn = false
             }
         }
     }

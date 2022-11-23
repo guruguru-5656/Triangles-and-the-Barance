@@ -23,8 +23,12 @@ final class TutrialData {
             return 1
         case .recycle:
             return 1
-        case .pyramid:
+        case .hourGlass:
             return 1
+        case .triHexagon:
+            return 0
+        case .pyramid:
+            return 0
         case .shuriken:
             return 0
         case .hexagon:
