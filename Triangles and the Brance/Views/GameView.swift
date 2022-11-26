@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GameView: View {
     @Binding var mainView: MainView
-    @ObservedObject var stageModel = StageModel()
+    @ObservedObject var gameModel = GameModel()
     @State private var isShowPopup = false
     @State private var circleAncor: Anchor<CGRect>?
     private let soundPlayer = SoundPlayer.instance
@@ -17,7 +17,7 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                stageModel.currentColor.previousColor.heavy
+                gameModel.currentColor.previousColor.heavy
                     .ignoresSafeArea()
                 LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                     .opacity(0.3)
@@ -26,19 +26,19 @@ struct GameView: View {
                     let rect = geometry[circleAncor]
                     let point = CGPoint(x: rect.origin.x + rect.width / 8, y: rect.origin.y + rect.width * 3/8)
                     BaranceCircleView(circlePoint: point)
-                        .zIndex(stageModel.isGameClear ? 1 : 0)
+                        .zIndex(gameModel.isGameClear ? 1 : 0)
                     LinearGradient(colors:[.white, .black], startPoint: .topLeading, endPoint: .bottomTrailing)
                         .opacity(0.3)
                         .ignoresSafeArea()
                         .mask(BaranceCircleView(circlePoint: point))
-                        .zIndex(stageModel.isGameClear ? 1 : 0)
+                        .zIndex(gameModel.isGameClear ? 1 : 0)
                 }
                 StageView(isShowPopup: $isShowPopup)
                 if isShowPopup {
                     PopUpView {
                         VStack {
                             Button(action: {
-                                stageModel.giveUp()
+                                gameModel.gameOver()
                                 isShowPopup = false
                             }){
                                 HStack {
@@ -78,8 +78,8 @@ struct GameView: View {
                         }
                     }
                 }
-                if stageModel.showResultView {
-                    Color(.init(gray: 0.3, alpha: stageModel.isGameClear ? 0 : 0.6))
+                if gameModel.showResultView {
+                    Color(.init(gray: 0.3, alpha: gameModel.isGameClear ? 0 : 0.6))
                         .ignoresSafeArea()
                     ResultView()
                         .cornerRadius(10)
@@ -91,7 +91,7 @@ struct GameView: View {
         .onPreferenceChange(ClearCirclePoint.self) { value in
             circleAncor = value
         }
-        .environmentObject(stageModel)
+        .environmentObject(gameModel)
         .navigationBarHidden(true)
     }
 }

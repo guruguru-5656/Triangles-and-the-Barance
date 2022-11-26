@@ -10,12 +10,8 @@ import Combine
 
 struct BaranceView: View {
    
-    @EnvironmentObject var stageModel: StageModel
+    @EnvironmentObject var gameModel: GameModel
     @StateObject var model = BaranceViewModel()
-    
-    var opacity:Double {
-        Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
-    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -46,7 +42,7 @@ struct BaranceView: View {
                         .position(x: baseScale * 4, y: baseScale * 1.5)
                     TriangleNormalShape()
                         .frame(width: baseScale * 2, height: baseScale * 2 * sqrt(3)/2)
-                        .foregroundColor(stageModel.currentColor.light)
+                        .foregroundColor(gameModel.currentColor.light)
                         .position(x:baseScale * 4, y: baseScale * 2.8)
                     RegularPolygon(vertexNumber: 6)
                         .foregroundColor(.gray)
@@ -57,7 +53,7 @@ struct BaranceView: View {
                 TriangleNormalShape()
                     .foregroundColor(.gray)
                     .overlay {
-                        Text(String(stageModel.targetDeleteCount))
+                        Text("\(gameModel.stageStatus.targetDeleteCount)")
                             .font(.title2)
                             .foregroundColor(Color(white: 0.1))
                     }
@@ -71,14 +67,13 @@ struct BaranceView: View {
                         .foregroundColor(.backgroundLightGray)
                         .rotationEffect(Angle(degrees: 180))
                     TriangleNormalShape()
-                        .foregroundColor(stageModel.currentColor.heavy)
+                        .foregroundColor(gameModel.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
-                    
-                        .opacity(opacity)
-                    Text(String(stageModel.deleteCount))
+                        .opacity(gameModel.stageStatus.clearRate)
+                    Text("\(gameModel.stageStatus.totalDeleteCount)")
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
-                        .opacity((1 + opacity) / 2)
+                        .opacity((1 + gameModel.stageStatus.clearRate) / 2)
                     if model.isTriangleHiLighted {
                         TriangleNormalShape()
                             .foregroundColor(.white)
@@ -91,7 +86,7 @@ struct BaranceView: View {
                 .frame(width: baseScale * sqrt(3), height: baseScale *  1.5 )
                 .position(x: baseScale * 1, y: baseScale * 1.8 - distance)
                 if model.showDeleteCountText {
-                    Text("+\(stageModel.deleteCount)")
+                    Text("+\(model.deleteCountNow)")
                         .font(.title2)
                         .foregroundColor(Color.backgroundLightGray)
                         .position(x: baseScale * 2, y: baseScale * 2 - distance)
@@ -102,7 +97,7 @@ struct BaranceView: View {
         }
         .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
         .onAppear {
-            model.setUp(stageModel: stageModel)
+            model.setUp(eventSubject: gameModel.gameEventPublisher)
         }
     }
 }

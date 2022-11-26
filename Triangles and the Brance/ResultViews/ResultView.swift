@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ResultView: View {
-    @EnvironmentObject private var stageModel: StageModel
+    @EnvironmentObject private var gameModel: GameModel
     @StateObject private var resultViewModel = ResultViewModel()
     @State private var opacity: Double = 0
     @State private var showUpgradeView = false
@@ -16,7 +16,7 @@ struct ResultView: View {
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                Text(stageModel.isGameClear ? "Game Result" : "Result")
+                Text(gameModel.isGameClear ? "Game Result" : "Result")
                     .font(.largeTitle)
                     .padding(.vertical)
                     .background(
@@ -79,7 +79,7 @@ struct ResultView: View {
         .background(Color(white: 1, opacity: 0.9))
         .transition(.opacity)
         .onAppear {
-            resultViewModel.depend(stageModel: stageModel)
+            resultViewModel.depend(gameModel: gameModel)
             resultViewModel.showScores()
         }
     }

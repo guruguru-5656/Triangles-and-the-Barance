@@ -10,32 +10,24 @@ import SwiftUI
 ///アイテムのビュー
 struct ActionItemView: View {
     
-    @EnvironmentObject private var stageModel: StageModel
+    @EnvironmentObject private var gameModel: GameModel
     @Binding var itemModel: ActionItemModel
     let size:CGFloat
     
     private var isSelected: Bool {
-        itemModel.id == stageModel.selectedItem?.id
+        itemModel.id == gameModel.selectedItem?.id
     }
     
     private var selectableOpacity: Double {
         if itemModel.level == 0 {
             return 0.2
         }
-        if  itemModel.cost ?? .max <= stageModel.energy && stageModel.life > 0 {
+        if gameModel.stageStatus.canUseItem(cost: itemModel.cost) {
             return 1
-        } else {
-            return 0.5
         }
+        return 0.5
     }
-    
-    private var itemText: String {
-        if let cost = itemModel.cost {
-            return String(cost)
-        } else {
-            return ""
-        }
-    }
+  
     //アニメーション用プロパティ
     var circleScale:Double {
         isSelected ? 1 : 1.4
@@ -53,21 +45,21 @@ struct ActionItemView: View {
                 switch itemModel.type{
                     
                 case .normal:
-                    NormalActionView(stageColor: stageModel.currentColor, size: size)
+                    NormalActionView(stageColor: gameModel.currentColor, size: size)
                 case .hourGlass:
-                    ActionItemHourglassView(stageColor: stageModel.currentColor, size: size)
+                    ActionItemHourglassView(stageColor: gameModel.currentColor, size: size)
                 case .triHexagon:
-                    ActionItemTriHexagonView(stageColor: stageModel.currentColor, size: size)
+                    ActionItemTriHexagonView(stageColor: gameModel.currentColor, size: size)
                 case .pyramid:
-                    PyramidItemView(stageColor: stageModel.currentColor, size: size)
+                    PyramidItemView(stageColor: gameModel.currentColor, size: size)
                 case .shuriken:
-                    ActionItemShurikenView(stageColor: stageModel.currentColor, size: size)
+                    ActionItemShurikenView(stageColor: gameModel.currentColor, size: size)
                 case .hexagon:
-                    ActionItemHexagonView(stageColor: stageModel.currentColor, size: size)
+                    ActionItemHexagonView(stageColor: gameModel.currentColor, size: size)
                 case .horizon:
-                    ActionItemHorizon(stageColor: stageModel.currentColor, size: size)
+                    ActionItemHorizon(stageColor: gameModel.currentColor, size: size)
                 case .hexagram:
-                    ActionItemHexagramView(stageColor: stageModel.currentColor, size: size)
+                    ActionItemHexagramView(stageColor: gameModel.currentColor, size: size)
                     
                 }
                 if itemModel.level == 0 {
@@ -77,7 +69,7 @@ struct ActionItemView: View {
                         .frame(width: size * 0.5 , height: size * 0.5)
                 }
                 Circle()
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                    .stroke(gameModel.currentColor.heavy, lineWidth: 1)
                     .frame(width: size , height: size)
                     .scaleEffect(circleScale)
                     .animation(.easeOut(duration: 0.2), value: circleScale)
@@ -85,7 +77,7 @@ struct ActionItemView: View {
                     .animation(.easeOut(duration: 0.2), value: circleOpacity)
                     .contentShape(Circle())
             }
-            Text(itemText)
+            Text(String(itemModel.cost))
                 .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
         }
         .opacity(selectableOpacity)

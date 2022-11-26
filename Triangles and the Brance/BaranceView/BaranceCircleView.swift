@@ -10,7 +10,7 @@ import Combine
 
 struct BaranceCircleView: View {
     
-    @EnvironmentObject private var stageModel: StageModel
+    @EnvironmentObject private var gameModel: GameModel
     @StateObject private var circleViewModel = BaranceCircleViewModel()
     let circlePoint: CGPoint
     
@@ -22,10 +22,10 @@ struct BaranceCircleView: View {
             ZStack {
                 Section {
                     Ellipse()
-                        .fill(stageModel.currentColor.light)
+                        .fill(gameModel.currentColor.light)
                         .scaleEffect(circleViewModel.clearCircleIsOn ? scale : 1)
                     Ellipse()
-                        .fill(stageModel.currentColor.heavy)
+                        .fill(gameModel.currentColor.heavy)
                         .scaleEffect(circleViewModel.clearCircleIsOn ? scale - 0.3 : 0.7)
                 }
                 .frame(width: axisX * 2, height: axisY * 2)
@@ -33,7 +33,7 @@ struct BaranceCircleView: View {
             }
         }
         .onAppear {
-            circleViewModel.setUp(stageModel: stageModel)
+            circleViewModel.setUp(gameModel: gameModel)
         }
     }
 }
@@ -43,10 +43,10 @@ final class BaranceCircleViewModel: ObservableObject {
     private var subscriber: AnyCancellable?
     private let soundPlayer = SoundPlayer.instance
     
-    func setUp(stageModel: StageModel) {
-        subscriber = stageModel.gameEventPublisher.sink { [ weak self ] event in
+    func setUp(gameModel: GameModel) {
+        subscriber = gameModel.gameEventPublisher.sink { [ weak self ] event in
             switch event {
-            case .resetGame:
+            case .startStage:
                 self?.clearCircleIsOn = false
             case .clearAnimation:
                 self?.clearAnimation()

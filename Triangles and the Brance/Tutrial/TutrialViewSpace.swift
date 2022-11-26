@@ -11,7 +11,6 @@ struct TutrialViewSpace: ViewModifier {
     let key: TutrialGeometryKey
     func body(content: Content) -> some View {
             content
-            .padding()
             .anchorPreference(key: TutrialPreferenceKey.self,
                               value: .bounds,
                               transform: { [key : $0] })

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-final class TutrialViewModel: StageModel {
+final class TutrialViewModel: GameModel {
     
     @Published private(set) var description = Description()
     @Published private(set) var isPresented = true
@@ -35,26 +35,20 @@ final class TutrialViewModel: StageModel {
     }
     
     override func triangleDidDeleted(count: Int) {
-        self.deleteCount += count
-        energy += count
-        life -= 1
-        if maxCombo < count {
-            maxCombo = count
-        }
-        gameEventPublisher.send(.triangleDeleted(count))
+        _ = stageStatus.triangleDidDeleted(count: count)
+        gameEventPublisher.send(.triangleDeleted(count, stageStatus.clearRate))
         //元の処理からゲームクリア等のイベントを削除
         continueTutrial(.triangleDeleted)
     }
     
     override func itemSelect(model: ActionItemModel) {
-        guard life > 0 else {
-            return
-        }
+        
         if model.id == selectedItem?.id {
             selectedItem = nil
             return
         }
-        if model.cost ?? .max <= energy {
+   
+        if stageStatus.canUseItem(cost: model.cost) {
             selectedItem = model
             soundPlayer.play(sound: .selectSound)
             //チュートリアルを進める判定を追加
@@ -64,13 +58,7 @@ final class TutrialViewModel: StageModel {
     }
     
     override func useItem() {
-        guard let selectedItem = selectedItem else {
-            return
-        }
-        life -= 1
-        energy -= selectedItem.cost!
-        self.selectedItem = nil
-        gameEventPublisher.send(.itemUsed(selectedItem.cost!))
+        super.useItem()
         //元の処理からゲームオーバーの処理を削除
         continueTutrial(.itemUsed)
     }

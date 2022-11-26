@@ -10,27 +10,19 @@ import SwiftUI
 
 //スコアを表示用に加工して出力する
 final class ResultViewModel: ObservableObject {
-    
-    private var stageModel: StageModel?
-    private var subscriber: AnyCancellable?
     @Published var results: [ResultModel] = []
     @Published var viewStatus: ViewStatus = .onAppear
     private let soundPlayer = SoundPlayer.instance
-
-    func depend(stageModel: StageModel) {
-        guard self.stageModel == nil else {
-            return
-        }
-        self.stageModel = stageModel
-        subscribe()
-    }
     
-    private func subscribe() {
-        guard let stageModel = stageModel else {
+    private var gameModel: GameModel?
+    private var subscriber: AnyCancellable?
+
+    func depend(gameModel: GameModel) {
+        guard self.gameModel == nil else {
             return
         }
-
-        subscriber = stageModel.gameEventPublisher
+        self.gameModel = gameModel
+        subscriber = gameModel.gameEventPublisher
             .sink { [ weak self ] event in
                 guard let self = self else {
                     return
@@ -63,26 +55,26 @@ final class ResultViewModel: ObservableObject {
     }
     
     func setResultScores() {
-        guard let stageModel = stageModel else {
+        guard let gameModel = gameModel else {
             return
         }
         
-        let log = stageModel.stageLogs
+        let log = gameModel.stageLogs
         
         let finalStage = log.reduce(0) {
             ($1.stage > $0 ? $1.stage : $0)
         }
         let count = log.reduce(0) {
-            $0 + $1.deleteCount
+            $0 + $1.deleteCount.reduce(0, +)
         }
         let maxCombo = log.reduce(0) {
             ($1.maxCombo > $0 ? $1.maxCombo : $0)
         }
         let score = log.reduce(0) {
-            $0 + $1.deleteCount * $1.maxCombo * $1.stage
+            $0 + $1.deleteCount.reduce(0, +) * $1.maxCombo * $1.stage
         }
         let point = log.reduce(0) {
-            $0 + $1.deleteCount
+            $0 + $1.deleteCount.reduce(0, +)
         } * finalStage
 
         results = [
@@ -116,11 +108,11 @@ final class ResultViewModel: ObservableObject {
     }
     
     func closeResult() {
-        guard let stageModel = stageModel else {
+        guard let gameModel = gameModel else {
             return
         }
         soundPlayer.play(sound: .restartSound)
-        stageModel.resetGame()
+        gameModel.resetGame()
     }
 }
 

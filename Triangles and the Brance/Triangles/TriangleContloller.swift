@@ -19,36 +19,28 @@ final class TriangleContloller: ObservableObject {
     private var recycleRate: Double = 0
     private let soundPlayer = SoundPlayer.instance
     
-    func setUp(stageModel: StageModel) {
-        self.stageModel = stageModel
+    func setUp(gameModel: GameModel) {
+        self.gameModel = gameModel
         loadRecycleRate()
-        subscribe(stageModel: stageModel)
-        setParameters()
+        subscribe(gameModel: gameModel)
+        startStage(at: gameModel.stageStatus.stage)
     }
     
     //イベント通知を受け取る
-    private var stageModel: StageModel?
+    private var gameModel: GameModel?
     private var subscriber: AnyCancellable?
-    private func subscribe(stageModel: StageModel) {
-        subscriber = stageModel.gameEventPublisher
+    private func subscribe(gameModel: GameModel) {
+        subscriber = gameModel.gameEventPublisher
             .sink { [ weak self ] event in
-                switch event {
-                case .stageClear:
-                    self?.setParameters()
-                case .resetGame:
-                    self?.setParameters()
-                default:
-                    break
+                if case .startStage(let stage) = event {
+                    self?.startStage(at : stage)
                 }
             }
     }
         
     ///ステージ開始時に呼び出す
-    private func setParameters() {
-        guard let stageModel = stageModel else {
-            return
-        }
-        loadArrangement(stage: stageModel.stage)
+    private func startStage(at stage: Int) {
+        loadArrangement(stage: stage)
         setTrianleVertexs()
         setTrianglesStatus()
         loadRecycleRate()
@@ -81,17 +73,17 @@ final class TriangleContloller: ObservableObject {
     }
     ///アップグレードのデータからrecycleのlevelを読み込み
     private func loadRecycleRate() {
-        let recycleLevel = stageModel!.dataStore.loadData(name: UpgradeType.recycle)
+        let recycleLevel = gameModel!.dataStore.loadData(name: UpgradeType.recycle)
         recycleRate = Double(UpgradeType.recycle.effect(level: recycleLevel)) / 100
     }
  
     ///タップしたときのアクション
     func triangleTapAction(coordinate: TriangleCenterCoordinate) {
-        guard let stageModel = stageModel else {
+        guard let gameModel = gameModel else {
             return
         }
 
-        guard stageModel.life != 0 else {
+        guard gameModel.stageStatus.life != 0 else {
             return
         }
         guard let index = indexOfTriangles(coordinate: coordinate) else {
@@ -99,7 +91,7 @@ final class TriangleContloller: ObservableObject {
             return
         }
         //アイテムが入っていた場合の処理を確認、何も行われなかった場合は連鎖して消すアクションを行う
-        if stageModel.selectedItem != nil {
+        if gameModel.selectedItem != nil {
            itemAction(coordinate: coordinate)
             return
         }
@@ -111,7 +103,7 @@ final class TriangleContloller: ObservableObject {
     
     ///itemのアクションを実行する
     func itemAction<T:StageCoordinate>(coordinate: T) {
-        guard let selectedItem = stageModel?.selectedItem else {
+        guard let selectedItem = gameModel?.selectedItem else {
             return
         }
         //itemが更新する座標を取得
@@ -120,7 +112,7 @@ final class TriangleContloller: ObservableObject {
         if actionIndex.allSatisfy ({ $0.isEmpty }) {
             return
         }
-        stageModel?.useItem()
+        gameModel?.useItem()
         turnOnTriangles(plans: actionIndex)
         return
     }
@@ -132,7 +124,7 @@ final class TriangleContloller: ObservableObject {
         let deleteCount = plans.count
         //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
         updateTrianglesStatus(plans: plans){ [self] in
-            stageModel?.triangleDidDeleted(count: deleteCount)
+            gameModel?.triangleDidDeleted(count: deleteCount)
         }
     }
     ///一定割合復活させる

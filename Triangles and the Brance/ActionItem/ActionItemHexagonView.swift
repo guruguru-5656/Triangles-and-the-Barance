@@ -24,6 +24,6 @@ struct ActionItemHexagonView: View {
 struct ActionItem_HexagonView_Previews: PreviewProvider {
     static var previews: some View {
         ActionItemHexagonView(stageColor: StageColor(stage: 1), size: 10)
-            .environmentObject(StageModel())
+            .environmentObject(GameModel())
     }
 }

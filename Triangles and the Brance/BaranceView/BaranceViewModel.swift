@@ -11,21 +11,23 @@ import AudioToolbox
 
 class BaranceViewModel: ObservableObject {
     
-    private var stageModel: StageModel?
     private var subscriber: AnyCancellable?
     
-    func setUp(stageModel: StageModel) {
-        self.stageModel = stageModel
-        subscriber = stageModel.gameEventPublisher
-            .sink { event in
+    func setUp(eventSubject: PassthroughSubject<GameEvent, Never>) {
+        subscriber = eventSubject
+            .sink { [weak self] event in
+                guard let self = self else {
+                    return
+                }
                 switch event {
-                case .triangleDeleted:
-                    self.baranceAnimation()
+                case .startStage:
+                    self.baranceAnimation(clearPercent: 0)
+                case .triangleDeleted(let count, let clearPercent):
+                    self.baranceAnimation(clearPercent: clearPercent)
+                    self.showTextAnimation(count: count)
                     self.hiLightAnimation()
                 case .clearAnimation:
                     self.stageClearAnimation()
-                case .resetGame:
-                    self.baranceAnimation()
                 case .gameClear:
                     self.gameClearAnimation()
                 default:
@@ -34,20 +36,16 @@ class BaranceViewModel: ObservableObject {
             }
     }
 
-    //天秤の角度のアニメーション
+    
     private let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
     @Published private (set) var angle: Double = Double.pi/16
-    private func baranceAnimation() {
-         guard let stageModel = stageModel else {
-             return
-         }
-         let clearPercent = Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount) > 1 ? 1 : Double(stageModel.deleteCount) / Double(stageModel.targetDeleteCount)
+    
+    private func baranceAnimation(clearPercent: Double) {
          withAnimation(angleAnimation) {
              angle = (1 - clearPercent) * Double.pi/16
          }
      }
-    
-    //一時的に白く光らせるアニメーション
+
     @Published private (set) var isTriangleHiLighted = false
     
     private func hiLightAnimation() {
@@ -64,7 +62,6 @@ class BaranceViewModel: ObservableObject {
         }
     }
     
-    //テキストを一時的に表示するアニメーション
     @Published private (set) var deleteCountNow = 0
     @Published private (set) var showDeleteCountText = false
     
@@ -82,7 +79,6 @@ class BaranceViewModel: ObservableObject {
             }
         }
     }
-    
    
     private func stageClearAnimation() {
         Task {

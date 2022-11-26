@@ -4,11 +4,11 @@ import Foundation
 import SwiftUI
 
 struct TriangleView: View {
-    @EnvironmentObject private var stageModel: StageModel
+    @EnvironmentObject private var gameModel: GameModel
     @StateObject private var controller = TriangleContloller()
 
     var isVertexHilighted: Bool {
-        stageModel.selectedItem?.type.position == .vertex
+        gameModel.selectedItem?.type.position == .vertex
     }
     
     var body: some View {
@@ -21,11 +21,11 @@ struct TriangleView: View {
             //背景の線部分
             ForEach(controller.fieldLine){ line in
                 DrawTriLine(line: line, scale: geometry.size.width / CGFloat(controller.numberOfCell))
-                    .stroke(stageModel.currentColor.heavy, lineWidth: 1)
+                    .stroke(gameModel.currentColor.heavy, lineWidth: 1)
             }
             //メインの三角形の表示
             ForEach($controller.triangles){ $triangle in
-                StageTriangleView(model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
+                StageTriangleView(currentColor: gameModel.currentColor, model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
                     .onTapGesture {
                         controller.triangleTapAction(coordinate: triangle.coordinate)
                     }
@@ -45,7 +45,7 @@ struct TriangleView: View {
         }
         }
         .onAppear {
-            controller.setUp(stageModel: stageModel)
+            controller.setUp(gameModel: gameModel)
         }
     }
 }
@@ -54,7 +54,7 @@ struct TriangleView: View {
 ///位置をdrowpoint、向きrotationで指定する、それぞれtriangleModelのプロパティから計算してセット
 struct StageTriangleView: View, DrawTriangle {
     
-    @EnvironmentObject var stageModel: StageModel
+    let currentColor: StageColor
     @Binding var model: TriangleViewModel
     
     //stageTriangleのビューからサイズを指定する
@@ -128,7 +128,7 @@ struct StageTriangleView: View, DrawTriangle {
     //フレーム部分の描画
     private var frameOfTriangle:some View{
         DrawTriangleFromCenter()
-            .stroke(stageModel.currentColor.heavy, lineWidth: 2)
+            .stroke(currentColor.heavy, lineWidth: 2)
             .frame(width: width, height: height , alignment: .center)
             .rotationEffect(rotation)
             .scaleEffect(frameScale)
@@ -140,7 +140,7 @@ struct StageTriangleView: View, DrawTriangle {
     //本体の描画
     var body: some View {
         DrawTriangleFromCenter()
-                .foregroundColor(stageModel.currentColor.light)
+                .foregroundColor(currentColor.light)
                 .frame(width: width, height: height , alignment: .top)
                 .rotationEffect(rotation)
                 .scaleEffect(scale)

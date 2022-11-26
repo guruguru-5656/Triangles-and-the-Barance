@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StageView: View {
-    @EnvironmentObject var stageModel: StageModel
+    @EnvironmentObject var gameModel: GameModel
     @Binding var isShowPopup: Bool
     private let soundPlayer = SoundPlayer.instance
     
@@ -17,32 +17,32 @@ struct StageView: View {
             VStack(alignment: .center) {
                 Spacer()
                 HStack {
-                    Section {
-                        Text(String(stageModel.life))
-                            .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
-                            .foregroundColor(stageModel.life <= 1 ? Color.red : Color(white: 0.3))
+                    ZStack {
+                        Rectangle()
+                            .stroke()
+                            .foregroundColor(gameModel.currentColor.heavy)
+                            .background(Color.backgroundLightGray.scaleEffect(1.2))
                             .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 5)
-                            .background(
-                                Rectangle()
-                                    .stroke()
-                                    .foregroundColor(stageModel.currentColor.heavy)
-                                    .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                    .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                                    .rotationEffect(Angle(degrees: 45)))
+                            .rotationEffect(Angle(degrees: 45))
+                        Text(String(gameModel.stageStatus.life))
+                            .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
+                            .foregroundColor(gameModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
+                            .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 5)
                     Spacer()
                     HStack(alignment: .center) {
                         Text("STAGE")
                             .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
                             .foregroundColor(Color(white: 0.3))
-                        Text(String(stageModel.stage))
+                        Text(String(gameModel.stageStatus.stage))
                             .font(.largeTitle)
                             .bold()
-                            .foregroundColor(stageModel.currentColor.light)
+                            .foregroundColor(gameModel.currentColor.light)
                             .padding(5)
                     }
+                    .offset(x: geometry.size.width * -0.03)
                     Spacer()
                     Button(action: {
                         soundPlayer.play(sound: .selectSound)
@@ -54,23 +54,19 @@ struct StageView: View {
                             .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
                     }
                 }
-                .frame(alignment: .center)
                 .padding(.horizontal, geometry.size.width / 16)
                 Spacer()
-                Section {
-                    TriangleView()
-                                     .padding(.horizontal, geometry.size.width / 10)
-                }
-                .frame(width: geometry.size.width ,height: geometry.size.width * 0.75)
+                TriangleView()
+                    .padding(.horizontal, geometry.size.width / 10)
+                    .frame(height: geometry.size.width * 0.7)
                 Spacer()
-                ActionItemWholeView(size: geometry.size.width)
-                    .frame( height: geometry.size.width * 0.22)
+                ActionItemWholeView()
+                    .frame(height: geometry.size.width * 0.33)
                     .zIndex(1)
                 Spacer()
                 BaranceView()
                     .padding(.horizontal, geometry.size.width * 0.1)
-                    .frame( height: geometry.size.width * 0.35)
-     
+                    .frame(height: geometry.size.width * 0.35)
             }
         }
     }
@@ -80,7 +76,7 @@ struct StageView_Previews: PreviewProvider {
     @State static private var isShowPopup = false
     static var previews: some View {
         StageView(isShowPopup: $isShowPopup)
-            .environmentObject(StageModel())
+            .environmentObject(GameModel())
     }
 }
 

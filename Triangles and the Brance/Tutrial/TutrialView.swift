@@ -43,39 +43,42 @@ struct TutrialView: View {
                     .ignoresSafeArea()
                 //ステージ
                 VStack(alignment: .center) {
-                    HStack(spacing: geometry.size.width * 0.1) {
-                            Text(String(tutrialModel.life))
-                                .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
-                                .foregroundColor(tutrialModel.life <= 1 ? Color.red : Color(white: 0.3))
+                  HStack {
+                      ZStack {
+                            Rectangle()
+                                .stroke()
+                                .foregroundColor(tutrialModel.currentColor.heavy)
+                                .background(Color.backgroundLightGray.scaleEffect(1.2))
                                 .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                                .background {
-                                    Rectangle()
-                                        .stroke()
-                                        .foregroundColor(tutrialModel.currentColor.heavy)
-                                        .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                        .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                                        .rotationEffect(Angle(degrees: 45))
-                                }
-                                .modifier(TutrialViewSpace(key: .lifeView))
-                                .padding(.leading, geometry.size.width * 0.07)
+                                .rotationEffect(Angle(degrees: 45))
+                            Text(String(tutrialModel.stageStatus.life))
+                                .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
+                                .foregroundColor(tutrialModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
+                                .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
+                        }
+                      .modifier(TutrialViewSpace(key: .lifeView))
+                      .padding(.horizontal, 20)
+                      .padding(.vertical, 5)
+                        Spacer()
                         Text("Tutrial")
                             .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
-                            .foregroundColor(Color(white: 1))
-                            .frame(width: geometry.size.width * 0.3,
-                                   height: geometry.size.height * 0.1, alignment: .center)
+                            .foregroundColor(Color(white: 0.3))
+                            .offset(x: geometry.size.width * -0.03)
                         Spacer()
+                      Color.clear
+                            .frame(width: geometry.size.width * 0.08, height: geometry.size.width * 0.08)
+                            .anchorPreference(key: ButtonFramePreferenceKey.self ,value: Anchor.Source.bounds , transform:  { $0 })
                     }
-                    .padding(.top, geometry.size.width * 0.05)
+                    .padding(.horizontal, geometry.size.width / 16)
+                    .padding(.top)
                     Spacer()
-                    Section {
-                        TriangleView()
-                            .modifier(TutrialViewSpace(key: .triangleView))
-                            .padding(.horizontal, geometry.size.width / 10)
-                    }
-                    .frame(width: geometry.size.width ,height: geometry.size.width * 0.75)
+                    TriangleView()
+                        .modifier(TutrialViewSpace(key: .triangleView))
+                        .padding(.horizontal, geometry.size.width / 10)
+                        .frame(height: geometry.size.width * 0.7)
                     Spacer()
-                    ActionItemWholeView(size: geometry.size.width)
-                        .frame( height: geometry.size.width * 0.22)
+                    ActionItemWholeView()
+                        .frame(height: geometry.size.width * 0.33)
                         .modifier(TutrialViewSpace(key: .itemView))
                         .zIndex(1)
                     Spacer()
@@ -84,6 +87,7 @@ struct TutrialView: View {
                         .frame(height: geometry.size.width * 0.35)
                         .modifier(TutrialViewSpace(key: .baranceView))
                 }
+                
                 Section {
                     //説明している場所以外をカバーするView
                     if let geometryKey = tutrialModel.description.geometryKey {
@@ -122,17 +126,7 @@ struct TutrialView: View {
                         .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
                 }
                 .ignoresSafeArea()
-                    Button(action: {
-                        soundPlayer.play(sound: .selectSound)
-                        withAnimation {
-                            isShowPopup = true
-                        }
-                    }){
-                        Image(systemName: "arrowshape.turn.up.backward.fill")
-                            .resizable()
-                            .foregroundColor(.backgroundLightGray)
-                            .frame(width: geometry.size.width * 0.07, height: geometry.size.width * 0.07)
-                    } .padding(geometry.size.width * 0.1)
+
                 if isShowPopup {
                         PopUpView {
                             HStack(spacing: 20) {
@@ -174,7 +168,25 @@ struct TutrialView: View {
         .onPreferenceChange(TutrialPreferenceKey.self){ value in
             anchors = value
         }
-        .environmentObject(tutrialModel as StageModel)
+        .overlayPreferenceValue(ButtonFramePreferenceKey.self) { anchor in
+            GeometryReader { geometry in
+                if let anchor = anchor {
+                    Button(action: {
+                        soundPlayer.play(sound: .selectSound)
+                        withAnimation {
+                            isShowPopup = true
+                        }
+                    }){
+                        Image(systemName: "arrowshape.turn.up.backward.fill")
+                            .resizable()
+                            .foregroundColor(.backgroundLightGray)
+                    }
+                    .frame(width: geometry[anchor].width, height: geometry[anchor].height)
+                    .position(x: geometry[anchor].midX, y: geometry[anchor].midY)
+                }
+            }
+        }
+        .environmentObject(tutrialModel as GameModel)
         .navigationBarHidden(true)
         .onReceive(tutrialModel.$isPresented) { isPresented in
             if isPresented == false {

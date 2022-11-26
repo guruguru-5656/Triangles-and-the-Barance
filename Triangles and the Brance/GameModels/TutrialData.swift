@@ -84,8 +84,8 @@ extension TutrialData: DataClass {
     
     func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
         switch name.self {
-        case is StageLog:
-            return [StageLog]() as? U
+        case is StageStatus:
+            return [StageStatus]() as? U
         default:
             return nil
         }

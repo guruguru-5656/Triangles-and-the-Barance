@@ -18,14 +18,11 @@ struct ActionItemModel: Hashable, Identifiable {
         self.level = level
     }
     
-    var cost: Int? {
-        guard let upgradeType = upgradeType else {
-            return defaultCost
+    var cost: Int {
+        if let upgradeType = upgradeType {
+            return upgradeType.effect(level: level)
         }
-        if level == 0 {
-            return nil
-        }
-       return upgradeType.effect(level: level)
+        return 0
     }
     
     private var upgradeType: UpgradeType? {

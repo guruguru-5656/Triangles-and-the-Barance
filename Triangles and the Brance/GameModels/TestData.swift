@@ -85,7 +85,7 @@ extension TestData: DataClass {
     func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
         switch name.self {
         case is StageLogs:
-            return [StageLog]() as? U
+            return [StageStatus]() as? U
         default:
             return nil
         }
