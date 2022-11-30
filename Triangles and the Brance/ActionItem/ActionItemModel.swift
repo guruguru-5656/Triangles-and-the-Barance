@@ -158,7 +158,7 @@ enum ActionType: String, CaseIterable {
     ///効果を及ぼす座標を返す
     func itemEffectCoordinates<T: StageCoordinate>(coordinate: T) -> [[TriangleCenterCoordinate]] {
         //入力された座標がitemのpositionと一致するかチェック
-        guard coordinate.position == self.position else{
+        guard T.position == self.position else{
             return []
         }
         return coordinate.relative(coordinates: actionCoordinate)

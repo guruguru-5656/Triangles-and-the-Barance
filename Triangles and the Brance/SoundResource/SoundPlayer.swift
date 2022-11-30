@@ -12,34 +12,37 @@ class BGMPlayer {
     //シングルトン
     static let instance = BGMPlayer()
     private let volume: Float = 0.5
-    private init(){
-    }
+    private init(){}
     
-    private var stageBgm: AVAudioPlayer?
+    private var stageBgm: (bgm: Bgm, player: AVAudioPlayer)?
 
     func play(bgm: Bgm){
-        if stageBgm?.isPlaying ?? false {
-            changeBgm(to: bgm)
+        guard let stageBgm = stageBgm else {
+            start(bgm: bgm)
             return
         }
-        start(bgm: bgm)
+        guard stageBgm.bgm != bgm else {
+            return
+        }
+        changeBgm(to: bgm)
     }
     
-    private var task: Task<(), Error>?
+    private var task: Task<Void, Error>?
     private func changeBgm(to bgm: Bgm) {
         if let task = task {
             task.cancel()
             self.task = nil
         }
         task = Task {
-            stageBgm?.setVolume(0, fadeDuration: 0.8)
+            stageBgm?.player.setVolume(0, fadeDuration: 0.8)
+            //判定用のbgmプロパティを先に更新
+            stageBgm?.bgm = bgm
             let waitTime: UInt64 = bgm == .ending ? 3000_000_000 : 1000_000_000
             do {
                 try await Task.sleep(nanoseconds: waitTime)
-                stageBgm?.stop()
+                stageBgm?.player.stop()
                 start(bgm: bgm)
             } catch {
-                print(error)
                 return
             }
         }
@@ -49,10 +52,13 @@ class BGMPlayer {
         guard let url = Bundle.main.url(forResource: bgm.faileName, withExtension: "mp3") else {
             return
         }
-        self.stageBgm = try? AVAudioPlayer.init(contentsOf: url)
-        stageBgm?.numberOfLoops = -1
-        stageBgm?.setVolume(volume, fadeDuration: 0)
-        stageBgm?.play()
+        guard let player = try? AVAudioPlayer.init(contentsOf: url) else {
+            return
+        }
+        player.numberOfLoops = -1
+        player.setVolume(volume, fadeDuration: 0)
+        player.play()
+        stageBgm = (bgm: bgm, player: player)
     }
     
     enum Bgm {
@@ -98,6 +104,7 @@ class SoundPlayer: NSObject {
     }
     
     func prepareAllSounds() {
+        
         Sound.allCases.forEach { sound in
             let fileName = sound.rawValue
             do {

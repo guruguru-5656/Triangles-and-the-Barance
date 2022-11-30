@@ -35,7 +35,7 @@ struct ActionItemWholeView: View {
                     ZStack(alignment: .bottom) {
                         HStack(alignment: .bottom) {
                             Spacer()
-                            Text("score: " + String(format: "%08d", gameModel.stageStatus.score))
+                            Text("score: " + String(format: "%08d", gameModel.stageScore.score))
                                 .padding(.trailing)
                                 .frame(width: geometry.size.width * 0.64, height: geometry.size.width * 0.06, alignment: .trailing)
                                 .background(Color.gray)
@@ -47,7 +47,7 @@ struct ActionItemWholeView: View {
                                     .scaledToFit()
                                     .foregroundColor(gameModel.currentColor.heavy)
                                     .padding(8)
-                                    .padding(.leading)
+                                    .padding(.leading, 5)
                                 Spacer()
                                 Text("\(gameModel.stageStatus.energy)")
                                     .font(Font(UIFont.systemFont(ofSize: geometry.size.width / 15)))

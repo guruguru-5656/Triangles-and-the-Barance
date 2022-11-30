@@ -21,9 +21,16 @@ final class TriangleContloller: ObservableObject {
     
     func setUp(gameModel: GameModel) {
         self.gameModel = gameModel
-        loadRecycleRate()
         subscribe(gameModel: gameModel)
-        startStage(at: gameModel.stageStatus.stage)
+        loadArrangement(stage: gameModel.stageStatus.stage)
+        setTrianleVertexs()
+        let triangles = SaveData.shared.loadData(type: [TriangleViewModel].self) ?? []
+        if triangles.isEmpty {
+            setTrianglesStatus()
+        } else {
+            self.triangles = triangles
+        }
+        loadRecycleRate()
     }
     
     //イベント通知を受け取る
@@ -32,13 +39,15 @@ final class TriangleContloller: ObservableObject {
     private func subscribe(gameModel: GameModel) {
         subscriber = gameModel.gameEventPublisher
             .sink { [ weak self ] event in
+                guard let self = self else {
+                    return
+                }
                 if case .startStage(let stage) = event {
-                    self?.startStage(at : stage)
+                    self.startStage(at : stage)
+                    SaveData.shared.saveData(value: self.triangles)
                 }
             }
     }
-        
-    ///ステージ開始時に呼び出す
     private func startStage(at stage: Int) {
         loadArrangement(stage: stage)
         setTrianleVertexs()

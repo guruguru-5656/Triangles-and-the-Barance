@@ -13,7 +13,6 @@ class GameModel: ObservableObject {
     
     @Published var showResultView = false
     @Published var isGameClear = false
-   
     @Published var currentColor: StageColor
     @Published var selectedItem: ActionItemModel?
     @Published var stageStatus: StageStatus
@@ -22,7 +21,7 @@ class GameModel: ObservableObject {
     private var stage: Int
     let soundPlayer = SoundPlayer.instance
     //スコアの生成に利用
-    private (set) var stageLogs: [StageStatus] = []
+    private (set) var stageScore: StageScore
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
     let dataStore: DataClass
@@ -37,7 +36,7 @@ class GameModel: ObservableObject {
         
         stageStatus = StageStatus(stage: stage, life: maxLife)
         currentColor = StageColor(stage: formattedStageData)
-        stageLogs = dataStore.loadData(name: StageLogs.log, valueType: Array<StageStatus>.self) ?? []
+        stageScore = dataStore.loadData(type: StageScore.self) ?? StageScore()
     }
     
     ///効果を及ぼす座標を返す
@@ -47,7 +46,7 @@ class GameModel: ObservableObject {
             return []
         }
         //入力された座標がitemのpositionと一致するかチェック
-        guard coordinate.position == item.type.position else{
+        guard T.position == item.type.position else{
             return []
         }
         return coordinate.relative(coordinates: item.type.actionCoordinate)
@@ -77,6 +76,7 @@ class GameModel: ObservableObject {
     }
     
     func triangleDidDeleted(count: Int) {
+        stageScore.triangleDidDeleted(count: count)
         let event = stageStatus.triangleDidDeleted(count: count)
         gameEventPublisher.send(.triangleDeleted(count, stageStatus.clearRate))
         switch event {
@@ -94,7 +94,7 @@ class GameModel: ObservableObject {
         stage = 1
         maxLife = dataStore.loadData(name: UpgradeType.life) + 5
         stageStatus = StageStatus(stage: stage, life: maxLife)
-        stageLogs = []
+        stageScore = StageScore()
         
         currentColor = StageColor(stage: stage)
         gameEventPublisher.send(.startStage(stage))
@@ -110,13 +110,14 @@ class GameModel: ObservableObject {
     private func stageClear() {
         gameEventPublisher.send(.clearAnimation)
         Task {
-            try await Task.sleep(nanoseconds: 1000_000_000)
+            try await Task.sleep(nanoseconds: 500_000_000)
+            soundPlayer.play(sound: .clearSound)
+            try await Task.sleep(nanoseconds: 500_000_000)
             await MainActor.run {
                 stage += 1
-                stageLogs.append(stageStatus)
+                stageScore.stageUpdate(stage)
                 saveStageStatus()
                 stageStatus = StageStatus(stage: stage, life: maxLife)
-//                soundPlayer.play(sound: .clearSound)
                 currentColor.nextColor()
                 gameEventPublisher.send(.startStage(stage))
             }
@@ -124,33 +125,28 @@ class GameModel: ObservableObject {
     }
     
     func gameOver() {
-        stageLogs.append(stageStatus)
         gameEventPublisher.send(.gameOver)
         soundPlayer.play(sound: .gameOverSound)
         BGMPlayer.instance.play(bgm: .gameOver)
         withAnimation {
             showResultView = true
         }
-        //データを初期状態でセーブ
-        dataStore.saveData(name: StageState.stage, intValue: 1)
-        dataStore.saveData(name: StageLogs.log, value: [StageStatus]())
+        saveInitialState()
     }
     
     private func gameClear() {
         isGameClear = true
         gameEventPublisher.send(.gameClear)
         BGMPlayer.instance.play(bgm: .ending)
-        //データを初期状態でセーブ
-        dataStore.saveData(name: StageState.stage, intValue: 1)
-        let initialLog: [StageStatus] = []
-        dataStore.saveData(name: StageLogs.log, value: initialLog)
+        saveInitialState()
         Task {
+            try await Task.sleep(nanoseconds: 500_000_000)
+            soundPlayer.play(sound: .clearSound)
             try await Task.sleep(nanoseconds: 3000_000_000)
             await MainActor.run {
                 withAnimation {
                     showResultView = true
                 }
-                stageLogs.append(stageStatus)
                 saveStageStatus()
             }
         }
@@ -158,7 +154,13 @@ class GameModel: ObservableObject {
     
     private func saveStageStatus() {
         dataStore.saveData(name: StageState.stage, intValue: stage)
-        dataStore.saveData(name: StageLogs.log, value: stageLogs)
+        dataStore.saveData(value: stageScore)
+    }
+    
+    private func saveInitialState() {
+        //ステージの進行状況を初期状態で保存
+        dataStore.saveData(name: StageState.stage, intValue: 1)
+        dataStore.saveData(value: StageScore())
     }
 }
 
@@ -174,8 +176,4 @@ enum GameEvent {
 //データ保存用の名前
 enum StageState: SaveDataName {
     case stage
-}
-
-enum StageLogs: SaveDataName {
-    case log
 }

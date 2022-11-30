@@ -8,29 +8,18 @@
 import Foundation
 
 
-struct StageStatus:Codable, Hashable {
+struct StageStatus: Codable, Hashable {
     let stage: Int
-    var deleteCount: [Int] = []
-    var maxCombo: Int = 0
+    var deleteCount: Int = 0
     var energy: Int = 0
     var life: Int
     
     var targetDeleteCount: Int {
         StageStatus.targetList[stage - 1]
     }
-    
-    var totalDeleteCount: Int {
-        deleteCount.reduce(0, +)
-    }
-    
+  
     var clearRate: Double {
-        Double(totalDeleteCount) / Double(targetDeleteCount) > 1 ? 1 : Double(totalDeleteCount) / Double(targetDeleteCount)
-    }
-    
-    var score: Int {
-        deleteCount.reduce(0) {
-            $0 + Calculation.individualScore($1)
-        }
+        Double(deleteCount) / Double(targetDeleteCount) > 1 ? 1 : Double(deleteCount) / Double(targetDeleteCount)
     }
     
     func canUseItem(cost: Int) -> Bool{
@@ -45,13 +34,10 @@ struct StageStatus:Codable, Hashable {
     mutating func triangleDidDeleted(count: Int) -> StageEvent? {
         energy += count
         life -= 1
-        if maxCombo < count {
-            maxCombo = count
-        }
-        deleteCount.append(count)
+        deleteCount += count
 
         //イベントの判定
-        if self.deleteCount.reduce(0 , +) >= targetDeleteCount {
+        if self.deleteCount >= targetDeleteCount {
             if stage == 12 {
                 return .gameClear
             }

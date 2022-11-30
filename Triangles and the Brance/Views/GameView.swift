@@ -64,6 +64,7 @@ struct GameView: View {
                                 .buttonStyle(CustomButton())
                                 Button(action: {
                                     soundPlayer.play(sound: .decideSound)
+                                    isShowPopup = false
                                     mainView = .title
                                 }){
                                     HStack {

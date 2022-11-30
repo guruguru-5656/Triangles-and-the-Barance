@@ -59,30 +59,14 @@ final class ResultViewModel: ObservableObject {
             return
         }
         
-        let log = gameModel.stageLogs
-        
-        let finalStage = log.reduce(0) {
-            ($1.stage > $0 ? $1.stage : $0)
-        }
-        let count = log.reduce(0) {
-            $0 + $1.deleteCount.reduce(0, +)
-        }
-        let maxCombo = log.reduce(0) {
-            ($1.maxCombo > $0 ? $1.maxCombo : $0)
-        }
-        let score = log.reduce(0) {
-            $0 + $1.deleteCount.reduce(0, +) * $1.maxCombo * $1.stage
-        }
-        let point = log.reduce(0) {
-            $0 + $1.deleteCount.reduce(0, +)
-        } * finalStage
-
+        let score = gameModel.stageScore
+    
         results = [
-            ResultModel(type: .stage, value: finalStage),
-            ResultModel(type: .count, value: count),
-            ResultModel(type: .combo, value: maxCombo),
-            ResultModel(type: .score, value: score),
-            ResultModel(type: .point, value: point)
+            ResultModel(type: .stage, value: score.stage),
+            ResultModel(type: .count, value: score.count),
+            ResultModel(type: .combo, value: score.combo),
+            ResultModel(type: .score, value: score.score),
+            ResultModel(type: .point, value: score.point)
         ]
         //ハイスコア読み込みおよび更新
         results.indices.forEach { index in
@@ -93,7 +77,7 @@ final class ResultViewModel: ObservableObject {
             }
         }
         //totalPointの読み込みおよび更新
-        let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + point
+        let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + score.point
         let totalPointIndex = results.count
         results.append(ResultModel(type: .totalPoint, value: totalPoint, index: totalPointIndex))
         SaveData.shared.saveData(name: ResultValue.totalPoint, intValue: totalPoint)

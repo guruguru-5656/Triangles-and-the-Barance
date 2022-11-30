@@ -13,7 +13,6 @@ class ItemController: ObservableObject {
     @Published var actionItems: [ActionItemModel] = []
     @Published private(set) var descriptionItem: ActionType?
     @Published private(set) var energyDifference: Int?
-   
     private let soundPlayer = SoundPlayer.instance
     
     //イベントの受信設定

@@ -8,10 +8,10 @@
 import Foundation
 import SwiftUI
 ///x、yが描画の頂点の座標を表す座標系
-struct TriangleVertexCoordinate:Hashable, StageCoordinate{
+struct TriangleVertexCoordinate:Hashable, StageCoordinate {
     let x:Int
     let y:Int
-    let position: Position = .vertex
+    static let position: Position = .vertex
     
     init(x:Int,y:Int){
         self.x = x
@@ -38,5 +38,5 @@ protocol StageCoordinate {
     var y: Int { get }
     var drawPoint: CGPoint { get }
     func relative(coordinates: [[(x: Int, y: Int)]]) -> [[TriangleCenterCoordinate]]
-    var position:Position { get }
+    static var position: Position { get }
 }

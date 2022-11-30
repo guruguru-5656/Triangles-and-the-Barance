@@ -7,7 +7,7 @@
 
 import Foundation
 
-//検証用にデータを定数で読みこむクラス
+//検証用にデータを定数で読みこむクラス、データベースへのアクセスは行わない
 final class TestData {
     //テスト用データ
     private func gameStatusValue(type: StageState) -> Int {
@@ -56,11 +56,14 @@ final class TestData {
             return  100000
         }
     }
+    
+    private var stageScore = StageScore(stage: 1, score: 0, count: 0, combo: 0)
     //キャッシュ
-    private var casheData: [String:Int] = [:]
+    private var casheData: [String: Int] = [:]
 }
 
 extension TestData: DataClass {
+    
     //キャッシュがあればそれをロードし、なければテスト用データをロードする
     func loadData<T:SaveDataName>(name: T) -> Int {
         if let data = casheData[name.description] {
@@ -81,17 +84,21 @@ extension TestData: DataClass {
     func saveData<T: SaveDataName>(name: T, intValue: Int) {
         casheData.updateValue(intValue, forKey: name.description)
     }
-    
-    func loadData<T, U>(name: T, valueType: U.Type) -> Optional<U> where T : SaveDataName, U : Decodable, U : Encodable {
-        switch name.self {
-        case is StageLogs:
-            return [StageStatus]() as? U
+
+    func loadData<T: Codable>(type: T.Type) -> Optional<T> {
+        switch type {
+        case is StageScore.Type:
+            return stageScore as? T
         default:
             return nil
         }
     }
     
-    func saveData<T, U>(name: T, value: U) where T : SaveDataName, U : Decodable, U : Encodable {
-        return
+    func saveData<T: Codable>(value: T) {
+        switch value {
+        case is StageScore:
+            self.stageScore = value as! StageScore
+        default: return
+        }
     }
 }

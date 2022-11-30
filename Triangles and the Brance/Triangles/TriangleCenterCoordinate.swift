@@ -9,10 +9,10 @@ import Foundation
 import SwiftUI
 
 ///座標、中心部分を使ってステージの中の位置を表す
-struct TriangleCenterCoordinate:Hashable, StageCoordinate {
+struct TriangleCenterCoordinate: Hashable, StageCoordinate, Codable {
     var x: Int
     var y: Int
-    let position: Position = .center
+    static let position: Position = .center
     ///ModelCoordinateの座標系から実際に描画する際の中心ポイントを返す
     var drawPoint:CGPoint{
         let X = CGFloat(x)

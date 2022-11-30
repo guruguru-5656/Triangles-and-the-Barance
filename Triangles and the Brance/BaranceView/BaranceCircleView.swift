@@ -41,8 +41,7 @@ struct BaranceCircleView: View {
 final class BaranceCircleViewModel: ObservableObject {
 
     private var subscriber: AnyCancellable?
-    private let soundPlayer = SoundPlayer.instance
-    
+
     func setUp(gameModel: GameModel) {
         subscriber = gameModel.gameEventPublisher.sink { [ weak self ] event in
             switch event {
@@ -63,7 +62,6 @@ final class BaranceCircleViewModel: ObservableObject {
     private func clearAnimation() {
         Task {
             try await Task.sleep(nanoseconds: 500_000_000)
-            soundPlayer.play(sound: .clearSound)
             await MainActor.run {
                 withAnimation(.easeOut(duration: 0.5)) {
                     clearCircleIsOn = true
@@ -78,7 +76,6 @@ final class BaranceCircleViewModel: ObservableObject {
     private func gameClearAnimation() {
         Task {
             try await Task.sleep(nanoseconds: 500_000_000)
-            soundPlayer.play(sound: .clearSound)
             await MainActor.run {
                 withAnimation(.easeOut(duration: 0.5)) {
                     clearCircleIsOn = true

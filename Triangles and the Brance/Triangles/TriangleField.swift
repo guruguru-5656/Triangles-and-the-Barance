@@ -15,7 +15,7 @@ struct TriangleField {
         var triangles: [TriangleViewModel] = []
         for (triangleY, arrangement) in arrangement.enumerated(){
             for triangleX in arrangement{
-                let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff, action: nil )
+                let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff )
                     triangles.append(triangleModel)
             }
         }

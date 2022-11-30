@@ -70,7 +70,7 @@ struct BaranceView: View {
                         .foregroundColor(gameModel.currentColor.heavy)
                         .rotationEffect(Angle(degrees: 180))
                         .opacity(gameModel.stageStatus.clearRate)
-                    Text("\(gameModel.stageStatus.totalDeleteCount)")
+                    Text("\(gameModel.stageStatus.deleteCount)")
                         .font(.title2)
                         .foregroundColor(Color(white: 0.1))
                         .opacity((1 + gameModel.stageStatus.clearRate) / 2)
