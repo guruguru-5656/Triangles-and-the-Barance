@@ -13,10 +13,13 @@ struct ContentView: View {
         switch mainView {
         case .title:
             TitleUIView(mainView: $mainView)
+                .transition(.opacity)
         case .game:
             GameView(mainView: $mainView)
+                .transition(.opacity)
         case .tutrial:
             TutrialView(mainView: $mainView)
+                .transition(.opacity)
         }
     }
 }
@@ -31,7 +34,7 @@ enum MainView {
     case title
     case game
     case tutrial
-    
+
     var bgm: BGMPlayer.Bgm {
         switch self {
         case .title:

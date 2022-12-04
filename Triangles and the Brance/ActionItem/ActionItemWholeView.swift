@@ -92,8 +92,7 @@ struct ActionItemWholeView: View {
                     PopUpView {
                         DescriptionView(actionType: descriptionItem)
                     }
-                    .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.35, alignment: .center)
-                    .position(x: geometry.size.width * 0.5, y: geometry.size.width * 0.35)
+                    .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.32, alignment: .center)
                     .onTapGesture {
                         itemController.closeDescriptionView()
                     }

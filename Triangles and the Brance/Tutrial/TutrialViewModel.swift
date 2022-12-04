@@ -22,8 +22,12 @@ final class TutrialViewModel: GameModel {
             return
         }
         if description.canContinue {
+            if flag == .next {
+                soundPlayer.play(sound: .selectSound)
+            }
             description.next()
         } else {
+            soundPlayer.play(sound: .decideSound)
             exit()
         }
     }
@@ -35,6 +39,7 @@ final class TutrialViewModel: GameModel {
     }
     
     override func triangleDidDeleted(count: Int) {
+        stageScore.triangleDidDeleted(count: count)
         _ = stageStatus.triangleDidDeleted(count: count)
         gameEventPublisher.send(.triangleDeleted(count, stageStatus.clearRate))
         //元の処理からゲームクリア等のイベントを削除
@@ -42,12 +47,10 @@ final class TutrialViewModel: GameModel {
     }
     
     override func itemSelect(model: ActionItemModel) {
-        
         if model.id == selectedItem?.id {
             selectedItem = nil
             return
         }
-   
         if stageStatus.canUseItem(cost: model.cost) {
             selectedItem = model
             soundPlayer.play(sound: .selectSound)
@@ -122,7 +125,7 @@ final class TutrialViewModel: GameModel {
                    tutrialTextPosition: .down,
                    text: "フィールド上の空いた場所をタップするとそこを起点に三角形が復活します",
                    flag: .itemUsed),
-            Object(tutrialGeometryKey: nil,
+            Object(tutrialGeometryKey: .itemView,
                    tutrialTextPosition: .up,
                    text: "効果範囲はアイテムによって異なり、アイテムのアイコンを長押しすることで確認できます",
                    flag: .next),

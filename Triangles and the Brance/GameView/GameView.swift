@@ -12,7 +12,7 @@ struct GameView: View {
     @ObservedObject var gameModel = GameModel()
     @State private var isShowPopup = false
     @State private var circleAncor: Anchor<CGRect>?
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     var body: some View {
         GeometryReader { geometry in

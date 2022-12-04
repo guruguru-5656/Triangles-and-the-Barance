@@ -197,5 +197,12 @@ extension TriangleField {
                                                     [Int](-2...6),
                                                     [Int](-2...4)
                                                 ])
+    //メニュー画面用
+    static let miniHexagon = TriangleField(numberOfCell: 2, arrangement:
+                                            [
+                                                [1, 2, 3],
+                                                [0, 1, 2]
+                                            ]
+    )
 }
 

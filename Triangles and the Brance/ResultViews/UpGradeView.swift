@@ -33,7 +33,6 @@ struct UpgradeView: View {
                                 .animation(.default.delay(Double(item.type.rawValue) * 0.1), value: opacity)
                         }
                     }
-                    .frame(height: geometry.size.height * 0.6 )
                     if model.showDetailView {
                         UpGradeDetailView(model: model, size: CGSize(width: geometry.size.width, height: geometry.size.height * 0.6))
                             .zIndex(1)
@@ -70,6 +69,7 @@ struct UpgradeView: View {
                     .overlay(Color(white: 0.5, opacity: model.payingPoint > 0 ? 0 : 0.2))
                 }
                 .frame(height: 50)
+                .padding(.vertical)
             }
             .onAppear{
                 opacity = 1
@@ -101,23 +101,18 @@ struct UpgradeCellView: View {
                         item.showDetail()
                     }
                 Spacer()
-                ZStack {
-                    GeometryReader { proxy in
-                        Text(item.descriptionText)
-                            .font(.caption)
-                            .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
-                        Text(item.currentEffect)
-                            .font(.title2)
-                            .padding(.leading, 7)
-                            .frame(width: proxy.size.width * 0.5, alignment: .leading)
-                            .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)
-                    }
-                    .frame(width: geometry.size.width * 0.35 , height: geometry.size.height)
-                    .background(Color(white: 0.9))
-                    .onTapGesture {
-                        item.showDetail()
-                    }
+                GeometryReader { proxy in
+                    Text(item.effectDescriptionText)
+                        .font(.caption)
+                        .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
+                    Text(item.currentEffect)
+                        .font(.title2)
+                        .padding(.leading, 7)
+                        .frame(width: proxy.size.width * 0.5, alignment: .leading)
+                        .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)
                 }
+                .frame(width: geometry.size.width * 0.35 , height: geometry.size.height)
+                .background(Color(white: 0.9))
                 Spacer()
                 Button(action: {
                     item.upgrade()
@@ -134,11 +129,9 @@ struct UpgradeCellView: View {
         }
         .frame(height: height)
         .padding(.horizontal)
-        .background(
+        .background {
             Color.white.opacity(0.7)
-                .onTapGesture {
-                    item.showDetail()
-                })
+        }
     }
 }
 

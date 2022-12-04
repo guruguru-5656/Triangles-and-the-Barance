@@ -21,12 +21,18 @@ struct UpGradeDetailView: View {
                         .scaledToFit()
                         .padding(5)
                         .frame(width: size.width / 8)
-                    Text(model.detailItem.descriptionText)
-                        .font(.body)
                     Spacer()
-                    Text(model.detailItem.currentEffect)
+                    GeometryReader { proxy in
+                        Text(model.detailItem.effectDescriptionText)
+                            .font(.caption)
+                            .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
+                        Text(model.detailItem.currentEffect)
+                            .font(.title2)
+                            .padding(.leading, 7)
+                            .frame(width: proxy.size.width * 0.5, alignment: .leading)
+                            .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)
+                    }
                     Spacer()
-                    Text(String("\(model.detailItem.level) / \(model.detailItem.type.costList.count)"))
                     Button(action: {
                         model.closeDetail()
                     }){
@@ -34,9 +40,13 @@ struct UpGradeDetailView: View {
                     }
                     .buttonStyle(CustomListButton(width: 100))
                 }
+                .frame(height: size.width / 8)
+                if let descriptionText = model.detailItem.descriptionText {
+                    Text(descriptionText)
+                }
                 if let actionType = model.detailItem.type.actionType {
                     DescriptionView(actionType: actionType)
-                        .frame(width: size.width * 0.4, height: size.width * 0.4)
+                        .frame(width: size.width * 0.4, height: size.width * 0.35)
                 }
             }
         }

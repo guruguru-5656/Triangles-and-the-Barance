@@ -19,9 +19,9 @@ class GameModel: ObservableObject {
     
     private var maxLife: Int
     private var stage: Int
-    let soundPlayer = SoundPlayer.instance
+    let soundPlayer = SEPlayer.shared
     //スコアの生成に利用
-    private (set) var stageScore: StageScore
+    var stageScore: StageScore
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
     let dataStore: DataClass
@@ -104,7 +104,7 @@ class GameModel: ObservableObject {
         withAnimation {
             isGameClear = false
         }
-        BGMPlayer.instance.play(bgm: .stage)
+        BGMPlayer.shared.play(bgm: .stage)
     }
     
     private func stageClear() {
@@ -127,7 +127,7 @@ class GameModel: ObservableObject {
     func gameOver() {
         gameEventPublisher.send(.gameOver)
         soundPlayer.play(sound: .gameOverSound)
-        BGMPlayer.instance.play(bgm: .gameOver)
+        BGMPlayer.shared.play(bgm: .gameOver)
         withAnimation {
             showResultView = true
         }
@@ -137,7 +137,7 @@ class GameModel: ObservableObject {
     private func gameClear() {
         isGameClear = true
         gameEventPublisher.send(.gameClear)
-        BGMPlayer.instance.play(bgm: .ending)
+        BGMPlayer.shared.play(bgm: .ending)
         saveInitialState()
         Task {
             try await Task.sleep(nanoseconds: 500_000_000)

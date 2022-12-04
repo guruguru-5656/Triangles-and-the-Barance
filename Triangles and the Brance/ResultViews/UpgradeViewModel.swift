@@ -15,7 +15,7 @@ class UpgradeViewModel: ObservableObject {
     @Published var payingPoint = 0
     @Published var detailItem = UpgradeCellViewModel(type: .life, level: 0)
     @Published var showDetailView = false
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     init() {
         upgradeItems = loadUpgradeData()
@@ -79,7 +79,7 @@ struct UpgradeCellViewModel: Identifiable {
     let id = UUID()
     //親クラスの参照
     fileprivate weak var parentModel: UpgradeViewModel?
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
    //upgradeできる状態か確認し実行する
     mutating func upgrade(){
         guard let parentModel = parentModel else {
@@ -130,7 +130,7 @@ struct UpgradeCellViewModel: Identifiable {
         }
     }
     
-    var descriptionText: String {
+    var effectDescriptionText: String {
         if level == 0 &&  type.actionType != nil {
             return "Locked"
         }
@@ -155,12 +155,37 @@ struct UpgradeCellViewModel: Identifiable {
             return "コスト"
         }
     }
+    
+    var descriptionText: String? {
+        switch type {
+        case .life:
+            return "操作できる回数"
+        case .recycle:
+            return "消した三角の" + currentEffect + "%がフィールド上に復活する"
+        case .hourGlass:
+            return nil
+        case .triHexagon:
+            return nil
+        case .pyramid:
+            return nil
+        case .shuriken:
+            return nil
+        case .hexagon:
+            return nil
+        case .horizon:
+            return nil
+        case .hexagram:
+            return nil
+        }
+    }
+    
     var currentEffect: String {
         if level == 0 && type.actionType != nil {
             return ""
         }
         return String(type.effect(level: level))
     }
+    
     var icon: Image {
         switch type {
         case .life:
@@ -267,23 +292,23 @@ enum UpgradeType: Int, CaseIterable, SaveDataName {
     var costList: [Int] {
         switch self {
         case .life:
-            return [100, 200, 500, 1000, 2000, 5000, 10000]
+            return [100, 400, 1000, 3000, 5000, 10000, 15000]
         case .recycle:
-            return [50, 100, 200, 400, 1000]
+            return [50, 100, 300, 800, 2000]
         case .hourGlass:
-            return [20, 100, 200]
+            return [50, 75, 100]
         case .triHexagon:
-            return [50, 100, 200]
+            return [100, 150, 200]
         case .pyramid:
-            return [100, 200, 400]
-        case .shuriken:
             return [400, 600, 800]
-        case .hexagon:
-            return [600, 800, 1000]
-        case .horizon:
+        case .shuriken:
             return [1000, 1500, 2000]
+        case .hexagon:
+            return [3000, 3500, 4000]
+        case .horizon:
+            return [5000, 6000, 7000]
         case .hexagram:
-            return [3000]
+            return [10000]
         }
     }
 }

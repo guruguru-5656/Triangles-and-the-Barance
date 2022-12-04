@@ -14,7 +14,7 @@ struct TutrialView: View {
     @State private var circleAncor: Anchor<CGRect>?
     @State private var anchors: [TutrialGeometryKey: Anchor<CGRect>] = [:]
     @State private var isShowPopup = false
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     private var textPosition: Double {
         switch tutrialModel.description.textPosition {
@@ -43,8 +43,8 @@ struct TutrialView: View {
                     .ignoresSafeArea()
                 //ステージ
                 VStack(alignment: .center) {
-                  HStack {
-                      ZStack {
+                    HStack {
+                        ZStack {
                             Rectangle()
                                 .stroke()
                                 .foregroundColor(tutrialModel.currentColor.heavy)
@@ -56,16 +56,16 @@ struct TutrialView: View {
                                 .foregroundColor(tutrialModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
                                 .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
                         }
-                      .modifier(TutrialViewSpace(key: .lifeView))
-                      .padding(.horizontal, 20)
-                      .padding(.vertical, 5)
+                        .modifier(TutrialViewSpace(key: .lifeView))
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 5)
                         Spacer()
                         Text("Tutrial")
                             .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
                             .foregroundColor(Color(white: 0.3))
                             .offset(x: geometry.size.width * -0.03)
                         Spacer()
-                      Color.clear
+                        Color.clear
                             .frame(width: geometry.size.width * 0.08, height: geometry.size.width * 0.08)
                             .anchorPreference(key: ButtonFramePreferenceKey.self ,value: Anchor.Source.bounds , transform:  { $0 })
                     }
@@ -93,7 +93,6 @@ struct TutrialView: View {
                     if let geometryKey = tutrialModel.description.geometryKey {
                         TutrialCoverView(anchor: anchors[geometryKey]!)
                             .onTapGesture {
-                                print("coverViewTapped")
                                 //何もしない
                             }
                     }
@@ -101,64 +100,63 @@ struct TutrialView: View {
                         Color.black
                             .opacity(0.3)
                             .onTapGesture {
-                                print("coverViewTapped")
                                 //何もしない
                             }
                     }
-                        PopUpView {
-                            ZStack (alignment: .bottomTrailing) {
-                                Text(tutrialModel.description.text + " ")
-                                    .multilineTextAlignment(.leading)
-                                if tutrialModel.description.flag == .next {
-                                        TriangleNormalShape()
-                                        .frame(width: 15, height: 7.5 * sqrt(3))
-                                        .rotationEffect(Angle(degrees: 180))
-                                        .padding(3)
-                                        .foregroundColor(Color(white: 0.3))
-                                        .offset(x: 15, y: 10)
-                                }
+                    PopUpView {
+                        ZStack (alignment: .bottomTrailing) {
+                            Text(tutrialModel.description.text + " ")
+                                .multilineTextAlignment(.leading)
+                            if tutrialModel.description.flag == .next {
+                                TriangleNormalShape()
+                                    .frame(width: 15, height: 7.5 * sqrt(3))
+                                    .rotationEffect(Angle(degrees: 180))
+                                    .padding(3)
+                                    .foregroundColor(Color(white: 0.3))
+                                    .offset(x: 15, y: 10)
                             }
                         }
-                        .onTapGesture {
-                            tutrialModel.continueTutrial(.next)
-                        }
-                        .padding()
-                        .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
+                    }
+                    .onTapGesture {
+                        tutrialModel.continueTutrial(.next)
+                    }
+                    .padding()
+                    .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
                 }
                 .ignoresSafeArea()
-
+                
                 if isShowPopup {
-                        PopUpView {
-                            HStack(spacing: 20) {
-                                Button(action: {
-                                    soundPlayer.play(sound: .cancelSound)
-                                    withAnimation {
-                                        isShowPopup = false
-                                    }
-                                }){
-                                    HStack {
-                                        Image(systemName: "xmark")
-                                        Text("Cancel")
-                                    }
-                                    .foregroundColor(Color.heavyRed)
+                    PopUpView {
+                        HStack(spacing: 20) {
+                            Button(action: {
+                                soundPlayer.play(sound: .cancelSound)
+                                withAnimation {
+                                    isShowPopup = false
                                 }
-                                .buttonStyle(CustomButton())
-                                Button(action: {
-                                    soundPlayer.play(sound: .decideSound)
-                                    tutrialModel.exit()
-                                }){
-                                    HStack {
-                                        Image(systemName: "rectangle.portrait.and.arrow.right")
-                                        Text("Exit")
-                                    }
-                                    .foregroundColor(Color.heavyGreen)
+                            }){
+                                HStack {
+                                    Image(systemName: "xmark")
+                                    Text("Cancel")
                                 }
-                                .buttonStyle(CustomButton())
+                                .foregroundColor(Color.heavyRed)
                             }
-                            .frame(height: 50)
+                            .buttonStyle(CustomButton())
+                            Button(action: {
+                                soundPlayer.play(sound: .decideSound)
+                                tutrialModel.exit()
+                            }){
+                                HStack {
+                                    Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    Text("Exit")
+                                }
+                                .foregroundColor(Color.heavyGreen)
+                            }
+                            .buttonStyle(CustomButton())
                         }
-                        .position(x: geometry.size.width * 0.5,
-                                  y: geometry.size.height * 0.5)
+                        .frame(height: 50)
+                    }
+                    .position(x: geometry.size.width * 0.5,
+                              y: geometry.size.height * 0.5)
                 }
             }
         }

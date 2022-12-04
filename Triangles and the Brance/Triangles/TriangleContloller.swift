@@ -17,14 +17,14 @@ final class TriangleContloller: ObservableObject {
     @Published private(set) var numberOfCell: Int = 6
     private let isOnRate: Double = 0.5
     private var recycleRate: Double = 0
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     func setUp(gameModel: GameModel) {
         self.gameModel = gameModel
         subscribe(gameModel: gameModel)
         loadArrangement(stage: gameModel.stageStatus.stage)
         setTrianleVertexs()
-        let triangles = SaveData.shared.loadData(type: [TriangleViewModel].self) ?? []
+        let triangles = gameModel.dataStore.loadData(type: [TriangleViewModel].self) ?? []
         if triangles.isEmpty {
             setTrianglesStatus()
         } else {
@@ -44,7 +44,7 @@ final class TriangleContloller: ObservableObject {
                 }
                 if case .startStage(let stage) = event {
                     self.startStage(at : stage)
-                    SaveData.shared.saveData(value: self.triangles)
+                    gameModel.dataStore.saveData(value: self.triangles)
                 }
             }
     }
@@ -258,7 +258,7 @@ final class TriangleContloller: ObservableObject {
     ///用意している音声より後のindexを渡した場合は最後の部分を再生する
     private func playChainActionSound(index: Int) {
         let limitedIndex = index < 8 ? index + 1 : 8
-        let sound = SoundPlayer.Sound(rawValue: "marimba_" + String(limitedIndex))!
+        let sound = SEPlayer.Sound(rawValue: "marimba_" + String(limitedIndex))!
         soundPlayer.play(sound: sound)
     }
 }

@@ -31,9 +31,7 @@ struct ResultView: View {
                             ScoreView(score: $results)
                                 .opacity(opacity)
                                 .animation(.default.delay(Double(results.index) * 0.2), value: opacity)
-                            
                         }
-                        
                         Spacer()
                         HStack(spacing: 20) {
                             Button(action: {

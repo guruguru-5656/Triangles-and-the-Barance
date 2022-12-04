@@ -50,7 +50,7 @@ struct StageStatus: Codable, Hashable {
     }
     
     enum StageEvent {
-        case stageClear, gameOver , gameClear
+        case stageClear, gameOver, gameClear
     }
 }
 

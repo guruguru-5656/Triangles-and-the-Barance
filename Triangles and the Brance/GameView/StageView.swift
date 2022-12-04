@@ -10,7 +10,7 @@ import SwiftUI
 struct StageView: View {
     @EnvironmentObject var gameModel: GameModel
     @Binding var isShowPopup: Bool
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     var body: some View {
         GeometryReader { geometry in

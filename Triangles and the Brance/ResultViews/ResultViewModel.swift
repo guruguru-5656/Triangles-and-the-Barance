@@ -11,8 +11,7 @@ import SwiftUI
 //スコアを表示用に加工して出力する
 final class ResultViewModel: ObservableObject {
     @Published var results: [ResultModel] = []
-    @Published var viewStatus: ViewStatus = .onAppear
-    private let soundPlayer = SoundPlayer.instance
+    private let soundPlayer = SEPlayer.shared
     
     private var gameModel: GameModel?
     private var subscriber: AnyCancellable?
@@ -40,10 +39,6 @@ final class ResultViewModel: ObservableObject {
     
     func showScores() {
         setResultScores()
-        viewStatus = .onAppear
-        withAnimation(.easeIn(duration: 3)){
-            viewStatus = .isOn
-        }
         results.indices.forEach { index in
             withAnimation(.linear(duration: 0.1).delay(10 + Double(index) * 0.3)){
                 results[index].viewStatus = .onAppear
@@ -95,7 +90,7 @@ final class ResultViewModel: ObservableObject {
         guard let gameModel = gameModel else {
             return
         }
-        soundPlayer.play(sound: .restartSound)
+        soundPlayer.play(sound: .decideSound)
         gameModel.resetGame()
     }
 }

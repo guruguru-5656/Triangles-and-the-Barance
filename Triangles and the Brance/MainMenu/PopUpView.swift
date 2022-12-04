@@ -19,6 +19,7 @@ struct PopUpView<Content:View>: View {
             .background{
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color.white)
+                    .opacity(0.7)
             }
             .padding(5)
             .background{
