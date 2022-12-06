@@ -10,7 +10,7 @@ import SwiftUI
 struct TutrialViewSpace: ViewModifier {
     let key: TutrialGeometryKey
     func body(content: Content) -> some View {
-            content
+        content
             .anchorPreference(key: TutrialPreferenceKey.self,
                               value: .bounds,
                               transform: { [key : $0] })
@@ -18,7 +18,7 @@ struct TutrialViewSpace: ViewModifier {
 }
 
 struct TutrialPreferenceKey: PreferenceKey {
-typealias Value = [TutrialGeometryKey:Anchor<CGRect>]
+    typealias Value = [TutrialGeometryKey:Anchor<CGRect>]
     static var defaultValue: [TutrialGeometryKey:Anchor<CGRect>] = [:]
     static func reduce(value: inout Self.Value, nextValue: () -> Self.Value) {
         value.merge(nextValue()) { $1 }

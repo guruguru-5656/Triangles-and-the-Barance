@@ -97,6 +97,12 @@ struct UpgradeCellView: View {
                     .padding(.vertical, 8)
                     .padding(.leading, 8)
                     .frame(width: geometry.size.height - 8, height: geometry.size.height)
+                    .overlay {
+                        Image(systemName: "info.circle")
+                            .frame(width: geometry.size.height - 8, height: geometry.size.height, alignment: .topTrailing)
+                            .offset(x: geometry.size.height * 0.4)
+                            .opacity(0.3)
+                    }
                     .onTapGesture {
                         item.showDetail()
                     }

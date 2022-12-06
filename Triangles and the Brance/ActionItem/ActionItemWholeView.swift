@@ -39,6 +39,13 @@ struct ActionItemWholeView: View {
                                 .padding(.trailing)
                                 .frame(width: geometry.size.width * 0.64, height: geometry.size.width * 0.06, alignment: .trailing)
                                 .background(Color.gray)
+                                .overlay {
+                                    ScoreDifferenceTextView()
+                                        .foregroundColor(.backgroundLightGray)
+                                        .padding(.trailing)
+                                        .frame(width: geometry.size.width * 0.64, height: geometry.size.width * 0.06, alignment: .trailing)
+                                        .offset(y: geometry.size.width * -0.06)
+                                }
                         }
                         HStack {
                             HStack {

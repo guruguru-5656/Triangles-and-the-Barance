@@ -61,7 +61,6 @@ final class ResultViewModel: ObservableObject {
             ResultModel(type: .count, value: score.count),
             ResultModel(type: .combo, value: score.combo),
             ResultModel(type: .score, value: score.score),
-            ResultModel(type: .point, value: score.point)
         ]
         //ハイスコア読み込みおよび更新
         results.indices.forEach { index in
@@ -72,14 +71,14 @@ final class ResultViewModel: ObservableObject {
             }
         }
         //totalPointの読み込みおよび更新
-        let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + score.point
+        let totalPoint = SaveData.shared.loadData(name: ResultValue.totalPoint) + score.score
         let totalPointIndex = results.count
         results.append(ResultModel(type: .totalPoint, value: totalPoint, index: totalPointIndex))
         SaveData.shared.saveData(name: ResultValue.totalPoint, intValue: totalPoint)
     }
    
     func loadTotalPointData() {
-        results[5].value = SaveData.shared.loadData(name: ResultValue.totalPoint)
+        results[4].value = SaveData.shared.loadData(name: ResultValue.totalPoint)
     }
     
     func playDecideSound() {
@@ -126,10 +125,8 @@ struct ResultModel: Identifiable, Hashable {
             return "Max Combo"
         case .score:
             return "Score"
-        case .point:
-            return "Point"
         case .totalPoint:
-            return "Total Point"
+            return "Point"
         }
     }
 }
@@ -139,6 +136,5 @@ enum ResultValue: CaseIterable, SaveDataName {
     case count
     case combo
     case score
-    case point
     case totalPoint
 }

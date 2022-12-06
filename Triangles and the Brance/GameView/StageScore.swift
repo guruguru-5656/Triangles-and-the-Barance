@@ -12,9 +12,7 @@ struct StageScore: Codable {
     var score: Int
     var count: Int
     var combo: Int
-    var point: Int {
-        Int(Double(score) * (1 + 0.2 * Double(stage)))
-    }
+    var scoreDifference: Int = 0
     //通常の初期化の際はこちらを使用
     init() {
         self.stage = 1
@@ -32,7 +30,8 @@ struct StageScore: Codable {
     
     mutating func triangleDidDeleted(count: Int) {
         self.count += count
-        score += Int(Double(count) * (1 + 0.5 * Double(count)))
+        scoreDifference = Self.calculateScore(count: count, stage: stage)
+        score += scoreDifference
         if combo < count {
             combo = count
         }
@@ -40,5 +39,17 @@ struct StageScore: Codable {
     
     mutating func stageUpdate(_ stage: Int) {
         self.stage = stage
+    }
+    
+    static func calculateScore(count: Int, stage: Int) -> Int {
+        return Int(Double(count) * chainBonus(count) * stageBonus(stage))
+    }
+    
+    static private func chainBonus(_ count: Int) -> Double {
+        return 1 + 0.5 * Double(count)
+    }
+    
+    static private func stageBonus(_ stage: Int) -> Double {
+        return 1 + 0.2 * Double(stage)
     }
 }

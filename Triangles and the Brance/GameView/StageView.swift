@@ -18,16 +18,25 @@ struct StageView: View {
                 Spacer()
                 HStack {
                     ZStack {
-                        Rectangle()
-                            .stroke()
-                            .foregroundColor(gameModel.currentColor.heavy)
-                            .background(Color.backgroundLightGray.scaleEffect(1.2))
-                            .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                            .rotationEffect(Angle(degrees: 45))
+                        ZStack {
+                            Rectangle()
+                                .foregroundColor(Color.backgroundLightGray)
+                               
+                            VStack {
+                                Text("turn")
+                                    .font(.caption)
+                                    .foregroundColor(Color.backgroundLightGray)
+                                    .frame(width: geometry.size.width * 0.15)
+                                    .background(Color.gray)
+                                Spacer()
+                            }
+                        }
+                        .rotationEffect(Angle(degrees: -45))
+                        .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                         Text(String(gameModel.stageStatus.life))
                             .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
                             .foregroundColor(gameModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
-                            .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
+                            .offset(x: geometry.size.width * 0.01, y:  geometry.size.width * 0.01)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 5)

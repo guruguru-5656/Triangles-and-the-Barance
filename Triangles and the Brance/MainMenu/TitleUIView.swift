@@ -24,7 +24,6 @@ struct TitleUIView: View {
                     .opacity(0.3)
                     .ignoresSafeArea()
                 VStack {
-                    
                     Spacer()
                     GeometryReader { geometry in
                         let baseScale: CGFloat = geometry.size.width / 8
@@ -77,8 +76,8 @@ struct TitleUIView: View {
                     HexagonMenuView(cellModels: MainMenus.allCases.map { menu in
                         MainMenuCellModel(menu: menu, action: { transition(to: menu) })
                     })
-                        .padding(.horizontal, proxy.size.width * 0.1)
-                        .frame(height: proxy.size.width * 0.7)
+                    .padding(.horizontal, proxy.size.width * 0.1)
+                    .frame(height: proxy.size.width * 0.7)
                     Spacer()
                 }
                 if isShowPopUp {
@@ -111,7 +110,7 @@ struct TitleUIView: View {
         bgmPlayer.play(bgm: view.bgm)
         soundPlayer.play(sound: .decideSound)
     }
-
+    
     private func transition(to menu: MainMenus) {
         switch menu {
         case .tutrial:

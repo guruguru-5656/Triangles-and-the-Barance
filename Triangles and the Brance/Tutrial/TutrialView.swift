@@ -45,16 +45,25 @@ struct TutrialView: View {
                 VStack(alignment: .center) {
                     HStack {
                         ZStack {
-                            Rectangle()
-                                .stroke()
-                                .foregroundColor(tutrialModel.currentColor.heavy)
-                                .background(Color.backgroundLightGray.scaleEffect(1.2))
-                                .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
-                                .rotationEffect(Angle(degrees: 45))
+                            ZStack {
+                                Rectangle()
+                                    .foregroundColor(Color.backgroundLightGray)
+                                   
+                                VStack {
+                                    Text("turn")
+                                        .font(.caption)
+                                        .foregroundColor(Color.backgroundLightGray)
+                                        .frame(width: geometry.size.width * 0.15)
+                                        .background(Color.gray)
+                                    Spacer()
+                                }
+                            }
+                            .rotationEffect(Angle(degrees: -45))
+                            .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                             Text(String(tutrialModel.stageStatus.life))
                                 .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
                                 .foregroundColor(tutrialModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
-                                .frame(width: geometry.size.width * 0.11, height: geometry.size.width * 0.11)
+                                .offset(x: geometry.size.width * 0.01, y:  geometry.size.width * 0.01)
                         }
                         .modifier(TutrialViewSpace(key: .lifeView))
                         .padding(.horizontal, 20)
@@ -87,7 +96,6 @@ struct TutrialView: View {
                         .frame(height: geometry.size.width * 0.35)
                         .modifier(TutrialViewSpace(key: .baranceView))
                 }
-                
                 Section {
                     //説明している場所以外をカバーするView
                     if let geometryKey = tutrialModel.description.geometryKey {
@@ -124,7 +132,6 @@ struct TutrialView: View {
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * textPosition)
                 }
                 .ignoresSafeArea()
-                
                 if isShowPopup {
                     PopUpView {
                         HStack(spacing: 20) {
@@ -185,7 +192,6 @@ struct TutrialView: View {
             }
         }
         .environmentObject(tutrialModel as GameModel)
-        .navigationBarHidden(true)
         .onReceive(tutrialModel.$isPresented) { isPresented in
             if isPresented == false {
                 mainView = .title

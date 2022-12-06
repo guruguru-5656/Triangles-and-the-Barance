@@ -44,19 +44,14 @@ struct ResultView: View {
                                 .foregroundColor(Color.heavyRed)
                             }
                             .buttonStyle(CustomButton())
-                            Button(action: {
+                            .frame(width: geometry.size.width * 0.42)
+                            ShowUpgradableButtonView(action: {
                                 resultViewModel.playDecideSound()
                                 withAnimation{
                                     showUpgradeView = true
                                 }
-                            }){
-                                HStack {
-                                    Image(systemName: "arrowtriangle.up")
-                                    Text("Upgrade")
-                                }
-                                .foregroundColor(.heavyGreen)
-                            }
-                            .buttonStyle(CustomButton())
+                            })
+                            .frame(width: geometry.size.width * 0.42)
                         }
                         .frame(height: 50)
                         .onAppear{

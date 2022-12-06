@@ -142,10 +142,6 @@
 		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
-		04EB8A1429389BC800B5CE3D /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04EB8A1229389BC800B5CE3D /* stageBGM.mp3 */; };
-		04EB8A1529389BC800B5CE3D /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04EB8A1229389BC800B5CE3D /* stageBGM.mp3 */; };
-		04EB8A1629389BC800B5CE3D /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04EB8A1329389BC800B5CE3D /* titleBGM.mp3 */; };
-		04EB8A1729389BC800B5CE3D /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04EB8A1329389BC800B5CE3D /* titleBGM.mp3 */; };
 		04EB8A1929389D4500B5CE3D /* HighScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1829389D4500B5CE3D /* HighScoreView.swift */; };
 		04EB8A1A29389D4500B5CE3D /* HighScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1829389D4500B5CE3D /* HighScoreView.swift */; };
 		04EB8A1C2938A79900B5CE3D /* HexagonMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */; };
@@ -162,6 +158,14 @@
 		04FDE71E293AD61F00A00222 /* BGMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71D293AD61F00A00222 /* BGMPlayer.swift */; };
 		04FDE720293AD94200A00222 /* SoundSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71F293AD94200A00222 /* SoundSettingView.swift */; };
 		04FDE721293AD94200A00222 /* SoundSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71F293AD94200A00222 /* SoundSettingView.swift */; };
+		04FDE726293D921300A00222 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE725293D921300A00222 /* stageBGM.mp3 */; };
+		04FDE727293D921300A00222 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE725293D921300A00222 /* stageBGM.mp3 */; };
+		04FDE72C293D93B800A00222 /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE72B293D93B800A00222 /* titleBGM.mp3 */; };
+		04FDE72D293D93B800A00222 /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE72B293D93B800A00222 /* titleBGM.mp3 */; };
+		04FDE72F293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
+		04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
+		04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
+		04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,8 +249,6 @@
 		04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeDetaiilView.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
-		04EB8A1229389BC800B5CE3D /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
-		04EB8A1329389BC800B5CE3D /* titleBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = titleBGM.mp3; sourceTree = "<group>"; };
 		04EB8A1829389D4500B5CE3D /* HighScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreView.swift; sourceTree = "<group>"; };
 		04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonMenuView.swift; sourceTree = "<group>"; };
 		04EB8A1E2938B09300B5CE3D /* TriangleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleButtonView.swift; sourceTree = "<group>"; };
@@ -256,6 +258,10 @@
 		04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemTriHexagonView.swift; sourceTree = "<group>"; };
 		04FDE71D293AD61F00A00222 /* BGMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPlayer.swift; sourceTree = "<group>"; };
 		04FDE71F293AD94200A00222 /* SoundSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSettingView.swift; sourceTree = "<group>"; };
+		04FDE725293D921300A00222 /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
+		04FDE72B293D93B800A00222 /* titleBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = titleBGM.mp3; sourceTree = "<group>"; };
+		04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUpgradableButtonView.swift; sourceTree = "<group>"; };
+		04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreDifferenceTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +306,7 @@
 				044AD42127F9AA8F00D96CED /* ResultView.swift */,
 				044AD42327FAF7A300D96CED /* ResultViewModel.swift */,
 				044AD42527FB100B00D96CED /* UpGradeView.swift */,
+				04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */,
 				044AD42727FB240400D96CED /* UpgradeViewModel.swift */,
 				04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */,
 				0492952A287E934A0067E9B1 /* DescriptionView.swift */,
@@ -388,6 +395,7 @@
 				0400630128182B240069FB39 /* ItemController.swift */,
 				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
 				04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */,
+				04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */,
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
 				04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */,
 				04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */,
@@ -419,8 +427,8 @@
 				046F3B8628D2F8AB000D2087 /* decideSound.mp3 */,
 				046F3B9928D30103000D2087 /* gameOverSound.mp3 */,
 				04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */,
-				04EB8A1229389BC800B5CE3D /* stageBGM.mp3 */,
-				04EB8A1329389BC800B5CE3D /* titleBGM.mp3 */,
+				04FDE725293D921300A00222 /* stageBGM.mp3 */,
+				04FDE72B293D93B800A00222 /* titleBGM.mp3 */,
 				04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */,
 			);
 			path = SoundResource;
@@ -568,16 +576,16 @@
 				046F3BAA28D303D4000D2087 /* selectSound.mp3 in Resources */,
 				046F3B8E28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
 				046F3B7828D1C256000D2087 /* marimba_5.mp3 in Resources */,
-				04EB8A1729389BC800B5CE3D /* titleBGM.mp3 in Resources */,
 				046F3B7428D1C256000D2087 /* marimba_8.mp3 in Resources */,
 				046F3B6C28D1C256000D2087 /* marimba_1.mp3 in Resources */,
 				04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
 				046F3B9528D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
+				04FDE72D293D93B800A00222 /* titleBGM.mp3 in Resources */,
 				046F3B7628D1C256000D2087 /* marimba_6.mp3 in Resources */,
 				046F3B7028D1C256000D2087 /* marimba_4.mp3 in Resources */,
 				046F3B8328D1C6EE000D2087 /* clearSound.mp3 in Resources */,
 				046F3B7D28D1C2A5000D2087 /* itemUsed.mp3 in Resources */,
-				04EB8A1529389BC800B5CE3D /* stageBGM.mp3 in Resources */,
+				04FDE727293D921300A00222 /* stageBGM.mp3 in Resources */,
 				046F3B7A28D1C256000D2087 /* marimba_2.mp3 in Resources */,
 				046F3B7228D1C256000D2087 /* marimba_7.mp3 in Resources */,
 				046F3B6E28D1C256000D2087 /* marimba_3.mp3 in Resources */,
@@ -596,16 +604,16 @@
 				046F3BA928D303D4000D2087 /* selectSound.mp3 in Resources */,
 				046F3B8D28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
 				046F3B7728D1C256000D2087 /* marimba_5.mp3 in Resources */,
-				04EB8A1629389BC800B5CE3D /* titleBGM.mp3 in Resources */,
 				046F3B7328D1C256000D2087 /* marimba_8.mp3 in Resources */,
 				046F3B6B28D1C256000D2087 /* marimba_1.mp3 in Resources */,
 				04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
 				046F3B9428D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
+				04FDE72C293D93B800A00222 /* titleBGM.mp3 in Resources */,
 				046F3B7528D1C256000D2087 /* marimba_6.mp3 in Resources */,
 				046F3B6F28D1C256000D2087 /* marimba_4.mp3 in Resources */,
 				046F3B8228D1C6EE000D2087 /* clearSound.mp3 in Resources */,
 				046F3B7C28D1C2A5000D2087 /* itemUsed.mp3 in Resources */,
-				04EB8A1429389BC800B5CE3D /* stageBGM.mp3 in Resources */,
+				04FDE726293D921300A00222 /* stageBGM.mp3 in Resources */,
 				046F3B7928D1C256000D2087 /* marimba_2.mp3 in Resources */,
 				046F3B7128D1C256000D2087 /* marimba_7.mp3 in Resources */,
 				046F3B6D28D1C256000D2087 /* marimba_3.mp3 in Resources */,
@@ -660,9 +668,11 @@
 				049543CD29221DAB00A2022D /* TutrialViewModel.swift in Sources */,
 				0445254F28A776C600F3051C /* ResultViewModel.swift in Sources */,
 				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
+				04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
 				0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */,
 				0445252B28A765D200F3051C /* SaveData.swift in Sources */,
 				042F843829262F5D0092C309 /* SEPlayer.swift in Sources */,
+				04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */,
 				0445252E28A7660600F3051C /* TestData.swift in Sources */,
 				0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */,
 				0445254628A776AB00F3051C /* ActionItemView.swift in Sources */,
@@ -700,6 +710,7 @@
 				04320C5A291BEE7700FC56CC /* TutrialData.swift in Sources */,
 				049543CF2922227800A2022D /* PopUpView.swift in Sources */,
 				04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
+				04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
 				04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
 				04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */,
 				0445252D28A7660600F3051C /* TestData.swift in Sources */,
@@ -720,6 +731,7 @@
 				049543D22922427800A2022D /* TutrialView.swift in Sources */,
 				044AD42F27FFF64C00D96CED /* GameModel.swift in Sources */,
 				0445253028A7729100F3051C /* BaranceViewModel.swift in Sources */,
+				04FDE72F293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */,
 				049543CC29221DAB00A2022D /* TutrialViewModel.swift in Sources */,
 				04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */,
 				040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */,
@@ -933,7 +945,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -966,7 +978,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1060,7 +1072,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

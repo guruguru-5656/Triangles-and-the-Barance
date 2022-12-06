@@ -20,7 +20,6 @@ struct ActionItemTriHexagonView: View {
             TriangleNormalShape()
                 .stroke(stageColor.heavy, lineWidth: 2)
                 .scaleEffect(0.7)
-                .rotationEffect(Angle(degrees: 30))
         }
         .frame(width: size, height: size)
     }

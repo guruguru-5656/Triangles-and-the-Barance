@@ -56,5 +56,5 @@ struct StageStatus: Codable, Hashable {
 
 
 extension StageStatus {
-    static private let targetList = [10, 15, 20, 25, 30, 36, 43, 50, 57, 63, 70, 80]
+    static private let targetList = [8, 12, 17, 22, 27, 33, 40, 47, 55, 63, 70, 80]
 }

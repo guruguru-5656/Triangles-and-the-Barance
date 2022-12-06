@@ -46,6 +46,9 @@ final class TriangleContloller: ObservableObject {
                     self.startStage(at : stage)
                     gameModel.dataStore.saveData(value: self.triangles)
                 }
+                if case .gameOver = event {
+                    gameModel.dataStore.saveData(value:[TriangleViewModel]())
+                }
             }
     }
     private func startStage(at stage: Int) {

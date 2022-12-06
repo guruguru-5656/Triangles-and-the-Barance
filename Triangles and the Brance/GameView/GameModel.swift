@@ -21,7 +21,7 @@ class GameModel: ObservableObject {
     private var stage: Int
     let soundPlayer = SEPlayer.shared
     //スコアの生成に利用
-    var stageScore: StageScore
+    @Published var stageScore: StageScore
     //イベントの発行
     private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
     let dataStore: DataClass
@@ -71,6 +71,8 @@ class GameModel: ObservableObject {
         if stageStatus.canUseItem(cost: model.cost) {
             selectedItem = model
             soundPlayer.play(sound: .selectSound)
+        } else {
+            soundPlayer.play(sound: .cancelSound)
         }
         return
     }

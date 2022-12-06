@@ -50,8 +50,6 @@ final class TutrialData {
             return 0
         case .score:
             return 0
-        case .point:
-            return 0
         case .totalPoint:
             return  0
         }
