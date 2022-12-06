@@ -7,35 +7,169 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0426B0E427DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */; };
-		0426B0E527DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */; };
-		0426B0E727DB93FF00AC348E /* DrawTriShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawTriShape.swift */; };
-		0426B0E827DB93FF00AC348E /* DrawTriShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawTriShape.swift */; };
-		0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
-		0426B0EC27DEC0D400AC348E /* ProbabilityOfStageLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0EB27DEC0D400AC348E /* ProbabilityOfStageLayout.swift */; };
-		0426B0ED27DEC0D400AC348E /* ProbabilityOfStageLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0EB27DEC0D400AC348E /* ProbabilityOfStageLayout.swift */; };
+		0400630228182B240069FB39 /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0400630128182B240069FB39 /* ItemController.swift */; };
+		0405C7C3293084F600E6EB3B /* StageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0405C7C2293084F600E6EB3B /* StageStatus.swift */; };
+		0405C7C4293084F600E6EB3B /* StageStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0405C7C2293084F600E6EB3B /* StageStatus.swift */; };
+		040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */; };
+		040D5586286EBDBE009F0BF4 /* ActionItemShurikenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */; };
+		040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */; };
+		0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */; };
+		041D26CF287541B2009DC72B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D26CE287541B2009DC72B /* CustomButton.swift */; };
+		0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */; };
+		0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
 		0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
 		0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
+		042F84342925E3EA0092C309 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F84332925E3EA0092C309 /* ContentView.swift */; };
+		042F84352925E3EA0092C309 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F84332925E3EA0092C309 /* ContentView.swift */; };
+		042F843729262F5D0092C309 /* SEPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F843629262F5D0092C309 /* SEPlayer.swift */; };
+		042F843829262F5D0092C309 /* SEPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042F843629262F5D0092C309 /* SEPlayer.swift */; };
+		04320C5A291BEE7700FC56CC /* TutrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04320C59291BEE7700FC56CC /* TutrialData.swift */; };
+		04320C5B291BEE7700FC56CC /* TutrialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04320C59291BEE7700FC56CC /* TutrialData.swift */; };
+		0439A79F2914A2C800D273BB /* TitleUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439A79E2914A2C800D273BB /* TitleUIView.swift */; };
+		0439A7A02914A2C800D273BB /* TitleUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439A79E2914A2C800D273BB /* TitleUIView.swift */; };
+		0445252528A5F19300F3051C /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
+		0445252A28A765D200F3051C /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* SaveData.swift */; };
+		0445252B28A765D200F3051C /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252928A765D200F3051C /* SaveData.swift */; };
+		0445252D28A7660600F3051C /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252C28A7660600F3051C /* TestData.swift */; };
+		0445252E28A7660600F3051C /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252C28A7660600F3051C /* TestData.swift */; };
+		0445253028A7729100F3051C /* BaranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252F28A7729100F3051C /* BaranceViewModel.swift */; };
+		0445253128A7729100F3051C /* BaranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0445252F28A7729100F3051C /* BaranceViewModel.swift */; };
+		0445253328A7766900F3051C /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42E27FFF64C00D96CED /* GameModel.swift */; };
+		0445253628A7767C00F3051C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
+		0445253728A7768500F3051C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121A327D2187600936E2C /* GameView.swift */; };
+		0445253828A7768800F3051C /* StageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B127D21B1200936E2C /* StageView.swift */; };
+		0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
+		0445253A28A7768D00F3051C /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
+		0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
+		0445253C28A7769200F3051C /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
+		0445253D28A7769400F3051C /* TriangleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B327D21B5E00936E2C /* TriangleModel.swift */; };
+		0445253E28A7769600F3051C /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
+		0445253F28A7769900F3051C /* DrawTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangle.swift */; };
+		0445254028A7769B00F3051C /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
+		0445254128A7769D00F3051C /* TriangleVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */; };
+		0445254228A7769F00F3051C /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
+		0445254328A776A200F3051C /* ItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0400630128182B240069FB39 /* ItemController.swift */; };
+		0445254428A776A500F3051C /* ActionItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F127DF29EF00AC348E /* ActionItemModel.swift */; };
+		0445254528A776A800F3051C /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
+		0445254628A776AB00F3051C /* ActionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0F327DF460000AC348E /* ActionItemView.swift */; };
+		0445254728A776AE00F3051C /* ActionItemPyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItemPyramidView.swift */; };
+		0445254828A776B000F3051C /* ActionItemShurikenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */; };
+		0445254928A776B300F3051C /* ActionItemHexagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */; };
+		0445254A28A776B500F3051C /* ActionItemHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */; };
+		0445254B28A776B800F3051C /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
+		0445254D28A776C100F3051C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
+		0445254E28A776C400F3051C /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ResultView.swift */; };
+		0445254F28A776C600F3051C /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42327FAF7A300D96CED /* ResultViewModel.swift */; };
+		0445255028A776C800F3051C /* UpGradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42527FB100B00D96CED /* UpGradeView.swift */; };
+		0445255128A776CC00F3051C /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
+		0445255228A776D000F3051C /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0492952A287E934A0067E9B1 /* DescriptionView.swift */; };
+		0445255328A776D200F3051C /* UpgradeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42727FB240400D96CED /* UpgradeViewModel.swift */; };
+		0445255428A776D400F3051C /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D26CE287541B2009DC72B /* CustomButton.swift */; };
+		0445255528A776D700F3051C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A527D2187700936E2C /* Assets.xcassets */; };
+		0445255628A776DD00F3051C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A827D2187700936E2C /* Preview Assets.xcassets */; };
+		044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42127F9AA8F00D96CED /* ResultView.swift */; };
+		044AD42427FAF7A300D96CED /* ResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42327FAF7A300D96CED /* ResultViewModel.swift */; };
+		044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42527FB100B00D96CED /* UpGradeView.swift */; };
+		044AD42827FB240400D96CED /* UpgradeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42727FB240400D96CED /* UpgradeViewModel.swift */; };
+		044AD42F27FFF64C00D96CED /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044AD42E27FFF64C00D96CED /* GameModel.swift */; };
 		045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121A127D2187600936E2C /* Triangles_and_the_BranceApp.swift */; };
-		045121A427D2187600936E2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121A327D2187600936E2C /* ContentView.swift */; };
+		045121A427D2187600936E2C /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121A327D2187600936E2C /* GameView.swift */; };
 		045121A627D2187700936E2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A527D2187700936E2C /* Assets.xcassets */; };
 		045121A927D2187700936E2C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 045121A827D2187700936E2C /* Preview Assets.xcassets */; };
 		045121B227D21B1200936E2C /* StageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B127D21B1200936E2C /* StageView.swift */; };
 		045121B427D21B5E00936E2C /* TriangleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B327D21B5E00936E2C /* TriangleModel.swift */; };
 		045121B627D21BE800936E2C /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
 		045121B827D31F5000936E2C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B727D31F5000936E2C /* ColorExtension.swift */; };
-		045121BA27D43EAB00936E2C /* StageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B927D43EAB00936E2C /* StageModel.swift */; };
-		045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */; };
-		0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */; };
-		0458239327E4C62B007800AC /* ActionItem_Triforce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItem_Triforce.swift */; };
-		0458239527E54758007800AC /* TriangleTapAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleTapAction.swift */; };
-		0458239727E59A9D007800AC /* ActionItem_TriforceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */; };
-		0458239927E7095D007800AC /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239827E7095D007800AC /* ContentViewModel.swift */; };
+		0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458236D27E2C542007800AC /* DrawTriangle.swift */; };
+		0458239327E4C62B007800AC /* ActionItemPyramidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239227E4C62B007800AC /* ActionItemPyramidView.swift */; };
+		0458239527E54758007800AC /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
 		0458239B27E72A3A007800AC /* BaranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239A27E72A3A007800AC /* BaranceView.swift */; };
+		046F3B6B28D1C256000D2087 /* marimba_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6328D1C255000D2087 /* marimba_1.mp3 */; };
+		046F3B6C28D1C256000D2087 /* marimba_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6328D1C255000D2087 /* marimba_1.mp3 */; };
+		046F3B6D28D1C256000D2087 /* marimba_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6428D1C255000D2087 /* marimba_3.mp3 */; };
+		046F3B6E28D1C256000D2087 /* marimba_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6428D1C255000D2087 /* marimba_3.mp3 */; };
+		046F3B6F28D1C256000D2087 /* marimba_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6528D1C255000D2087 /* marimba_4.mp3 */; };
+		046F3B7028D1C256000D2087 /* marimba_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6528D1C255000D2087 /* marimba_4.mp3 */; };
+		046F3B7128D1C256000D2087 /* marimba_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6628D1C255000D2087 /* marimba_7.mp3 */; };
+		046F3B7228D1C256000D2087 /* marimba_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6628D1C255000D2087 /* marimba_7.mp3 */; };
+		046F3B7328D1C256000D2087 /* marimba_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6728D1C255000D2087 /* marimba_8.mp3 */; };
+		046F3B7428D1C256000D2087 /* marimba_8.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6728D1C255000D2087 /* marimba_8.mp3 */; };
+		046F3B7528D1C256000D2087 /* marimba_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6828D1C255000D2087 /* marimba_6.mp3 */; };
+		046F3B7628D1C256000D2087 /* marimba_6.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6828D1C255000D2087 /* marimba_6.mp3 */; };
+		046F3B7728D1C256000D2087 /* marimba_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6928D1C255000D2087 /* marimba_5.mp3 */; };
+		046F3B7828D1C256000D2087 /* marimba_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6928D1C255000D2087 /* marimba_5.mp3 */; };
+		046F3B7928D1C256000D2087 /* marimba_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6A28D1C256000D2087 /* marimba_2.mp3 */; };
+		046F3B7A28D1C256000D2087 /* marimba_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B6A28D1C256000D2087 /* marimba_2.mp3 */; };
+		046F3B7C28D1C2A5000D2087 /* itemUsed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B7B28D1C2A5000D2087 /* itemUsed.mp3 */; };
+		046F3B7D28D1C2A5000D2087 /* itemUsed.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B7B28D1C2A5000D2087 /* itemUsed.mp3 */; };
+		046F3B8228D1C6EE000D2087 /* clearSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8128D1C6EE000D2087 /* clearSound.mp3 */; };
+		046F3B8328D1C6EE000D2087 /* clearSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8128D1C6EE000D2087 /* clearSound.mp3 */; };
+		046F3B8D28D2F8AB000D2087 /* decideSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8628D2F8AB000D2087 /* decideSound.mp3 */; };
+		046F3B8E28D2F8AB000D2087 /* decideSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8628D2F8AB000D2087 /* decideSound.mp3 */; };
+		046F3B9128D2F8AB000D2087 /* cancelSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8828D2F8AB000D2087 /* cancelSound.mp3 */; };
+		046F3B9228D2F8AB000D2087 /* cancelSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B8828D2F8AB000D2087 /* cancelSound.mp3 */; };
+		046F3B9428D2FBB0000D2087 /* upgradeSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B9328D2FBB0000D2087 /* upgradeSound.mp3 */; };
+		046F3B9528D2FBB0000D2087 /* upgradeSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B9328D2FBB0000D2087 /* upgradeSound.mp3 */; };
+		046F3B9A28D30103000D2087 /* gameOverSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B9928D30103000D2087 /* gameOverSound.mp3 */; };
+		046F3B9B28D30103000D2087 /* gameOverSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B9928D30103000D2087 /* gameOverSound.mp3 */; };
+		046F3BA928D303D4000D2087 /* selectSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3BA828D303D4000D2087 /* selectSound.mp3 */; };
+		046F3BAA28D303D4000D2087 /* selectSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3BA828D303D4000D2087 /* selectSound.mp3 */; };
+		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
+		0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
+		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
+		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
+		0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0492952A287E934A0067E9B1 /* DescriptionView.swift */; };
+		049543CC29221DAB00A2022D /* TutrialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543CB29221DAB00A2022D /* TutrialViewModel.swift */; };
+		049543CD29221DAB00A2022D /* TutrialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543CB29221DAB00A2022D /* TutrialViewModel.swift */; };
+		049543CF2922227800A2022D /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543CE2922227800A2022D /* PopUpView.swift */; };
+		049543D02922227800A2022D /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543CE2922227800A2022D /* PopUpView.swift */; };
+		049543D22922427800A2022D /* TutrialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543D12922427800A2022D /* TutrialView.swift */; };
+		049543D32922427800A2022D /* TutrialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543D12922427800A2022D /* TutrialView.swift */; };
+		049543D5292247ED00A2022D /* TutrialCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543D4292247ED00A2022D /* TutrialCoverView.swift */; };
+		049543D6292247ED00A2022D /* TutrialCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543D4292247ED00A2022D /* TutrialCoverView.swift */; };
+		049543DE2922489900A2022D /* TutrialViewSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543DD2922489900A2022D /* TutrialViewSpace.swift */; };
+		049543DF2922489900A2022D /* TutrialViewSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049543DD2922489900A2022D /* TutrialViewSpace.swift */; };
+		04AA38872931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38862931B9EF00007213 /* ButtomFramePreferenceKey.swift */; };
+		04AA38882931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38862931B9EF00007213 /* ButtomFramePreferenceKey.swift */; };
+		04AA38A62935A0D700007213 /* StageScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38A52935A0D700007213 /* StageScore.swift */; };
+		04AA38A72935A0D700007213 /* StageScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38A52935A0D700007213 /* StageScore.swift */; };
+		04AA38A92935F45600007213 /* DataProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38A82935F45600007213 /* DataProtocols.swift */; };
+		04AA38AA2935F45600007213 /* DataProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AA38A82935F45600007213 /* DataProtocols.swift */; };
+		04BD7AEB290158C2001AE3A8 /* endingBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */; };
+		04BD7AEC290158C2001AE3A8 /* endingBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */; };
+		04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
+		04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
+		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
+		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
+		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
+		04EB8A1929389D4500B5CE3D /* HighScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1829389D4500B5CE3D /* HighScoreView.swift */; };
+		04EB8A1A29389D4500B5CE3D /* HighScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1829389D4500B5CE3D /* HighScoreView.swift */; };
+		04EB8A1C2938A79900B5CE3D /* HexagonMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */; };
+		04EB8A1D2938A79900B5CE3D /* HexagonMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */; };
+		04EB8A1F2938B09300B5CE3D /* TriangleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1E2938B09300B5CE3D /* TriangleButtonView.swift */; };
+		04EB8A202938B09300B5CE3D /* TriangleButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1E2938B09300B5CE3D /* TriangleButtonView.swift */; };
+		04EB8A22293A174800B5CE3D /* MainMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A21293A174800B5CE3D /* MainMenuModel.swift */; };
+		04EB8A23293A174800B5CE3D /* MainMenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A21293A174800B5CE3D /* MainMenuModel.swift */; };
+		04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F0B027280AFA4900D1172C /* BaranceCircleView.swift */; };
+		04F4291E292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */; };
+		04F4291F292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */; };
+		04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */; };
+		04F42922292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */; };
+		04FDE71E293AD61F00A00222 /* BGMPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71D293AD61F00A00222 /* BGMPlayer.swift */; };
+		04FDE720293AD94200A00222 /* SoundSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71F293AD94200A00222 /* SoundSettingView.swift */; };
+		04FDE721293AD94200A00222 /* SoundSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE71F293AD94200A00222 /* SoundSettingView.swift */; };
+		04FDE726293D921300A00222 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE725293D921300A00222 /* stageBGM.mp3 */; };
+		04FDE727293D921300A00222 /* stageBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE725293D921300A00222 /* stageBGM.mp3 */; };
+		04FDE72C293D93B800A00222 /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE72B293D93B800A00222 /* titleBGM.mp3 */; };
+		04FDE72D293D93B800A00222 /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE72B293D93B800A00222 /* titleBGM.mp3 */; };
+		04FDE72F293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
+		04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
+		04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
+		04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		045121C327D44DB300936E2C /* PBXContainerItemProxy */ = {
+		0414EF4C28910E2B00996F55 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0451219627D2187600936E2C /* Project object */;
 			proxyType = 1;
@@ -45,40 +179,100 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriVertexCoordinate.swift; sourceTree = "<group>"; };
-		0426B0E627DB93FF00AC348E /* DrawTriShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriShape.swift; sourceTree = "<group>"; };
-		0426B0EB27DEC0D400AC348E /* ProbabilityOfStageLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProbabilityOfStageLayout.swift; sourceTree = "<group>"; };
+		0400630128182B240069FB39 /* ItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemController.swift; sourceTree = "<group>"; };
+		0405C7C2293084F600E6EB3B /* StageStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageStatus.swift; sourceTree = "<group>"; };
+		040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHexagonView.swift; sourceTree = "<group>"; };
+		040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemShurikenView.swift; sourceTree = "<group>"; };
+		040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHexagramView.swift; sourceTree = "<group>"; };
+		0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
+		041D26CE287541B2009DC72B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleVertexCoordinate.swift; sourceTree = "<group>"; };
+		0426B0E627DB93FF00AC348E /* DrawStageShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawStageShape.swift; sourceTree = "<group>"; };
 		0426B0F127DF29EF00AC348E /* ActionItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemModel.swift; sourceTree = "<group>"; };
 		0426B0F327DF460000AC348E /* ActionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemView.swift; sourceTree = "<group>"; };
+		042F84332925E3EA0092C309 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		042F843629262F5D0092C309 /* SEPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SEPlayer.swift; sourceTree = "<group>"; };
+		04320C59291BEE7700FC56CC /* TutrialData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutrialData.swift; sourceTree = "<group>"; };
+		0439A79E2914A2C800D273BB /* TitleUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleUIView.swift; sourceTree = "<group>"; };
+		0445252928A765D200F3051C /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
+		0445252C28A7660600F3051C /* TestData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
+		0445252F28A7729100F3051C /* BaranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceViewModel.swift; sourceTree = "<group>"; };
+		044AD42127F9AA8F00D96CED /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		044AD42327FAF7A300D96CED /* ResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultViewModel.swift; sourceTree = "<group>"; };
+		044AD42527FB100B00D96CED /* UpGradeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpGradeView.swift; sourceTree = "<group>"; };
+		044AD42727FB240400D96CED /* UpgradeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeViewModel.swift; sourceTree = "<group>"; };
+		044AD42E27FFF64C00D96CED /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		0451219E27D2187600936E2C /* Triangles and the Brance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Triangles and the Brance.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		045121A127D2187600936E2C /* Triangles_and_the_BranceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceApp.swift; sourceTree = "<group>"; };
-		045121A327D2187600936E2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		045121A327D2187600936E2C /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		045121A527D2187700936E2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		045121A827D2187700936E2C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		045121B127D21B1200936E2C /* StageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageView.swift; sourceTree = "<group>"; };
 		045121B327D21B5E00936E2C /* TriangleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleModel.swift; sourceTree = "<group>"; };
 		045121B527D21BE800936E2C /* TriangleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleView.swift; sourceTree = "<group>"; };
 		045121B727D31F5000936E2C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		045121B927D43EAB00936E2C /* StageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageModel.swift; sourceTree = "<group>"; };
-		045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
-		0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangleFromCenter.swift; sourceTree = "<group>"; };
-		0458239227E4C62B007800AC /* ActionItem_Triforce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_Triforce.swift; sourceTree = "<group>"; };
-		0458239427E54758007800AC /* TriangleTapAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleTapAction.swift; sourceTree = "<group>"; };
-		0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItem_TriforceView.swift; sourceTree = "<group>"; };
-		0458239827E7095D007800AC /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
+		0458236D27E2C542007800AC /* DrawTriangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawTriangle.swift; sourceTree = "<group>"; };
+		0458239227E4C62B007800AC /* ActionItemPyramidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemPyramidView.swift; sourceTree = "<group>"; };
+		0458239427E54758007800AC /* TriangleContloller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleContloller.swift; sourceTree = "<group>"; };
 		0458239A27E72A3A007800AC /* BaranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceView.swift; sourceTree = "<group>"; };
+		046F3B6328D1C255000D2087 /* marimba_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_1.mp3; sourceTree = "<group>"; };
+		046F3B6428D1C255000D2087 /* marimba_3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_3.mp3; sourceTree = "<group>"; };
+		046F3B6528D1C255000D2087 /* marimba_4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_4.mp3; sourceTree = "<group>"; };
+		046F3B6628D1C255000D2087 /* marimba_7.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_7.mp3; sourceTree = "<group>"; };
+		046F3B6728D1C255000D2087 /* marimba_8.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_8.mp3; sourceTree = "<group>"; };
+		046F3B6828D1C255000D2087 /* marimba_6.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_6.mp3; sourceTree = "<group>"; };
+		046F3B6928D1C255000D2087 /* marimba_5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_5.mp3; sourceTree = "<group>"; };
+		046F3B6A28D1C256000D2087 /* marimba_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = marimba_2.mp3; sourceTree = "<group>"; };
+		046F3B7B28D1C2A5000D2087 /* itemUsed.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = itemUsed.mp3; sourceTree = "<group>"; };
+		046F3B8128D1C6EE000D2087 /* clearSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = clearSound.mp3; sourceTree = "<group>"; };
+		046F3B8628D2F8AB000D2087 /* decideSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = decideSound.mp3; sourceTree = "<group>"; };
+		046F3B8828D2F8AB000D2087 /* cancelSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cancelSound.mp3; sourceTree = "<group>"; };
+		046F3B9328D2FBB0000D2087 /* upgradeSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = upgradeSound.mp3; sourceTree = "<group>"; };
+		046F3B9928D30103000D2087 /* gameOverSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverSound.mp3; sourceTree = "<group>"; };
+		046F3BA828D303D4000D2087 /* selectSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = selectSound.mp3; sourceTree = "<group>"; };
+		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
+		0470808D288BAB11001C0606 /* ActionItemHorizon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHorizon.swift; sourceTree = "<group>"; };
+		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
+		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
+		0492952A287E934A0067E9B1 /* DescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionView.swift; sourceTree = "<group>"; };
+		049543CB29221DAB00A2022D /* TutrialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutrialViewModel.swift; sourceTree = "<group>"; };
+		049543CE2922227800A2022D /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
+		049543D12922427800A2022D /* TutrialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutrialView.swift; sourceTree = "<group>"; };
+		049543D4292247ED00A2022D /* TutrialCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutrialCoverView.swift; sourceTree = "<group>"; };
+		049543DD2922489900A2022D /* TutrialViewSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutrialViewSpace.swift; sourceTree = "<group>"; };
+		04AA38862931B9EF00007213 /* ButtomFramePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtomFramePreferenceKey.swift; sourceTree = "<group>"; };
+		04AA38A52935A0D700007213 /* StageScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StageScore.swift; sourceTree = "<group>"; };
+		04AA38A82935F45600007213 /* DataProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProtocols.swift; sourceTree = "<group>"; };
+		04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = endingBGM.mp3; sourceTree = "<group>"; };
+		04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverBGM.mp3; sourceTree = "<group>"; };
+		04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeDetaiilView.swift; sourceTree = "<group>"; };
+		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
+		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
+		04EB8A1829389D4500B5CE3D /* HighScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreView.swift; sourceTree = "<group>"; };
+		04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexagonMenuView.swift; sourceTree = "<group>"; };
+		04EB8A1E2938B09300B5CE3D /* TriangleButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleButtonView.swift; sourceTree = "<group>"; };
+		04EB8A21293A174800B5CE3D /* MainMenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuModel.swift; sourceTree = "<group>"; };
+		04F0B027280AFA4900D1172C /* BaranceCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaranceCircleView.swift; sourceTree = "<group>"; };
+		04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHourglassView.swift; sourceTree = "<group>"; };
+		04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemTriHexagonView.swift; sourceTree = "<group>"; };
+		04FDE71D293AD61F00A00222 /* BGMPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BGMPlayer.swift; sourceTree = "<group>"; };
+		04FDE71F293AD94200A00222 /* SoundSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSettingView.swift; sourceTree = "<group>"; };
+		04FDE725293D921300A00222 /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
+		04FDE72B293D93B800A00222 /* titleBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = titleBGM.mp3; sourceTree = "<group>"; };
+		04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUpgradableButtonView.swift; sourceTree = "<group>"; };
+		04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreDifferenceTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0451219B27D2187600936E2C /* Frameworks */ = {
+		0414EF4528910E2B00996F55 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		045121BC27D44DB300936E2C /* Frameworks */ = {
+		0451219B27D2187600936E2C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -88,22 +282,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0414EF4928910E2B00996F55 /* Triangles and the BranceTests */ = {
+			isa = PBXGroup;
+			children = (
+				0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */,
+			);
+			path = "Triangles and the BranceTests";
+			sourceTree = "<group>";
+		};
 		0426B0E927DC48AE00AC348E /* DrawShape */ = {
 			isa = PBXGroup;
 			children = (
-				0458236D27E2C542007800AC /* DrawTriangleFromCenter.swift */,
-				0426B0E627DB93FF00AC348E /* DrawTriShape.swift */,
-				0458239A27E72A3A007800AC /* BaranceView.swift */,
-				0426B0E327DABD1A00AC348E /* TriVertexCoordinate.swift */,
+				0426B0E627DB93FF00AC348E /* DrawStageShape.swift */,
+				04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */,
+				046FB85327F19D8600854EFE /* BackgroundRectangle.swift */,
 			);
 			path = DrawShape;
+			sourceTree = "<group>";
+		};
+		044AD42B27FEBD0E00D96CED /* ResultViews */ = {
+			isa = PBXGroup;
+			children = (
+				044AD42127F9AA8F00D96CED /* ResultView.swift */,
+				044AD42327FAF7A300D96CED /* ResultViewModel.swift */,
+				044AD42527FB100B00D96CED /* UpGradeView.swift */,
+				04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */,
+				044AD42727FB240400D96CED /* UpgradeViewModel.swift */,
+				04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */,
+				0492952A287E934A0067E9B1 /* DescriptionView.swift */,
+				041D26CE287541B2009DC72B /* CustomButton.swift */,
+			);
+			path = ResultViews;
+			sourceTree = "<group>";
+		};
+		044AD4342806D3F600D96CED /* Triangles */ = {
+			isa = PBXGroup;
+			children = (
+				045121B527D21BE800936E2C /* TriangleView.swift */,
+				0458239427E54758007800AC /* TriangleContloller.swift */,
+				045121B327D21B5E00936E2C /* TriangleModel.swift */,
+				0458236D27E2C542007800AC /* DrawTriangle.swift */,
+				04929526287D77EB0067E9B1 /* TriangleField.swift */,
+				0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */,
+				04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */,
+			);
+			path = Triangles;
 			sourceTree = "<group>";
 		};
 		0451219527D2187600936E2C = {
 			isa = PBXGroup;
 			children = (
 				045121A027D2187600936E2C /* Triangles and the Brance */,
-				045121C027D44DB300936E2C /* Triangles and the BranceTests */,
+				0414EF4928910E2B00996F55 /* Triangles and the BranceTests */,
 				0451219F27D2187600936E2C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,7 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				0451219E27D2187600936E2C /* Triangles and the Brance.app */,
-				045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */,
+				0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -121,14 +351,19 @@
 			isa = PBXGroup;
 			children = (
 				045121A127D2187600936E2C /* Triangles_and_the_BranceApp.swift */,
-				0458237027E41E25007800AC /* View Models */,
-				0458236F27E41E0A007800AC /* Views */,
-				0426B0E927DC48AE00AC348E /* DrawShape */,
-				045121B727D31F5000936E2C /* ColorExtension.swift */,
+				0458236F27E41E0A007800AC /* GameView */,
+				04EB8A24293A176200B5CE3D /* MainMenu */,
+				049543CA29221D1A00A2022D /* Tutrial */,
+				044AD4342806D3F600D96CED /* Triangles */,
 				0458237127E45223007800AC /* ActionItem */,
-				0426B0EB27DEC0D400AC348E /* ProbabilityOfStageLayout.swift */,
-				045121A527D2187700936E2C /* Assets.xcassets */,
+				04F0B026280AFA0D00D1172C /* BaranceView */,
+				044AD42B27FEBD0E00D96CED /* ResultViews */,
+				0426B0E927DC48AE00AC348E /* DrawShape */,
+				04EB8A26293A206A00B5CE3D /* Data */,
+				04EB8A25293A202F00B5CE3D /* Sound */,
+				046F3AAE28C736D4000D2087 /* SoundResource */,
 				045121A727D2187700936E2C /* Preview Content */,
+				045121A527D2187700936E2C /* Assets.xcassets */,
 			);
 			path = "Triangles and the Brance";
 			sourceTree = "<group>";
@@ -141,49 +376,142 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		045121C027D44DB300936E2C /* Triangles and the BranceTests */ = {
+		0458236F27E41E0A007800AC /* GameView */ = {
 			isa = PBXGroup;
 			children = (
-				045121C127D44DB300936E2C /* Triangles_and_the_BranceTests.swift */,
-			);
-			path = "Triangles and the BranceTests";
-			sourceTree = "<group>";
-		};
-		0458236F27E41E0A007800AC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				045121A327D2187600936E2C /* ContentView.swift */,
+				045121A327D2187600936E2C /* GameView.swift */,
 				045121B127D21B1200936E2C /* StageView.swift */,
-				045121B527D21BE800936E2C /* TriangleView.swift */,
-				0458239627E59A9D007800AC /* ActionItem_TriforceView.swift */,
+				044AD42E27FFF64C00D96CED /* GameModel.swift */,
+				0405C7C2293084F600E6EB3B /* StageStatus.swift */,
+				04AA38A52935A0D700007213 /* StageScore.swift */,
+				045121B727D31F5000936E2C /* ColorExtension.swift */,
 			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		0458237027E41E25007800AC /* View Models */ = {
-			isa = PBXGroup;
-			children = (
-				045121B927D43EAB00936E2C /* StageModel.swift */,
-				0458239427E54758007800AC /* TriangleTapAction.swift */,
-				045121B327D21B5E00936E2C /* TriangleModel.swift */,
-				0458239827E7095D007800AC /* ContentViewModel.swift */,
-			);
-			path = "View Models";
+			path = GameView;
 			sourceTree = "<group>";
 		};
 		0458237127E45223007800AC /* ActionItem */ = {
 			isa = PBXGroup;
 			children = (
-				0426B0F327DF460000AC348E /* ActionItemView.swift */,
-				0458239227E4C62B007800AC /* ActionItem_Triforce.swift */,
+				0400630128182B240069FB39 /* ItemController.swift */,
 				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
+				04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */,
+				04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */,
+				0426B0F327DF460000AC348E /* ActionItemView.swift */,
+				04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */,
+				04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */,
+				0458239227E4C62B007800AC /* ActionItemPyramidView.swift */,
+				040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */,
+				040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */,
+				040D5583286AC827009F0BF4 /* ActionItemHexagonView.swift */,
+				0470808D288BAB11001C0606 /* ActionItemHorizon.swift */,
 			);
 			path = ActionItem;
+			sourceTree = "<group>";
+		};
+		046F3AAE28C736D4000D2087 /* SoundResource */ = {
+			isa = PBXGroup;
+			children = (
+				046F3BA828D303D4000D2087 /* selectSound.mp3 */,
+				046F3B7B28D1C2A5000D2087 /* itemUsed.mp3 */,
+				046F3B8128D1C6EE000D2087 /* clearSound.mp3 */,
+				046F3B6328D1C255000D2087 /* marimba_1.mp3 */,
+				046F3B6A28D1C256000D2087 /* marimba_2.mp3 */,
+				046F3B6428D1C255000D2087 /* marimba_3.mp3 */,
+				046F3B6528D1C255000D2087 /* marimba_4.mp3 */,
+				046F3B6928D1C255000D2087 /* marimba_5.mp3 */,
+				046F3B6828D1C255000D2087 /* marimba_6.mp3 */,
+				046F3B6628D1C255000D2087 /* marimba_7.mp3 */,
+				046F3B6728D1C255000D2087 /* marimba_8.mp3 */,
+				046F3B9328D2FBB0000D2087 /* upgradeSound.mp3 */,
+				046F3B8828D2F8AB000D2087 /* cancelSound.mp3 */,
+				046F3B8628D2F8AB000D2087 /* decideSound.mp3 */,
+				046F3B9928D30103000D2087 /* gameOverSound.mp3 */,
+				04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */,
+				04FDE725293D921300A00222 /* stageBGM.mp3 */,
+				04FDE72B293D93B800A00222 /* titleBGM.mp3 */,
+				04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */,
+			);
+			path = SoundResource;
+			sourceTree = "<group>";
+		};
+		049543CA29221D1A00A2022D /* Tutrial */ = {
+			isa = PBXGroup;
+			children = (
+				049543D12922427800A2022D /* TutrialView.swift */,
+				049543CB29221DAB00A2022D /* TutrialViewModel.swift */,
+				04AA38862931B9EF00007213 /* ButtomFramePreferenceKey.swift */,
+				049543D4292247ED00A2022D /* TutrialCoverView.swift */,
+				049543DD2922489900A2022D /* TutrialViewSpace.swift */,
+			);
+			path = Tutrial;
+			sourceTree = "<group>";
+		};
+		04EB8A24293A176200B5CE3D /* MainMenu */ = {
+			isa = PBXGroup;
+			children = (
+				042F84332925E3EA0092C309 /* ContentView.swift */,
+				0439A79E2914A2C800D273BB /* TitleUIView.swift */,
+				04EB8A21293A174800B5CE3D /* MainMenuModel.swift */,
+				04EB8A1B2938A79900B5CE3D /* HexagonMenuView.swift */,
+				04EB8A1E2938B09300B5CE3D /* TriangleButtonView.swift */,
+				04EB8A1829389D4500B5CE3D /* HighScoreView.swift */,
+				049543CE2922227800A2022D /* PopUpView.swift */,
+			);
+			path = MainMenu;
+			sourceTree = "<group>";
+		};
+		04EB8A25293A202F00B5CE3D /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				04FDE71D293AD61F00A00222 /* BGMPlayer.swift */,
+				042F843629262F5D0092C309 /* SEPlayer.swift */,
+				04FDE71F293AD94200A00222 /* SoundSettingView.swift */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		04EB8A26293A206A00B5CE3D /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				04AA38A82935F45600007213 /* DataProtocols.swift */,
+				0445252928A765D200F3051C /* SaveData.swift */,
+				0445252C28A7660600F3051C /* TestData.swift */,
+				04320C59291BEE7700FC56CC /* TutrialData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		04F0B026280AFA0D00D1172C /* BaranceView */ = {
+			isa = PBXGroup;
+			children = (
+				0458239A27E72A3A007800AC /* BaranceView.swift */,
+				0445252F28A7729100F3051C /* BaranceViewModel.swift */,
+				04F0B027280AFA4900D1172C /* BaranceCircleView.swift */,
+			);
+			path = BaranceView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0414EF4728910E2B00996F55 /* Triangles and the BranceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0414EF4E28910E2B00996F55 /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */;
+			buildPhases = (
+				0414EF4428910E2B00996F55 /* Sources */,
+				0414EF4528910E2B00996F55 /* Frameworks */,
+				0414EF4628910E2B00996F55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0414EF4D28910E2B00996F55 /* PBXTargetDependency */,
+			);
+			name = "Triangles and the BranceTests";
+			productName = "Triangles and the BranceTests";
+			productReference = 0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		0451219D27D2187600936E2C /* Triangles and the Brance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 045121AC27D2187700936E2C /* Build configuration list for PBXNativeTarget "Triangles and the Brance" */;
@@ -201,24 +529,6 @@
 			productReference = 0451219E27D2187600936E2C /* Triangles and the Brance.app */;
 			productType = "com.apple.product-type.application";
 		};
-		045121BE27D44DB300936E2C /* Triangles and the BranceTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 045121C527D44DB300936E2C /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */;
-			buildPhases = (
-				045121BB27D44DB300936E2C /* Sources */,
-				045121BC27D44DB300936E2C /* Frameworks */,
-				045121BD27D44DB300936E2C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				045121C427D44DB300936E2C /* PBXTargetDependency */,
-			);
-			name = "Triangles and the BranceTests";
-			productName = "Triangles and the BranceTests";
-			productReference = 045121BF27D44DB300936E2C /* Triangles and the BranceTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -226,15 +536,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					0414EF4728910E2B00996F55 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 0451219D27D2187600936E2C;
+					};
 					0451219D27D2187600936E2C = {
 						CreatedOnToolsVersion = 13.2.1;
-					};
-					045121BE27D44DB300936E2C = {
-						CreatedOnToolsVersion = 13.2.1;
-						TestTargetID = 0451219D27D2187600936E2C;
 					};
 				};
 			};
@@ -252,79 +562,257 @@
 			projectRoot = "";
 			targets = (
 				0451219D27D2187600936E2C /* Triangles and the Brance */,
-				045121BE27D44DB300936E2C /* Triangles and the BranceTests */,
+				0414EF4728910E2B00996F55 /* Triangles and the BranceTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0414EF4628910E2B00996F55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				046F3B9228D2F8AB000D2087 /* cancelSound.mp3 in Resources */,
+				046F3BAA28D303D4000D2087 /* selectSound.mp3 in Resources */,
+				046F3B8E28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
+				046F3B7828D1C256000D2087 /* marimba_5.mp3 in Resources */,
+				046F3B7428D1C256000D2087 /* marimba_8.mp3 in Resources */,
+				046F3B6C28D1C256000D2087 /* marimba_1.mp3 in Resources */,
+				04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
+				046F3B9528D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
+				04FDE72D293D93B800A00222 /* titleBGM.mp3 in Resources */,
+				046F3B7628D1C256000D2087 /* marimba_6.mp3 in Resources */,
+				046F3B7028D1C256000D2087 /* marimba_4.mp3 in Resources */,
+				046F3B8328D1C6EE000D2087 /* clearSound.mp3 in Resources */,
+				046F3B7D28D1C2A5000D2087 /* itemUsed.mp3 in Resources */,
+				04FDE727293D921300A00222 /* stageBGM.mp3 in Resources */,
+				046F3B7A28D1C256000D2087 /* marimba_2.mp3 in Resources */,
+				046F3B7228D1C256000D2087 /* marimba_7.mp3 in Resources */,
+				046F3B6E28D1C256000D2087 /* marimba_3.mp3 in Resources */,
+				04BD7AEC290158C2001AE3A8 /* endingBGM.mp3 in Resources */,
+				0445255628A776DD00F3051C /* Preview Assets.xcassets in Resources */,
+				046F3B9B28D30103000D2087 /* gameOverSound.mp3 in Resources */,
+				0445255528A776D700F3051C /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0451219C27D2187600936E2C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				046F3B9128D2F8AB000D2087 /* cancelSound.mp3 in Resources */,
+				046F3BA928D303D4000D2087 /* selectSound.mp3 in Resources */,
+				046F3B8D28D2F8AB000D2087 /* decideSound.mp3 in Resources */,
+				046F3B7728D1C256000D2087 /* marimba_5.mp3 in Resources */,
+				046F3B7328D1C256000D2087 /* marimba_8.mp3 in Resources */,
+				046F3B6B28D1C256000D2087 /* marimba_1.mp3 in Resources */,
+				04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */,
+				046F3B9428D2FBB0000D2087 /* upgradeSound.mp3 in Resources */,
+				04FDE72C293D93B800A00222 /* titleBGM.mp3 in Resources */,
+				046F3B7528D1C256000D2087 /* marimba_6.mp3 in Resources */,
+				046F3B6F28D1C256000D2087 /* marimba_4.mp3 in Resources */,
+				046F3B8228D1C6EE000D2087 /* clearSound.mp3 in Resources */,
+				046F3B7C28D1C2A5000D2087 /* itemUsed.mp3 in Resources */,
+				04FDE726293D921300A00222 /* stageBGM.mp3 in Resources */,
+				046F3B7928D1C256000D2087 /* marimba_2.mp3 in Resources */,
+				046F3B7128D1C256000D2087 /* marimba_7.mp3 in Resources */,
+				046F3B6D28D1C256000D2087 /* marimba_3.mp3 in Resources */,
+				04BD7AEB290158C2001AE3A8 /* endingBGM.mp3 in Resources */,
 				045121A927D2187700936E2C /* Preview Assets.xcassets in Resources */,
+				046F3B9A28D30103000D2087 /* gameOverSound.mp3 in Resources */,
 				045121A627D2187700936E2C /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		045121BD27D44DB300936E2C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0414EF4428910E2B00996F55 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04EB8A1A29389D4500B5CE3D /* HighScoreView.swift in Sources */,
+				0445254A28A776B500F3051C /* ActionItemHexagonView.swift in Sources */,
+				04EB8A202938B09300B5CE3D /* TriangleButtonView.swift in Sources */,
+				04FDE721293AD94200A00222 /* SoundSettingView.swift in Sources */,
+				0445254928A776B300F3051C /* ActionItemHexagramView.swift in Sources */,
+				0445255128A776CC00F3051C /* UpgradeDetaiilView.swift in Sources */,
+				0445253328A7766900F3051C /* GameModel.swift in Sources */,
+				0405C7C4293084F600E6EB3B /* StageStatus.swift in Sources */,
+				0445254028A7769B00F3051C /* TriangleField.swift in Sources */,
+				0445253828A7768800F3051C /* StageView.swift in Sources */,
+				0445253A28A7768D00F3051C /* PolygonTangentToCircle.swift in Sources */,
+				04320C5B291BEE7700FC56CC /* TutrialData.swift in Sources */,
+				049543D02922227800A2022D /* PopUpView.swift in Sources */,
+				0445253728A7768500F3051C /* GameView.swift in Sources */,
+				04F42922292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
+				0445254B28A776B800F3051C /* ActionItemHorizon.swift in Sources */,
+				0445253E28A7769600F3051C /* TriangleView.swift in Sources */,
+				0445255028A776C800F3051C /* UpGradeView.swift in Sources */,
+				0445255328A776D200F3051C /* UpgradeViewModel.swift in Sources */,
+				0445254E28A776C400F3051C /* ResultView.swift in Sources */,
+				0445255228A776D000F3051C /* DescriptionView.swift in Sources */,
+				0445254828A776B000F3051C /* ActionItemShurikenView.swift in Sources */,
+				0445255428A776D400F3051C /* CustomButton.swift in Sources */,
+				0445254228A7769F00F3051C /* TriangleCenterCoordinate.swift in Sources */,
+				0445254328A776A200F3051C /* ItemController.swift in Sources */,
+				0445254428A776A500F3051C /* ActionItemModel.swift in Sources */,
+				0445254128A7769D00F3051C /* TriangleVertexCoordinate.swift in Sources */,
+				0439A7A02914A2C800D273BB /* TitleUIView.swift in Sources */,
+				0445253F28A7769900F3051C /* DrawTriangle.swift in Sources */,
+				04EB8A23293A174800B5CE3D /* MainMenuModel.swift in Sources */,
+				0445253C28A7769200F3051C /* TriangleContloller.swift in Sources */,
+				049543D32922427800A2022D /* TutrialView.swift in Sources */,
+				0445253D28A7769400F3051C /* TriangleModel.swift in Sources */,
+				0445254528A776A800F3051C /* ActionItemWholeView.swift in Sources */,
+				049543CD29221DAB00A2022D /* TutrialViewModel.swift in Sources */,
+				0445254F28A776C600F3051C /* ResultViewModel.swift in Sources */,
+				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
+				04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
+				0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */,
+				0445252B28A765D200F3051C /* SaveData.swift in Sources */,
+				042F843829262F5D0092C309 /* SEPlayer.swift in Sources */,
+				04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */,
+				0445252E28A7660600F3051C /* TestData.swift in Sources */,
+				0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */,
+				0445254628A776AB00F3051C /* ActionItemView.swift in Sources */,
+				0445254728A776AE00F3051C /* ActionItemPyramidView.swift in Sources */,
+				0445252528A5F19300F3051C /* BaranceView.swift in Sources */,
+				04AA38882931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */,
+				049543D6292247ED00A2022D /* TutrialCoverView.swift in Sources */,
+				04F4291F292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */,
+				0445253628A7767C00F3051C /* ColorExtension.swift in Sources */,
+				04AA38A72935A0D700007213 /* StageScore.swift in Sources */,
+				042F84352925E3EA0092C309 /* ContentView.swift in Sources */,
+				0445253128A7729100F3051C /* BaranceViewModel.swift in Sources */,
+				0445254D28A776C100F3051C /* BaranceCircleView.swift in Sources */,
+				049543DF2922489900A2022D /* TutrialViewSpace.swift in Sources */,
+				04EB8A1D2938A79900B5CE3D /* HexagonMenuView.swift in Sources */,
+				04AA38AA2935F45600007213 /* DataProtocols.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0451219A27D2187600936E2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0458239327E4C62B007800AC /* ActionItem_Triforce.swift in Sources */,
-				045121BA27D43EAB00936E2C /* StageModel.swift in Sources */,
-				045121A427D2187600936E2C /* ContentView.swift in Sources */,
+				04EB8A1929389D4500B5CE3D /* HighScoreView.swift in Sources */,
+				0458239327E4C62B007800AC /* ActionItemPyramidView.swift in Sources */,
+				04EB8A1F2938B09300B5CE3D /* TriangleButtonView.swift in Sources */,
+				044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */,
+				0400630228182B240069FB39 /* ItemController.swift in Sources */,
+				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
+				0405C7C3293084F600E6EB3B /* StageStatus.swift in Sources */,
+				04FDE720293AD94200A00222 /* SoundSettingView.swift in Sources */,
+				0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */,
+				045121A427D2187600936E2C /* GameView.swift in Sources */,
+				044AD42427FAF7A300D96CED /* ResultViewModel.swift in Sources */,
+				04320C5A291BEE7700FC56CC /* TutrialData.swift in Sources */,
+				049543CF2922227800A2022D /* PopUpView.swift in Sources */,
+				04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
+				04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
+				04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
+				04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */,
+				0445252D28A7660600F3051C /* TestData.swift in Sources */,
 				0458239B27E72A3A007800AC /* BaranceView.swift in Sources */,
-				0458239927E7095D007800AC /* ContentViewModel.swift in Sources */,
+				040D5586286EBDBE009F0BF4 /* ActionItemShurikenView.swift in Sources */,
 				045121B427D21B5E00936E2C /* TriangleModel.swift in Sources */,
 				045121B227D21B1200936E2C /* StageView.swift in Sources */,
 				0426B0F427DF460000AC348E /* ActionItemView.swift in Sources */,
-				0426B0E727DB93FF00AC348E /* DrawTriShape.swift in Sources */,
+				0445252A28A765D200F3051C /* SaveData.swift in Sources */,
+				0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */,
+				044AD42227F9AA8F00D96CED /* ResultView.swift in Sources */,
+				041D26CF287541B2009DC72B /* CustomButton.swift in Sources */,
 				045121B827D31F5000936E2C /* ColorExtension.swift in Sources */,
+				0439A79F2914A2C800D273BB /* TitleUIView.swift in Sources */,
 				0426B0F227DF29EF00AC348E /* ActionItemModel.swift in Sources */,
-				0458236E27E2C542007800AC /* DrawTriangleFromCenter.swift in Sources */,
-				0426B0E427DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */,
-				0458239527E54758007800AC /* TriangleTapAction.swift in Sources */,
-				0426B0EC27DEC0D400AC348E /* ProbabilityOfStageLayout.swift in Sources */,
-				0458239727E59A9D007800AC /* ActionItem_TriforceView.swift in Sources */,
+				04EB8A22293A174800B5CE3D /* MainMenuModel.swift in Sources */,
+				04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */,
+				049543D22922427800A2022D /* TutrialView.swift in Sources */,
+				044AD42F27FFF64C00D96CED /* GameModel.swift in Sources */,
+				0445253028A7729100F3051C /* BaranceViewModel.swift in Sources */,
+				04FDE72F293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */,
+				049543CC29221DAB00A2022D /* TutrialViewModel.swift in Sources */,
+				04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */,
+				040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */,
+				0458236E27E2C542007800AC /* DrawTriangle.swift in Sources */,
+				040D5584286AC827009F0BF4 /* ActionItemHexagonView.swift in Sources */,
+				042F843729262F5D0092C309 /* SEPlayer.swift in Sources */,
+				0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */,
+				0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
+				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
+				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,
+				04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */,
+				04AA38872931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */,
+				049543D5292247ED00A2022D /* TutrialCoverView.swift in Sources */,
+				04F4291E292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */,
+				044AD42827FB240400D96CED /* UpgradeViewModel.swift in Sources */,
+				04AA38A62935A0D700007213 /* StageScore.swift in Sources */,
+				042F84342925E3EA0092C309 /* ContentView.swift in Sources */,
 				045121A227D2187600936E2C /* Triangles_and_the_BranceApp.swift in Sources */,
 				045121B627D21BE800936E2C /* TriangleView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		045121BB27D44DB300936E2C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				045121C227D44DB300936E2C /* Triangles_and_the_BranceTests.swift in Sources */,
-				0426B0E827DB93FF00AC348E /* DrawTriShape.swift in Sources */,
-				0426B0ED27DEC0D400AC348E /* ProbabilityOfStageLayout.swift in Sources */,
-				0426B0EA27DC48FF00AC348E /* TriangleView.swift in Sources */,
-				0426B0E527DABD1A00AC348E /* TriVertexCoordinate.swift in Sources */,
+				049543DE2922489900A2022D /* TutrialViewSpace.swift in Sources */,
+				04FDE71E293AD61F00A00222 /* BGMPlayer.swift in Sources */,
+				04EB8A1C2938A79900B5CE3D /* HexagonMenuView.swift in Sources */,
+				04AA38A92935F45600007213 /* DataProtocols.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		045121C427D44DB300936E2C /* PBXTargetDependency */ = {
+		0414EF4D28910E2B00996F55 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 0451219D27D2187600936E2C /* Triangles and the Brance */;
-			targetProxy = 045121C327D44DB300936E2C /* PBXContainerItemProxy */;
+			targetProxy = 0414EF4C28910E2B00996F55 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		0414EF4F28910E2B00996F55 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
+			};
+			name = Debug;
+		};
+		0414EF5028910E2B00996F55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
+			};
+			name = Release;
+		};
 		045121AA27D2187700936E2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -449,14 +937,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
-				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -464,9 +953,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-Brance";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -478,14 +970,15 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
-				DEVELOPMENT_TEAM = XGQX3VL4R8;
+				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -493,13 +986,110 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-Brance";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
-		045121C627D44DB300936E2C /* Debug */ = {
+		046F3AA528BB01DA000D2087 /* GameDesignTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = GameDesignTest;
+		};
+		046F3AA628BB01DA000D2087 /* GameDesignTest */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
+				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-Brance";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = GameDesignTest;
+		};
+		046F3AA728BB01DA000D2087 /* GameDesignTest */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -507,41 +1097,38 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = XGQX3VL4R8;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
 			};
-			name = Debug;
-		};
-		045121C727D44DB300936E2C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = XGQX3VL4R8;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.puzzle.morihonn-t.Triangles-and-the-BranceTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Triangles and the Brance.app/Triangles and the Brance";
-			};
-			name = Release;
+			name = GameDesignTest;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0414EF4E28910E2B00996F55 /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0414EF4F28910E2B00996F55 /* Debug */,
+				046F3AA728BB01DA000D2087 /* GameDesignTest */,
+				0414EF5028910E2B00996F55 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0451219927D2187600936E2C /* Build configuration list for PBXProject "Triangles and the Brance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				045121AA27D2187700936E2C /* Debug */,
+				046F3AA528BB01DA000D2087 /* GameDesignTest */,
 				045121AB27D2187700936E2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -551,16 +1138,8 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				045121AD27D2187700936E2C /* Debug */,
+				046F3AA628BB01DA000D2087 /* GameDesignTest */,
 				045121AE27D2187700936E2C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		045121C527D44DB300936E2C /* Build configuration list for PBXNativeTarget "Triangles and the BranceTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				045121C627D44DB300936E2C /* Debug */,
-				045121C727D44DB300936E2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
