@@ -32,53 +32,19 @@ struct ActionItemWholeView: View {
         GeometryReader { geometry in
             ZStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    ZStack(alignment: .bottom) {
-                        HStack(alignment: .bottom) {
-                            Spacer()
-                            Text("score: " + String(format: "%08d", gameModel.stageScore.score))
-                                .padding(.trailing)
-                                .frame(width: geometry.size.width * 0.64, height: geometry.size.width * 0.06, alignment: .trailing)
-                                .background(Color.gray)
-                                .overlay {
-                                    ScoreDifferenceTextView()
-                                        .foregroundColor(.backgroundLightGray)
-                                        .padding(.trailing)
-                                        .frame(width: geometry.size.width * 0.64, height: geometry.size.width * 0.06, alignment: .trailing)
-                                        .offset(y: geometry.size.width * -0.06)
-                                }
-                        }
-                        HStack {
-                            HStack {
-                                Image(systemName: "bolt.batteryblock")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(gameModel.currentColor.heavy)
-                                    .padding(8)
-                                    .padding(.leading, 5)
-                                Spacer()
-                                Text("\(gameModel.stageStatus.energy)")
-                                    .font(Font(UIFont.systemFont(ofSize: geometry.size.width / 15)))
-                                Spacer()
-                                ZStack {
-                                    if let text = energyDifferenceText {
-                                        Text(text)
-                                            .font(Font(UIFont.systemFont(ofSize: geometry.size.width / 20)))
-                                            .transition(.asymmetric(
-                                                insertion: .offset(y: -10).combined(with: .opacity),
-                                                removal: .opacity))
-                                    }
-                                }
-                                .frame(width: geometry.size.width * 0.1, alignment: .bottomLeading)
-                            }
-                            .background{
-                                RightCornerCutRectangle()
-                                    .foregroundColor(.backgroundLightGray)
-                            }
-                            .frame(width: geometry.size.width * 0.4, height: geometry.size.width * 0.1)
-                            Spacer()
-                        }
+                    HStack {
+                        Image(systemName: "bolt.batteryblock")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(gameModel.currentColor.heavy)
+                            .padding(8)
+                            .padding(.horizontal, geometry.size.width * 0.04)
+                        EnergyChargeDisplayView(energy: gameModel.stageStatus.energy, stageColor: gameModel.currentColor)
+                            .frame(width: geometry.size.width * 0.7)
+                        Spacer()
                     }
-                    .frame(height: geometry.size.width * 0.1)
+                    .frame(width: geometry.size.width, height: geometry.size.width * 0.1)
+                    .background(Color.backgroundLightGray)
                     ScrollView(.horizontal,showsIndicators: false) {
                         HStack {
                             ForEach($itemController.actionItems, id: \.self){ $item in

@@ -204,5 +204,12 @@ extension TriangleField {
                                                 [0, 1, 2]
                                             ]
     )
+    //エネルギー表示用
+    static let longHexagon = TriangleField(numberOfCell: 3, arrangement:
+                                            [
+                                                [Int](1...5),
+                                                [Int](0...4)
+                                            ]
+    )
 }
 

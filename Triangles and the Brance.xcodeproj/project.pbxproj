@@ -14,6 +14,8 @@
 		040D5586286EBDBE009F0BF4 /* ActionItemShurikenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5585286EBDBE009F0BF4 /* ActionItemShurikenView.swift */; };
 		040D5588286FFF95009F0BF4 /* ActionItemHexagramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */; };
 		0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */; };
+		0418E87229407C4E00514D1D /* EnergyChargeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418E87129407C4E00514D1D /* EnergyChargeDisplayView.swift */; };
+		0418E87329407C4E00514D1D /* EnergyChargeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0418E87129407C4E00514D1D /* EnergyChargeDisplayView.swift */; };
 		041D26CF287541B2009DC72B /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041D26CE287541B2009DC72B /* CustomButton.swift */; };
 		0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */; };
 		0426B0E727DB93FF00AC348E /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
@@ -40,7 +42,6 @@
 		0445253828A7768800F3051C /* StageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B127D21B1200936E2C /* StageView.swift */; };
 		0445253928A7768A00F3051C /* DrawStageShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0426B0E627DB93FF00AC348E /* DrawStageShape.swift */; };
 		0445253A28A7768D00F3051C /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
-		0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
 		0445253C28A7769200F3051C /* TriangleContloller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0458239427E54758007800AC /* TriangleContloller.swift */; };
 		0445253D28A7769400F3051C /* TriangleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B327D21B5E00936E2C /* TriangleModel.swift */; };
 		0445253E28A7769600F3051C /* TriangleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 045121B527D21BE800936E2C /* TriangleView.swift */; };
@@ -114,7 +115,6 @@
 		046F3B9B28D30103000D2087 /* gameOverSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3B9928D30103000D2087 /* gameOverSound.mp3 */; };
 		046F3BA928D303D4000D2087 /* selectSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3BA828D303D4000D2087 /* selectSound.mp3 */; };
 		046F3BAA28D303D4000D2087 /* selectSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 046F3BA828D303D4000D2087 /* selectSound.mp3 */; };
-		046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046FB85327F19D8600854EFE /* BackgroundRectangle.swift */; };
 		0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0470808D288BAB11001C0606 /* ActionItemHorizon.swift */; };
 		04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */; };
 		04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04929526287D77EB0067E9B1 /* TriangleField.swift */; };
@@ -140,6 +140,10 @@
 		04BD7AF12901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
 		04BD7AF22901644A001AE3A8 /* gameOverBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */; };
 		04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */; };
+		04D7E87A2941702F00A15599 /* TensDigitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7E8792941702F00A15599 /* TensDigitView.swift */; };
+		04D7E87B2941702F00A15599 /* TensDigitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7E8792941702F00A15599 /* TensDigitView.swift */; };
+		04D7E87D2941708800A15599 /* OnesDigitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7E87C2941708800A15599 /* OnesDigitView.swift */; };
+		04D7E87E2941708800A15599 /* OnesDigitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7E87C2941708800A15599 /* OnesDigitView.swift */; };
 		04E0197B28606CDC001D2AAE /* ActionItemWholeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */; };
 		04E019802866A22E001D2AAE /* TriangleCenterCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */; };
 		04EB8A1929389D4500B5CE3D /* HighScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB8A1829389D4500B5CE3D /* HighScoreView.swift */; };
@@ -164,8 +168,6 @@
 		04FDE72D293D93B800A00222 /* titleBGM.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 04FDE72B293D93B800A00222 /* titleBGM.mp3 */; };
 		04FDE72F293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
 		04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */; };
-		04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
-		04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +188,7 @@
 		040D5587286FFF95009F0BF4 /* ActionItemHexagramView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHexagramView.swift; sourceTree = "<group>"; };
 		0414EF4828910E2B00996F55 /* Triangles and the BranceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Triangles and the BranceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0414EF4A28910E2B00996F55 /* Triangles_and_the_BranceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triangles_and_the_BranceTests.swift; sourceTree = "<group>"; };
+		0418E87129407C4E00514D1D /* EnergyChargeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyChargeDisplayView.swift; sourceTree = "<group>"; };
 		041D26CE287541B2009DC72B /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		0426B0E327DABD1A00AC348E /* TriangleVertexCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleVertexCoordinate.swift; sourceTree = "<group>"; };
 		0426B0E627DB93FF00AC348E /* DrawStageShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawStageShape.swift; sourceTree = "<group>"; };
@@ -231,7 +234,6 @@
 		046F3B9328D2FBB0000D2087 /* upgradeSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = upgradeSound.mp3; sourceTree = "<group>"; };
 		046F3B9928D30103000D2087 /* gameOverSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverSound.mp3; sourceTree = "<group>"; };
 		046F3BA828D303D4000D2087 /* selectSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = selectSound.mp3; sourceTree = "<group>"; };
-		046FB85327F19D8600854EFE /* BackgroundRectangle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundRectangle.swift; sourceTree = "<group>"; };
 		0470808D288BAB11001C0606 /* ActionItemHorizon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemHorizon.swift; sourceTree = "<group>"; };
 		04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolygonTangentToCircle.swift; sourceTree = "<group>"; };
 		04929526287D77EB0067E9B1 /* TriangleField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleField.swift; sourceTree = "<group>"; };
@@ -247,6 +249,8 @@
 		04BD7AEA290158C2001AE3A8 /* endingBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = endingBGM.mp3; sourceTree = "<group>"; };
 		04BD7AF02901644A001AE3A8 /* gameOverBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = gameOverBGM.mp3; sourceTree = "<group>"; };
 		04C599612880201C00C0F675 /* UpgradeDetaiilView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeDetaiilView.swift; sourceTree = "<group>"; };
+		04D7E8792941702F00A15599 /* TensDigitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TensDigitView.swift; sourceTree = "<group>"; };
+		04D7E87C2941708800A15599 /* OnesDigitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnesDigitView.swift; sourceTree = "<group>"; };
 		04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemWholeView.swift; sourceTree = "<group>"; };
 		04E0197F2866A22E001D2AAE /* TriangleCenterCoordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriangleCenterCoordinate.swift; sourceTree = "<group>"; };
 		04EB8A1829389D4500B5CE3D /* HighScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighScoreView.swift; sourceTree = "<group>"; };
@@ -261,7 +265,6 @@
 		04FDE725293D921300A00222 /* stageBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stageBGM.mp3; sourceTree = "<group>"; };
 		04FDE72B293D93B800A00222 /* titleBGM.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = titleBGM.mp3; sourceTree = "<group>"; };
 		04FDE72E293DD56F00A00222 /* ShowUpgradableButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowUpgradableButtonView.swift; sourceTree = "<group>"; };
-		04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreDifferenceTextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,7 +298,6 @@
 			children = (
 				0426B0E627DB93FF00AC348E /* DrawStageShape.swift */,
 				04929523287D6FC50067E9B1 /* PolygonTangentToCircle.swift */,
-				046FB85327F19D8600854EFE /* BackgroundRectangle.swift */,
 			);
 			path = DrawShape;
 			sourceTree = "<group>";
@@ -356,6 +358,7 @@
 				049543CA29221D1A00A2022D /* Tutrial */,
 				044AD4342806D3F600D96CED /* Triangles */,
 				0458237127E45223007800AC /* ActionItem */,
+				04D7E8782941700000A15599 /* EnergyChargeView */,
 				04F0B026280AFA0D00D1172C /* BaranceView */,
 				044AD42B27FEBD0E00D96CED /* ResultViews */,
 				0426B0E927DC48AE00AC348E /* DrawShape */,
@@ -395,7 +398,6 @@
 				0400630128182B240069FB39 /* ItemController.swift */,
 				0426B0F127DF29EF00AC348E /* ActionItemModel.swift */,
 				04E0197A28606CDC001D2AAE /* ActionItemWholeView.swift */,
-				04FDE731293EE34B00A00222 /* ScoreDifferenceTextView.swift */,
 				0426B0F327DF460000AC348E /* ActionItemView.swift */,
 				04F4291D292C74EE00750AEC /* ActionItemHourglassView.swift */,
 				04F42920292DE97800750AEC /* ActionItemTriHexagonView.swift */,
@@ -444,6 +446,16 @@
 				049543DD2922489900A2022D /* TutrialViewSpace.swift */,
 			);
 			path = Tutrial;
+			sourceTree = "<group>";
+		};
+		04D7E8782941700000A15599 /* EnergyChargeView */ = {
+			isa = PBXGroup;
+			children = (
+				0418E87129407C4E00514D1D /* EnergyChargeDisplayView.swift */,
+				04D7E87C2941708800A15599 /* OnesDigitView.swift */,
+				04D7E8792941702F00A15599 /* TensDigitView.swift */,
+			);
+			path = EnergyChargeView;
 			sourceTree = "<group>";
 		};
 		04EB8A24293A176200B5CE3D /* MainMenu */ = {
@@ -661,15 +673,15 @@
 				0439A7A02914A2C800D273BB /* TitleUIView.swift in Sources */,
 				0445253F28A7769900F3051C /* DrawTriangle.swift in Sources */,
 				04EB8A23293A174800B5CE3D /* MainMenuModel.swift in Sources */,
+				04D7E87E2941708800A15599 /* OnesDigitView.swift in Sources */,
 				0445253C28A7769200F3051C /* TriangleContloller.swift in Sources */,
 				049543D32922427800A2022D /* TutrialView.swift in Sources */,
 				0445253D28A7769400F3051C /* TriangleModel.swift in Sources */,
 				0445254528A776A800F3051C /* ActionItemWholeView.swift in Sources */,
 				049543CD29221DAB00A2022D /* TutrialViewModel.swift in Sources */,
 				0445254F28A776C600F3051C /* ResultViewModel.swift in Sources */,
+				04D7E87B2941702F00A15599 /* TensDigitView.swift in Sources */,
 				0414EF4B28910E2B00996F55 /* Triangles_and_the_BranceTests.swift in Sources */,
-				04FDE733293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
-				0445253B28A7768F00F3051C /* BackgroundRectangle.swift in Sources */,
 				0445252B28A765D200F3051C /* SaveData.swift in Sources */,
 				042F843829262F5D0092C309 /* SEPlayer.swift in Sources */,
 				04FDE730293DD56F00A00222 /* ShowUpgradableButtonView.swift in Sources */,
@@ -679,6 +691,7 @@
 				0445254728A776AE00F3051C /* ActionItemPyramidView.swift in Sources */,
 				0445252528A5F19300F3051C /* BaranceView.swift in Sources */,
 				04AA38882931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */,
+				0418E87329407C4E00514D1D /* EnergyChargeDisplayView.swift in Sources */,
 				049543D6292247ED00A2022D /* TutrialCoverView.swift in Sources */,
 				04F4291F292C74EE00750AEC /* ActionItemHourglassView.swift in Sources */,
 				0445253628A7767C00F3051C /* ColorExtension.swift in Sources */,
@@ -701,16 +714,18 @@
 				04EB8A1F2938B09300B5CE3D /* TriangleButtonView.swift in Sources */,
 				044AD42627FB100B00D96CED /* UpGradeView.swift in Sources */,
 				0400630228182B240069FB39 /* ItemController.swift in Sources */,
+				04D7E87A2941702F00A15599 /* TensDigitView.swift in Sources */,
 				04F0B028280AFA4900D1172C /* BaranceCircleView.swift in Sources */,
 				0405C7C3293084F600E6EB3B /* StageStatus.swift in Sources */,
+				04D7E87D2941708800A15599 /* OnesDigitView.swift in Sources */,
 				04FDE720293AD94200A00222 /* SoundSettingView.swift in Sources */,
 				0492952B287E934A0067E9B1 /* DescriptionView.swift in Sources */,
 				045121A427D2187600936E2C /* GameView.swift in Sources */,
 				044AD42427FAF7A300D96CED /* ResultViewModel.swift in Sources */,
 				04320C5A291BEE7700FC56CC /* TutrialData.swift in Sources */,
 				049543CF2922227800A2022D /* PopUpView.swift in Sources */,
+				0418E87229407C4E00514D1D /* EnergyChargeDisplayView.swift in Sources */,
 				04929524287D6FC50067E9B1 /* PolygonTangentToCircle.swift in Sources */,
-				04FDE732293EE34B00A00222 /* ScoreDifferenceTextView.swift in Sources */,
 				04F42921292DE97800750AEC /* ActionItemTriHexagonView.swift in Sources */,
 				04C599622880201C00C0F675 /* UpgradeDetaiilView.swift in Sources */,
 				0445252D28A7660600F3051C /* TestData.swift in Sources */,
@@ -740,7 +755,6 @@
 				042F843729262F5D0092C309 /* SEPlayer.swift in Sources */,
 				0470808E288BAB11001C0606 /* ActionItemHorizon.swift in Sources */,
 				0426B0E427DABD1A00AC348E /* TriangleVertexCoordinate.swift in Sources */,
-				046FB85427F19D8600854EFE /* BackgroundRectangle.swift in Sources */,
 				0458239527E54758007800AC /* TriangleContloller.swift in Sources */,
 				04929527287D77EB0067E9B1 /* TriangleField.swift in Sources */,
 				04AA38872931B9EF00007213 /* ButtomFramePreferenceKey.swift in Sources */,
@@ -937,15 +951,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
-				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -970,15 +986,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
-				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1064,15 +1082,17 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Triangles and the Brance/Preview Content\"";
-				DEVELOPMENT_TEAM = 4ZTT2YCDHS;
+				DEVELOPMENT_TEAM = XGQX3VL4R8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "天秤と三角";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.puzzle-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

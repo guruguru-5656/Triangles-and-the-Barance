@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DescriptionView: View {
-    @State var field: TriangleField = TriangleField.largeHexagon
+    let field: TriangleField = TriangleField.largeHexagon
     let actionType: ActionType
     var originalCoordinate: StageCoordinate {
         switch actionType.position {
@@ -50,7 +50,6 @@ struct DescriptionView: View {
                         .rotationEffect(coordinate.x % 2 == 0 ? Angle(degrees:0) : Angle(degrees: 180))
                         .position(coordinate.drawPoint.scale(viewSize))
                 }
-                
                 if actionType.position == .center {
                 DrawTriangleFromCenter()
                     .fill(Color.heavyGreen)
