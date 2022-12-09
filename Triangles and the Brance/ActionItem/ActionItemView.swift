@@ -18,22 +18,30 @@ struct ActionItemView: View {
         itemModel.id == gameModel.selectedItem?.id
     }
     
+    private var locked: Bool {
+        itemModel.level == 0
+    }
+    
+    private var itemColor: StageColor {
+        locked ? .monochrome : gameModel.currentColor
+    }
+    
     private var selectableOpacity: Double {
-        if itemModel.level == 0 {
-            return 0.2
+        if locked {
+            return 0.3
         }
         if gameModel.stageStatus.canUseItem(cost: itemModel.cost) {
             return 1
         }
-        return 0.5
+        return 0.3
     }
   
     //アニメーション用プロパティ
-    var circleScale:Double {
+    private var circleScale:Double {
         isSelected ? 1 : 1.4
     }
     
-    var circleOpacity:Double {
+    private var circleOpacity:Double {
         isSelected ? 1 : 0
     }
 
@@ -41,31 +49,33 @@ struct ActionItemView: View {
         
         VStack(spacing: 0) {
             ZStack {
-                //アイテムの種類ごとに表示を出し分ける
-                switch itemModel.type{
-                    
-                case .normal:
-                    NormalActionView(stageColor: gameModel.currentColor, size: size)
-                case .hourGlass:
-                    ActionItemHourglassView(stageColor: gameModel.currentColor, size: size)
-                case .triHexagon:
-                    ActionItemTriHexagonView(stageColor: gameModel.currentColor, size: size)
-                case .pyramid:
-                    PyramidItemView(stageColor: gameModel.currentColor, size: size)
-                case .shuriken:
-                    ActionItemShurikenView(stageColor: gameModel.currentColor, size: size)
-                case .hexagon:
-                    ActionItemHexagonView(stageColor: gameModel.currentColor, size: size)
-                case .horizon:
-                    ActionItemHorizon(stageColor: gameModel.currentColor, size: size)
-                case .hexagram:
-                    ActionItemHexagramView(stageColor: gameModel.currentColor, size: size)
-                    
+                ZStack {
+                    //アイテムの種類ごとに表示を出し分ける
+                    switch itemModel.type{
+                        
+                    case .normal:
+                        NormalActionView(stageColor: itemColor, size: size)
+                    case .hourGlass:
+                        ActionItemHourglassView(stageColor: itemColor, size: size)
+                    case .triHexagon:
+                        ActionItemTriHexagonView(stageColor: itemColor, size: size)
+                    case .pyramid:
+                        PyramidItemView(stageColor: itemColor, size: size)
+                    case .shuriken:
+                        ActionItemShurikenView(stageColor: itemColor, size: size)
+                    case .hexagon:
+                        ActionItemHexagonView(stageColor: itemColor, size: size)
+                    case .horizon:
+                        ActionItemHorizon(stageColor: itemColor, size: size)
+                    case .hexagram:
+                        ActionItemHexagramView(stageColor: itemColor, size: size)
+                    }
                 }
-                if itemModel.level == 0 {
+                    .opacity(selectableOpacity)
+                if locked {
                     Image(systemName: "lock.square")
                         .resizable()
-                        .foregroundColor(Color(white: 0))
+                        .foregroundColor(Color(white: 0.5))
                         .frame(width: size * 0.5 , height: size * 0.5)
                 }
                 Circle()
@@ -80,7 +90,6 @@ struct ActionItemView: View {
             Text(String(itemModel.cost))
                 .font(Font(UIFont.monospacedSystemFont(ofSize: size * 2/5, weight: .regular)))
         }
-        .opacity(selectableOpacity)
         .padding(.top, size / 4)
     }
 }

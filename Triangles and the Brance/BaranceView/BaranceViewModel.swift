@@ -7,10 +7,13 @@
 
 import SwiftUI
 import Combine
-import AudioToolbox
 
 class BaranceViewModel: ObservableObject {
-    
+    @Published private (set) var deleteCountNow = 0
+    @Published private (set) var showDeleteCountText = false
+    @Published private (set) var isTriangleHiLighted = false
+    @Published private (set) var angle: Double = Double.pi/16
+    private let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
     private var subscriber: AnyCancellable?
     
     func setUp(eventSubject: PassthroughSubject<GameEvent, Never>) {
@@ -35,18 +38,12 @@ class BaranceViewModel: ObservableObject {
                 }
             }
     }
-
-    
-    private let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
-    @Published private (set) var angle: Double = Double.pi/16
     
     private func baranceAnimation(clearPercent: Double) {
-         withAnimation(angleAnimation) {
-             angle = (1 - clearPercent) * Double.pi/16
-         }
-     }
-
-    @Published private (set) var isTriangleHiLighted = false
+        withAnimation(angleAnimation) {
+            angle = (1 - clearPercent) * Double.pi/16
+        }
+    }
     
     private func hiLightAnimation() {
         withAnimation {
@@ -62,9 +59,6 @@ class BaranceViewModel: ObservableObject {
         }
     }
     
-    @Published private (set) var deleteCountNow = 0
-    @Published private (set) var showDeleteCountText = false
-    
     private func showTextAnimation(count: Int) {
         deleteCountNow = count
         withAnimation {
@@ -79,7 +73,7 @@ class BaranceViewModel: ObservableObject {
             }
         }
     }
-   
+    
     private func stageClearAnimation() {
         Task {
             await MainActor.run {

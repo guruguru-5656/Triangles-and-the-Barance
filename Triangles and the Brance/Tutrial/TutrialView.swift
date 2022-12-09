@@ -51,7 +51,7 @@ struct TutrialView: View {
                                    
                                 VStack {
                                     Text("turn")
-                                        .font(.caption)
+                                        .font(.smartFontUI(.body))
                                         .foregroundColor(Color.backgroundLightGray)
                                         .frame(width: geometry.size.width * 0.15)
                                         .background(Color.gray)
@@ -61,21 +61,20 @@ struct TutrialView: View {
                             .rotationEffect(Angle(degrees: -45))
                             .frame(width: geometry.size.width * 0.15, height: geometry.size.width * 0.15)
                             Text(String(tutrialModel.stageStatus.life))
-                                .font(Font(UIFont.monospacedSystemFont(ofSize: geometry.size.width * 0.08, weight: .regular)))
+                                .font(.smartFontUI(.largeTitle))
                                 .foregroundColor(tutrialModel.stageStatus.life <= 1 ? Color.red : Color(white: 0.3))
-                                .offset(x: geometry.size.width * 0.01, y:  geometry.size.width * 0.01)
+                                .offset(x: geometry.size.width * 0.015, y:  geometry.size.width * 0.015)
                         }
                         .modifier(TutrialViewSpace(key: .lifeView))
                         .padding(.horizontal, 20)
                         .padding(.vertical, 5)
-                        Spacer()
                         Text("Tutrial")
-                            .font(Font(UIFont.systemFont(ofSize: geometry.size.width * 0.09)))
+                            .font(.smartFontUI(.largeTitle))
                             .foregroundColor(Color(white: 0.3))
-                            .offset(x: geometry.size.width * -0.03)
+                            .padding(.leading, geometry.size.width * 0.05)
                         Spacer()
                         Color.clear
-                            .frame(width: geometry.size.width * 0.08, height: geometry.size.width * 0.08)
+                            .frame(width: geometry.size.width * 0.1, height: geometry.size.width * 0.1)
                             .anchorPreference(key: ButtonFramePreferenceKey.self ,value: Anchor.Source.bounds , transform:  { $0 })
                     }
                     .padding(.horizontal, geometry.size.width / 16)
@@ -86,7 +85,7 @@ struct TutrialView: View {
                         .padding(.horizontal, geometry.size.width / 10)
                         .frame(height: geometry.size.width * 0.7)
                     Spacer()
-                    ActionItemWholeView()
+                    ActionItemContainerView()
                         .frame(height: geometry.size.width * 0.33)
                         .modifier(TutrialViewSpace(key: .itemView))
                         .zIndex(1)
@@ -143,7 +142,7 @@ struct TutrialView: View {
                             }){
                                 HStack {
                                     Image(systemName: "xmark")
-                                    Text("Cancel")
+                                    Text("Close")
                                 }
                                 .foregroundColor(Color.heavyRed)
                             }
@@ -182,9 +181,14 @@ struct TutrialView: View {
                             isShowPopup = true
                         }
                     }){
-                        Image(systemName: "arrowshape.turn.up.backward.fill")
-                            .resizable()
-                            .foregroundColor(.backgroundLightGray)
+                        VStack {
+                            Image(systemName: "line.3.horizontal")
+                                .resizable()
+                                .scaledToFit()
+                            Text("MENU")
+                                .font(.smartFontUI(.caption))
+                        }
+                        .foregroundColor(Color(white: 0.75))
                     }
                     .frame(width: geometry[anchor].width, height: geometry[anchor].height)
                     .position(x: geometry[anchor].midX, y: geometry[anchor].midY)

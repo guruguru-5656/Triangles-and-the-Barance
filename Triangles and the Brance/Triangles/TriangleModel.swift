@@ -19,6 +19,11 @@ struct TriangleViewModel: Identifiable {
         self.status = status
     }
     
+    init(coordinate: TriangleCenterCoordinate, status: ViewStatus) {
+        self.coordinate = coordinate
+        self.status = status
+    }
+    
     var reversed: Bool {
         let remainder = coordinate.x % 2
         if remainder == 0 {

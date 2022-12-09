@@ -16,7 +16,7 @@ struct HighScoreView: View {
         GeometryReader { geometry in
             VStack {
                 Text("High Score")
-                    .font(.largeTitle)
+                    .font(.smartFontUI(.largeTitle, dynamic: true))
                     .padding(.vertical)
                     .background {
                         Rectangle()

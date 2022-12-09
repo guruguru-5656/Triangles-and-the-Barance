@@ -11,7 +11,7 @@ struct CustomButton: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .font(.title2)
+            .font(.smartFontUI(.title2))
             .padding(8)
             .background(
                 ZStack {

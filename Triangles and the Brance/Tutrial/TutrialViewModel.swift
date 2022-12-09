@@ -115,7 +115,7 @@ final class TutrialViewModel: GameModel {
                    flag: .next),
             Object(tutrialGeometryKey: .itemView,
                    tutrialTextPosition: .up,
-                   text: "バッテリーアイコン右の数字がエネルギーを表しており、三角形を消すことによってチャージされます",
+                   text: "上の段のゲージがエネルギーを表しており、三角形を消すことによってチャージされます",
                    flag: .next),
             Object(tutrialGeometryKey: .itemView,
                    tutrialTextPosition: .up,

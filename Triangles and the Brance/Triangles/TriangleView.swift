@@ -24,8 +24,8 @@ struct TriangleView: View {
                     .stroke(gameModel.currentColor.heavy, lineWidth: 1)
             }
             //メインの三角形の表示
-            ForEach($controller.triangles){ $triangle in
-                StageTriangleView(currentColor: gameModel.currentColor, model: $triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
+            ForEach(controller.triangles){ triangle in
+                StageTriangleView(currentColor: gameModel.currentColor, model: triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
                     .onTapGesture {
                         controller.triangleTapAction(coordinate: triangle.coordinate)
                     }
@@ -55,8 +55,7 @@ struct TriangleView: View {
 struct StageTriangleView: View, DrawTriangle {
     
     let currentColor: StageColor
-    @Binding var model: TriangleViewModel
-    
+    let model: TriangleViewModel
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
     ///rotationEffectをかける際に位置ずれを防ぐため、frameをこの比率で設定

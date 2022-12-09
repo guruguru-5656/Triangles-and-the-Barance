@@ -28,7 +28,7 @@ struct TriangleButtonView: View {
         VStack(alignment: .center, spacing: 0) {
             if isRotated {
                 Text(text)
-                    .font(.title)
+                    .font(.smartFontUI(.title))
                     .frame(width: length, height: height * 0.5)
                 Image(systemName: imageName)
                     .resizable()
@@ -42,7 +42,7 @@ struct TriangleButtonView: View {
                     .padding(5)
                     .frame(width: length * 2/3, height: height * 0.5)
                 Text(text)
-                    .font(.title)
+                    .font(.smartFontUI(.title))
                     .frame(width: length, height: height * 0.5)
             }
         }

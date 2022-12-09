@@ -19,11 +19,17 @@ struct UpgradeView: View {
                 HStack {
                     Spacer()
                     Text("Point")
-                        .font(.title)
                     Spacer()
                     Text(String(model.point))
-                        .font(.title)
                     Spacer()
+                }
+                .font(.smartFontUI(.largeTitle, dynamic: true))
+                .padding(.vertical)
+                .background {
+                    Rectangle()
+                        .frame(width: geometry.size.width)
+                        .foregroundColor(.white)
+                        .opacity(0.7)
                 }
                 ZStack {
                     ScrollView {
@@ -61,7 +67,7 @@ struct UpgradeView: View {
                     }){
                         HStack {
                             Image(systemName: "checkmark")
-                            Text("Upgrade")
+                            Text("Permit")
                         }
                         .foregroundColor(Color.heavyGreen)
                     }
@@ -109,10 +115,10 @@ struct UpgradeCellView: View {
                 Spacer()
                 GeometryReader { proxy in
                     Text(item.effectDescriptionText)
-                        .font(.caption)
+                        .font(.smartFontUI(.caption))
                         .frame(width: proxy.size.width * 0.5, height: proxy.size.height * 0.7 , alignment: .bottomTrailing)
                     Text(item.currentEffect)
-                        .font(.title2)
+                        .font(.smartFontUI(.title2))
                         .padding(.leading, 7)
                         .frame(width: proxy.size.width * 0.5, alignment: .leading)
                         .position(x: proxy.size.width * 0.75, y: proxy.size.height * 0.5)

@@ -22,8 +22,7 @@ struct ActionItemHourglassView: View {
                 .frame(width: size, height: size)
             HourGlassShape()
                 .stroke(stageColor.heavy, lineWidth: 1.5)
-                .frame(width: size * 0.3, height: size * 0.3)
-                .offset(x: 0, y: size * 0.05)
+                .frame(width: size * 0.25, height: size * 0.25 * sqrt(3))
         }
     }
 }
@@ -37,15 +36,12 @@ struct ActionItemHourglassView_Previews: PreviewProvider {
 struct HourGlassShape: Shape {
     func path(in rect: CGRect) -> Path {
         Path { path in
-            path.move(to: rect.origin)
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
-            path.addLine(to: CGPoint(x: rect.midX, y: rect.midY))
-            path.addLine(to: rect.origin)
-            path.closeSubpath()
-            path.move(to: CGPoint(x: rect.midX, y: rect.midY))
-            path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-            path.addLine(to: CGPoint(x: rect.midX, y: rect.midY))
+            path.move(to: CGPoint(x: rect.maxX, y: rect.midY))
+            path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
+            path.addLine(to: CGPoint(x: rect.midX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.midY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.midY))
             path.closeSubpath()
         }
     }
