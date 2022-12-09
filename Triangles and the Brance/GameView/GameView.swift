@@ -57,7 +57,7 @@ struct GameView: View {
                                 }){
                                     HStack {
                                         Image(systemName: "xmark")
-                                        Text("Cancel")
+                                        Text("Close")
                                     }
                                     .foregroundColor(Color.heavyRed)
                                 }

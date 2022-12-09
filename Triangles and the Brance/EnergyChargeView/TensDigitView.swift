@@ -28,7 +28,7 @@ struct EnergyChargeTensDigitView: View {
             ZStack {
                 Triangle()
                     .stroke(lineWidth: 1)
-                if isSecondOn {
+                if isfirstOn {
                     Triangle()
                 }
             }
@@ -37,7 +37,7 @@ struct EnergyChargeTensDigitView: View {
                 Triangle()
                     .stroke(lineWidth: 1)
                     .rotationEffect(Angle(degrees: 180))
-                if isfirstOn {
+                if isSecondOn {
                     Triangle()
                         .rotationEffect(Angle(degrees: 180))
                 }

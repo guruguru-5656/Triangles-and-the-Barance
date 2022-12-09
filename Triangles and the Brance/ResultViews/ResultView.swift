@@ -17,7 +17,7 @@ struct ResultView: View {
         GeometryReader { geometry in
             VStack {
                 Text(gameModel.isGameClear ? "Game Result" : "Result")
-                    .font(.largeTitle)
+                    .font(.smartFontUI(.largeTitle, dynamic: true))
                     .padding(.vertical)
                     .background(
                         Rectangle()

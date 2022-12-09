@@ -10,7 +10,7 @@ import SwiftUI
 import SwiftUI
 import Combine
 
-struct ActionItemWholeView: View {
+struct ActionItemContainerView: View {
     @StateObject var itemController = ItemController()
     @State var text: String = ""
     @EnvironmentObject var gameModel: GameModel
@@ -80,7 +80,7 @@ struct ActionItemWholeView: View {
 
 struct ActionItemAllOverView_Previews: PreviewProvider {
     static var previews: some View {
-        ActionItemWholeView()
+        ActionItemContainerView()
             .environmentObject(GameModel())
     }
 }

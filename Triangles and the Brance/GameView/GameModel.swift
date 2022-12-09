@@ -120,7 +120,7 @@ class GameModel: ObservableObject {
                 stageScore.stageUpdate(stage)
                 saveStageStatus()
                 stageStatus = StageStatus(stage: stage, life: maxLife)
-                currentColor.nextColor()
+                currentColor.next()
                 gameEventPublisher.send(.startStage(stage))
             }
         }

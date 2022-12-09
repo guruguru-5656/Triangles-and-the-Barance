@@ -51,28 +51,36 @@ struct StageViewColor_Previews: PreviewProvider {
 ///カラーをループする構造にした列挙体。イニシャライザで初期値が設定され、nextColorメソッドを呼ぶたびに次のcaseが表示される
 enum StageColor: Int {
     case red = 0
-    case orenge,yellow,yellowGreen,green,greenBlue,
-         waterBlue,whiteBlue,bluePurple,purple,fujiPurple,
+    case orenge, yellow, yellowGreen, green, greenBlue,
+         waterBlue, whiteBlue, bluePurple, purple, fujiPurple,
          pinkPurple
+    //モノクロのみループから外れている
+    case monochrome
     init(stage: Int){
         self = .init(rawValue: (stage - 1) % 12 )!
     }
     ///次のカラーに移る
-    mutating func nextColor(){
-        switch self{
+    mutating func next(){
+        switch self {
+        case .monochrome:
+            print("カラー選択エラー")
+            return
         case .pinkPurple:
             return self = StageColor.red
         default:
-            return self = StageColor.init(rawValue: self.rawValue+1)!
+            return self = StageColor.init(rawValue: self.rawValue + 1)!
         }
     }
     
     var previousColor: StageColor {
         switch self {
+        case .monochrome:
+            print("カラー選択エラー")
+            return .monochrome
         case .red:
             return .pinkPurple
         default:
-            return StageColor.init(rawValue: self.rawValue-1)!
+            return StageColor.init(rawValue: self.rawValue - 1)!
         }
     }
     
@@ -102,6 +110,8 @@ enum StageColor: Int {
             return .lightFujiPurple
         case .pinkPurple:
             return .lightPinkPurple
+        case .monochrome:
+            return Color.white
         }
     }
     var heavy: Color {
@@ -130,6 +140,8 @@ enum StageColor: Int {
             return .heavyFujiPurple
         case .pinkPurple:
             return .heavyPinkPurple
+        case .monochrome:
+            return Color(white: 0.63)
         }
     }
 }
