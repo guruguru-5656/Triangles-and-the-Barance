@@ -26,6 +26,7 @@ struct PopUpView<Content:View>: View {
                 RoundedRectangle(cornerRadius: 5)
                     .fill(Color(white: 0.8))
             }
+            .transition(.opacity)
     }
 }
 
