@@ -15,19 +15,6 @@ struct ActionItemContainerView: View {
     @State var text: String = ""
     @EnvironmentObject var gameModel: GameModel
     
-    var energyDifferenceText: String? {
-        guard let energyDiffernce = itemController.energyDifference else {
-            return nil
-        }
-        if energyDiffernce < 0 {
-            return "\(energyDiffernce)"
-        } else if energyDiffernce == 0 {
-            return nil
-        } else {
-            return "+\(energyDiffernce)"
-        }
-    }
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
@@ -37,11 +24,14 @@ struct ActionItemContainerView: View {
                             .resizable()
                             .scaledToFit()
                             .foregroundColor(gameModel.currentColor.heavy)
-                            .padding(8)
-                            .padding(.horizontal, geometry.size.width * 0.04)
+                            .padding(.vertical, 8)
+                            .padding(.leading, geometry.size.width * 0.02)
+                        Text(String(format: " %2d",gameModel.stageStatus.energy))
+                            .font(.monospaced(.title2)())
+                            .foregroundColor(gameModel.currentColor.heavy)
+                            .padding(.trailing, geometry.size.width * 0.04)
                         EnergyChargeDisplayView(energy: gameModel.stageStatus.energy, stageColor: gameModel.currentColor)
-                            .frame(width: geometry.size.width * 0.7)
-                        Spacer()
+                            .frame(width: geometry.size.width * 0.6)
                     }
                     .frame(width: geometry.size.width, height: geometry.size.width * 0.1)
                     .background(Color.backgroundLightGray)
@@ -53,22 +43,18 @@ struct ActionItemContainerView: View {
                                     .onTapGesture {
                                         itemController.itemSelect(model: item)
                                     }
-                                    .onLongPressGesture {
-                                        itemController.showDescriptionView(item: item)
-                                    }
+
                             }
                         }
                     }
                     .background(Color.backgroundLightGray)
                 }
-                if let descriptionItem = itemController.descriptionItem {
+                if let selectedItem = gameModel.selectedItem{
                     PopUpView {
-                        DescriptionView(actionType: descriptionItem)
+                        DescriptionView(actionType: selectedItem.type)
                     }
                     .frame(width: geometry.size.width * 0.35, height: geometry.size.width * 0.32, alignment: .center)
-                    .onTapGesture {
-                        itemController.closeDescriptionView()
-                    }
+                    .offset(y: geometry.size.height)
                 }
             }
         }

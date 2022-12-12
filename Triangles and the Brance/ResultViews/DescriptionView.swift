@@ -12,7 +12,6 @@ struct DescriptionView: View {
     let actionType: ActionType
     var originalCoordinate: StageCoordinate {
         switch actionType.position {
-            
         case .center:
             return  TriangleCenterCoordinate(x: 4, y: 2)
         case .vertex:

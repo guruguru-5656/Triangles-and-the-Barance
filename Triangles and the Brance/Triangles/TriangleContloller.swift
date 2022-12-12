@@ -18,6 +18,7 @@ final class TriangleContloller: ObservableObject {
     private let isOnRate: Double = 0.5
     private var recycleRate: Double = 0
     private let soundPlayer = SEPlayer.shared
+    private var inAnimation = false
     
     func setUp(gameModel: GameModel) {
         self.gameModel = gameModel
@@ -94,8 +95,12 @@ final class TriangleContloller: ObservableObject {
         guard let gameModel = gameModel else {
             return
         }
-
         guard gameModel.stageStatus.life != 0 else {
+            return
+        }
+        //アニメーション中はタップ判定をブロックする
+        guard inAnimation == false else {
+            soundPlayer.play(sound: .cancelSound)
             return
         }
         guard let index = indexOfTriangles(coordinate: coordinate) else {
@@ -134,9 +139,11 @@ final class TriangleContloller: ObservableObject {
         let coordinate = triangles[index].coordinate
         let plans = planingDeleteTriangles(coordinate: coordinate)
         let deleteCount = plans.count
+        inAnimation = true
         //ディレイをかけながらTriangleのステータスを更新、その後のイベント処理を行う
         updateTrianglesStatus(plans: plans){ [self] in
             gameModel?.triangleDidDeleted(count: deleteCount)
+            self.inAnimation = false
         }
     }
     ///一定割合復活させる
