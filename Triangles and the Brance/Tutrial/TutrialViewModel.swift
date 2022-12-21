@@ -41,7 +41,6 @@ final class TutrialViewModel: GameModel {
     override func triangleDidDeleted(count: Int) {
         stageScore.triangleDidDeleted(count: count)
         _ = stageStatus.triangleDidDeleted(count: count)
-        gameEventPublisher.send(.triangleDeleted(count, stageStatus.clearRate))
         //元の処理からゲームクリア等のイベントを削除
         continueTutrial(.triangleDeleted)
     }
@@ -60,9 +59,8 @@ final class TutrialViewModel: GameModel {
         return
     }
     
-    override func useItem() {
-        super.useItem()
-        //元の処理からゲームオーバーの処理を削除
+    override func itemUsed() {
+        super.itemUsed()
         continueTutrial(.itemUsed)
     }
     

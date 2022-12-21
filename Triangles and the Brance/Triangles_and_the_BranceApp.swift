@@ -14,6 +14,10 @@ struct Triangles_and_the_BranceApp: App {
         WindowGroup {
             ContentView()
                 .preferredColorScheme(.light)
+                .onAppear {
+                    //バージョンアップに伴って、不要になったデータを削除する処理
+                    UserData.removeUnusedData()
+                }
         }
     }
 }

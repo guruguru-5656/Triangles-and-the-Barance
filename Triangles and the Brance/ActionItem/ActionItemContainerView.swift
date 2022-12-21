@@ -11,7 +11,6 @@ import SwiftUI
 import Combine
 
 struct ActionItemContainerView: View {
-    @StateObject var itemController = ItemController()
     @State var text: String = ""
     @EnvironmentObject var gameModel: GameModel
     
@@ -37,13 +36,12 @@ struct ActionItemContainerView: View {
                     .background(Color.backgroundLightGray)
                     ScrollView(.horizontal,showsIndicators: false) {
                         HStack {
-                            ForEach($itemController.actionItems, id: \.self){ $item in
+                            ForEach($gameModel.actionItems, id: \.self){ $item in
                                 ActionItemView(itemModel: $item, size: geometry.size.width / 8)
                                     .padding(.leading, 15)
                                     .onTapGesture {
-                                        itemController.itemSelect(model: item)
+                                        gameModel.itemSelect(model: item)
                                     }
-
                             }
                         }
                     }
@@ -57,9 +55,6 @@ struct ActionItemContainerView: View {
                     .offset(y: geometry.size.height)
                 }
             }
-        }
-        .onAppear {
-            itemController.subscribe(gameModel: gameModel)
         }
     }
 }

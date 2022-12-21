@@ -9,7 +9,7 @@ import SwiftUI
 
 
 ///Triangleのモデルデータ
-struct TriangleViewModel: Identifiable {
+struct TriangleModel: Identifiable, Hashable {
     let id = UUID()
     var coordinate: TriangleCenterCoordinate
     var status: ViewStatus
@@ -54,7 +54,7 @@ struct TriangleViewModel: Identifiable {
     }
 }
 
-extension TriangleViewModel: Codable {
+extension TriangleModel: Codable {
     enum CodingKeys: String, CodingKey {
         case coordinate
         case status

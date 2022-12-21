@@ -9,14 +9,7 @@ import Foundation
 
 //検証用にデータを定数で読みこむクラス、データベースへのアクセスは行わない
 final class TestData {
-    //テスト用データ
-    private func gameStatusValue(type: StageState) -> Int {
-        switch type {
-        case .stage:
-            return 12
-        }
-    }
-    
+ 
     private func upgradeDataValue(type: UpgradeType) -> Int {
         switch type {
         case .life:
@@ -55,13 +48,17 @@ final class TestData {
         }
     }
     
+    private var stageLife: Int {
+        upgradeDataValue(type: .life) + 5
+    }
+    private lazy var stageStatus = StageStatus(stage: 12, life: stageLife)
     private var stageScore = StageScore(stage: 1, score: 0, count: 0, combo: 0)
     //キャッシュ
     private var casheData: [String: Int] = [:]
 }
 
 extension TestData: DataClass {
-    
+ 
     //キャッシュがあればそれをロードし、なければテスト用データをロードする
     func loadData<T:SaveDataName>(name: T) -> Int {
         if let data = casheData[name.description] {
@@ -72,8 +69,6 @@ extension TestData: DataClass {
             return upgradeDataValue(type: name as! UpgradeType)
         case is ResultValue:
             return scoreDataValue(type: name as! ResultValue)
-        case is StageState:
-            return gameStatusValue(type: name as! StageState)
         default:
             fatalError("型指定エラー")
         }
@@ -87,6 +82,8 @@ extension TestData: DataClass {
         switch type {
         case is StageScore.Type:
             return stageScore as? T
+        case is StageStatus.Type:
+            return stageStatus as? T
         default:
             return nil
         }
@@ -99,4 +96,8 @@ extension TestData: DataClass {
         default: return
         }
     }
+    
+    //現状取り除く必要がないため、何も行わない
+    func removeData<T:SaveDataName>(name: T) { }
+    func removeData<T: Codable>(value: T.Type) { }
 }

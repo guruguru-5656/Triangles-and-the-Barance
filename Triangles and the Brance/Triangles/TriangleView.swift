@@ -5,7 +5,7 @@ import SwiftUI
 
 struct TriangleView: View {
     @EnvironmentObject private var gameModel: GameModel
-    @StateObject private var controller = TriangleContloller()
+    @StateObject private var triangleModel = TriangleViewModel()
     
     var isVertexHilighted: Bool {
         gameModel.selectedItem?.type.position == .vertex
@@ -15,37 +15,37 @@ struct TriangleView: View {
         GeometryReader { geometry in
             ZStack(alignment: .top){
                 //背景
-                DrawShapeFromTriLines(lines: controller.fieldOutLine, scale: geometry.size.width / CGFloat(controller.numberOfCell))
+                DrawShapeFromTriLines(lines: triangleModel.fieldOutLine, scale: geometry.size.width / CGFloat(triangleModel.numberOfCell))
                     .foregroundColor(.backgroundLightGray)
                     .scaleEffect(1.1)
                 //背景の線部分
-                ForEach(controller.fieldLine){ line in
-                    DrawTriLine(line: line, scale: geometry.size.width / CGFloat(controller.numberOfCell))
+                ForEach(triangleModel.fieldLine){ line in
+                    DrawTriLine(line: line, scale: geometry.size.width / CGFloat(triangleModel.numberOfCell))
                         .stroke(gameModel.currentColor.heavy, lineWidth: 1)
                 }
                 //メインの三角形の表示
-                ForEach(controller.triangles){ triangle in
-                    StageTriangleView(currentColor: gameModel.currentColor, model: triangle, width: geometry.size.width / CGFloat(controller.numberOfCell))
+                ForEach(triangleModel.triangles){ triangle in
+                    StageTriangleView(currentColor: gameModel.currentColor, model: triangle, width: geometry.size.width / CGFloat(triangleModel.numberOfCell))
                         .onTapGesture {
-                            controller.triangleTapAction(coordinate: triangle.coordinate)
+                            gameModel.triangleTapAction(model: triangle)
                         }
                 }
                 //頂点部分からアクションを起こすitemを選択している時に表示する
                 if isVertexHilighted {
-                    ForEach(controller.triangleVertexs, id: \.self) { coordinate in
+                    ForEach(triangleModel.triangleVertexs, id: \.self) { coordinate in
                         Circle()
-                            .frame(width: geometry.size.width / CGFloat(controller.numberOfCell) * 0.7, height: geometry.size.width / CGFloat(controller.numberOfCell) * 0.7)
-                            .position(coordinate.drawPoint.scale(geometry.size.width / CGFloat(controller.numberOfCell)))
+                            .frame(width: geometry.size.width / CGFloat(triangleModel.numberOfCell) * 0.7, height: geometry.size.width / CGFloat(triangleModel.numberOfCell) * 0.7)
+                            .position(coordinate.drawPoint.scale(geometry.size.width / CGFloat(triangleModel.numberOfCell)))
                             .foregroundColor(Color(white: 0.9, opacity: 0.5))
                             .onTapGesture {
-                                controller.itemAction(coordinate: coordinate)
+                                gameModel.itemAction(coordinate: coordinate)
                             }
                     }
                 }
             }
         }
         .onAppear {
-            controller.setUp(gameModel: gameModel)
+            triangleModel.setUp(gameModel: gameModel)
         }
     }
 }
@@ -55,7 +55,7 @@ struct TriangleView: View {
 struct StageTriangleView: View, DrawTriangle {
     
     let currentColor: StageColor
-    let model: TriangleViewModel
+    let model: TriangleModel
     //stageTriangleのビューからサイズを指定する
     var width: CGFloat
     ///rotationEffectをかける際に位置ずれを防ぐため、frameをこの比率で設定
