@@ -10,8 +10,6 @@ import Combine
 
 //データクラスを切り替えるためのクラス
 final class SaveData: DataClass {
-   
-    
         
     private let dataClass: DataClass
     static let shared = SaveData()
@@ -28,6 +26,10 @@ final class SaveData: DataClass {
         return dataClass.loadData(name: name)
     }
     
+    func removeData<T: SaveDataName>(name: T) {
+        dataClass.removeData(name: name)
+    }
+    
     func saveData<T: SaveDataName>(name: T, intValue: Int) {
         dataClass.saveData(name: name, intValue: intValue)
     }
@@ -35,6 +37,11 @@ final class SaveData: DataClass {
     func loadData<T: Codable>(type: T.Type) -> Optional<T> {
         dataClass.loadData(type: type)
     }
+    
+    func removeData<T: Codable>(value: T.Type) {
+        dataClass.removeData(value: value)
+    }
+    
     
     func saveData<T: Codable>(value: T) {
         dataClass.saveData(value: value)
@@ -46,6 +53,10 @@ final class UserData: DataClass {
     
     func saveData<T:SaveDataName>(name: T,intValue: Int ) {
         UserDefaults.standard.set(intValue, forKey: name.description)
+    }
+    
+    func removeData<T:SaveDataName>(name: T) {
+        UserDefaults.standard.removeObject(forKey: name.description)
     }
     
     func loadData<T:SaveDataName>(name: T) -> Int {
@@ -65,6 +76,11 @@ final class UserData: DataClass {
         }
     }
     
+    func removeData<T: Codable>(value: T.Type) {
+        let key = String(describing: T.self)
+        UserDefaults.standard.removeObject(forKey: key)
+    }
+  
     func loadData<T: Codable>(type: T.Type) -> Optional<T>{
         let key = String(describing: T.self)
         let data = UserDefaults.standard.data(forKey: key)
@@ -76,6 +92,13 @@ final class UserData: DataClass {
             return value
         } catch {
             return nil
+        }
+    }
+    
+    static func removeUnusedData() {
+        if UserDefaults.standard.object(forKey: "StageStatestage") != nil {
+            UserDefaults.standard.removeObject(forKey: "StageStatestage")
+            print("dataRemoved")
         }
     }
 }

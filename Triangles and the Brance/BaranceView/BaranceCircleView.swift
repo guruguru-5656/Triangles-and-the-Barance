@@ -40,22 +40,20 @@ struct BaranceCircleView: View {
 
 final class BaranceCircleViewModel: ObservableObject {
 
-    private var subscriber: AnyCancellable?
+    private var subscriber: Set<AnyCancellable> = []
 
     func setUp(gameModel: GameModel) {
-        subscriber = gameModel.gameEventPublisher.sink { [ weak self ] event in
-            switch event {
-            case .startStage:
+        gameModel.clearAnimationPublisher.sink { [weak self] in
+            self?.clearAnimation()
+        }.store(in: &subscriber)
+        gameModel.gameClearPublisher.sink { [weak self] in
+            self?.gameClearAnimation()
+        }.store(in: &subscriber)
+        gameModel.startStagePublisher.sink { [weak self] stage in
+            if stage == 1 {
                 self?.clearCircleIsOn = false
-            case .clearAnimation:
-                self?.clearAnimation()
-            case.gameClear:
-                self?.gameClearAnimation()
-                return
-            default:
-                return
             }
-        }
+        }.store(in: &subscriber)
     }
     //クリア時のアニメーション
     @Published private (set) var clearCircleIsOn = false

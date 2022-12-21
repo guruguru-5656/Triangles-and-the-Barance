@@ -14,29 +14,24 @@ class BaranceViewModel: ObservableObject {
     @Published private (set) var isTriangleHiLighted = false
     @Published private (set) var angle: Double = Double.pi/16
     private let angleAnimation = Animation.timingCurve(0.3, 0.5, 0.6, 0.8, duration: 0.5)
-    private var subscriber: AnyCancellable?
+    private var subscriber: Set<AnyCancellable> = []
     
-    func setUp(eventSubject: PassthroughSubject<GameEvent, Never>) {
-        subscriber = eventSubject
-            .sink { [weak self] event in
-                guard let self = self else {
-                    return
-                }
-                switch event {
-                case .startStage:
-                    self.baranceAnimation(clearPercent: 0)
-                case .triangleDeleted(let count, let clearPercent):
-                    self.baranceAnimation(clearPercent: clearPercent)
-                    self.showTextAnimation(count: count)
-                    self.hiLightAnimation()
-                case .clearAnimation:
-                    self.stageClearAnimation()
-                case .gameClear:
-                    self.gameClearAnimation()
-                default:
-                    break
-                }
-            }
+    func setUp(gameModel: GameModel) {
+        gameModel.triangleDeletedPublisher.sink { [weak self] (count, clearRate) in
+            self?.triangleDidDeletedAnimation(count: count, clearRate: clearRate)
+        }.store(in: &subscriber)
+        gameModel.clearAnimationPublisher.sink { [weak self] in
+            self?.stageClearAnimation()
+        }.store(in: &subscriber)
+        gameModel.gameClearPublisher.sink { [weak self] in
+            self?.gameClearAnimation()
+        }.store(in: &subscriber)
+    }
+
+    private func triangleDidDeletedAnimation(count: Int, clearRate: Double) {
+        baranceAnimation(clearPercent: clearRate)
+        showTextAnimation(count: count)
+        hiLightAnimation()
     }
     
     private func baranceAnimation(clearPercent: Double) {
@@ -74,30 +69,23 @@ class BaranceViewModel: ObservableObject {
         }
     }
     
-    private func stageClearAnimation() {
+    func stageClearAnimation() {
+        withAnimation(.timingCurve(0.3, 0.5, 0.8, 0.8, duration: 0.5)) {
+            angle = -0.5 * Double.pi/16
+        }
         Task {
-            await MainActor.run {
-                withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
-                    angle = -0.5 * Double.pi/16
-                }
-            }
-            try await Task.sleep(nanoseconds: 1050_000_000)
+            try await Task.sleep(nanoseconds: 1000_000_000)
             await MainActor.run {
                 withAnimation(.linear(duration: 0.2)) {
                     angle = Double.pi/16
                 }
             }
-            
         }
     }
     
-    private func gameClearAnimation() {
-        Task {
-            await MainActor.run {
-                withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
-                    angle = -0.5 * Double.pi/16
-                }
-            }
+    func gameClearAnimation() {
+        withAnimation(.timingCurve(0.3, 0.2, 0.7, 0.4, duration: 0.5)) {
+            angle = -0.5 * Double.pi/16
         }
     }
 }

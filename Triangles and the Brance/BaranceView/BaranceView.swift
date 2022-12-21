@@ -97,7 +97,7 @@ struct BaranceView: View {
         }
         .anchorPreference(key: ClearCirclePoint.self, value: Anchor.Source.bounds) { $0 }
         .onAppear {
-            model.setUp(eventSubject: gameModel.gameEventPublisher)
+            model.setUp(gameModel: gameModel)
         }
     }
 }

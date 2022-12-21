@@ -46,12 +46,23 @@ class BGMPlayer: ObservableObject {
         changeBgm(to: bgm)
     }
     
+    func play(bgm: Bgm, delay: Double) {
+        guard let stageBgm = stageBgm else {
+            start(bgm: bgm)
+            return
+        }
+        guard stageBgm.bgm != bgm else {
+            return
+        }
+        changeBgm(to: bgm, delay: delay)
+    }
+    
     func setVolume() {
         stageBgm?.player.setVolume(volume, fadeDuration: 0)
     }
     
     private var task: Task<Void, Error>?
-    private func changeBgm(to bgm: Bgm) {
+    private func changeBgm(to bgm: Bgm, delay: Double = 1.0) {
         if let task = task {
             task.cancel()
             self.task = nil
@@ -60,9 +71,8 @@ class BGMPlayer: ObservableObject {
             stageBgm?.player.setVolume(0, fadeDuration: 0.8)
             //判定用のbgmプロパティを先に更新
             stageBgm?.bgm = bgm
-            let waitTime: UInt64 = bgm == .ending ? 3000_000_000 : 1000_000_000
             do {
-                try await Task.sleep(nanoseconds: waitTime)
+                try await Task.sleep(nanoseconds: 1000_000 * UInt64(delay * 1000))
                 stageBgm?.player.stop()
                 start(bgm: bgm)
             } catch {

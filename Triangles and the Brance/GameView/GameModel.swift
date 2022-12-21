@@ -9,56 +9,94 @@ import SwiftUI
 import Combine
 import AVFoundation
 
-class GameModel: ObservableObject {
+class GameModel: ObservableObject, TriangleManagerDelegate {
     
     @Published var showResultView = false
     @Published var isGameClear = false
     @Published var currentColor: StageColor
     @Published var selectedItem: ActionItemModel?
     @Published var stageStatus: StageStatus
-    
-    private var maxLife: Int
-    private var stage: Int
-    let soundPlayer = SEPlayer.shared
-    //スコアの生成に利用
     @Published var stageScore: StageScore
-    //イベントの発行
-    private(set) var gameEventPublisher = PassthroughSubject<GameEvent, Never>()
-    let dataStore: DataClass
+    @Published var actionItems: [ActionItemModel] = []
     
+    private var maxLife: Int {
+        dataStore.loadData(name: UpgradeType.life) + 5
+    }
+    let dataStore: DataClass
+    let soundPlayer = SEPlayer.shared
+    private var onStageClear = false
+    //viewModelへの通知
+    let triangleDeletedPublisher = PassthroughSubject<(count: Int, clearRate: Double), Never>()
+    let clearAnimationPublisher = PassthroughSubject<Void, Never>()
+    let startStagePublisher = PassthroughSubject<Int, Never>()
+    let gameOverPublisher = PassthroughSubject<Void, Never>()
+    let gameClearPublisher = PassthroughSubject<Void, Never>()
+    private (set) var triangleManager: TriangleManager
+  
     init(dataStore: DataClass = SaveData.shared) {
         self.dataStore = dataStore
-        let stageData = dataStore.loadData(name: StageState.stage)
-        //stageDataが0(データが存在しない場合)は1にする
-        let formattedStageData = stageData == 0 ? 1 : stageData
-        stage = formattedStageData
-        maxLife = dataStore.loadData(name: UpgradeType.life) + 5
-        
-        stageStatus = StageStatus(stage: stage, life: maxLife)
-        currentColor = StageColor(stage: formattedStageData)
+        let stageStatusData = dataStore.loadData(type: StageStatus.self)
+        let stage: Int
+        if let stageStatusData = stageStatusData {
+            stageStatus = stageStatusData
+            stage = stageStatusData.stage
+        } else {
+            stage = 1
+            let maxLife = dataStore.loadData(name: UpgradeType.life) + 5
+            stageStatus = StageStatus(stage: stage, life: maxLife)
+        }
+        currentColor = StageColor(stage: stage)
         stageScore = dataStore.loadData(type: StageScore.self) ?? StageScore()
+        triangleManager = TriangleManager(stage: stage, dataStore: dataStore)
+        triangleManager.setDelegate(self)
+        loadItemTable()
+    }
+  
+    ///タップしたときのアクション
+    func triangleTapAction(model: TriangleModel) {
+        guard !onStageClear else { return }
+        guard stageStatus.life != 0 else {
+            soundPlayer.play(sound: .cancelSound)
+            return
+        }
+        //アイテムが入っていた場合の処理を確認、何も行われなかった場合は連鎖して消すアクションを行う
+        if let item = selectedItem {
+            do {
+                try triangleManager.itemAction(coordinate: model.coordinate, item: item)
+                itemUsed()
+            } catch {
+                soundPlayer.play(sound: .cancelSound)
+            }
+            return
+        }
+        Task {
+            do {
+                let count = try await triangleManager.triangleChainAction(model: model)
+                await triangleDidDeleted(count: count)
+            } catch {
+                soundPlayer.play(sound: .cancelSound)
+            }
+        }
+    }
+
+    func itemAction(coordinate: StageCoordinate) {
+        guard !onStageClear else { return }
+        guard let item = selectedItem else { return }
+        do {
+            try triangleManager.itemAction(coordinate: coordinate, item: item)
+            itemUsed()
+        } catch {
+            soundPlayer.play(sound: .cancelSound)
+        }
     }
     
-    ///効果を及ぼす座標を返す
-    func itemEffectCoordinates<T: StageCoordinate>(coordinate: T) -> [[TriangleCenterCoordinate]]{
-        //アイテムが選択されていなければ何もしない
-        guard let item = selectedItem else {
-            return []
-        }
-        //入力された座標がitemのpositionと一致するかチェック
-        guard T.position == item.type.position else{
-            return []
-        }
-        return coordinate.relative(coordinates: item.type.actionCoordinate)
-    }
-    
-    func useItem() {
+    func itemUsed() {
         guard let selectedItem = selectedItem else {
             return
         }
         stageStatus.useItem(item: selectedItem)
         self.selectedItem = nil
-        gameEventPublisher.send(.itemUsed(selectedItem.cost))
+        soundPlayer.play(sound: .itemUsed)
     }
     
     func itemSelect(model: ActionItemModel) {
@@ -67,7 +105,6 @@ class GameModel: ObservableObject {
             selectedItem = nil
             return
         }
-        
         if stageStatus.canUseItem(cost: model.cost) {
             selectedItem = model
             soundPlayer.play(sound: .selectSound)
@@ -77,29 +114,13 @@ class GameModel: ObservableObject {
         return
     }
     
-    func triangleDidDeleted(count: Int) {
-        stageScore.triangleDidDeleted(count: count)
-        let event = stageStatus.triangleDidDeleted(count: count)
-        gameEventPublisher.send(.triangleDeleted(count, stageStatus.clearRate))
-        switch event {
-        case .stageClear:
-            stageClear()
-        case .gameOver:
-            gameOver()
-        case .gameClear:
-            gameClear()
-        case .none: break
-        }
-    }
-    
     func resetGame() {
-        stage = 1
-        maxLife = dataStore.loadData(name: UpgradeType.life) + 5
+        let stage = 1
         stageStatus = StageStatus(stage: stage, life: maxLife)
         stageScore = StageScore()
-        
         currentColor = StageColor(stage: stage)
-        gameEventPublisher.send(.startStage(stage))
+        loadItemTable()
+        triangleManager.start(stage: stage)
         withAnimation {
             showResultView = false
         }
@@ -110,24 +131,26 @@ class GameModel: ObservableObject {
     }
     
     private func stageClear() {
-        gameEventPublisher.send(.clearAnimation)
+        clearAnimationPublisher.send()
         Task {
-            try await Task.sleep(nanoseconds: 500_000_000)
-            soundPlayer.play(sound: .clearSound)
-            try await Task.sleep(nanoseconds: 500_000_000)
+            onStageClear = true
+            soundPlayer.play(sound: .clearSound, delay: 0.5)
+            try await Task.sleep(nanoseconds: 1000_000_000)
             await MainActor.run {
-                stage += 1
-                stageScore.stageUpdate(stage)
-                saveStageStatus()
-                stageStatus = StageStatus(stage: stage, life: maxLife)
+                let nextStage = stageStatus.stage + 1
+                stageScore.stageUpdate(nextStage)
+                stageStatus = StageStatus(stage: nextStage, life: maxLife)
                 currentColor.next()
-                gameEventPublisher.send(.startStage(stage))
+                startStagePublisher.send(nextStage)
+                triangleManager.start(stage: nextStage)
+                saveStageStatus()
             }
+            onStageClear = false
         }
     }
     
     func gameOver() {
-        gameEventPublisher.send(.gameOver)
+        gameOverPublisher.send()
         soundPlayer.play(sound: .gameOverSound)
         BGMPlayer.shared.play(bgm: .gameOver)
         withAnimation {
@@ -138,44 +161,61 @@ class GameModel: ObservableObject {
     
     private func gameClear() {
         isGameClear = true
-        gameEventPublisher.send(.gameClear)
-        BGMPlayer.shared.play(bgm: .ending)
-        saveInitialState()
+        gameClearPublisher.send()
+        soundPlayer.play(sound: .clearSound, delay: 0.5)
+        BGMPlayer.shared.play(bgm: .ending, delay: 3)
         Task {
-            try await Task.sleep(nanoseconds: 500_000_000)
-            soundPlayer.play(sound: .clearSound)
             try await Task.sleep(nanoseconds: 3000_000_000)
             await MainActor.run {
                 withAnimation {
                     showResultView = true
                 }
-                saveStageStatus()
             }
         }
+        saveInitialState()
     }
     
     private func saveStageStatus() {
-        dataStore.saveData(name: StageState.stage, intValue: stage)
+        dataStore.saveData(value: stageStatus)
         dataStore.saveData(value: stageScore)
+        dataStore.saveData(value: triangleManager.triangles)
     }
     
     private func saveInitialState() {
         //ステージの進行状況を初期状態で保存
-        dataStore.saveData(name: StageState.stage, intValue: 1)
-        dataStore.saveData(value: StageScore())
+        dataStore.removeData(value: StageStatus.self)
+        dataStore.removeData(value: StageScore.self)
+        dataStore.removeData(value: [TriangleModel].self)
     }
-}
-
-enum GameEvent {
-    case triangleDeleted (Int , Double)
-    case itemUsed (Int)
-    case clearAnimation
-    case startStage(Int)
-    case gameOver
-    case gameClear
-}
-
-//データ保存用の名前
-enum StageState: SaveDataName {
-    case stage
+    
+    private func loadItemTable() {
+        actionItems = ActionType.allCases.map { actionType -> ActionItemModel in
+            if let upgradeType = UpgradeType(actionType: actionType) {
+                let saveData = dataStore.loadData(name: upgradeType)
+                return ActionItemModel(type: actionType, level: saveData)
+            }
+            return ActionItemModel(type: actionType, level: 1)
+        }
+    }
+    
+    //TriangleManagerDelegate
+    @MainActor
+    func triangleDidDeleted(count: Int) {
+        stageScore.triangleDidDeleted(count: count)
+        let event = stageStatus.triangleDidDeleted(count: count)
+        switch event {
+        case .stageClear:
+            stageClear()
+        case .gameOver:
+            gameOver()
+        case .gameClear:
+            gameClear()
+        case .none:
+            triangleDeletedPublisher.send((count, stageStatus.clearRate))
+        }
+    }
+    
+    func getStageNumber() -> Int {
+        return stageStatus.stage
+    }
 }

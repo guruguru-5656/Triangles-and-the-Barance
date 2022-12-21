@@ -10,25 +10,47 @@ import SwiftUI
 
 struct TriangleField {
     let numberOfCell: Int
-    let arrangement: [[Int]]
-    var triangles: [TriangleViewModel] {
-        var triangles: [TriangleViewModel] = []
+    private let arrangement: [[Int]]
+    var triangles: [TriangleModel] = []
+    
+    init(numberOfCell: Int, arrangement: [[Int]]) {
+        self.numberOfCell = numberOfCell
+        self.arrangement = arrangement
+        var triangles: [TriangleModel] = []
         for (triangleY, arrangement) in arrangement.enumerated(){
-            for triangleX in arrangement{
-                let triangleModel = TriangleViewModel(x: triangleX, y: triangleY, status: .isOff )
+            for triangleX in arrangement {
+                let triangleModel = TriangleModel(x: triangleX, y: triangleY, status: .isOff )
                     triangles.append(triangleModel)
             }
         }
-        return triangles
+        self.triangles = triangles
     }
+    
     var fieldLines: [TriLine] {
-        triangles.flatMap {
-            $0.triLine
-        }
+        triangles.flatMap { $0.triLine }
     }
     var fieldOutLines: [TriLine] {
         outLine(original: fieldLines)
     }
+    var vertex: [TriangleVertexCoordinate] {
+        let vertexs = triangles.flatMap {
+            $0.vertexCoordinate
+        }
+        return Array(Set(vertexs))
+    }
+     
+    mutating func setTriangleStatus() {
+        let isOnRate: Double = 0.5
+        let isOnCount = Int(Double(triangles.count) * isOnRate)
+        let randomIndex = triangles.indices.shuffled()
+        for index in randomIndex.prefix(isOnCount) {
+            triangles[index].status = .isOn
+        }
+        for index in randomIndex.suffix(triangles.count - isOnCount) {
+            triangles[index].status = .isOff
+        }
+    }
+    
     //線が繋がるように並び替え新たな配列を返す、頂点を3つ以上共有している場合は機能しない
     private func sort(_ original: inout [TriLine]) -> [TriLine] {
         var sorted: [TriLine] = []
@@ -44,7 +66,6 @@ struct TriangleField {
             } else if let index = original.firstIndex(where: {
                 $0.end == sorted.last?.end
             }) {
-                //
                 original[index].reversed()
                 sorted.append(original.remove(at: index))
             }

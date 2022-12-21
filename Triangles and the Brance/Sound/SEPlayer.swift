@@ -50,6 +50,13 @@ class SEPlayer: ObservableObject {
         player.play()
     }
     
+    func play(sound: Sound, delay: Double) {
+        Task {
+            try await Task.sleep(nanoseconds: 1_000_000 * UInt64(delay * 1000))
+            play(sound: sound)
+        }
+    }
+    
     func prepareAllSounds() {
         Sound.allCases.forEach { sound in
             let fileName = sound.rawValue

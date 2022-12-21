@@ -9,8 +9,10 @@ import Foundation
 
 protocol DataClass {
     func saveData<T: SaveDataName>(name: T, intValue: Int)
+    func removeData<T:SaveDataName>(name: T)
     func loadData<T: SaveDataName>(name: T) -> Int
     func saveData<T: Codable>(value: T)
+    func removeData<T: Codable>(value: T.Type)
     func loadData<T: Codable>(type: T.Type) -> Optional<T>
 }
 
@@ -24,3 +26,9 @@ extension SaveDataName {
         String(describing: type(of: self)) + String(describing: self)
     }
 }
+
+//データ保存用の名前
+//バージョンアップにより削除
+//enum StageState: SaveDataName {
+//    case stage
+//}

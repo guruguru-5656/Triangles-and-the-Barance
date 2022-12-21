@@ -14,27 +14,17 @@ final class ResultViewModel: ObservableObject {
     private let soundPlayer = SEPlayer.shared
     
     private var gameModel: GameModel?
-    private var subscriber: AnyCancellable?
+    private var subscriber: Set<AnyCancellable> = []
 
     func depend(gameModel: GameModel) {
         guard self.gameModel == nil else {
             return
         }
         self.gameModel = gameModel
-        subscriber = gameModel.gameEventPublisher
-            .sink { [ weak self ] event in
-                guard let self = self else {
-                    return
-                }
-                switch event {
-                case .gameOver:
-                    self.setResultScores()
-                    self.showScores()
-                    return
-                default:
-                    break
-                }
-            }
+        gameModel.gameOverPublisher.sink { [weak self] in
+            self?.setResultScores()
+            self?.showScores()
+        }.store(in: &subscriber)
     }
     
     func showScores() {
